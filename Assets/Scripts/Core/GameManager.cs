@@ -16,14 +16,12 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI enemyText;
     public TextMeshProUGUI battleLogText;
 
-    private PlayerData player;
-    private MonsterData monster;
+    private GameSession gameSession;
     private SimpleBattleSystem battleSystem;
-
-    private bool battleIsOver;
 
     private void Start()
     {
+        gameSession = new GameSession();
         battleSystem = new SimpleBattleSystem();
 
         ShowTitlePanel();
@@ -31,15 +29,19 @@ public class GameManager : MonoBehaviour
 
     public void StartNewGame()
     {
-        player = new PlayerData("Hero");
+        gameSession.StartNewGame("Hero");
 
         ShowTownPanel();
     }
 
     public void StartFight()
     {
-        monster = new MonsterData("Goblin", 35, 8, 1, 10, 15);
-        battleIsOver = false;
+        MonsterData goblin = new MonsterData("Goblin", 35, 8, 1, 10, 15);
+
+        if (!gameSession.StartBattle(goblin))
+        {
+            return;
+        }
 
         ShowBattlePanel();
 
@@ -49,32 +51,36 @@ public class GameManager : MonoBehaviour
 
     public void Attack()
     {
-        if (battleIsOver)
+        if (gameSession.Monster != null && gameSession.BattleIsOver)
         {
             battleLogText.text += "\nThe battle is already over.";
             return;
         }
 
-        if (player == null || monster == null)
+        if (!gameSession.HasActiveBattle)
         {
             battleLogText.text = "Battle has not started.";
             return;
         }
 
+        PlayerData player = gameSession.Player;
+        MonsterData monster = gameSession.Monster;
         string playerMessage = battleSystem.PlayerAttack(player, monster);
 
         if (monster.CurrentHp <= 0)
         {
-            player.Gold += monster.GoldReward;
-            bool playerLeveledUp = player.GainXP(monster.XPReward);
-            battleIsOver = true;
+            if (!gameSession.TryCompleteVictory(out BattleRewardResult rewards))
+            {
+                battleLogText.text = "Rewards could not be granted.";
+                return;
+            }
 
             battleLogText.text =
                 playerMessage +
                 "\nYou won!" +
-                $"\nGained {monster.XPReward} XP and {monster.GoldReward} gold.";
+                $"\nGained {rewards.XP} XP and {rewards.Gold} gold.";
 
-            if (playerLeveledUp)
+            if (rewards.PlayerLeveledUp)
             {
                 battleLogText.text += $"\n{player.Name} leveled up to level {player.Level}!";
             }
@@ -89,7 +95,7 @@ public class GameManager : MonoBehaviour
 
         if (player.CurrentHp <= 0)
         {
-            battleIsOver = true;
+            gameSession.CompleteDefeat();
             battleLogText.text += "\nYou were defeated.";
         }
 
@@ -98,6 +104,11 @@ public class GameManager : MonoBehaviour
 
     public void ReturnToTown()
     {
+        if (!gameSession.HasPlayer || !gameSession.BattleIsOver)
+        {
+            return;
+        }
+
         ShowTownPanel();
     }
 
@@ -126,12 +137,13 @@ public class GameManager : MonoBehaviour
 
     private void UpdateTownUI()
     {
-        if (player == null)
+        if (!gameSession.HasPlayer)
         {
             townStatusText.text = "";
             return;
         }
 
+        PlayerData player = gameSession.Player;
         townStatusText.text =
             $"{player.Name}\n" +
             $"Level: {player.Level}\n" +
@@ -142,6 +154,15 @@ public class GameManager : MonoBehaviour
 
     private void UpdateBattleUI()
     {
+        if (!gameSession.HasPlayer || gameSession.Monster == null)
+        {
+            playerText.text = "";
+            enemyText.text = "";
+            return;
+        }
+
+        PlayerData player = gameSession.Player;
+        MonsterData monster = gameSession.Monster;
         playerText.text = $"{player.Name}\nHP: {player.CurrentHp}/{player.MaxHp}";
         enemyText.text = $"{monster.Name}\nHP: {monster.CurrentHp}/{monster.MaxHp}";
     }
