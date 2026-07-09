@@ -7,13 +7,17 @@ public class MonsterData
     public int CurrentHp;
     public int Attack;
     public int Defense;
+    public int GoldReward;
+    public int XPReward;
 
-    public MonsterData(string name, int hp, int attack, int defense)
+    public MonsterData(string name, int hp, int attack, int defense, int goldReward, int xpReward)
     {
         Name = name;
         MaxHp = hp;
         CurrentHp = hp;
         Attack = attack;
         Defense = defense;
+        GoldReward = goldReward;
+        XPReward = xpReward;
     }
 }
