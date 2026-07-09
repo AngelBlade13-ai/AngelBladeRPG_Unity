@@ -66,13 +66,18 @@ public class GameManager : MonoBehaviour
         if (monster.CurrentHp <= 0)
         {
             player.Gold += monster.GoldReward;
-            player.XP += monster.XPReward;
+            bool playerLeveledUp = player.GainXP(monster.XPReward);
             battleIsOver = true;
 
             battleLogText.text =
                 playerMessage +
                 "\nYou won!" +
                 $"\nGained {monster.XPReward} XP and {monster.GoldReward} gold.";
+
+            if (playerLeveledUp)
+            {
+                battleLogText.text += $"\n{player.Name} leveled up to level {player.Level}!";
+            }
 
             UpdateBattleUI();
             return;
@@ -131,7 +136,7 @@ public class GameManager : MonoBehaviour
             $"{player.Name}\n" +
             $"Level: {player.Level}\n" +
             $"HP: {player.CurrentHp}/{player.MaxHp}\n" +
-            $"XP: {player.XP}\n" +
+            $"XP: {player.XP}/{player.XPToNextLevel}\n" +
             $"Gold: {player.Gold}";
     }
 
