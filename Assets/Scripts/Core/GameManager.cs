@@ -5,8 +5,13 @@ public class GameManager : MonoBehaviour
 {
     [Header("Panels")]
     public GameObject titlePanel;
+    public GameObject characterCreationPanel;
     public GameObject townPanel;
     public GameObject battlePanel;
+
+    [Header("Character Creation UI")]
+    public TMP_InputField playerNameInput;
+    public TextMeshProUGUI characterCreationErrorText;
 
     [Header("Town UI")]
     public TextMeshProUGUI townStatusText;
@@ -29,9 +34,26 @@ public class GameManager : MonoBehaviour
 
     public void StartNewGame()
     {
-        gameSession.StartNewGame("Hero");
+        playerNameInput.text = "";
+        characterCreationErrorText.text = "";
+
+        ShowCharacterCreationPanel();
+    }
+
+    public void ConfirmCharacterCreation()
+    {
+        if (!gameSession.TryStartNewGame(playerNameInput.text))
+        {
+            characterCreationErrorText.text = "Please enter a hero name.";
+            return;
+        }
 
         ShowTownPanel();
+    }
+
+    public void ReturnToTitle()
+    {
+        ShowTitlePanel();
     }
 
     public void StartFight()
@@ -115,13 +137,26 @@ public class GameManager : MonoBehaviour
     private void ShowTitlePanel()
     {
         titlePanel.SetActive(true);
+        characterCreationPanel.SetActive(false);
         townPanel.SetActive(false);
         battlePanel.SetActive(false);
+    }
+
+    private void ShowCharacterCreationPanel()
+    {
+        titlePanel.SetActive(false);
+        characterCreationPanel.SetActive(true);
+        townPanel.SetActive(false);
+        battlePanel.SetActive(false);
+
+        playerNameInput.Select();
+        playerNameInput.ActivateInputField();
     }
 
     private void ShowTownPanel()
     {
         titlePanel.SetActive(false);
+        characterCreationPanel.SetActive(false);
         townPanel.SetActive(true);
         battlePanel.SetActive(false);
 
@@ -131,6 +166,7 @@ public class GameManager : MonoBehaviour
     private void ShowBattlePanel()
     {
         titlePanel.SetActive(false);
+        characterCreationPanel.SetActive(false);
         townPanel.SetActive(false);
         battlePanel.SetActive(true);
     }

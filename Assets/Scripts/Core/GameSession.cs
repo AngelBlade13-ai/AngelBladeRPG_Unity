@@ -19,11 +19,17 @@ public class GameSession
         BattleIsOver = true;
     }
 
-    public void StartNewGame(string playerName)
+    public bool TryStartNewGame(string playerName)
     {
-        Player = new PlayerData(playerName);
+        if (string.IsNullOrWhiteSpace(playerName))
+        {
+            return false;
+        }
+
+        Player = new PlayerData(playerName.Trim());
         Monster = null;
         BattleIsOver = true;
+        return true;
     }
 
     public bool StartBattle(MonsterData newMonster)
