@@ -1,0 +1,106 @@
+# Job And Party System Design
+
+This document records future gameplay constraints for the job, character, party, inventory, and save-data architecture. It intentionally excludes story and world lore.
+
+## Design Goals
+
+- Provide 12 job archetypes across tank, physical damage, magic damage, healer, and support roles.
+- Allow every playable character to use or respec into every job.
+- Give each character authored job affinities based on personality.
+- Use affinity to influence effectiveness or stat growth, never to block access to a job.
+- Give every job a clear role and an explicit mechanical downside.
+- Avoid broad all-purpose jobs. Limited overlap is acceptable only when the trade-off remains meaningful.
+- Keep job mechanics independent from story-specific systems such as corruption.
+
+## Proposed Jobs
+
+Names are provisional. Role boundaries and trade-offs are the important design constraints.
+
+### Tanks
+
+1. Knight: heavy defense and threat control; slow with low damage.
+2. Berserker or Reaver: offense-oriented tank; less reliable survivability.
+
+### Physical Damage
+
+3. Mercenary or Swordsman: direct melee damage; little utility.
+4. Rogue or Thief: speed, evasion, burst, and status effects; fragile when focused.
+5. Ranger or Archer: ranged damage and tactical utility; weaker at close range or without setup.
+
+### Magic Damage
+
+6. Mage or Battlemage: elemental damage; fragile and resource intensive.
+7. Warlock or Blood Mage: spends HP for power; risks reducing party sustain. The HP cost is mechanical and unrelated to story systems.
+
+### Healers
+
+8. Priest or White Mage: strong restoration and support; minimal offense.
+9. Battle Medic or War Priest: can heal and fight; weaker than specialists in both areas.
+
+### Support
+
+10. Bard or Chanter: buffs, debuffs, and minor healing; low personal damage and survivability.
+11. Tactician or Strategist: battlefield and turn-order control; minimal direct damage and durability.
+12. Beastmaster or Summoner: temporary creature ally; summon is fragile, temporary, or otherwise unreliable. This job is optional and lower priority.
+
+## Affinity Model
+
+- Store an affinity rating or multiplier for every character-job pairing.
+- Author affinities per character rather than deriving them from the currently equipped job.
+- Apply affinity to job-related stat growth or performance.
+- High affinity should be noticeably beneficial.
+- Low affinity should impose a mild but meaningful penalty without making a job unusable.
+- Keep base character identity, job definition, and current job assignment as separate data.
+
+The exact formula should be selected during implementation and covered by tests before balancing content is authored around it.
+
+## Party And Turn Order
+
+- Target four active party members in battle.
+- Support a total roster of roughly six or seven playable characters.
+- Do not store character data only in four active-slot records.
+- Turn order is based on speed.
+- Break equal-speed ties randomly.
+- Do not display a turn-order queue; estimating order is part of the intended challenge.
+
+## Future Roster Rotation
+
+The initial data model should leave room for:
+
+- Story-forced party splits.
+- Bonds or affinity between characters who fight together.
+- Well-rested or catch-up bonuses for benched characters.
+- Usage and bond statistics stored per persistent character, not per party slot.
+
+These systems are lower priority and do not need to ship with the first job implementation.
+
+## Permanent Roster Removal Constraint
+
+One specific character is planned to leave the roster permanently at a fixed story point. The identity and story details are intentionally not recorded here.
+
+- Every item equipped on that character when the event occurs must also be permanently removed.
+- Removed equipment must not return to shared inventory or become reassignable.
+- Unequipped items already held in shared inventory are unaffected.
+- Save data should represent roster availability separately from persistent character identity.
+- Save data must record that the removal event occurred so loading cannot restore the character or duplicate the lost equipment.
+
+This is a deliberate gameplay consequence and must be considered during inventory and save-system design even though the story event will be implemented later.
+
+## Implementation Order
+
+1. Finish core gameplay tests.
+2. Define persistent character, roster, active-party, and job data contracts.
+3. Define job roles, growth values, trade-offs, and affinity data.
+4. Test assignment, respecing, affinity effects, and party-slot independence.
+5. Build data-driven monster and item content against those stable contracts.
+6. Add inventory and saving with explicit handling for destroying a removed character's equipped gear exactly once.
+
+## Deferred Story Input
+
+No full lore is needed for the current milestone. When job affinities are ready to be authored, request only:
+
+- Playable character names or stable IDs.
+- A short personality and combat-preference summary for each character.
+- Intended high, neutral, and low job affinities.
+
+Request full histories, relationships, factions, locations, plot events, and dialogue later during quests and world-content planning.

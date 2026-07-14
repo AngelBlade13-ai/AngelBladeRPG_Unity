@@ -97,6 +97,28 @@ Planned branch: `test/core-gameplay-foundation`
 - [ ] Add tests for battle state and rewards being granted only once.
 - [ ] Document how to run the core gameplay tests in Unity 6.5.
 
+## Planned Architecture Milestone
+
+### 8. Jobs, Characters, And Party Data
+
+Complete this after the core gameplay tests and before inventory, saving, or substantial data-driven content. Detailed design constraints are recorded in `JOB_CLASS_SYSTEM.md`.
+
+- [ ] Define data-driven job definitions for 12 focused roles with explicit mechanical trade-offs.
+- [ ] Support assigning and respecing any playable character into any job.
+- [ ] Add per-character job affinities that influence growth without restricting access.
+- [ ] Model a roster of roughly 6-7 characters with 4 active battle slots.
+- [ ] Keep character records independent from active party slots and equipment ownership.
+- [ ] Design speed-based turn order with random tie-breaking and no visible turn queue.
+- [ ] Leave extension points for bonds, roster rotation, and benched-character bonuses.
+- [ ] Ensure a permanently removed character's equipped gear is also permanently removed rather than returned to shared inventory.
+
+## Story And Lore Timing
+
+- Full story and lore are intentionally deferred while the core tests and gameplay data models are being established.
+- When the job-affinity work begins, only a compact playable-roster list and personality traits will be needed.
+- Full character histories, world lore, locations, factions, dialogue, and plot structure should be added when the project reaches quests and world-content planning.
+- Codex should explicitly ask for the relevant story material when each of those milestones is ready.
+
 ## Near-Term Backlog
 
 Keep these as separate milestones unless a later design decision combines them.
@@ -105,6 +127,7 @@ Keep these as separate milestones unless a later design decision combines them.
 - [ ] Add simple 2D player and enemy sprites.
 - [ ] Add a small town map screen with movement or clickable locations.
 - [ ] Add multiple enemy types after the basic flow is stable.
+- [ ] Add the job/class and party-data foundation.
 - [ ] Add healing/resting in town.
 - [ ] Add inventory, items, and shops.
 - [ ] Add saving and loading.
