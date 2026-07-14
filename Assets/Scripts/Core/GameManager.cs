@@ -1,8 +1,12 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("Scenes")]
+    [SerializeField] private string townSceneName = "TownScene";
+
     [Header("Panels")]
     public GameObject titlePanel;
     public GameObject characterCreationPanel;
@@ -26,7 +30,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        gameSession = new GameSession();
+        gameSession = GameSessionStore.Current;
         battleSystem = new SimpleBattleSystem();
 
         ShowTitlePanel();
@@ -34,6 +38,7 @@ public class GameManager : MonoBehaviour
 
     public void StartNewGame()
     {
+        gameSession = GameSessionStore.BeginNewSession();
         playerNameInput.text = "";
         characterCreationErrorText.text = "";
 
@@ -48,7 +53,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        ShowTownPanel();
+        SceneManager.LoadScene(townSceneName);
     }
 
     public void ReturnToTitle()
@@ -179,13 +184,8 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        PlayerData player = gameSession.Player;
-        townStatusText.text =
-            $"{player.Name}\n" +
-            $"Level: {player.Level}\n" +
-            $"HP: {player.CurrentHp}/{player.MaxHp}\n" +
-            $"XP: {player.XP}/{player.XPToNextLevel}\n" +
-            $"Gold: {player.Gold}";
+        townStatusText.text = ExplorationStatusHUD.FormatPlayerStatus(
+            gameSession.Player);
     }
 
     private void UpdateBattleUI()

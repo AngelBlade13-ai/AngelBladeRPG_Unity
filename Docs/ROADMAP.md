@@ -107,7 +107,7 @@ Branch: `test/core-gameplay-foundation`
 - [x] Document how to run the core gameplay tests in Unity 6.5.
 - [x] Run all tests in Unity `6000.5.3f1`: 18 passed, 0 failed.
 
-## Latest Completed Milestone
+## Completed Milestone 8
 
 ### 8. Pixel World Foundation
 
@@ -127,18 +127,31 @@ Branch: `feature/pixel-world-foundation`
 
 Unity Editor setup and Play Mode checks: `PIXEL_WORLD_SETUP.md`.
 
-## Next Milestone
+## Latest Completed Milestone
 
 ### 9. Walkable Town Prototype
 
-- [ ] Replace `TownPanel` as the primary town experience with a physical map.
-- [ ] Spawn the player at a defined town entrance or return point.
-- [ ] Add walls, paths, doors, and building entrances using Tilemaps and colliders.
-- [ ] Preserve the current town status information as an unobtrusive HUD or menu.
+Branch: `feature/walkable-town`
 
-## Planned Exploration Milestones
+- [x] Preserve the active `GameSession` across scene loads.
+- [x] Route successful character creation to a dedicated town scene.
+- [x] Add reusable default-spawn positioning for the Player.
+- [x] Add a compact exploration status HUD formatter.
+- [x] Add Edit Mode coverage for session replacement, HUD text, and spawn positioning.
+- [x] Run all Edit Mode tests in Unity `6000.5.3f1`: 32 passed, 0 failed.
+- [x] Replace `TownPanel` as the primary town experience with a physical map.
+- [x] Spawn the player at a defined town entrance or return point.
+- [x] Add placeholder walls, paths, and building footprints with door gaps using Tilemaps and colliders.
+- [x] Preserve the current town status information as an unobtrusive HUD or menu.
+- [x] Complete the full title, character creation, town loading, movement, camera, HUD, and collision Play Mode check.
+
+Unity Editor setup and Play Mode checks: `WALKABLE_TOWN_SETUP.md`.
+
+## Next Milestone
 
 ### 10. World Interaction System
+
+Planned branch: `feature/world-interactions`
 
 - [ ] Add a reusable interaction detector and interact command.
 - [ ] Support doors, signs, NPCs, and location transitions through a shared interface.

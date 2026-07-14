@@ -203,7 +203,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 820646354}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_TargetAssemblyTypeName: GameManager, AngelBladeRPG.Runtime
         m_MethodName: Attack
         m_Mode: 1
         m_Arguments:
@@ -865,7 +865,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 820646354}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_TargetAssemblyTypeName: GameManager, AngelBladeRPG.Runtime
         m_MethodName: ReturnToTitle
         m_Mode: 1
         m_Arguments:
@@ -1136,7 +1136,11 @@ MonoBehaviour:
         m_SelectedSource:
           rid: -2
         m_Provider2DCache:
-          rid: -2
+          rid: 9064850283583766601
+    - rid: 9064850283583766601
+      type: {class: 'Provider2DCache`1[[UnityEngine.Rendering.Universal.Light2DProvider, Unity.RenderPipelines.Universal.2D.Runtime]]', ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
+      data:
+        m_Cache: []
 --- !u!4 &619394802
 Transform:
   m_ObjectHideFlags: 0
@@ -1236,7 +1240,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 820646354}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_TargetAssemblyTypeName: GameManager, AngelBladeRPG.Runtime
         m_MethodName: StartFight
         m_Mode: 1
         m_Arguments:
@@ -1576,7 +1580,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &789506498
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1807,6 +1811,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40f5a9dd0eaa84149a65a39ae3eef79a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  townSceneName: TownScene
   titlePanel: {fileID: 157929100}
   characterCreationPanel: {fileID: 1603960151}
   townPanel: {fileID: 1989065094}
@@ -2881,7 +2886,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 820646354}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_TargetAssemblyTypeName: GameManager, AngelBladeRPG.Runtime
         m_MethodName: ReturnToTown
         m_Mode: 1
         m_Arguments:
@@ -3663,7 +3668,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 820646354}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_TargetAssemblyTypeName: GameManager, AngelBladeRPG.Runtime
         m_MethodName: ConfirmCharacterCreation
         m_Mode: 1
         m_Arguments:
@@ -4010,7 +4015,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 820646354}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_TargetAssemblyTypeName: GameManager, AngelBladeRPG.Runtime
         m_MethodName: StartNewGame
         m_Mode: 1
         m_Arguments:
