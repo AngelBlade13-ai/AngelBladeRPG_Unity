@@ -14,6 +14,7 @@ For deeper handoff notes, original-project migration ideas, and detailed Unity E
 - [x] Beginner-friendly XP leveling system.
 - [x] Shared game state through `GameSession`.
 - [x] Character creation with player name entry.
+- [x] Core Edit Mode gameplay test foundation.
 
 ## Completed Milestones
 
@@ -61,7 +62,7 @@ Commit: `08e8240 Add shared RPG game state`
 - Moved player, monster, battle state, victory rewards, and defeat state into one shared game-state class.
 - Kept `GameManager` focused mostly on UI flow and UI text updates.
 
-## Latest Completed Milestone
+## Completed Milestone 6
 
 ### 6. Character Creation
 
@@ -86,18 +87,19 @@ Unity Editor checklist:
 - [x] Confirm the panel starts hidden and title, town, and battle panel flow still works.
 - [x] Test title, character creation, town, and battle flow in Play Mode.
 
-## Next Milestone
+## Latest Completed Milestone
 
 ### 7. Core Gameplay Tests
 
-Planned branch: `test/core-gameplay-foundation`
+Branch: `test/core-gameplay-foundation`
 
-- [ ] Add Edit Mode tests for player leveling and multiple level-ups.
-- [ ] Add tests for player damage, monster damage, minimum damage, and HP clamping.
-- [ ] Add tests for battle state and rewards being granted only once.
-- [ ] Document how to run the core gameplay tests in Unity 6.5.
+- [x] Add Edit Mode tests for player leveling and multiple level-ups.
+- [x] Add tests for player damage, monster damage, minimum damage, and HP clamping.
+- [x] Add tests for battle state and rewards being granted only once.
+- [x] Document how to run the core gameplay tests in Unity 6.5.
+- [x] Run all tests in Unity `6000.5.3f1`: 18 passed, 0 failed.
 
-## Planned Architecture Milestone
+## Next Milestone
 
 ### 8. Jobs, Characters, And Party Data
 
