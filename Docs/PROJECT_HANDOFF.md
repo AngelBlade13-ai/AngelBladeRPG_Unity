@@ -1,6 +1,6 @@
 # AngelBlade RPG Unity — Project Handoff
 
-Last updated: July 13, 2026
+Last updated: July 14, 2026
 
 This document summarizes the planning, implementation, Git history, Unity Editor work, and next steps discussed while converting the original command-line RPG into a Unity 2D project.
 
@@ -13,12 +13,20 @@ The goal is to reuse the original game's design and gameplay rules while rebuild
 
 The original `Program.cs` is a large console-oriented implementation. Its concepts should be migrated, but its monolithic structure should not be copied directly into Unity.
 
+## Gameplay direction
+
+The intended game is a 2D pixel-fantasy RPG with top-down exploration and movement inspired by `Stardew Valley`. Towns, interiors, paths, and world areas should be physical spaces built with Tilemaps, sprites, collision, and interactable objects.
+
+Combat should use a dedicated turn-based battle scene inspired by older `Final Fantasy` games. Entering an encounter transitions out of exploration; victory, defeat, or escape resolves the encounter and returns the player to the appropriate world location.
+
+The existing full-screen town and battle panels are useful prototypes for gameplay rules and flow. They are not the final presentation architecture. See `Docs/GAMEPLAY_DIRECTION.md` for the current product direction and scene responsibilities.
+
 ## Current Git state
 
 Current local state:
 
-- Active branch: `test/core-gameplay-foundation`
-- The test branch is local and does not have an upstream branch yet.
+- Active branch: `feature/pixel-world-foundation`
+- The feature branch is local and does not have an upstream branch yet.
 - Latest remote commit: `97576e3 Add project migration handoff`
 - Local `main` latest commit: `92f04da Document job and party system design`
 - Remote `origin/main` latest commit: `08e8240 Add shared RPG game state`
@@ -55,10 +63,12 @@ Unity version:
 - Universal Render Pipeline
 - TextMesh Pro
 - Unity Test Framework package is installed
+- Optional Unity AI Assistant and AI Inference packages were removed because the project does not use subscription-based Unity AI features.
 
 Primary scene:
 
 - `Assets/Scenes/MainGameScene.unity`
+- This is the current prototype scene, not the planned final exploration-and-battle scene structure.
 
 Existing panels:
 
@@ -66,6 +76,8 @@ Existing panels:
 - `TownPanel`
 - `BattlePanel`
 - `CharacterCreationPanel`
+
+`TitlePanel` and `CharacterCreationPanel` can inform the eventual setup flow. `TownPanel` and `BattlePanel` are temporary stand-ins that will be replaced by a walkable exploration scene and a separate battle scene.
 
 Core scripts:
 
@@ -305,7 +317,7 @@ The Edit Mode suite covers:
 - Level-up reward feedback
 - Starting and ending battle state
 
-The suite ran successfully in Unity `6000.5.3f1` on July 14, 2026: 18 passed, 0 failed. Run instructions are in `Docs/TESTING.md`.
+The original core suite ran successfully in Unity `6000.5.3f1` on July 14, 2026: 18 passed, 0 failed. The current suite contains 28 passing tests after adding pixel-world movement, camera, and temporary direction-indicator coverage. Run instructions are in `Docs/TESTING.md`.
 
 There was previously a stale generated `.csproj` reference to the missing file `Assets/Editor/HubForceResolve.cs`. Unity itself successfully compiled the gameplay scripts. Generated Unity project files should remain ignored and can be regenerated rather than manually maintained.
 
@@ -320,21 +332,51 @@ There was previously a stale generated `.csproj` reference to the missing file `
 - [x] Add core gameplay tests
 - [x] Clean stale generated project references
 
-### Phase 2 — Core combat
+### Phase 2 — Pixel world foundation
 
-- [ ] Reusable monster definitions
-- [ ] Small monster roster
-- [ ] Critical hits
-- [ ] Accuracy and misses
-- [ ] Block
-- [ ] Escape
-- [ ] Potions in combat
-- [ ] Combat abilities
+- [x] Choose a pixel-art reference resolution and Pixel Perfect Camera settings
+- [x] Add top-down player movement using Unity's Input System
+- [x] Add Rigidbody2D collision and normalized diagonal movement
+- [x] Add directional idle and walk animation support
+- [x] Build a small Tilemap test area
+- [x] Add a following camera
+- [x] Test movement and framing at supported resolutions
+
+### Phase 3 — Walkable town and interactions
+
+- [ ] Replace `TownPanel` as the primary town experience
+- [ ] Build a small playable town map with collision
+- [ ] Add doors and map transition points
+- [ ] Add a reusable interaction system for NPCs and world objects
+- [ ] Add a compact exploration HUD or pause status view
+- [ ] Preserve player state and position during scene transitions
+
+### Phase 4 — Separate battle scene
+
+- [ ] Create a dedicated battle scene
+- [ ] Define encounter data passed from exploration into battle
+- [ ] Present party members, enemies, commands, combat text, and rewards
+- [ ] Reuse the tested combat math and reward rules
+- [ ] Add explicit victory, defeat, and escape outcomes
+- [ ] Return to the correct exploration scene and position
+- [ ] Replace the prototype `BattlePanel` flow
+
+### Phase 5 — Jobs, party systems, and character data
+
+- [ ] Implement the job and affinity foundation described in `Docs/JOB_CLASS_SYSTEM.md`
+- [ ] Add party formation and reserve-roster rules
+- [ ] Support permanent roster removal and equipped-item loss rules
+- [ ] Keep job and party data independent from scene presentation
+
+### Phase 6 — Core combat expansion
+
+- [ ] Reusable monster definitions and a small monster roster
+- [ ] Critical hits, accuracy, misses, block, and escape
+- [ ] Potions and combat abilities
 - [ ] Poison and burn
-- [ ] Improved battle-log sequencing
-- [ ] Victory and defeat presentation
+- [ ] Improved battle sequencing and outcome presentation
 
-### Phase 3 — Data-driven content
+### Phase 7 — Data-driven content
 
 - [ ] Monster ScriptableObjects
 - [ ] Item ScriptableObjects
@@ -343,7 +385,7 @@ There was previously a stale generated `.csproj` reference to the missing file `
 - [ ] Encounter selection
 - [ ] Move balance values out of `GameManager`
 
-### Phase 4 — Inventory and equipment
+### Phase 8 — Inventory and equipment
 
 - [ ] Base item model
 - [ ] Inventory
@@ -355,7 +397,7 @@ There was previously a stale generated `.csproj` reference to the missing file `
 - [ ] Inventory UI
 - [ ] Equipment comparisons
 
-### Phase 5 — Loot and encounters
+### Phase 9 — Loot and encounters
 
 - [ ] Random monsters
 - [ ] Progression scaling
@@ -367,16 +409,16 @@ There was previously a stale generated `.csproj` reference to the missing file `
 - [ ] Win streaks
 - [ ] Victory reward summary
 
-### Phase 6 — Town and shops
+### Phase 10 — Town services and shops
 
-- [ ] Expanded town menu
-- [ ] Shop panel
+- [ ] Shopkeeper interaction
+- [ ] Shop UI
 - [ ] Buying
 - [ ] Selling
 - [ ] Camp/rest
-- [ ] Gear in town HUD
+- [ ] Gear in the exploration HUD or pause menu
 
-### Phase 7 — Saving and loading
+### Phase 11 — Saving and loading
 
 - [ ] Serializable save models
 - [ ] Player and progression save data
@@ -390,7 +432,7 @@ There was previously a stale generated `.csproj` reference to the missing file `
 
 Use Unity's application data directory rather than writing `savegame.json` beside the executable.
 
-### Phase 8 — Quests and progression
+### Phase 12 — Quests and progression
 
 - [ ] Defeat counters
 - [ ] Quest definitions and progress
@@ -400,9 +442,9 @@ Use Unity's application data directory rather than writing `savegame.json` besid
 - [ ] Win streaks
 - [ ] Boss unlock requirements
 
-### Phase 9 — World flavor
+### Phase 13 — World content and story
 
-- [ ] Locations
+- [ ] Additional locations and interiors
 - [ ] Backgrounds
 - [ ] Ambient descriptions
 - [ ] NPC dialogue
@@ -412,7 +454,7 @@ Use Unity's application data directory rather than writing `savegame.json` besid
 
 Original locations include Town Square, Whisper Market, Ironforge Smithy, Guild Hall, Ember Camp, Ruined Path, Shadow Caverns, and Boss Gate.
 
-### Phase 10 — Bosses and endgame
+### Phase 14 — Bosses and endgame
 
 - [ ] Boss eligibility
 - [ ] Multiple boss definitions
@@ -421,7 +463,7 @@ Original locations include Town Square, Whisper Market, Ironforge Smithy, Guild 
 - [ ] Unique rewards
 - [ ] Endgame flow
 
-### Phase 11 — Presentation and polish
+### Phase 15 — Presentation and polish
 
 - [ ] Final layouts
 - [ ] HP and XP bars
@@ -440,17 +482,21 @@ Original locations include Town Square, Whisper Market, Ironforge Smithy, Guild 
 
 After Phase 1:
 
-1. `feature/expanded-combat-actions`
-2. `feature/monster-definitions`
-3. `feature/item-data-model`
-4. `feature/inventory-equipment`
-5. `feature/loot-rewards`
-6. `feature/shop-system`
-7. `feature/save-load`
-8. `feature/quests-progression`
-9. `feature/world-locations`
-10. `feature/boss-battles`
-11. `feature/game-polish`
+1. `feature/pixel-world-foundation`
+2. `feature/walkable-town`
+3. `feature/world-interactions`
+4. `feature/separate-battle-scene`
+5. `feature/job-party-data`
+6. `feature/expanded-combat-actions`
+7. `feature/monster-definitions`
+8. `feature/item-data-model`
+9. `feature/inventory-equipment`
+10. `feature/loot-rewards`
+11. `feature/shop-system`
+12. `feature/save-load`
+13. `feature/quests-progression`
+14. `feature/boss-battles`
+15. `feature/game-polish`
 
 Each branch should start from the merged result of the previous dependency rather than having all feature branches created from an old `main`.
 
@@ -478,12 +524,12 @@ This distinction was specifically requested so Editor responsibilities are not h
 
 1. Clone or pull `AngelBladeRPG_Unity`.
 2. Fetch all remote branches.
-3. Check out `test/core-gameplay-foundation`.
-4. Confirm commit `92f04da` and the core-test commit are present.
+3. Check out `feature/pixel-world-foundation`.
+4. Confirm commit `0d0678f` and the pixel-world foundation work are present.
 5. Open the project using Unity `6000.5.3f1`.
 6. Open `Assets/Scenes/MainGameScene.unity`.
 7. Run the Edit Mode suite using `Docs/TESTING.md`.
-8. Confirm all 18 tests pass.
+8. Confirm all 28 tests pass.
 9. Run the character-creation Play Mode checklist if the Unity version or scene changes.
-10. Merge the test branch into `main` after verification.
+10. Review the completed Unity Editor checklist in `Docs/PIXEL_WORLD_SETUP.md` when changing the exploration foundation.
 

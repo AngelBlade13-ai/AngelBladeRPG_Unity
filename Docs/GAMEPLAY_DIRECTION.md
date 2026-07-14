@@ -1,0 +1,91 @@
+# Gameplay Direction
+
+This document defines the intended player experience so future systems support the same game rather than extending the temporary menu-driven prototype.
+
+## Product Identity
+
+`AngelBladeRPG_Unity` is intended to be a 2D pixel-fantasy RPG.
+
+- Exploration uses top-down movement inspired by `Stardew Valley`.
+- Towns, interiors, paths, and world areas are physical spaces built from Tilemaps and sprites.
+- The player walks, collides with the environment, approaches characters and objects, and presses an interaction control.
+- Combat is classic turn-based RPG combat presented in a separate scene, inspired by older `Final Fantasy` games.
+- The final game should not feel like a sequence of full-screen point-and-click menus.
+
+The references describe interaction structure and presentation direction. They do not require copying either game's art, characters, rules, or content.
+
+## Core Player Loop
+
+```text
+Title
+  -> Character creation or Continue
+  -> Spawn in an exploration scene
+  -> Walk through towns, interiors, and world areas
+  -> Interact with NPCs, doors, objects, and encounter triggers
+  -> Transition into a separate turn-based battle scene
+  -> Resolve victory, defeat, or escape
+  -> Return to the correct exploration scene and position
+```
+
+## Scene Responsibilities
+
+Names are provisional, but responsibilities should remain separate.
+
+### Title And Setup
+
+- Shows title, New Game, and eventually Continue.
+- Handles character creation before entering the world.
+- The current title and character-creation panels can continue serving this role while their visual design evolves.
+
+### Exploration Scene
+
+- Owns Tilemaps, environmental collision, doors, NPC placement, and encounter triggers.
+- Spawns and moves the visible player character.
+- Uses a following pixel-perfect camera.
+- Presents status through a compact HUD or pause menu instead of replacing the world with `TownPanel`.
+- Records the return scene and player position before combat.
+
+### Battle Scene
+
+- Receives active-party and encounter data from persistent game state.
+- Presents party members and enemies in a dedicated combat composition.
+- Uses turn-based commands and the tested combat/reward rules as its initial foundation.
+- Returns a battle outcome to persistent game state.
+- Loads the recorded exploration scene and restores the appropriate return position after victory or escape.
+
+## What Existing Work Still Provides
+
+- `PlayerData` remains the starting player-stat and progression model.
+- `MonsterData` remains the starting encounter-combatant model.
+- `SimpleBattleSystem` provides tested initial damage rules.
+- `GameSession` provides tested player, encounter, reward, victory, and defeat state.
+- Character-name validation, leveling, rewards, and duplicate-reward prevention remain valid.
+- Edit Mode tests protect these rules while presentation and scenes change.
+
+## Prototype Elements To Replace
+
+- `TownPanel` is a temporary stand-in for an explorable town.
+- `BattlePanel` is a temporary stand-in for a dedicated battle scene.
+- `GameManager` panel switching is prototype flow control and should not become the permanent world-navigation architecture.
+- The current fixed Goblin button flow should become an encounter trigger that supplies encounter data to the battle transition.
+
+Replace these incrementally. Do not remove a working prototype until its replacement can complete the same basic loop.
+
+## Near-Term Technical Boundaries
+
+- Movement code should not contain town-specific, story-specific, or battle-specific rules.
+- Interactable objects should use a reusable contract rather than direct references to one NPC or door.
+- Persistent gameplay state must survive scene changes without depending on scene UI objects.
+- Battle scene code should consume encounter data rather than constructing a hard-coded Goblin inside UI code.
+- World return information should be explicit data, not inferred from whichever scene happens to be open.
+- Pixel-art resolution, sprite pixels-per-unit, camera behavior, and animation dimensions should be chosen consistently before producing large quantities of art.
+
+## Decisions Still Open
+
+- Four-direction versus eight-direction movement animation.
+- Visible enemies, random encounters, scripted encounters, or a controlled combination.
+- One exploration scene per location versus larger connected maps.
+- Whether battle backgrounds are authored per region or assembled from reusable layers.
+- Exact battle camera, party layout, command UI, and transition effect.
+
+These decisions should be made when their milestone begins. They do not block the pixel-world movement foundation.

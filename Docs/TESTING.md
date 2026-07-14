@@ -12,7 +12,15 @@ The core gameplay tests are Unity Edit Mode tests. They exercise plain gameplay 
 
 The test assembly is `AngelBladeRPG.EditModeTests` under `Assets/Tests/EditMode`.
 
-Verified on July 14, 2026 with Unity `6000.5.3f1`: 18 passed, 0 failed.
+Verified on July 14, 2026 with Unity `6000.5.3f1`: 28 passed, 0 failed.
+
+The current suite includes 18 core gameplay tests, five pixel-world movement and camera tests, and five temporary direction-indicator tests.
+
+### Fastest Development Workflow
+
+Keep the Unity Editor open and use the Test Runner while actively developing. The current Edit Mode suite itself completes in well under one second; most command-line test time comes from launching and initializing a new Unity Editor process.
+
+Use command-line batch testing for milestone verification, CI, or situations where the Editor is already closed. Avoid adding `-quit` to the test command because the Unity 6.5 test runner controls its own shutdown after writing the result file.
 
 ## Windows Command Line
 
