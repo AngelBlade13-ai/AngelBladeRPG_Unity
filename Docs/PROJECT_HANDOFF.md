@@ -317,7 +317,7 @@ The Edit Mode suite covers:
 - Level-up reward feedback
 - Starting and ending battle state
 
-The original core suite ran successfully in Unity `6000.5.3f1` on July 14, 2026: 18 passed, 0 failed. The current suite contains 32 passing tests after adding pixel-world movement, camera, temporary direction-indicator, and walkable-town foundation coverage. Run instructions are in `Docs/TESTING.md`.
+The original core suite ran successfully in Unity `6000.5.3f1` on July 14, 2026: 18 passed, 0 failed. The current suite contains 44 passing tests after adding pixel-world movement, camera, temporary direction-indicator, walkable-town foundation, world interaction, and door-transition coverage. Run instructions are in `Docs/TESTING.md`.
 
 There was previously a stale generated `.csproj` reference to the missing file `Assets/Editor/HubForceResolve.cs`. Unity itself successfully compiled the gameplay scripts. Generated Unity project files should remain ignored and can be regenerated rather than manually maintained.
 
@@ -346,10 +346,10 @@ There was previously a stale generated `.csproj` reference to the missing file `
 
 - [x] Replace `TownPanel` as the primary town experience
 - [x] Build a small playable town map with collision
-- [ ] Add doors and map transition points
-- [ ] Add a reusable interaction system for NPCs and world objects
+- [x] Add doors and map transition points
+- [x] Add a reusable interaction system for NPCs and world objects
 - [x] Add a compact exploration HUD or pause status view
-- [x] Preserve player state during the transition from character creation into town
+- [x] Preserve player state and explicit return spawns across scene transitions
 
 ### Phase 4 — Separate battle scene
 
@@ -520,6 +520,8 @@ When continuing work, explicitly distinguish these categories:
 
 This distinction was specifically requested so Editor responsibilities are not hidden inside a generic request to test the gameplay loop.
 
+For learning and automation, introduce a new Unity concept manually the first time and explain how its components fit together. Automate repeated scene construction, object creation, and Inspector wiring unless the user asks to practice it manually again. Keep generated Editor tools readable and documented so the project does not depend on unexplained automation.
+
 ## Resume checklist on another machine
 
 1. Clone or pull `AngelBladeRPG_Unity`.
@@ -529,7 +531,7 @@ This distinction was specifically requested so Editor responsibilities are not h
 5. Open the project using Unity `6000.5.3f1`.
 6. Open `Assets/Scenes/MainGameScene.unity`.
 7. Run the Edit Mode suite using `Docs/TESTING.md`.
-8. Confirm all 32 tests pass.
+8. Confirm all 44 tests pass.
 9. Run the character-creation Play Mode checklist if the Unity version or scene changes.
 10. Review the completed Unity Editor checklist in `Docs/PIXEL_WORLD_SETUP.md` when changing the exploration foundation.
 

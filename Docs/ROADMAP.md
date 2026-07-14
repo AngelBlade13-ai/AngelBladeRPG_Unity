@@ -127,7 +127,7 @@ Branch: `feature/pixel-world-foundation`
 
 Unity Editor setup and Play Mode checks: `PIXEL_WORLD_SETUP.md`.
 
-## Latest Completed Milestone
+## Completed Milestone 9
 
 ### 9. Walkable Town Prototype
 
@@ -147,16 +147,26 @@ Branch: `feature/walkable-town`
 
 Unity Editor setup and Play Mode checks: `WALKABLE_TOWN_SETUP.md`.
 
-## Next Milestone
+## Latest Completed Milestone
 
 ### 10. World Interaction System
 
-Planned branch: `feature/world-interactions`
+Branch: `feature/world-interactions`
 
-- [ ] Add a reusable interaction detector and interact command.
-- [ ] Support doors, signs, NPCs, and location transitions through a shared interface.
-- [ ] Add a simple dialogue box without introducing full story content yet.
-- [ ] Preserve interaction state across scene transitions where necessary.
+- [x] Add a reusable interaction contract and facing-based detector in code.
+- [x] Add player interaction input using the existing `Player/Interact` action.
+- [x] Add a simple dialogue presenter and sign implementation in code.
+- [x] Run all Edit Mode tests in Unity `6000.5.3f1`: 44 passed, 0 failed.
+- [x] Wire and verify the first sign manually in `TownScene`.
+- [x] Add reusable scene doors and one-time named destination spawns in code.
+- [x] Generate and verify a paired town/interior door transition.
+- [x] Support doors, signs, future NPC dialogue, and location transitions through a shared interface.
+- [x] Add a simple dialogue box without introducing full story content yet.
+- [x] Preserve player data and explicit return-spawn state across scene transitions.
+
+Unity Editor setup and Play Mode checks: `WORLD_INTERACTION_SETUP.md` and `WORLD_TRANSITION_SETUP.md`.
+
+## Next Milestone
 
 ### 11. Separate Turn-Based Battle Scene
 
