@@ -198,11 +198,16 @@ Unity Editor setup and Play Mode checks: `BATTLE_SCENE_SETUP.md`.
 
 Complete this after the exploration and battle-scene loop is stable, and before inventory, saving, or substantial character content. Detailed design constraints are recorded in `JOB_CLASS_SYSTEM.md`.
 
-- [ ] Define data-driven job definitions for 12 focused roles with explicit mechanical trade-offs.
-- [ ] Support assigning and respecing any playable character into any job.
-- [ ] Add per-character job affinities that influence growth without restricting access.
-- [ ] Model a roster of roughly 6-7 characters with 4 active battle slots.
-- [ ] Keep character records independent from active party slots and equipment ownership.
+Branch: `feature/job-party-data`
+
+- [x] Define job definitions for 12 focused roles with explicit mechanical trade-offs.
+- [x] Support assigning and respecing any available playable character into any job.
+- [x] Add per-character job affinities with tested growth multipliers that never restrict access.
+- [x] Model a roster of roughly 6-7 characters with 4 active battle slots.
+- [x] Keep character records independent from active party slots and future equipment ownership.
+- [x] Record Reaver, Blood Mage, White Mage, and Paladin as tentative character affinities rather than locked classes.
+- [x] Add permanent character-availability state and remove unavailable characters from the active party.
+- [x] Run all Edit Mode tests in Unity `6000.5.3f1`: 75 passed, 0 failed.
 - [ ] Design speed-based turn order with random tie-breaking and no visible turn queue.
 - [ ] Leave extension points for bonds, roster rotation, and benched-character bonuses.
 - [ ] Ensure a permanently removed character's equipped gear is also permanently removed rather than returned to shared inventory.

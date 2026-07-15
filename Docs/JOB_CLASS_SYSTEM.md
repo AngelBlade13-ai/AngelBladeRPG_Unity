@@ -19,7 +19,7 @@ Names are provisional. Role boundaries and trade-offs are the important design c
 ### Tanks
 
 1. Knight: heavy defense and threat control; slow with low damage.
-2. Berserker or Reaver: offense-oriented tank; less reliable survivability.
+2. Reaver: a damage sponge that converts danger into heavy damage; less reliable defense and performs best while endangered.
 
 ### Physical Damage
 
@@ -30,12 +30,12 @@ Names are provisional. Role boundaries and trade-offs are the important design c
 ### Magic Damage
 
 6. Mage or Battlemage: elemental damage; fragile and resource intensive.
-7. Warlock or Blood Mage: spends HP for power; risks reducing party sustain. The HP cost is mechanical and unrelated to story systems.
+7. Blood Mage: spends HP for powerful magic; risks reducing party sustain. The HP cost is mechanical and unrelated to story systems.
 
 ### Healers
 
-8. Priest or White Mage: strong restoration and support; minimal offense.
-9. Battle Medic or War Priest: can heal and fight; weaker than specialists in both areas.
+8. White Mage: strong restoration and protective support; minimal offense.
+9. Paladin: front-line damage, protection, limited healing, and possible leadership support; splits resources across roles and is weaker than dedicated specialists.
 
 ### Support
 
@@ -53,6 +53,19 @@ Names are provisional. Role boundaries and trade-offs are the important design c
 - Keep base character identity, job definition, and current job assignment as separate data.
 
 The exact formula should be selected during implementation and covered by tests before balancing content is authored around it.
+
+Initial implementation uses `0.9` for low affinity, `1.0` for neutral affinity, and `1.1` for high affinity. These values are intentionally conservative and can be rebalanced without changing job access or character identity.
+
+## Tentative Character Archetypes
+
+Four additional party members currently have natural archetypes. These represent likely high affinities and narrative combat flavor, not locked classes:
+
+- Reaver: durable under pressure and capable of increased damage while endangered.
+- Blood Mage: powerful magic paid for with the caster's own HP.
+- White Mage: dedicated healing and protective support.
+- Paladin: strong leadership flavor, front-line damage, durability, and limited healing.
+
+Every one of these characters must still be able to equip and respec into every job. Stable character IDs, names, and the rest of their affinity profiles remain to be authored.
 
 ## Party And Turn Order
 
