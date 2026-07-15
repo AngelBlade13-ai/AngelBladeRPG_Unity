@@ -75,6 +75,8 @@ Every one of these characters can still equip and respec into every job. Only ea
 - Turn order is based on speed.
 - Break equal-speed ties randomly.
 - Do not display a turn-order queue; estimating order is part of the intended challenge.
+- Build turn order as an internal combat rule from stable combatant IDs and current speed values.
+- Use an injectable random source so tie behavior is random in play and deterministic in automated tests.
 
 ## Future Roster Rotation
 
