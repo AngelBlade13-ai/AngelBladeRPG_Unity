@@ -121,34 +121,19 @@ public static class BattlePrototypeBuilder
             "BattleTestEncounter",
             new Vector3(0f, 3f, 0f),
             new Color(0.75f, 0.2f, 0.22f, 1f),
-            "Goblin",
-            35,
-            8,
-            1,
-            10,
-            15);
+            "monster_goblin");
         EnsureEncounter(
             "BattleDefeatTestEncounter",
             new Vector3(3f, 3f, 0f),
             new Color(0.45f, 0.16f, 0.55f, 1f),
-            "Ogre",
-            100,
-            30,
-            20,
-            20,
-            25);
+            "monster_ogre");
     }
 
     private static void EnsureEncounter(
         string objectName,
         Vector3 position,
         Color color,
-        string monsterName,
-        int hp,
-        int attack,
-        int defense,
-        int gold,
-        int xp)
+        string monsterId)
     {
         GameObject encounterObject = GameObject.Find(objectName);
         if (encounterObject == null)
@@ -176,12 +161,7 @@ public static class BattlePrototypeBuilder
         encounter.Configure(
             "BattleScene",
             "TownAfterBattle",
-            monsterName,
-            hp,
-            attack,
-            defense,
-            gold,
-            xp);
+            monsterId);
     }
 
     private static PlayerSpawnPoint2D EnsureReturnSpawn()

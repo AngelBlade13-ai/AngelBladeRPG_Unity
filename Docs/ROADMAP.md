@@ -223,7 +223,9 @@ Branch: `feature/core-combat-expansion`
 - [x] Preserve existing leveling, physical damage, rewards, and battle-scene behavior through compatibility properties.
 - [x] Run all Edit Mode tests in Unity `6000.5.3f1`: 102 passed, 0 failed.
 - [x] Complete a Play Mode victory and reward regression using the shared stat model.
-- [ ] Add reusable monster definitions and a small initial monster roster.
+- [x] Add ID-keyed Goblin, Ogre, Slime, and Wisp definitions that create independent runtime monsters.
+- [x] Run all Edit Mode tests after the monster roster slice: 112 passed, 0 failed.
+- [x] Migrate the town Goblin and Ogre encounters to catalog IDs and complete a Play Mode regression.
 - [ ] Integrate speed-based ordering into battle sequencing without showing a turn queue.
 - [ ] Add accuracy, misses, critical hits, blocking, and improved escape rules in focused slices.
 - [ ] Establish combat-action contracts for physical attacks, magic, healing, and future abilities.

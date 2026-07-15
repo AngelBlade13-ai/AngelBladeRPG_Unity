@@ -8,12 +8,7 @@ public class BattleEncounterInteractable2D : MonoBehaviour, IWorldInteractable
     [SerializeField] private string returnSpawnId = "TownAfterBattle";
 
     [Header("Monster")]
-    [SerializeField] private string monsterName = "Goblin";
-    [SerializeField, Min(1)] private int monsterHp = 35;
-    [SerializeField, Min(0)] private int monsterAttack = 8;
-    [SerializeField, Min(0)] private int monsterDefense = 1;
-    [SerializeField, Min(0)] private int goldReward = 10;
-    [SerializeField, Min(0)] private int xpReward = 15;
+    [SerializeField] private string monsterId = "monster_goblin";
 
     public bool CanInteract(GameObject interactor)
     {
@@ -21,8 +16,7 @@ public class BattleEncounterInteractable2D : MonoBehaviour, IWorldInteractable
         return HasEncounterConfiguration(
                 battleSceneName,
                 returnSpawnId,
-                monsterName,
-                monsterHp) &&
+                monsterId) &&
             session.HasPlayer &&
             session.Player.CurrentHp > 0 &&
             !session.HasActiveBattle;
@@ -35,13 +29,7 @@ public class BattleEncounterInteractable2D : MonoBehaviour, IWorldInteractable
             return;
         }
 
-        MonsterData monster = new MonsterData(
-            monsterName,
-            monsterHp,
-            monsterAttack,
-            monsterDefense,
-            goldReward,
-            xpReward);
+        MonsterData monster = MonsterCatalog.Get(monsterId).CreateMonster();
         GameSession session = GameSessionStore.Current;
 
         if (!session.StartBattle(monster) ||
@@ -58,32 +46,20 @@ public class BattleEncounterInteractable2D : MonoBehaviour, IWorldInteractable
     public void Configure(
         string sceneName,
         string spawnId,
-        string configuredMonsterName,
-        int hp,
-        int attack,
-        int defense,
-        int gold,
-        int xp)
+        string configuredMonsterId)
     {
         battleSceneName = sceneName;
         returnSpawnId = spawnId;
-        monsterName = configuredMonsterName;
-        monsterHp = hp;
-        monsterAttack = attack;
-        monsterDefense = defense;
-        goldReward = gold;
-        xpReward = xp;
+        monsterId = configuredMonsterId;
     }
 
     public static bool HasEncounterConfiguration(
         string sceneName,
         string spawnId,
-        string configuredMonsterName,
-        int configuredMonsterHp)
+        string configuredMonsterId)
     {
         return !string.IsNullOrWhiteSpace(sceneName) &&
             !string.IsNullOrWhiteSpace(spawnId) &&
-            !string.IsNullOrWhiteSpace(configuredMonsterName) &&
-            configuredMonsterHp > 0;
+            MonsterCatalog.Get(configuredMonsterId) != null;
     }
 }

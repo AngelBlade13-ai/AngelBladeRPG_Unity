@@ -4,23 +4,21 @@ namespace AngelBladeRPG.Tests
 {
     public class BattleEncounterInteractable2DTests
     {
-        [TestCase("BattleScene", "TownReturn", "Goblin", 35, true)]
-        [TestCase("", "TownReturn", "Goblin", 35, false)]
-        [TestCase("BattleScene", "", "Goblin", 35, false)]
-        [TestCase("BattleScene", "TownReturn", "", 35, false)]
-        [TestCase("BattleScene", "TownReturn", "Goblin", 0, false)]
+        [TestCase("BattleScene", "TownReturn", "monster_goblin", true)]
+        [TestCase("", "TownReturn", "monster_goblin", false)]
+        [TestCase("BattleScene", "", "monster_goblin", false)]
+        [TestCase("BattleScene", "TownReturn", "", false)]
+        [TestCase("BattleScene", "TownReturn", "monster_unknown", false)]
         public void HasEncounterConfigurationValidatesRequiredValues(
             string sceneName,
             string spawnId,
-            string monsterName,
-            int monsterHp,
+            string monsterId,
             bool expected)
         {
             bool valid = BattleEncounterInteractable2D.HasEncounterConfiguration(
                 sceneName,
                 spawnId,
-                monsterName,
-                monsterHp);
+                monsterId);
 
             Assert.That(valid, Is.EqualTo(expected));
         }

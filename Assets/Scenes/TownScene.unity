@@ -594,12 +594,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: AngelBladeRPG.Runtime::BattleEncounterInteractable2D
   battleSceneName: BattleScene
   returnSpawnId: TownAfterBattle
-  monsterName: Goblin
-  monsterHp: 35
-  monsterAttack: 8
-  monsterDefense: 1
-  goldReward: 10
-  xpReward: 15
+  monsterId: monster_goblin
 --- !u!61 &548668886
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1129,12 +1124,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: AngelBladeRPG.Runtime::BattleEncounterInteractable2D
   battleSceneName: BattleScene
   returnSpawnId: TownAfterBattle
-  monsterName: Ogre
-  monsterHp: 100
-  monsterAttack: 30
-  monsterDefense: 20
-  goldReward: 20
-  xpReward: 25
+  monsterId: monster_ogre
 --- !u!61 &740083472
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3132,6 +3122,7 @@ MonoBehaviour:
   interactionOrigin: {fileID: 0}
   interactionDistance: 0.65
   interactionRadius: 0.35
+  minimumFacingAlignment: 0.5
   interactionLayers:
     serializedVersion: 2
     m_Bits: 4294967295

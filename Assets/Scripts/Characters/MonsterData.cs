@@ -1,5 +1,6 @@
 public class MonsterData
 {
+    public string Id;
     public string Name;
     public int GoldReward;
     public int XPReward;
@@ -32,7 +33,35 @@ public class MonsterData
         int maxMp = 0,
         int magicPower = 0,
         int magicDefense = 0)
+        : this(
+            name,
+            name,
+            hp,
+            attack,
+            defense,
+            goldReward,
+            xpReward,
+            speed,
+            maxMp,
+            magicPower,
+            magicDefense)
     {
+    }
+
+    public MonsterData(
+        string id,
+        string name,
+        int hp,
+        int attack,
+        int defense,
+        int goldReward,
+        int xpReward,
+        int speed,
+        int maxMp,
+        int magicPower,
+        int magicDefense)
+    {
+        Id = id;
         Name = name;
         Stats = new CombatantStats(
             hp,
