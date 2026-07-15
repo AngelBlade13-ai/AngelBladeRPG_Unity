@@ -3,6 +3,7 @@ public class GameSession
     public PlayerData Player { get; private set; }
     public MonsterData Monster { get; private set; }
     public bool BattleIsOver { get; private set; }
+    public BattleOutcome BattleOutcome { get; private set; }
 
     public bool HasPlayer
     {
@@ -17,6 +18,7 @@ public class GameSession
     public GameSession()
     {
         BattleIsOver = true;
+        BattleOutcome = BattleOutcome.None;
     }
 
     public bool TryStartNewGame(string playerName)
@@ -29,18 +31,21 @@ public class GameSession
         Player = new PlayerData(playerName.Trim());
         Monster = null;
         BattleIsOver = true;
+        BattleOutcome = BattleOutcome.None;
         return true;
     }
 
     public bool StartBattle(MonsterData newMonster)
     {
-        if (Player == null || Player.CurrentHp <= 0 || newMonster == null)
+        if (Player == null || Player.CurrentHp <= 0 || newMonster == null ||
+            HasActiveBattle)
         {
             return false;
         }
 
         Monster = newMonster;
         BattleIsOver = false;
+        BattleOutcome = BattleOutcome.InProgress;
         return true;
     }
 
@@ -56,6 +61,7 @@ public class GameSession
         Player.Gold += Monster.GoldReward;
         bool playerLeveledUp = Player.GainXP(Monster.XPReward);
         BattleIsOver = true;
+        BattleOutcome = BattleOutcome.Victory;
 
         rewards = new BattleRewardResult(
             Monster.GoldReward,
@@ -67,11 +73,33 @@ public class GameSession
 
     public void CompleteDefeat()
     {
-        if (Player != null && Player.CurrentHp <= 0)
+        if (HasActiveBattle && Player.CurrentHp <= 0)
         {
             BattleIsOver = true;
+            BattleOutcome = BattleOutcome.Defeat;
         }
     }
+
+    public bool TryEscapeBattle()
+    {
+        if (!HasActiveBattle)
+        {
+            return false;
+        }
+
+        BattleIsOver = true;
+        BattleOutcome = BattleOutcome.Escaped;
+        return true;
+    }
+}
+
+public enum BattleOutcome
+{
+    None,
+    InProgress,
+    Victory,
+    Defeat,
+    Escaped
 }
 
 public class BattleRewardResult

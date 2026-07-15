@@ -10,7 +10,7 @@ For deeper handoff notes and detailed Unity Editor setup steps, see `PROJECT_HAN
 - Towns and world areas are physical Tilemap-based spaces, not menus represented by full-screen panels.
 - Combat is turn-based and presented in a separate battle scene, inspired by older `Final Fantasy` games.
 - Entering combat transitions from exploration into battle; victory or escape returns the party to the appropriate world location.
-- Existing title, character-creation, town, and battle panels are prototype UI. Their gameplay rules remain useful, but `TownPanel` and `BattlePanel` are not the final presentation architecture.
+- Title and character creation remain in the setup scene. The former `TownPanel` and `BattlePanel` prototypes have been replaced by dedicated exploration and battle scenes.
 
 ## Current Progress
 
@@ -23,6 +23,8 @@ For deeper handoff notes and detailed Unity Editor setup steps, see `PROJECT_HAN
 - [x] Shared game state through `GameSession`.
 - [x] Character creation with player name entry.
 - [x] Core Edit Mode gameplay test foundation.
+- [x] Walkable town, world interactions, and scene doors.
+- [x] Separate turn-based battle scene with victory, defeat, and escape.
 
 ## Completed Milestones
 
@@ -147,7 +149,7 @@ Branch: `feature/walkable-town`
 
 Unity Editor setup and Play Mode checks: `WALKABLE_TOWN_SETUP.md`.
 
-## Latest Completed Milestone
+## Completed Milestone 10
 
 ### 10. World Interaction System
 
@@ -166,18 +168,31 @@ Branch: `feature/world-interactions`
 
 Unity Editor setup and Play Mode checks: `WORLD_INTERACTION_SETUP.md` and `WORLD_TRANSITION_SETUP.md`.
 
-## Next Milestone
+## Latest Completed Milestone
 
 ### 11. Separate Turn-Based Battle Scene
 
-- [ ] Create a dedicated battle scene rather than a battle panel inside the town scene.
-- [ ] Transfer the active party and encounter data into the battle scene.
-- [ ] Present classic turn-based commands, combatants, battle text, and rewards.
-- [ ] Return to the correct exploration scene and position after victory or escape.
-- [ ] Keep the existing tested combat math and reward rules as the initial battle foundation.
-- [ ] Decide separately whether encounters begin through visible enemies, random steps, or scripted triggers.
+Branch: `feature/separate-battle-scene`
 
-## Planned Architecture Milestone
+- [x] Add explicit in-progress, victory, defeat, and escaped outcomes.
+- [x] Add escape handling without granting rewards.
+- [x] Add one-time battle return scene and spawn storage.
+- [x] Add a reusable exploration encounter interactable in code.
+- [x] Add a dedicated battle-scene controller in code.
+- [x] Create a dedicated battle scene rather than a battle panel inside the town scene.
+- [x] Transfer the active player and encounter data into the battle scene.
+- [x] Present classic turn-based commands, combatants, battle text, and rewards.
+- [x] Return to the correct exploration scene and position after victory or escape.
+- [x] Keep the existing tested combat math and reward rules as the initial battle foundation.
+- [x] Use visible interactable encounters for the deterministic prototype while leaving the final encounter policy open.
+- [x] Remove the obsolete `TownPanel` and `BattlePanel` scene flow.
+- [x] Require interactable targets to be in the player's facing direction.
+- [x] Run all Edit Mode tests in Unity `6000.5.3f1`: 60 passed, 0 failed.
+- [x] Complete the full title, town, interaction, victory, escape, defeat, and return Play Mode check.
+
+Unity Editor setup and Play Mode checks: `BATTLE_SCENE_SETUP.md`.
+
+## Next Milestone
 
 ### 12. Jobs, Characters, And Party Data
 
@@ -206,8 +221,8 @@ Keep these as separate milestones unless a later design decision combines them.
 - [x] Build the pixel-world movement and camera foundation.
 - [ ] Add final 2D player movement sprites and directional animations.
 - [ ] Replace the temporary direction indicator with directional pixel sprites and an Animator Controller when suitable character art is available.
-- [ ] Replace the town panel with a walkable Tilemap town.
-- [ ] Replace the battle panel with a separate turn-based battle scene.
+- [x] Replace the town panel with a walkable Tilemap town.
+- [x] Replace the battle panel with a separate turn-based battle scene.
 - [ ] Add multiple enemy types after the basic flow is stable.
 - [ ] Add the job/class and party-data foundation.
 - [ ] Add healing/resting in town.

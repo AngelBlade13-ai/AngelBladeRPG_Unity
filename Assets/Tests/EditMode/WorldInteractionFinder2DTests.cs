@@ -34,7 +34,10 @@ namespace AngelBladeRPG.Tests
             IWorldInteractable result = WorldInteractionFinder2D.FindNearest(
                 candidates,
                 Vector2.zero,
-                interactor);
+                interactor,
+                Vector2.zero,
+                Vector2.right,
+                0.5f);
 
             Assert.That(result, Is.SameAs(near));
         }
@@ -57,9 +60,64 @@ namespace AngelBladeRPG.Tests
             IWorldInteractable result = WorldInteractionFinder2D.FindNearest(
                 candidates,
                 Vector2.zero,
-                interactor);
+                interactor,
+                Vector2.zero,
+                Vector2.right,
+                0.5f);
 
             Assert.That(result, Is.SameAs(available));
+        }
+
+        [Test]
+        public void FindNearestSkipsInteractableBesideFacingDirection()
+        {
+            GameObject interactor = CreateObject("Player", Vector2.zero);
+            TestInteractable beside = CreateInteractable("Beside", Vector2.up);
+            Collider2D[] candidates =
+            {
+                beside.GetComponent<Collider2D>()
+            };
+
+            IWorldInteractable result = WorldInteractionFinder2D.FindNearest(
+                candidates,
+                Vector2.right * 0.65f,
+                interactor,
+                Vector2.zero,
+                Vector2.right,
+                0.5f);
+
+            Assert.That(result, Is.Null);
+        }
+
+        [Test]
+        public void FindNearestAcceptsInteractableInFacingDirection()
+        {
+            GameObject interactor = CreateObject("Player", Vector2.zero);
+            TestInteractable ahead = CreateInteractable("Ahead", Vector2.up);
+            Collider2D[] candidates =
+            {
+                ahead.GetComponent<Collider2D>()
+            };
+
+            IWorldInteractable result = WorldInteractionFinder2D.FindNearest(
+                candidates,
+                Vector2.up * 0.65f,
+                interactor,
+                Vector2.zero,
+                Vector2.up,
+                0.5f);
+
+            Assert.That(result, Is.SameAs(ahead));
+        }
+
+        [Test]
+        public void CardinalFacingUsesDominantMovementAxis()
+        {
+            Vector2 direction =
+                PlayerInteraction2D.GetCardinalFacingDirection(
+                    new Vector2(0.9f, 0.4f));
+
+            Assert.That(direction, Is.EqualTo(Vector2.right));
         }
 
         private GameObject CreateObject(string name, Vector2 position)

@@ -62,14 +62,14 @@ Names are provisional, but responsibilities should remain separate.
 - Character-name validation, leveling, rewards, and duplicate-reward prevention remain valid.
 - Edit Mode tests protect these rules while presentation and scenes change.
 
-## Prototype Elements To Replace
+## Replaced Prototype Elements
 
-- `TownPanel` is a temporary stand-in for an explorable town.
-- `BattlePanel` is a temporary stand-in for a dedicated battle scene.
-- `GameManager` panel switching is prototype flow control and should not become the permanent world-navigation architecture.
-- The current fixed Goblin button flow should become an encounter trigger that supplies encounter data to the battle transition.
+- `TownPanel` was replaced by the walkable `TownScene`.
+- `BattlePanel` was replaced by the dedicated `BattleScene`.
+- `GameManager` now handles only title and character-creation setup flow.
+- Visible prototype encounters now supply monster and return data to the battle transition.
 
-Replace these incrementally. Do not remove a working prototype until its replacement can complete the same basic loop.
+The tested gameplay rules survived the presentation change while the obsolete scene objects were removed.
 
 ## Near-Term Technical Boundaries
 

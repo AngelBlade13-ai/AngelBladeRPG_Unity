@@ -16,6 +16,7 @@ namespace AngelBladeRPG.Tests
             Assert.That(started, Is.False);
             Assert.That(session.HasPlayer, Is.False);
             Assert.That(session.BattleIsOver, Is.True);
+            Assert.That(session.BattleOutcome, Is.EqualTo(BattleOutcome.None));
         }
 
         [Test]
@@ -30,6 +31,7 @@ namespace AngelBladeRPG.Tests
             Assert.That(session.Monster, Is.Null);
             Assert.That(session.BattleIsOver, Is.True);
             Assert.That(session.HasActiveBattle, Is.False);
+            Assert.That(session.BattleOutcome, Is.EqualTo(BattleOutcome.None));
         }
 
         [Test]
@@ -59,6 +61,9 @@ namespace AngelBladeRPG.Tests
             Assert.That(session.Monster, Is.SameAs(monster));
             Assert.That(session.BattleIsOver, Is.False);
             Assert.That(session.HasActiveBattle, Is.True);
+            Assert.That(
+                session.BattleOutcome,
+                Is.EqualTo(BattleOutcome.InProgress));
         }
 
         [Test]
@@ -94,6 +99,9 @@ namespace AngelBladeRPG.Tests
             Assert.That(session.Player.XP, Is.EqualTo(15));
             Assert.That(session.BattleIsOver, Is.True);
             Assert.That(session.HasActiveBattle, Is.False);
+            Assert.That(
+                session.BattleOutcome,
+                Is.EqualTo(BattleOutcome.Victory));
 
             Assert.That(secondCompletion, Is.False);
             Assert.That(duplicateRewards, Is.Null);
@@ -131,6 +139,42 @@ namespace AngelBladeRPG.Tests
 
             Assert.That(session.BattleIsOver, Is.True);
             Assert.That(session.HasActiveBattle, Is.False);
+            Assert.That(
+                session.BattleOutcome,
+                Is.EqualTo(BattleOutcome.Defeat));
+        }
+
+        [Test]
+        public void TryEscapeBattleEndsActiveBattleWithoutRewards()
+        {
+            GameSession session = CreateSessionWithPlayer();
+            session.StartBattle(CreateGoblin());
+
+            bool escaped = session.TryEscapeBattle();
+
+            Assert.That(escaped, Is.True);
+            Assert.That(session.HasActiveBattle, Is.False);
+            Assert.That(session.BattleIsOver, Is.True);
+            Assert.That(
+                session.BattleOutcome,
+                Is.EqualTo(BattleOutcome.Escaped));
+            Assert.That(session.Player.Gold, Is.Zero);
+            Assert.That(session.Player.XP, Is.Zero);
+        }
+
+        [Test]
+        public void StartBattleDoesNotReplaceActiveMonster()
+        {
+            GameSession session = CreateSessionWithPlayer();
+            MonsterData goblin = CreateGoblin();
+            MonsterData replacement =
+                new MonsterData("Ogre", 50, 12, 3, 20, 25);
+            session.StartBattle(goblin);
+
+            bool replaced = session.StartBattle(replacement);
+
+            Assert.That(replaced, Is.False);
+            Assert.That(session.Monster, Is.SameAs(goblin));
         }
 
         private static GameSession CreateSessionWithPlayer()
