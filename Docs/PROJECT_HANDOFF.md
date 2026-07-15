@@ -25,9 +25,9 @@ The existing full-screen town and battle panels are useful prototypes for gamepl
 
 Current local state:
 
-- Active branch: `feature/job-party-data`
+- Active branch: `feature/core-combat-expansion`
 - The feature branch is local and does not have an upstream branch yet.
-- Latest pushed feature commit: `7c1c767 Add separate turn-based battle scene`
+- Latest pushed feature commit: `9909593 Add persistent roster history`
 - Local `main` latest commit: `92f04da Document job and party system design`
 - Remote `origin/main` latest commit: `08e8240 Add shared RPG game state`
 - Character creation, walkable exploration, world interactions, the separate battle-scene loop, and the first job/roster data slice are complete locally.
@@ -317,7 +317,7 @@ The Edit Mode suite covers:
 - Level-up reward feedback
 - Starting and ending battle state
 
-The original core suite ran successfully in Unity `6000.5.3f1` on July 14, 2026: 18 passed, 0 failed. The current suite contains 95 passing tests after adding pixel-world movement, camera, temporary direction-indicator, walkable-town foundation, directional world interaction, door-transition, battle-scene, job, affinity, party-roster, authored party-member, speed-based turn-order, bond, and roster-history coverage. Run instructions are in `Docs/TESTING.md`.
+The original core suite ran successfully in Unity `6000.5.3f1` on July 14, 2026: 18 passed, 0 failed. The current suite contains 102 passing tests after adding pixel-world movement, camera, temporary direction-indicator, walkable-town foundation, directional world interaction, door-transition, battle-scene, job, affinity, party-roster, authored party-member, speed-based turn-order, bond, roster-history, and shared combat-stat coverage. Run instructions are in `Docs/TESTING.md`.
 
 There was previously a stale generated `.csproj` reference to the missing file `Assets/Editor/HubForceResolve.cs`. Unity itself successfully compiled the gameplay scripts. Generated Unity project files should remain ignored and can be regenerated rather than manually maintained.
 
@@ -532,7 +532,7 @@ For learning and automation, introduce a new Unity concept manually the first ti
 5. Open the project using Unity `6000.5.3f1`.
 6. Open `Assets/Scenes/MainGameScene.unity`.
 7. Run the Edit Mode suite using `Docs/TESTING.md`.
-8. Confirm all 95 tests pass.
+8. Confirm all 102 tests pass.
 9. Run the character-creation Play Mode checklist if the Unity version or scene changes.
 10. Review the completed Unity Editor checklist in `Docs/PIXEL_WORLD_SETUP.md` when changing the exploration foundation.
 

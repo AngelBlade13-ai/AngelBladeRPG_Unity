@@ -6,12 +6,7 @@ public class SimpleBattleSystem
     {
         int damage = Mathf.Max(1, player.Attack - monster.Defense);
 
-        monster.CurrentHp -= damage;
-
-        if (monster.CurrentHp < 0)
-        {
-            monster.CurrentHp = 0;
-        }
+        monster.Stats.ApplyDamage(damage);
 
         return $"{player.Name} attacks {monster.Name} for {damage} damage.";
     }
@@ -20,12 +15,7 @@ public class SimpleBattleSystem
     {
         int damage = Mathf.Max(1, monster.Attack - player.Defense);
 
-        player.CurrentHp -= damage;
-
-        if (player.CurrentHp < 0)
-        {
-            player.CurrentHp = 0;
-        }
+        player.Stats.ApplyDamage(damage);
 
         return $"{monster.Name} attacks {player.Name} for {damage} damage.";
     }

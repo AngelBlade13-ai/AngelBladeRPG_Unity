@@ -217,7 +217,12 @@ Branch: `feature/job-party-data`
 
 ### 13. Core Combat Expansion
 
-- [ ] Define reusable combatant stats needed by jobs and multi-character battles, including speed and magic resources.
+Branch: `feature/core-combat-expansion`
+
+- [x] Define reusable combatant stats needed by jobs and multi-character battles, including speed and magic resources.
+- [x] Preserve existing leveling, physical damage, rewards, and battle-scene behavior through compatibility properties.
+- [x] Run all Edit Mode tests in Unity `6000.5.3f1`: 102 passed, 0 failed.
+- [x] Complete a Play Mode victory and reward regression using the shared stat model.
 - [ ] Add reusable monster definitions and a small initial monster roster.
 - [ ] Integrate speed-based ordering into battle sequencing without showing a turn queue.
 - [ ] Add accuracy, misses, critical hits, blocking, and improved escape rules in focused slices.
