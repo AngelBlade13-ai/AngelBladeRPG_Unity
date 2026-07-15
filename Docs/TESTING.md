@@ -12,9 +12,9 @@ The core gameplay tests are Unity Edit Mode tests. They exercise plain gameplay 
 
 The test assembly is `AngelBladeRPG.EditModeTests` under `Assets/Tests/EditMode`.
 
-Verified on July 15, 2026 with Unity `6000.5.3f1`: 90 passed, 0 failed.
+Verified on July 15, 2026 with Unity `6000.5.3f1`: 95 passed, 0 failed.
 
-The current suite includes 18 core gameplay tests, five pixel-world movement and camera tests, five temporary direction-indicator tests, four walkable-town foundation tests, seven interaction tests, eight door-transition tests, 13 battle-scene tests, 15 job, affinity, and party-roster tests, 10 authored party-member tests, and five speed-based turn-order tests.
+The current suite includes 18 core gameplay tests, five pixel-world movement and camera tests, five temporary direction-indicator tests, four walkable-town foundation tests, seven interaction tests, eight door-transition tests, 13 battle-scene tests, 15 job, affinity, and party-roster tests, 10 authored party-member tests, five speed-based turn-order tests, and five bond and roster-history tests.
 
 ### Fastest Development Workflow
 

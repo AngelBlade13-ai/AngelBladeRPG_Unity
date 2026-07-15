@@ -80,4 +80,39 @@ public class PartyRoster
         activeCharacterIds.Remove(character.Id);
         return true;
     }
+
+    public void RecordBattleParticipation()
+    {
+        HashSet<string> activeIds =
+            new HashSet<string>(activeCharacterIds);
+
+        foreach (PlayableCharacterData character in characters.Values)
+        {
+            if (character.IsAvailable)
+            {
+                character.RosterHistory.RecordBattleParticipation(
+                    activeIds.Contains(character.Id));
+            }
+        }
+    }
+
+    public bool TryAddBondPoints(
+        string firstCharacterId,
+        string secondCharacterId,
+        int points)
+    {
+        PlayableCharacterData first = GetCharacter(firstCharacterId);
+        PlayableCharacterData second = GetCharacter(secondCharacterId);
+
+        if (first == null || second == null ||
+            !first.IsAvailable || !second.IsAvailable ||
+            first == second || points <= 0)
+        {
+            return false;
+        }
+
+        first.RosterHistory.TryAddBondPoints(second.Id, points);
+        second.RosterHistory.TryAddBondPoints(first.Id, points);
+        return true;
+    }
 }

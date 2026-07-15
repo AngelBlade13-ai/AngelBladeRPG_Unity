@@ -89,6 +89,8 @@ The initial data model should leave room for:
 
 These systems are lower priority and do not need to ship with the first job implementation.
 
+The foundation now stores active-battle count, benched-battle count, consecutive benched battles, and symmetric bond points on persistent character records. It does not yet assign gameplay bonuses to those values.
+
 ## Permanent Roster Removal Constraint
 
 Damari (`pc_02`) is planned to leave the roster permanently at a fixed story point. The reason and other story details are intentionally not recorded here.

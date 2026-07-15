@@ -317,7 +317,7 @@ The Edit Mode suite covers:
 - Level-up reward feedback
 - Starting and ending battle state
 
-The original core suite ran successfully in Unity `6000.5.3f1` on July 14, 2026: 18 passed, 0 failed. The current suite contains 90 passing tests after adding pixel-world movement, camera, temporary direction-indicator, walkable-town foundation, directional world interaction, door-transition, battle-scene, job, affinity, party-roster, authored party-member, and speed-based turn-order coverage. Run instructions are in `Docs/TESTING.md`.
+The original core suite ran successfully in Unity `6000.5.3f1` on July 14, 2026: 18 passed, 0 failed. The current suite contains 95 passing tests after adding pixel-world movement, camera, temporary direction-indicator, walkable-town foundation, directional world interaction, door-transition, battle-scene, job, affinity, party-roster, authored party-member, speed-based turn-order, bond, and roster-history coverage. Run instructions are in `Docs/TESTING.md`.
 
 There was previously a stale generated `.csproj` reference to the missing file `Assets/Editor/HubForceResolve.cs`. Unity itself successfully compiled the gameplay scripts. Generated Unity project files should remain ignored and can be regenerated rather than manually maintained.
 
@@ -365,7 +365,7 @@ There was previously a stale generated `.csproj` reference to the missing file `
 
 - [x] Implement the job and affinity foundation described in `Docs/JOB_CLASS_SYSTEM.md`
 - [x] Add party formation and reserve-roster rules
-- [ ] Support permanent roster removal and equipped-item loss rules
+- [x] Support permanent roster-removal state and record equipped-item loss as a mandatory inventory/save rule
 - [x] Keep job and party data independent from scene presentation
 
 ### Phase 6 — Core combat expansion
@@ -394,6 +394,7 @@ There was previously a stale generated `.csproj` reference to the missing file `
 - [ ] Accessory slot
 - [ ] Base stats plus equipment bonuses
 - [ ] Potions
+- [ ] Destroy a permanently removed character's equipped items exactly once without returning them to shared inventory
 - [ ] Inventory UI
 - [ ] Equipment comparisons
 
@@ -531,7 +532,7 @@ For learning and automation, introduce a new Unity concept manually the first ti
 5. Open the project using Unity `6000.5.3f1`.
 6. Open `Assets/Scenes/MainGameScene.unity`.
 7. Run the Edit Mode suite using `Docs/TESTING.md`.
-8. Confirm all 90 tests pass.
+8. Confirm all 95 tests pass.
 9. Run the character-creation Play Mode checklist if the Unity version or scene changes.
 10. Review the completed Unity Editor checklist in `Docs/PIXEL_WORLD_SETUP.md` when changing the exploration foundation.
 

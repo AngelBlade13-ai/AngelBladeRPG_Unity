@@ -17,6 +17,7 @@ public class PlayableCharacterData
     public string Name { get; }
     public JobId CurrentJob { get; private set; }
     public bool IsAvailable { get; private set; } = true;
+    public CharacterRosterHistory RosterHistory { get; }
 
     public PlayableCharacterData(
         string id,
@@ -41,6 +42,7 @@ public class PlayableCharacterData
         Id = id.Trim();
         Name = name.Trim();
         CurrentJob = startingJob;
+        RosterHistory = new CharacterRosterHistory(Id);
     }
 
     public bool TryAssignJob(JobId jobId)

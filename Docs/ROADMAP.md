@@ -168,7 +168,7 @@ Branch: `feature/world-interactions`
 
 Unity Editor setup and Play Mode checks: `WORLD_INTERACTION_SETUP.md` and `WORLD_TRANSITION_SETUP.md`.
 
-## Latest Completed Milestone
+## Completed Milestone 11
 
 ### 11. Separate Turn-Based Battle Scene
 
@@ -192,7 +192,7 @@ Branch: `feature/separate-battle-scene`
 
 Unity Editor setup and Play Mode checks: `BATTLE_SCENE_SETUP.md`.
 
-## Next Milestone
+## Latest Completed Milestone
 
 ### 12. Jobs, Characters, And Party Data
 
@@ -208,10 +208,21 @@ Branch: `feature/job-party-data`
 - [x] Record Reaver, Blood Mage, White Mage, and Paladin as tentative character affinities rather than locked classes.
 - [x] Add ID-keyed authored profiles for Iona, Damari, Enora, and Lysander without embedding full story content.
 - [x] Add permanent character-availability state and remove unavailable characters from the active party.
-- [x] Run all Edit Mode tests in Unity `6000.5.3f1`: 90 passed, 0 failed.
+- [x] Run all Edit Mode tests in Unity `6000.5.3f1`: 95 passed, 0 failed.
 - [x] Design internal speed-based turn order with random tie-breaking and no visible turn queue.
-- [ ] Leave extension points for bonds, roster rotation, and benched-character bonuses.
-- [ ] Ensure a permanently removed character's equipped gear is also permanently removed rather than returned to shared inventory.
+- [x] Track per-character battle usage, consecutive bench time, and symmetric bond points for future roster systems.
+- [x] Preserve permanent-removal state and carry mandatory equipped-item destruction forward as an inventory/save invariant.
+
+## Next Milestone
+
+### 13. Core Combat Expansion
+
+- [ ] Define reusable combatant stats needed by jobs and multi-character battles, including speed and magic resources.
+- [ ] Add reusable monster definitions and a small initial monster roster.
+- [ ] Integrate speed-based ordering into battle sequencing without showing a turn queue.
+- [ ] Add accuracy, misses, critical hits, blocking, and improved escape rules in focused slices.
+- [ ] Establish combat-action contracts for physical attacks, magic, healing, and future abilities.
+- [ ] Keep each new rule independently testable before expanding the battle UI.
 
 ## Story And Lore Timing
 
@@ -230,7 +241,7 @@ Keep these as separate milestones unless a later design decision combines them.
 - [x] Replace the town panel with a walkable Tilemap town.
 - [x] Replace the battle panel with a separate turn-based battle scene.
 - [ ] Add multiple enemy types after the basic flow is stable.
-- [ ] Add the job/class and party-data foundation.
+- [x] Add the job/class and party-data foundation.
 - [ ] Add healing/resting in town.
 - [ ] Add inventory, items, and shops.
 - [ ] Add saving and loading.
