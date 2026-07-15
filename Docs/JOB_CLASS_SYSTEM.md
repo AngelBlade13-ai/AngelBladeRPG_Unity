@@ -56,16 +56,16 @@ The exact formula should be selected during implementation and covered by tests 
 
 Initial implementation uses `0.9` for low affinity, `1.0` for neutral affinity, and `1.1` for high affinity. These values are intentionally conservative and can be rebalanced without changing job access or character identity.
 
-## Tentative Character Archetypes
+## Initial Party Member Profiles
 
-Four additional party members currently have natural archetypes. These represent likely high affinities and narrative combat flavor, not locked classes:
+Four additional party members currently have stable IDs and natural archetypes. These represent high affinities and combat flavor, not locked classes:
 
-- Reaver: durable under pressure and capable of increased damage while endangered.
-- Blood Mage: powerful magic paid for with the caster's own HP.
-- White Mage: dedicated healing and protective support.
-- Paladin: strong leadership flavor, front-line damage, durability, and limited healing.
+- `pc_01`, Iona (placeholder name): warm, steady, and others-first; naturally favors White Mage and keeping allies alive.
+- `pc_02`, Damari: chaotic, crude, and aggressive; naturally favors Reaver and trading caution for front-line damage.
+- `pc_03`, Enora: bold, dramatic, and drawn to risk; naturally favors Blood Mage, self-damaging magic, and a scythe.
+- `pc_04`, Lysander (placeholder name): measured, protective, and leadership-oriented; naturally favors Paladin and balanced protection, damage, and rallying support.
 
-Every one of these characters must still be able to equip and respec into every job. Stable character IDs, names, and the rest of their affinity profiles remain to be authored.
+Every one of these characters can still equip and respec into every job. Only each clearly stated natural job begins at high affinity; all unspecified affinities remain neutral until deliberately authored. Display-name changes must not change stable IDs or require save-data migration. Two additional roster positions remain open for future characters.
 
 ## Party And Turn Order
 
@@ -89,7 +89,7 @@ These systems are lower priority and do not need to ship with the first job impl
 
 ## Permanent Roster Removal Constraint
 
-One specific character is planned to leave the roster permanently at a fixed story point. The identity and story details are intentionally not recorded here.
+Damari (`pc_02`) is planned to leave the roster permanently at a fixed story point. The reason and other story details are intentionally not recorded here.
 
 - Every item equipped on that character when the event occurs must also be permanently removed.
 - Removed equipment must not return to shared inventory or become reassignable.
@@ -110,10 +110,9 @@ This is a deliberate gameplay consequence and must be considered during inventor
 
 ## Deferred Story Input
 
-No full lore is needed for the current milestone. When job affinities are ready to be authored, request only:
+The stable IDs, short personality notes, combat preferences, and initial natural-job affinities needed for the first four additional party members are now recorded. No full lore is needed for the current milestone. Still request only:
 
-- Playable character names or stable IDs.
-- A short personality and combat-preference summary for each character.
-- Intended high, neutral, and low job affinities.
+- Stable IDs, placeholder names, short personality notes, and combat preferences for the two remaining roster positions.
+- Any deliberate high or low affinities beyond the four natural-job affinities already recorded.
 
 Request full histories, relationships, factions, locations, plot events, and dialogue later during quests and world-content planning.

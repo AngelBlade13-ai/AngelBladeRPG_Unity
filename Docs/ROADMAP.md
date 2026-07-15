@@ -206,8 +206,9 @@ Branch: `feature/job-party-data`
 - [x] Model a roster of roughly 6-7 characters with 4 active battle slots.
 - [x] Keep character records independent from active party slots and future equipment ownership.
 - [x] Record Reaver, Blood Mage, White Mage, and Paladin as tentative character affinities rather than locked classes.
+- [x] Add ID-keyed authored profiles for Iona, Damari, Enora, and Lysander without embedding full story content.
 - [x] Add permanent character-availability state and remove unavailable characters from the active party.
-- [x] Run all Edit Mode tests in Unity `6000.5.3f1`: 75 passed, 0 failed.
+- [x] Run all Edit Mode tests in Unity `6000.5.3f1`: 85 passed, 0 failed.
 - [ ] Design speed-based turn order with random tie-breaking and no visible turn queue.
 - [ ] Leave extension points for bonds, roster rotation, and benched-character bonuses.
 - [ ] Ensure a permanently removed character's equipped gear is also permanently removed rather than returned to shared inventory.
