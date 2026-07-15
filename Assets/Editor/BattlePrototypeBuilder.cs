@@ -127,6 +127,11 @@ public static class BattlePrototypeBuilder
             new Vector3(3f, 3f, 0f),
             new Color(0.45f, 0.16f, 0.55f, 1f),
             "monster_ogre");
+        EnsureEncounter(
+            "BattleSpeedTestEncounter",
+            new Vector3(-3f, 3f, 0f),
+            new Color(0.16f, 0.7f, 0.78f, 1f),
+            "monster_wisp");
     }
 
     private static void EnsureEncounter(

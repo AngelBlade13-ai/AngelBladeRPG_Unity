@@ -19,12 +19,12 @@ public class BattleSceneController : MonoBehaviour
     [SerializeField] private GameObject continueButton;
 
     private GameSession session;
-    private SimpleBattleSystem battleSystem;
+    private BattleRoundResolver roundResolver;
 
     private void Start()
     {
         session = GameSessionStore.Current;
-        battleSystem = new SimpleBattleSystem();
+        roundResolver = new BattleRoundResolver();
 
         if (!session.HasActiveBattle)
         {
@@ -46,18 +46,19 @@ public class BattleSceneController : MonoBehaviour
 
         PlayerData player = session.Player;
         MonsterData monster = session.Monster;
-        string playerMessage = battleSystem.PlayerAttack(player, monster);
+        BattleRoundResult round =
+            roundResolver.ResolveAttackRound(player, monster);
+        string roundMessages = string.Join("\n", round.Messages);
 
-        if (monster.CurrentHp <= 0)
+        if (round.MonsterWasDefeated)
         {
-            CompleteVictory(playerMessage);
+            CompleteVictory(roundMessages);
             return;
         }
 
-        string monsterMessage = battleSystem.MonsterAttack(player, monster);
-        battleLogText.text = playerMessage + "\n" + monsterMessage;
+        battleLogText.text = roundMessages;
 
-        if (player.CurrentHp <= 0)
+        if (round.PlayerWasDefeated)
         {
             session.CompleteDefeat();
             battleLogText.text += "\nYou were defeated.";

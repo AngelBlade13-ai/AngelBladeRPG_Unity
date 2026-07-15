@@ -226,7 +226,9 @@ Branch: `feature/core-combat-expansion`
 - [x] Add ID-keyed Goblin, Ogre, Slime, and Wisp definitions that create independent runtime monsters.
 - [x] Run all Edit Mode tests after the monster roster slice: 112 passed, 0 failed.
 - [x] Migrate the town Goblin and Ogre encounters to catalog IDs and complete a Play Mode regression.
-- [ ] Integrate speed-based ordering into battle sequencing without showing a turn queue.
+- [x] Integrate speed-based ordering into battle sequencing without showing a turn queue.
+- [x] Run all Edit Mode tests after battle-round sequencing: 117 passed, 0 failed.
+- [x] Verify player-first and monster-first rounds in Play Mode using the Goblin, Ogre, and Wisp encounters.
 - [ ] Add accuracy, misses, critical hits, blocking, and improved escape rules in focused slices.
 - [ ] Establish combat-action contracts for physical attacks, magic, healing, and future abilities.
 - [ ] Keep each new rule independently testable before expanding the battle UI.
