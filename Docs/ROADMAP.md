@@ -7,7 +7,8 @@ systems.
 
 Detailed technical handoff notes live in `PROJECT_HANDOFF.md`. Product and scene
 direction lives in `GAMEPLAY_DIRECTION.md`. Job and roster constraints live in
-`JOB_CLASS_SYSTEM.md`.
+`JOB_CLASS_SYSTEM.md`. Demo narrative boundaries live in
+`DEMO_STORY_REFERENCE.md`.
 
 ## North Star
 
@@ -33,7 +34,7 @@ must feel like the opening of the real game, not like a mechanics test room.
 | Separate battle-scene loop | Complete |
 | Job, character, and party data foundation | Complete |
 | Core combat expansion | Complete |
-| Vertical-slice demo | Not started |
+| Vertical-slice demo | In progress (Milestone 14) |
 | Full-game production | Future |
 | Steam release candidate | Future |
 
@@ -200,12 +201,19 @@ Exit gate:
 
 Goal: decide exactly what the demo contains before building production content.
 
+- [x] Establish the demo's location progression as Town Square, Grassland, and
+  Cherry Blossom.
+- [x] Define the demo's tone progression and narrative knowledge boundaries.
+- [x] Separate the player-created protagonist from the four authored companion
+  identities.
+- [x] Record later-story material and systems that must remain outside the demo.
 - [ ] Choose the public game title and confirm a consistent project identity.
 - [ ] Choose the developer/publisher identity and check proposed public names
   for obvious store, domain, and trademark conflicts.
 - [ ] Write a one-paragraph player promise and a short feature hierarchy.
 - [ ] Define the demo's opening, objective, climax, and ending.
-- [ ] Select the demo location, route/dungeon, boss, NPCs, and party members.
+- [ ] Define the exact maps, NPC set, companion join order, and Cherry Blossom
+  boss within the selected demo regions.
 - [ ] Choose which jobs, abilities, items, and services appear in the demo.
 - [ ] Set the target playtime and create a scene/content list.
 - [ ] Decide visible, scripted, random, or hybrid encounter policy.
@@ -222,7 +230,8 @@ Exit gate:
 
 Story checkpoint: this is the point to provide the relevant world premise,
 opening plot, demo location, involved characters, factions, and desired tone.
-Full-game lore that does not affect the demo can remain deferred.
+The current authoritative input is recorded in `DEMO_STORY_REFERENCE.md`.
+Full-game lore that does not affect the demo remains deferred.
 
 ### Milestone 15: Party Battle And Job Gameplay
 

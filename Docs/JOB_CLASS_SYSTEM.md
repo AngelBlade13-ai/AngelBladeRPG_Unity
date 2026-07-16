@@ -67,10 +67,29 @@ Four additional party members currently have stable IDs and natural archetypes. 
 
 Every one of these characters can still equip and respec into every job. Only each clearly stated natural job begins at high affinity; all unspecified affinities remain neutral until deliberately authored. Display-name changes must not change stable IDs or require save-data migration. Two additional roster positions remain open for future characters.
 
+## Player-Created Protagonist
+
+The main character is a player-created protagonist and is separate from the
+authored companion records `pc_01` through `pc_04`.
+
+- Store the protagonist under a stable save-data identity that does not depend
+  on their display name or selected appearance.
+- Do not reuse a companion ID for the protagonist or treat a renamed companion
+  as the player character.
+- Limited cosmetic customization is planned, but the exact options remain a
+  Milestone 14 scope and art-budget decision.
+- The protagonist participates in the active battle party and should use the
+  same job-access rules unless a later explicit design decision says otherwise.
+- Keep protagonist appearance data separate from base combat data, current job,
+  equipment, and save progression.
+
 ## Party And Turn Order
 
 - Target four active party members in battle.
-- Support a total roster of roughly six or seven playable characters.
+- Support a flexible authored-companion roster rather than only the four known
+  profiles. Earlier planning estimated roughly six or seven playable
+  characters, but Milestone 14 must clarify whether that number includes the
+  player-created protagonist.
 - Do not store character data only in four active-slot records.
 - Turn order is based on speed.
 - Break equal-speed ties randomly.

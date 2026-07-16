@@ -14,6 +14,11 @@ This document defines the intended player experience so future systems support t
 
 The references describe interaction structure and presentation direction. They do not require copying either game's art, characters, rules, or content.
 
+The player controls a custom-created protagonist, not one of the authored
+companions. Character creation will eventually offer a deliberately limited set
+of pixel-character appearance choices. The protagonist's name and appearance
+must remain separate from stable save identity and companion IDs.
+
 ## Commercial Direction
 
 This project is intended to become a complete commercial PC game with an
@@ -31,6 +36,16 @@ demo that represents the opening experience of the real game.
   accessibility claims must always match the build players can actually use.
 
 The authoritative milestone and release gates are recorded in `ROADMAP.md`.
+
+## Demo World Direction
+
+The vertical-slice demo progresses through Town Square, Grassland, and Cherry
+Blossom. Town Square is the lively home hub; Grassland is an ordinary, healthy
+first adventure region; Cherry Blossom remains beautiful but introduces quiet
+unease and a gate into later full-game content.
+
+Story tone, location-specific boundaries, companion guidance, and explicit
+demo exclusions are recorded in `DEMO_STORY_REFERENCE.md`.
 
 ## Core Player Loop
 

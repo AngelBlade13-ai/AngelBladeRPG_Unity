@@ -1,6 +1,6 @@
 # AngelBlade RPG Unity — Project Handoff
 
-Last updated: July 15, 2026
+Last updated: July 16, 2026
 
 This document summarizes the planning, implementation, Git history, Unity Editor work, and next steps discussed while converting the original command-line RPG into a Unity 2D project.
 
@@ -20,6 +20,8 @@ The intended game is a 2D pixel-fantasy RPG with top-down exploration and moveme
 Combat should use a dedicated turn-based battle scene inspired by older `Final Fantasy` games. Entering an encounter transitions out of exploration; victory, defeat, or escape resolves the encounter and returns the player to the appropriate world location.
 
 The existing full-screen town and battle panels are useful prototypes for gameplay rules and flow. They are not the final presentation architecture. See `Docs/GAMEPLAY_DIRECTION.md` for the current product direction and scene responsibilities.
+
+The demo follows Town Square, Grassland, and Cherry Blossom. Its tone and lore boundaries are recorded in `Docs/DEMO_STORY_REFERENCE.md`. The main character is a custom-created protagonist and is not one of the authored companion IDs `pc_01` through `pc_04`; those records belong to Iona, Damari, Enora, and Lysander.
 
 ## Current Git state
 
