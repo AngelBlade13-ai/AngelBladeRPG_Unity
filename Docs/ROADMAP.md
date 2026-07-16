@@ -8,7 +8,8 @@ systems.
 Detailed technical handoff notes live in `PROJECT_HANDOFF.md`. Product and scene
 direction lives in `GAMEPLAY_DIRECTION.md`. Job and roster constraints live in
 `JOB_CLASS_SYSTEM.md`, with demo job availability and progression limits in
-`DEMO_JOB_TREE_SCOPE.md`. Demo narrative boundaries live in
+`DEMO_JOB_TREE_SCOPE.md` and the playable early trees in
+`DEMO_JOB_TREES.md`. Demo narrative boundaries live in
 `DEMO_STORY_REFERENCE.md`. The opening quest structure lives in
 `DEMO_QUEST_FLOW.md`, with field content in
 `DEMO_MAIN_QUEST_CONTENT.md` and Grassland battles in
@@ -249,8 +250,8 @@ Goal: decide exactly what the demo contains before building production content.
   limit owned by each job tree.
 - [ ] Define the exact maps, NPC set, and later companion use within the selected
   demo regions.
-- [ ] Define the exact early nodes, abilities, costs, and progression limit for
-  each demo job.
+- [x] Define the exact early nodes, abilities, JP costs, and progression limit
+  for each demo job.
 - [ ] Choose which items and town services appear in the demo.
 - [ ] Create the map, scene, quest, and content list for the agreed playtime.
 - [x] Use dedicated quest encounters alongside step-triggered ambient random

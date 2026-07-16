@@ -4,6 +4,9 @@ This document defines how the full job catalog appears in the vertical-slice
 demo. It supplements `JOB_CLASS_SYSTEM.md`; it does not define final abilities,
 balance values, or the full-game job trees.
 
+The approved early nodes, shared JP structure, and per-job demo endpoints are
+defined in `DEMO_JOB_TREES.md`.
+
 ## Demo Promise
 
 - All 12 catalog jobs are available as playable jobs in the demo.
@@ -69,18 +72,21 @@ Summoner is part of the demo catalog. Its first slice should use the smallest
 reliable summon behavior that demonstrates the job without requiring a general
 pet AI or creature-collection system.
 
-## Progression Questions Still Open
+## Resolved Progression Rules
 
-- The exact nodes and progression limit for each of the 12 jobs.
-- How job points are earned, priced, and banked after a character reaches a
-  demo limit.
-- Whether respecing learned nodes is free, paid, or unavailable in the demo.
-- Whether a character earns progress only for the equipped job or through an
-  additional shared source.
-- The exact lifetime, control rules, and action economy for the demo summon.
+- Each tree grants a free core trait and action, has two `1 JP` Tier 1 nodes,
+  and ends with one `2 JP` Tier 2 node in the demo.
+- JP is an unspent per-character currency that may be spent on any job and is
+  retained when a job reaches its demo limit.
+- Eligible victories grant JP to every available recruited character,
+  including benched characters; exact encounter awards remain balance data.
+- Purchased nodes are permanent in the demo. Job switching is free at the
+  Suncrest Hollow job service, while node refunds are not included.
+- The Ember Wisp is a temporary auxiliary combatant with fixed behavior rather
+  than a persistent pet or general-purpose AI character.
 
-These questions should be resolved together so point pacing is based on the
-number and cost of real nodes rather than an arbitrary level cap.
+Exact combat formulas, MP and HP costs, effect durations, and encounter JP
+awards remain balance work after multi-party simulation is available.
 
 ## Required Tests
 
@@ -91,4 +97,3 @@ number and cost of real nodes rather than an arbitrary level cap.
 - Progress belongs to persistent character IDs rather than active-party slots.
 - Stable job and node IDs survive display-name changes.
 - Invalid, duplicate, or cyclic node definitions fail validation.
-

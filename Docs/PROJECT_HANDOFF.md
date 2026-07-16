@@ -45,7 +45,10 @@ All 12 catalog jobs, including Summoner, are playable in the demo for the
 protagonist and every companion. Each tree has its own data-driven demo
 progression limit; affinity never restricts access, and learned nodes persist
 per character when jobs or party slots change. Exact nodes and point pacing are
-the next design pass. See `Docs/DEMO_JOB_TREE_SCOPE.md`.
+defined in `Docs/DEMO_JOB_TREES.md`: each job grants a core trait and action,
+then offers two `1 JP` Tier 1 nodes and one `2 JP` Tier 2 endpoint. JP is stored
+per character, may be spent on any job, and is not lost at a demo cap. See also
+`Docs/DEMO_JOB_TREE_SCOPE.md` for the broader boundary.
 
 ## Current Git state
 
