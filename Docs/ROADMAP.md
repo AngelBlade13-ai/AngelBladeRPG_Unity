@@ -1,4 +1,4 @@
-# AngelBlade RPG Product Roadmap
+# Petals in the Dusk Product Roadmap
 
 This roadmap guides `AngelBladeRPG_Unity` from its current prototype foundation
 to a public vertical-slice demo, then toward a complete commercial PC game. The
@@ -6,7 +6,9 @@ long-term goal is a full release on Steam, not a collection of disconnected RPG
 systems.
 
 Detailed technical handoff notes live in `PROJECT_HANDOFF.md`. Product and scene
-direction lives in `GAMEPLAY_DIRECTION.md`. Job and roster constraints live in
+direction lives in `GAMEPLAY_DIRECTION.md`. Public title, brand, and account
+boundaries live in `PRODUCT_IDENTITY.md`; the protected player promise lives in
+`PLAYER_PROMISE_FEATURE_HIERARCHY.md`. Job and roster constraints live in
 `JOB_CLASS_SYSTEM.md`, with demo job availability and progression limits in
 `DEMO_JOB_TREE_SCOPE.md` and the playable early trees in
 `DEMO_JOB_TREES.md`. Demo narrative boundaries live in
@@ -18,6 +20,9 @@ direction lives in `GAMEPLAY_DIRECTION.md`. Job and roster constraints live in
 `CHERRY_BLOSSOM_COMBAT_DESIGN.md`. Camp boundaries live in
 `CAMP_SYSTEM_DESIGN.md`. Optional demo quests live in `DEMO_SIDE_QUESTS.md`.
 The consolidated production inventory lives in `DEMO_CONTENT_MANIFEST.md`.
+Economy structure lives in `ITEM_EQUIPMENT_ECONOMY.md`. Contributor and asset
+clearance records live in `CONTRIBUTOR_AGREEMENT_TEMPLATE.md` and
+`ASSET_LICENSE_TRACKING.md`.
 
 ## North Star
 
@@ -43,7 +48,7 @@ must feel like the opening of the real game, not like a mechanics test room.
 | Separate battle-scene loop | Complete |
 | Job, character, and party data foundation | Complete |
 | Core combat expansion | Complete |
-| Vertical-slice demo | In progress (Milestone 14) |
+| Vertical-slice demo | In progress (Milestone 15) |
 | Full-game production | Future |
 | Steam release candidate | Future |
 
@@ -71,8 +76,7 @@ content-complete gate and production velocity is measurable.
 
 ## Demo Definition Of Done
 
-The demo scope will be locked in Milestone 14. Until then, use this provisional
-target:
+Milestone 14 locked the following demo target:
 
 - At least 90 minutes for a typical first playthrough, with a shorter critical
   path free from optional-quest or elapsed-time gates.
@@ -214,6 +218,8 @@ Exit gate:
 
 Goal: decide exactly what the demo contains before building production content.
 
+Status: Complete
+
 - [x] Establish the demo's location progression as Suncrest Hollow, Grassland, and
   Cherry Blossom.
 - [x] Define the demo's tone progression and narrative knowledge boundaries.
@@ -228,10 +234,13 @@ Goal: decide exactly what the demo contains before building production content.
   that complements rather than replaces Suncrest Hollow.
 - [x] Define the delayed-caravan opening, staged tutorial encounter, initial
   four-character party, three-main-quest boss unlock, and Lysander recruitment.
-- [ ] Choose the public game title and confirm a consistent project identity.
-- [ ] Choose the developer/publisher identity and check proposed public names
-  for obvious store, domain, and trademark conflicts.
-- [ ] Write a one-paragraph player promise and a short feature hierarchy.
+- [x] Choose `Petals in the Dusk` as the public title and preserve
+  `AngelBladeRPG_Unity` as the internal repository/assembly identity.
+- [x] Select individual/sole-proprietor Steamworks onboarding with
+  `Rawr! Studios` as the working public developer/publisher brand.
+- [x] Run a preliminary public-name screen, record similar `Rawr` studio brands,
+  and carry formal clearance or replacement into the public-identity gate.
+- [x] Write the one-paragraph player promise and protected feature hierarchy.
 - [x] Define the demo opening and first-region objective through the Goblin Boss.
 - [x] Name Suncrest Hollow's districts and define the three main quest postings,
   quest givers, narrative purposes, and Lysander breadcrumb sequence.
@@ -256,14 +265,14 @@ Goal: decide exactly what the demo contains before building production content.
 - [x] Add permanent cross-job stat nodes while keeping job traits, passives, and
   actions restricted to the currently equipped job.
 - [x] Define the required item families and town/settlement service roles.
-- [ ] Lock the exact demo item catalog, equipment restrictions, prices,
-  quantities, rewards, and inventory rules.
+- [x] Lock the one-currency, five-slot, eight-weapon-category, shared-job
+  compatibility, rarity, and no-required-grind economy structure.
 - [x] Create the map, scene, quest, and content list for the agreed playtime.
 - [x] Use dedicated quest encounters alongside step-triggered ambient random
   encounters as the default regional policy.
 - [x] Create a preliminary content budget for maps, sprites, portraits,
   animations, music, sound effects, dialogue, enemies, and UI screens.
-- [ ] Record content and asset ownership or license requirements.
+- [x] Record contributor-agreement and asset-license tracking requirements.
 - [x] Create a cut list of features explicitly deferred until after the demo.
 
 Exit gate:
@@ -280,6 +289,8 @@ Full-game lore that does not affect the demo remains deferred.
 ### Milestone 15: Party Battle And Job Gameplay
 
 Goal: make the job and party systems visible and meaningful during play.
+
+Status: In progress
 
 - [ ] Create runtime combatants for multiple active party members.
 - [ ] Add party targeting for allies and enemies.
@@ -383,6 +394,10 @@ slice.
 
 - [ ] Lock the pixel-art palette, sprite scale, animation dimensions, and UI
   style guide.
+- [ ] Clear or replace the working `Rawr! Studios` brand before commissioning
+  public logo, capsule, domain, or storefront identity assets.
+- [ ] Complete signed contributor agreements and asset-by-asset clearance
+  records for every production asset used in external builds.
 - [ ] Replace the movement indicator and colored encounter squares.
 - [ ] Add final demo character, enemy, environment, portrait, item, and battle
   assets.

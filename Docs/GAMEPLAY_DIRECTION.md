@@ -4,7 +4,9 @@ This document defines the intended player experience so future systems support t
 
 ## Product Identity
 
-`AngelBladeRPG_Unity` is intended to be a 2D pixel-fantasy RPG.
+**Petals in the Dusk** is intended to be a 2D pixel-fantasy RPG developed under
+the working public brand **Rawr! Studios**. `AngelBladeRPG_Unity` remains its
+internal repository and assembly identity.
 
 - Exploration uses top-down movement inspired by `Stardew Valley`.
 - Towns, interiors, paths, and world areas are physical spaces built from Tilemaps and sprites.
@@ -13,6 +15,13 @@ This document defines the intended player experience so future systems support t
 - The final game should not feel like a sequence of full-screen point-and-click menus.
 
 The references describe interaction structure and presentation direction. They do not require copying either game's art, characters, rules, or content.
+
+The protected player promise is that characters and relationships are the main
+draw, while exploration, jobs, and turn-based combat deepen connection to the
+party and changing world. Feature priorities and scope tests are recorded in
+`PLAYER_PROMISE_FEATURE_HIERARCHY.md`. Public/legal identity boundaries and the
+working brand's unresolved clearance risk are recorded in
+`PRODUCT_IDENTITY.md`.
 
 The player controls a custom-created protagonist, not one of the authored
 companions. Character creation will eventually offer a deliberately limited set
@@ -99,6 +108,10 @@ job to be equipped.
 The consolidated map, NPC, quest, companion-use, item-family, enemy, UI, asset,
 and explicit cut inventory for the vertical slice is recorded in
 `DEMO_CONTENT_MANIFEST.md`.
+
+The demo uses gold, five equipment slots, eight shared weapon categories, and
+plain item rarity names. The economy contract is recorded in
+`ITEM_EQUIPMENT_ECONOMY.md`.
 
 ## Core Player Loop
 

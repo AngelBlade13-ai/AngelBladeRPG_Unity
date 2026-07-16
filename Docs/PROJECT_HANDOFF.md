@@ -1,4 +1,4 @@
-# AngelBlade RPG Unity — Project Handoff
+# Petals in the Dusk Unity Project Handoff
 
 Last updated: July 16, 2026
 
@@ -10,6 +10,21 @@ This document summarizes the planning, implementation, Git history, Unity Editor
 - Original command-line RPG: https://github.com/AngelBlade13-ai/C-Object-Oriented-Programming-Final
 
 The goal is to reuse the original game's design and gameplay rules while rebuilding its presentation and architecture for Unity as a complete commercial PC RPG. The next production target is a polished vertical-slice demo, followed by full-game production and an eventual Steam release. The original project contains character progression, combat actions, status effects, randomized monsters, loot, inventory, equipment, shops, quests, saving/loading, locations, travel events, bosses, and death recovery.
+
+The public game title is **Petals in the Dusk**. The selected working public
+developer/publisher brand is **Rawr! Studios**, with Steamworks onboarding
+planned under the sole proprietor's legal name. A preliminary screen found
+several similar `Rawr` studio brands, so that working name requires clearance
+or replacement before public launch assets or accounts are finalized. Internal
+repository and assembly identifiers remain `AngelBladeRPG_Unity` and
+`AngelBladeRPG.Runtime`. See `Docs/PRODUCT_IDENTITY.md`.
+
+The player promise, protected feature hierarchy, equipment economy, contributor
+agreement draft, and asset-clearance workflow are recorded in
+`Docs/PLAYER_PROMISE_FEATURE_HIERARCHY.md`,
+`Docs/ITEM_EQUIPMENT_ECONOMY.md`,
+`Docs/CONTRIBUTOR_AGREEMENT_TEMPLATE.md`, and
+`Docs/ASSET_LICENSE_TRACKING.md`.
 
 The original `Program.cs` is a large console-oriented implementation. Its concepts should be migrated, but its monolithic structure should not be copied directly into Unity.
 

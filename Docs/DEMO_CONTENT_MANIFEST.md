@@ -322,20 +322,20 @@ must never be placed on the cut list without an explicit scope change.
 
 ## Remaining Decisions
 
-- Public game title, developer/publisher identity, player promise, and feature
-  hierarchy.
+- Clearance or replacement of the working `Rawr! Studios` public brand.
 - Exact Unity scene segmentation and production scene names.
 - Final protagonist customization categories and preset count.
 - Final names, appearances, portraits, and dialogue for unnamed NPC roles.
 - Whether Old Marlow or Captain Vashti gives the Cherry Blossom caravan request
   and final Goblin Boss authorization wording.
-- Final item list, statistics, prices, inventory rules, equipment restrictions,
-  rewards, and JP/XP/gold pacing.
+- Final item statistics, prices, quantities, drop rates, rewards, and
+  JP/XP/gold tuning under the locked economy structure.
 - Whether Cherry Blossom needs two ambient enemy roles after route playtesting.
 - Shared versus unique Hobgoblin, Goblin Boss, and Great Stag music.
 - Final map coordinates, population density, animation lists, dialogue count,
   and protagonist/companion art scope.
-- Asset creation, ownership, attribution, and third-party license records.
+- Completed contributor agreements and asset-by-asset clearance entries as
+  production assets are selected or created.
 
 ## Source Documents
 
@@ -350,3 +350,9 @@ must never be placed on the cut list without an explicit scope change.
 - `DEMO_JOB_TREE_SCOPE.md`
 - `DEMO_JOB_TREES.md`
 - `JOB_CLASS_SYSTEM.md`
+- `MILESTONE_14_DECISIONS.md`
+- `PRODUCT_IDENTITY.md`
+- `PLAYER_PROMISE_FEATURE_HIERARCHY.md`
+- `ITEM_EQUIPMENT_ECONOMY.md`
+- `CONTRIBUTOR_AGREEMENT_TEMPLATE.md`
+- `ASSET_LICENSE_TRACKING.md`

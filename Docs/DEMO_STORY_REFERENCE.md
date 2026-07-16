@@ -2,8 +2,8 @@
 
 This document is the authoritative narrative boundary for the public demo. It
 covers Suncrest Hollow and the first two traveled regions only. It should guide
-Milestone 14 planning, dialogue, environment art, encounters, and demo content
-without requiring full-game lore.
+dialogue, environment art, encounters, and demo production without requiring
+full-game lore.
 
 ## Narrative Guardrails
 
@@ -176,18 +176,22 @@ early dialogue and combat banter.
 - Any content beyond the Cherry Blossom progression gate.
 - The later teleport-crystal fast-travel system.
 
-## Milestone 14 Decisions Still Needed
+## Remaining Production Decisions
 
-- Public game title and developer or publisher identity.
-- One-paragraph player promise and feature hierarchy.
 - Final tuning for the three designed main quests and four optional side quests.
 - Final Great Stag balance and production assets.
 - Final companion dialogue after Lysander joins.
 - Exact protagonist customization categories and art budget.
-- Final demo item values, equipment set, prices, and service economy.
+- Final demo item statistics, prices, quantities, and reward tuning under the
+  locked economy structure.
 - Final Camp Ration economy, camp dialogue, and campsite layout.
 - Final dialogue count and asset-production estimates for the 90-minute-plus
   target. The required content inventory is in `DEMO_CONTENT_MANIFEST.md`.
+
+The public title, working developer identity, player promise, feature hierarchy,
+equipment structure, and asset-clearance process are recorded in
+`MILESTONE_14_DECISIONS.md`. The working `Rawr! Studios` brand still requires
+clearance or replacement before public use.
 
 Later lore should remain deferred until a milestone needs it. New story input
 should be added here only when it changes the public demo.
