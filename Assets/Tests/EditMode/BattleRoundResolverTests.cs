@@ -76,10 +76,74 @@ namespace AngelBladeRPG.Tests
             Assert.That(result.Messages[0], Does.StartWith("Goblin attacks"));
         }
 
+        [Test]
+        public void RoundExposesStructuredActionResults()
+        {
+            BattleRoundResult result = CreateResolver().ResolveAttackRound(
+                CreatePlayer(speed: 15),
+                CreateMonster(speed: 5));
+
+            Assert.That(result.Actions, Has.Count.EqualTo(2));
+            Assert.That(
+                result.Actions[0].Type,
+                Is.EqualTo(CombatActionType.PhysicalAttack));
+            Assert.That(result.Actions[0].Damage, Is.GreaterThan(0));
+        }
+
+        [Test]
+        public void DefendReducesMonsterDamageForOneRound()
+        {
+            PlayerData player = CreatePlayer(speed: 10);
+            MonsterData monster = CreateMonster(attack: 13, speed: 8);
+
+            BattleRoundResult result = CreateResolver().ResolveDefendRound(
+                player,
+                monster);
+
+            Assert.That(result.Actions[0].Type, Is.EqualTo(CombatActionType.Defend));
+            Assert.That(result.Actions[1].WasGuarded, Is.True);
+            Assert.That(result.Actions[1].Damage, Is.EqualTo(5));
+            Assert.That(player.CurrentHp, Is.EqualTo(95));
+        }
+
+        [Test]
+        public void SuccessfulEscapeDoesNotAllowMonsterAttack()
+        {
+            BattleRoundResolver resolver = new BattleRoundResolver(
+                tieBreaker: new MinimumIndexRandom(),
+                combatRandom: new AlwaysCombatRandom(true));
+
+            BattleRoundResult result = resolver.ResolveEscapeRound(
+                CreatePlayer(speed: 10),
+                CreateMonster(speed: 8));
+
+            Assert.That(result.EscapeSucceeded, Is.True);
+            Assert.That(result.Actions, Has.Count.EqualTo(1));
+        }
+
+        [Test]
+        public void FailedEscapeAllowsMonsterCounterattack()
+        {
+            PlayerData player = CreatePlayer(speed: 10);
+            BattleRoundResolver resolver = new BattleRoundResolver(
+                tieBreaker: new MinimumIndexRandom(),
+                combatRandom: new SequenceCombatRandom(false, true, false));
+
+            BattleRoundResult result = resolver.ResolveEscapeRound(
+                player,
+                CreateMonster(speed: 8));
+
+            Assert.That(result.EscapeSucceeded, Is.False);
+            Assert.That(result.Actions, Has.Count.EqualTo(2));
+            Assert.That(result.Actions[1].Type, Is.EqualTo(CombatActionType.PhysicalAttack));
+            Assert.That(player.CurrentHp, Is.LessThan(player.MaxHp));
+        }
+
         private static BattleRoundResolver CreateResolver()
         {
             return new BattleRoundResolver(
-                tieBreaker: new MinimumIndexRandom());
+                tieBreaker: new MinimumIndexRandom(),
+                combatRandom: new NormalHitCombatRandom());
         }
 
         private static PlayerData CreatePlayer(int speed)
@@ -109,6 +173,45 @@ namespace AngelBladeRPG.Tests
             public int NextIndex(int minimumInclusive, int maximumExclusive)
             {
                 return minimumInclusive;
+            }
+        }
+
+        private class NormalHitCombatRandom : ICombatRandom
+        {
+            public bool RollPercent(int chancePercent)
+            {
+                return chancePercent > 50;
+            }
+        }
+
+        private class AlwaysCombatRandom : ICombatRandom
+        {
+            private readonly bool result;
+
+            public AlwaysCombatRandom(bool result)
+            {
+                this.result = result;
+            }
+
+            public bool RollPercent(int chancePercent)
+            {
+                return result;
+            }
+        }
+
+        private class SequenceCombatRandom : ICombatRandom
+        {
+            private readonly bool[] results;
+            private int index;
+
+            public SequenceCombatRandom(params bool[] results)
+            {
+                this.results = results;
+            }
+
+            public bool RollPercent(int chancePercent)
+            {
+                return results[index++];
             }
         }
     }

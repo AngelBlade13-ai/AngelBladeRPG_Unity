@@ -31,6 +31,9 @@ namespace AngelBladeRPG.Tests
             Assert.That(monster.Name, Is.EqualTo(expectedName));
             Assert.That(monster.MaxHp, Is.GreaterThan(0));
             Assert.That(monster.XPReward, Is.GreaterThanOrEqualTo(0));
+            Assert.That(monster.Accuracy, Is.InRange(0, 100));
+            Assert.That(monster.Evasion, Is.InRange(0, 95));
+            Assert.That(monster.CriticalChance, Is.InRange(0, 100));
         }
 
         [Test]
@@ -75,12 +78,15 @@ namespace AngelBladeRPG.Tests
                 () => CreateDefinition(maxHp: 0));
             Assert.Throws<ArgumentOutOfRangeException>(
                 () => CreateDefinition(goldReward: -1));
+            Assert.Throws<ArgumentOutOfRangeException>(
+                () => CreateDefinition(accuracy: 101));
         }
 
         private static MonsterDefinition CreateDefinition(
             string id = "monster_test",
             int maxHp = 10,
-            int goldReward = 1)
+            int goldReward = 1,
+            int accuracy = 95)
         {
             return new MonsterDefinition(
                 id,
@@ -93,7 +99,8 @@ namespace AngelBladeRPG.Tests
                 0,
                 0,
                 goldReward,
-                1);
+                1,
+                accuracy: accuracy);
         }
     }
 }

@@ -11,6 +11,9 @@ public class MonsterDefinition
     public int MaxMp { get; }
     public int MagicPower { get; }
     public int MagicDefense { get; }
+    public int Accuracy { get; }
+    public int Evasion { get; }
+    public int CriticalChance { get; }
     public int GoldReward { get; }
     public int XPReward { get; }
 
@@ -25,7 +28,10 @@ public class MonsterDefinition
         int magicPower,
         int magicDefense,
         int goldReward,
-        int xpReward)
+        int xpReward,
+        int accuracy = 95,
+        int evasion = 5,
+        int criticalChance = 10)
     {
         if (string.IsNullOrWhiteSpace(id))
         {
@@ -54,6 +60,12 @@ public class MonsterDefinition
         ValidateNonNegative(magicDefense, nameof(magicDefense));
         ValidateNonNegative(goldReward, nameof(goldReward));
         ValidateNonNegative(xpReward, nameof(xpReward));
+        ValidatePercentage(accuracy, nameof(accuracy), 100);
+        ValidatePercentage(evasion, nameof(evasion), 95);
+        ValidatePercentage(
+            criticalChance,
+            nameof(criticalChance),
+            100);
 
         Id = id.Trim();
         DisplayName = displayName.Trim();
@@ -64,6 +76,9 @@ public class MonsterDefinition
         MaxMp = maxMp;
         MagicPower = magicPower;
         MagicDefense = magicDefense;
+        Accuracy = accuracy;
+        Evasion = evasion;
+        CriticalChance = criticalChance;
         GoldReward = goldReward;
         XPReward = xpReward;
     }
@@ -81,7 +96,10 @@ public class MonsterDefinition
             Speed,
             MaxMp,
             MagicPower,
-            MagicDefense);
+            MagicDefense,
+            Accuracy,
+            Evasion,
+            CriticalChance);
     }
 
     private static void ValidateNonNegative(int value, string parameterName)
@@ -91,6 +109,19 @@ public class MonsterDefinition
             throw new ArgumentOutOfRangeException(
                 parameterName,
                 "Monster values cannot be negative.");
+        }
+    }
+
+    private static void ValidatePercentage(
+        int value,
+        string parameterName,
+        int maximum)
+    {
+        if (value < 0 || value > maximum)
+        {
+            throw new ArgumentOutOfRangeException(
+                parameterName,
+                $"Monster percentage must be between 0 and {maximum}.");
         }
     }
 }

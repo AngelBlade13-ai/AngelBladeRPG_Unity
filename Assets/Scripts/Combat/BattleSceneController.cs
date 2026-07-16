@@ -15,6 +15,7 @@ public class BattleSceneController : MonoBehaviour
 
     [Header("Commands")]
     [SerializeField] private GameObject attackButton;
+    [SerializeField] private GameObject defendButton;
     [SerializeField] private GameObject escapeButton;
     [SerializeField] private GameObject continueButton;
 
@@ -56,27 +57,45 @@ public class BattleSceneController : MonoBehaviour
             return;
         }
 
-        battleLogText.text = roundMessages;
+        ShowRoundResult(round, roundMessages);
+        RefreshStatus();
+    }
 
-        if (round.PlayerWasDefeated)
+    public void Defend()
+    {
+        if (!session.HasActiveBattle)
         {
-            session.CompleteDefeat();
-            battleLogText.text += "\nYou were defeated.";
-            FinishBattle("Return to Title");
+            return;
         }
 
+        BattleRoundResult round = roundResolver.ResolveDefendRound(
+            session.Player,
+            session.Monster);
+        ShowRoundResult(round, string.Join("\n", round.Messages));
         RefreshStatus();
     }
 
     public void Escape()
     {
-        if (!session.TryEscapeBattle())
+        if (!session.HasActiveBattle)
         {
             return;
         }
 
-        battleLogText.text = "You escaped from battle.";
-        FinishBattle("Return");
+        BattleRoundResult round = roundResolver.ResolveEscapeRound(
+            session.Player,
+            session.Monster);
+        battleLogText.text = string.Join("\n", round.Messages);
+
+        if (round.EscapeSucceeded && session.CompleteEscape())
+        {
+            FinishBattle("Return");
+        }
+        else if (round.PlayerWasDefeated)
+        {
+            CompleteDefeat();
+        }
+
         RefreshStatus();
     }
 
@@ -116,6 +135,7 @@ public class BattleSceneController : MonoBehaviour
         TextMeshProUGUI battleLog,
         TextMeshProUGUI continueLabel,
         GameObject attackCommand,
+        GameObject defendCommand,
         GameObject escapeCommand,
         GameObject continueCommand)
     {
@@ -124,6 +144,7 @@ public class BattleSceneController : MonoBehaviour
         battleLogText = battleLog;
         continueButtonText = continueLabel;
         attackButton = attackCommand;
+        defendButton = defendCommand;
         escapeButton = escapeCommand;
         continueButton = continueCommand;
     }
@@ -171,8 +192,27 @@ public class BattleSceneController : MonoBehaviour
     private void SetCommandState(bool commandsAreActive)
     {
         attackButton.SetActive(commandsAreActive);
+        defendButton.SetActive(commandsAreActive);
         escapeButton.SetActive(commandsAreActive);
         continueButton.SetActive(false);
+    }
+
+    private void ShowRoundResult(
+        BattleRoundResult round,
+        string roundMessages)
+    {
+        battleLogText.text = roundMessages;
+        if (round.PlayerWasDefeated)
+        {
+            CompleteDefeat();
+        }
+    }
+
+    private void CompleteDefeat()
+    {
+        session.CompleteDefeat();
+        battleLogText.text += "\nYou were defeated.";
+        FinishBattle("Return to Title");
     }
 
     private void RefreshStatus()

@@ -38,10 +38,11 @@ public static class BattlePrototypeBuilder
 
         if (AssetDatabase.LoadAssetAtPath<SceneAsset>(BattleScenePath) != null)
         {
+            RepairBattleInterface(townScene);
             AddSceneToBuildList(BattleScenePath);
             EditorUtility.DisplayDialog(
                 "Placeholder Battle Scene",
-                "BattleScene already exists. The town encounter and return spawn were repaired without overwriting the battle scene.",
+                "BattleScene already exists. Encounters, return spawn, and combat commands were repaired without overwriting the scene.",
                 "OK");
             return;
         }
@@ -336,12 +337,18 @@ public static class BattlePrototypeBuilder
             TextAlignmentOptions.TopLeft);
         RectTransform logRect = battleLog.rectTransform;
         logRect.offsetMin = new Vector2(8f, 7f);
-        logRect.offsetMax = new Vector2(-116f, -7f);
+        logRect.offsetMax = new Vector2(-168f, -7f);
 
         GameObject attackButton = CreateButton(
             "AttackButton",
             commandBand.transform,
             "Attack",
+            new Vector2(1f, 0.5f),
+            new Vector2(-134f, 12f));
+        GameObject defendButton = CreateButton(
+            "DefendButton",
+            commandBand.transform,
+            "Defend",
             new Vector2(1f, 0.5f),
             new Vector2(-82f, 12f));
         GameObject escapeButton = CreateButton(
@@ -364,6 +371,9 @@ public static class BattlePrototypeBuilder
             attackButton.GetComponent<Button>().onClick,
             controller.Attack);
         UnityEventTools.AddPersistentListener(
+            defendButton.GetComponent<Button>().onClick,
+            controller.Defend);
+        UnityEventTools.AddPersistentListener(
             escapeButton.GetComponent<Button>().onClick,
             controller.Escape);
         UnityEventTools.AddPersistentListener(
@@ -377,8 +387,110 @@ public static class BattlePrototypeBuilder
             battleLog,
             continueLabel,
             attackButton,
+            defendButton,
             escapeButton,
             continueButton);
+    }
+
+    private static void RepairBattleInterface(Scene townScene)
+    {
+        Scene battleScene = EditorSceneManager.OpenScene(
+            BattleScenePath,
+            OpenSceneMode.Additive);
+        EditorSceneManager.SetActiveScene(battleScene);
+
+        BattleSceneController controller =
+            FindSceneObject(battleScene, "BattleController")
+                .GetComponent<BattleSceneController>();
+        Transform commandBand =
+            FindSceneObject(battleScene, "CommandBand");
+        GameObject attackButton =
+            FindSceneObject(battleScene, "AttackButton").gameObject;
+        Transform defendTransform =
+            FindSceneObject(battleScene, "DefendButton");
+        bool createdDefendButton = defendTransform == null;
+        GameObject defendButton = createdDefendButton
+            ? CreateButton(
+                "DefendButton",
+                commandBand,
+                "Defend",
+                new Vector2(1f, 0.5f),
+                new Vector2(-82f, 12f))
+            : defendTransform.gameObject;
+        GameObject escapeButton =
+            FindSceneObject(battleScene, "EscapeButton").gameObject;
+        GameObject continueButton =
+            FindSceneObject(battleScene, "ContinueButton").gameObject;
+        TextMeshProUGUI playerStatus =
+            FindSceneObject(battleScene, "PlayerStatusText")
+                .GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI monsterStatus =
+            FindSceneObject(battleScene, "MonsterStatusText")
+                .GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI battleLog =
+            FindSceneObject(battleScene, "BattleLogText")
+                .GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI continueLabel =
+            continueButton.GetComponentInChildren<TextMeshProUGUI>();
+
+        SetRect(
+            attackButton.GetComponent<RectTransform>(),
+            new Vector2(1f, 0.5f),
+            new Vector2(1f, 0.5f),
+            new Vector2(-134f, 12f),
+            new Vector2(48f, 22f),
+            new Vector2(0.5f, 0.5f));
+        SetRect(
+            defendButton.GetComponent<RectTransform>(),
+            new Vector2(1f, 0.5f),
+            new Vector2(1f, 0.5f),
+            new Vector2(-82f, 12f),
+            new Vector2(48f, 22f),
+            new Vector2(0.5f, 0.5f));
+        SetRect(
+            escapeButton.GetComponent<RectTransform>(),
+            new Vector2(1f, 0.5f),
+            new Vector2(1f, 0.5f),
+            new Vector2(-30f, 12f),
+            new Vector2(48f, 22f),
+            new Vector2(0.5f, 0.5f));
+        battleLog.rectTransform.offsetMax = new Vector2(-168f, -7f);
+
+        if (createdDefendButton)
+        {
+            UnityEventTools.AddPersistentListener(
+                defendButton.GetComponent<Button>().onClick,
+                controller.Defend);
+        }
+
+        controller.Configure(
+            playerStatus,
+            monsterStatus,
+            battleLog,
+            continueLabel,
+            attackButton,
+            defendButton,
+            escapeButton,
+            continueButton);
+
+        EditorSceneManager.MarkSceneDirty(battleScene);
+        EditorSceneManager.SaveScene(battleScene);
+        EditorSceneManager.SetActiveScene(townScene);
+        EditorSceneManager.CloseScene(battleScene, true);
+    }
+
+    private static Transform FindSceneObject(Scene scene, string objectName)
+    {
+        foreach (GameObject root in scene.GetRootGameObjects())
+        {
+            Transform result = FindChildByName(root.transform, objectName);
+            if (result != null)
+            {
+                return result;
+            }
+        }
+
+        return null;
     }
 
     private static GameObject CreateImage(

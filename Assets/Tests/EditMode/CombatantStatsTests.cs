@@ -92,6 +92,33 @@ namespace AngelBladeRPG.Tests
             Assert.That(monster.MagicDefense, Is.EqualTo(9));
         }
 
+        [Test]
+        public void AccuracyEvasionAndCriticalChanceAreClampedPercentages()
+        {
+            CombatantStats stats = CreateStats();
+
+            stats.Accuracy = 150;
+            stats.Evasion = -5;
+            stats.CriticalChance = 125;
+
+            Assert.That(stats.Accuracy, Is.EqualTo(100));
+            Assert.That(stats.Evasion, Is.Zero);
+            Assert.That(stats.CriticalChance, Is.EqualTo(100));
+        }
+
+        [Test]
+        public void PlayerAndMonsterExposeCombatRollStats()
+        {
+            PlayerData player = new PlayerData("Angel");
+            MonsterData monster = new MonsterData(
+                "Goblin", 35, 8, 1, 10, 15);
+
+            Assert.That(player.Accuracy, Is.EqualTo(95));
+            Assert.That(player.Evasion, Is.EqualTo(5));
+            Assert.That(player.CriticalChance, Is.EqualTo(10));
+            Assert.That(monster.Accuracy, Is.EqualTo(95));
+        }
+
         private static CombatantStats CreateStats()
         {
             return new CombatantStats(100, 12, 3, 10, 20, 8, 3);

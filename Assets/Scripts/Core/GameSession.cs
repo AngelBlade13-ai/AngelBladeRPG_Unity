@@ -80,7 +80,7 @@ public class GameSession
         }
     }
 
-    public bool TryEscapeBattle()
+    public bool CompleteEscape()
     {
         if (!HasActiveBattle)
         {

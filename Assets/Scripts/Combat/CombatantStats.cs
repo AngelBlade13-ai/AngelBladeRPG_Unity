@@ -11,6 +11,9 @@ public class CombatantStats
     private int currentMp;
     private int magicPower;
     private int magicDefense;
+    private int accuracy;
+    private int evasion;
+    private int criticalChance;
 
     public int MaxHp
     {
@@ -74,6 +77,24 @@ public class CombatantStats
         set { magicDefense = Math.Max(0, value); }
     }
 
+    public int Accuracy
+    {
+        get { return accuracy; }
+        set { accuracy = Clamp(value, 0, 100); }
+    }
+
+    public int Evasion
+    {
+        get { return evasion; }
+        set { evasion = Clamp(value, 0, 95); }
+    }
+
+    public int CriticalChance
+    {
+        get { return criticalChance; }
+        set { criticalChance = Clamp(value, 0, 100); }
+    }
+
     public CombatantStats(
         int maximumHp,
         int attack,
@@ -81,7 +102,10 @@ public class CombatantStats
         int speed,
         int maximumMp,
         int magicPower,
-        int magicDefense)
+        int magicDefense,
+        int accuracy = 95,
+        int evasion = 5,
+        int criticalChance = 10)
     {
         maxHp = Math.Max(1, maximumHp);
         currentHp = maxHp;
@@ -92,6 +116,9 @@ public class CombatantStats
         currentMp = maxMp;
         this.magicPower = Math.Max(0, magicPower);
         this.magicDefense = Math.Max(0, magicDefense);
+        this.accuracy = Clamp(accuracy, 0, 100);
+        this.evasion = Clamp(evasion, 0, 95);
+        this.criticalChance = Clamp(criticalChance, 0, 100);
     }
 
     public int ApplyDamage(int amount)

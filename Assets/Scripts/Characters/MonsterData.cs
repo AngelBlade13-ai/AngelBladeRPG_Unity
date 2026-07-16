@@ -1,10 +1,12 @@
-public class MonsterData
+public class MonsterData : ICombatant
 {
     public string Id;
     public string Name;
     public int GoldReward;
     public int XPReward;
     public CombatantStats Stats { get; }
+    public string CombatantId => Id;
+    public string DisplayName => Name;
 
     public int MaxHp => Stats.MaxHp;
 
@@ -21,6 +23,9 @@ public class MonsterData
     public int CurrentMp => Stats.CurrentMp;
     public int MagicPower => Stats.MagicPower;
     public int MagicDefense => Stats.MagicDefense;
+    public int Accuracy => Stats.Accuracy;
+    public int Evasion => Stats.Evasion;
+    public int CriticalChance => Stats.CriticalChance;
 
     public MonsterData(
         string name,
@@ -32,7 +37,10 @@ public class MonsterData
         int speed = 8,
         int maxMp = 0,
         int magicPower = 0,
-        int magicDefense = 0)
+        int magicDefense = 0,
+        int accuracy = 95,
+        int evasion = 5,
+        int criticalChance = 10)
         : this(
             name,
             name,
@@ -44,7 +52,10 @@ public class MonsterData
             speed,
             maxMp,
             magicPower,
-            magicDefense)
+            magicDefense,
+            accuracy,
+            evasion,
+            criticalChance)
     {
     }
 
@@ -59,7 +70,10 @@ public class MonsterData
         int speed,
         int maxMp,
         int magicPower,
-        int magicDefense)
+        int magicDefense,
+        int accuracy = 95,
+        int evasion = 5,
+        int criticalChance = 10)
     {
         Id = id;
         Name = name;
@@ -70,7 +84,10 @@ public class MonsterData
             speed,
             maxMp,
             magicPower,
-            magicDefense);
+            magicDefense,
+            accuracy,
+            evasion,
+            criticalChance);
         GoldReward = goldReward;
         XPReward = xpReward;
     }

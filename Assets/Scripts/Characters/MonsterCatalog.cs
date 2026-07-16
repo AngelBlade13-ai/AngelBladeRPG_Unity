@@ -19,7 +19,10 @@ public static class MonsterCatalog
                     0,
                     0,
                     10,
-                    15)
+                    15,
+                    accuracy: 90,
+                    evasion: 5,
+                    criticalChance: 5)
             },
             {
                 "monster_ogre",
@@ -34,7 +37,10 @@ public static class MonsterCatalog
                     0,
                     4,
                     20,
-                    25)
+                    25,
+                    accuracy: 85,
+                    evasion: 0,
+                    criticalChance: 10)
             },
             {
                 "monster_slime",
@@ -49,7 +55,10 @@ public static class MonsterCatalog
                     0,
                     0,
                     4,
-                    6)
+                    6,
+                    accuracy: 85,
+                    evasion: 0,
+                    criticalChance: 0)
             },
             {
                 "monster_wisp",
@@ -64,7 +73,10 @@ public static class MonsterCatalog
                     10,
                     9,
                     8,
-                    12)
+                    12,
+                    accuracy: 95,
+                    evasion: 15,
+                    criticalChance: 15)
             }
         };
 

@@ -1,22 +1,39 @@
-using UnityEngine;
-
 public class SimpleBattleSystem
 {
-    public string PlayerAttack(PlayerData player, MonsterData monster)
+    private readonly PhysicalAttackAction physicalAttack;
+    private readonly ICombatRandom random;
+
+    public SimpleBattleSystem(ICombatRandom random = null)
     {
-        int damage = Mathf.Max(1, player.Attack - monster.Defense);
-
-        monster.Stats.ApplyDamage(damage);
-
-        return $"{player.Name} attacks {monster.Name} for {damage} damage.";
+        physicalAttack = new PhysicalAttackAction();
+        this.random = random ?? new SystemCombatRandom();
     }
 
-    public string MonsterAttack(PlayerData player, MonsterData monster)
+    public CombatActionResult PlayerAttack(
+        PlayerData player,
+        MonsterData monster)
     {
-        int damage = Mathf.Max(1, monster.Attack - player.Defense);
+        return ResolvePhysicalAttack(player, monster);
+    }
 
-        player.Stats.ApplyDamage(damage);
+    public CombatActionResult MonsterAttack(
+        PlayerData player,
+        MonsterData monster,
+        bool playerIsGuarding = false)
+    {
+        return ResolvePhysicalAttack(monster, player, playerIsGuarding);
+    }
 
-        return $"{monster.Name} attacks {player.Name} for {damage} damage.";
+    private CombatActionResult ResolvePhysicalAttack(
+        ICombatant actor,
+        ICombatant target,
+        bool targetIsGuarding = false)
+    {
+        return physicalAttack.Execute(
+            new CombatActionContext(
+                actor,
+                target,
+                random,
+                targetIsGuarding));
     }
 }

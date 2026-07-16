@@ -1,4 +1,4 @@
-public class PlayerData
+public class PlayerData : ICombatant
 {
     public string Name;
     public int Level;
@@ -6,6 +6,8 @@ public class PlayerData
     public int XP;
     public int XPToNextLevel;
     public CombatantStats Stats { get; }
+    public string CombatantId => "player";
+    public string DisplayName => Name;
 
     public int MaxHp
     {
@@ -59,6 +61,24 @@ public class PlayerData
     {
         get { return Stats.MagicDefense; }
         set { Stats.MagicDefense = value; }
+    }
+
+    public int Accuracy
+    {
+        get { return Stats.Accuracy; }
+        set { Stats.Accuracy = value; }
+    }
+
+    public int Evasion
+    {
+        get { return Stats.Evasion; }
+        set { Stats.Evasion = value; }
+    }
+
+    public int CriticalChance
+    {
+        get { return Stats.CriticalChance; }
+        set { Stats.CriticalChance = value; }
     }
 
     public PlayerData(string name)

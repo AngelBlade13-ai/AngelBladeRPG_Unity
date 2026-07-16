@@ -9,7 +9,8 @@ namespace AngelBladeRPG.Tests
         [SetUp]
         public void SetUp()
         {
-            battleSystem = new SimpleBattleSystem();
+            battleSystem = new SimpleBattleSystem(
+                new NormalHitCombatRandom());
         }
 
         [Test]
@@ -18,10 +19,14 @@ namespace AngelBladeRPG.Tests
             PlayerData player = new PlayerData("Angel");
             MonsterData monster = new MonsterData("Goblin", 35, 8, 2, 10, 15);
 
-            string message = battleSystem.PlayerAttack(player, monster);
+            CombatActionResult result =
+                battleSystem.PlayerAttack(player, monster);
 
             Assert.That(monster.CurrentHp, Is.EqualTo(25));
-            Assert.That(message, Is.EqualTo("Angel attacks Goblin for 10 damage."));
+            Assert.That(result.Damage, Is.EqualTo(10));
+            Assert.That(
+                result.Message,
+                Is.EqualTo("Angel attacks Goblin for 10 damage."));
         }
 
         [Test]
@@ -44,10 +49,14 @@ namespace AngelBladeRPG.Tests
             PlayerData player = new PlayerData("Angel");
             MonsterData monster = new MonsterData("Goblin", 35, 8, 1, 10, 15);
 
-            string message = battleSystem.MonsterAttack(player, monster);
+            CombatActionResult result =
+                battleSystem.MonsterAttack(player, monster);
 
             Assert.That(player.CurrentHp, Is.EqualTo(95));
-            Assert.That(message, Is.EqualTo("Goblin attacks Angel for 5 damage."));
+            Assert.That(result.Damage, Is.EqualTo(5));
+            Assert.That(
+                result.Message,
+                Is.EqualTo("Goblin attacks Angel for 5 damage."));
         }
 
         [Test]
@@ -65,6 +74,14 @@ namespace AngelBladeRPG.Tests
 
             Assert.That(durablePlayer.CurrentHp, Is.EqualTo(99));
             Assert.That(injuredPlayer.CurrentHp, Is.Zero);
+        }
+
+        private class NormalHitCombatRandom : ICombatRandom
+        {
+            public bool RollPercent(int chancePercent)
+            {
+                return chancePercent > 50;
+            }
         }
     }
 }

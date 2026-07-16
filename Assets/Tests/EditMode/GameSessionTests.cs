@@ -145,12 +145,12 @@ namespace AngelBladeRPG.Tests
         }
 
         [Test]
-        public void TryEscapeBattleEndsActiveBattleWithoutRewards()
+        public void CompleteEscapeEndsActiveBattleWithoutRewards()
         {
             GameSession session = CreateSessionWithPlayer();
             session.StartBattle(CreateGoblin());
 
-            bool escaped = session.TryEscapeBattle();
+            bool escaped = session.CompleteEscape();
 
             Assert.That(escaped, Is.True);
             Assert.That(session.HasActiveBattle, Is.False);
