@@ -33,6 +33,8 @@ The main quest field content is defined in `Docs/DEMO_MAIN_QUEST_CONTENT.md`: Qu
 
 Approved Grassland combat content is recorded in `Docs/GRASSLAND_COMBAT_DESIGN.md`. It defines Skirmisher, Slinger, Guard, and Raider goblins; Slime and Wild Boar ambient groups; the three scout-intelligence advantages; and a non-supernatural Goblin Boss built around Commanding Shout, telegraphed Brutal Swing, Off Balance, reinforcements, and a low-HP Reckless state. Numeric balance remains provisional until party combat is implemented.
 
+After the Goblin Boss, the party receives a warm Suncrest Hollow welcome and a quiet inn scene before investigating another overdue caravan from Cherry Blossom. Ember Camp is introduced on that journey. The nomadic settlement's sacred tree is blooming and shedding out of season, and its traditionally protective elder beast has become territorial and distressed. Defeating it does not heal the tree; the demo ends on an unresolved scene and an environmental progression block. The authoritative arc is in `Docs/DEMO_CHERRY_BLOSSOM_ARC.md`.
+
 ## Current Git state
 
 Current local state:

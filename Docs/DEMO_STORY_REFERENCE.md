@@ -134,7 +134,8 @@ ordinary, and intentionally low stakes.
 ## Region 2: Cherry Blossom
 
 Cherry Blossom is the second traveled region. It remains beautiful, vibrant,
-and physically pristine during the demo.
+and free of visible rot or corruption during the demo, even as the sacred
+tree's seasonal behavior becomes subtly wrong.
 
 - A small nomadic settlement lives in the region.
 - Settlement residents may express unusual caution, general unease, or the
@@ -144,8 +145,9 @@ and physically pristine during the demo.
 - Services are intentionally more limited than in Suncrest Hollow.
 - The regional boss serves both as this region's story beat and as the gate
   preventing travel farther into the full game.
-- The boss's identity, the exact reason it blocks progress, and everything
-  beyond the gate remain undefined for this milestone.
+- The boss is a distressed territorial elder beast traditionally viewed as a
+  protector rather than a villain. Its arc and the demo ending are defined in
+  `DEMO_CHERRY_BLOSSOM_ARC.md`.
 - A later version of this region may change visibly, but that alternate state is
   excluded from the demo.
 
@@ -179,7 +181,7 @@ early dialogue and combat banter.
 - One-paragraph player promise and feature hierarchy.
 - Final tuning for the three designed main quests, plus approximately three to
   five optional side quests.
-- Cherry Blossom boss identity and its demo-safe motivation.
+- Final Cherry Blossom elder-beast identity and combat details.
 - Companion use and camp-event timing after the initial four party members and
   Lysander have joined.
 - Exact protagonist customization categories and art budget.

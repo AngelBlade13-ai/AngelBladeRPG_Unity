@@ -33,8 +33,8 @@ The demo should contain a compact but genuine version of Ember Camp:
 - Load one reusable camp scene rather than building a separate camp map for
   every region.
 - Restore the party through a clearly communicated rest action.
-- Present a small authored set of companion conversations or banter unlocked by
-  demo progress.
+- Present one or two authored companion conversations or banter moments unlocked
+  by demo progress.
 - Allow basic party and equipment review if those screens are available by the
   time camp is implemented.
 - Leave camp and return to the exact exploration scene and position.
@@ -96,9 +96,9 @@ Camp rules should remain independent from scene presentation.
 - Which HP, MP, status effects, and temporary bonuses a rest restores or clears.
 - Whether resting advances a lightweight time value or respawns encounters.
 - Which party, equipment, job, and inventory actions are available in camp.
-- The exact number and triggers of companion camp events in the demo.
-- Whether the Cherry Blossom settlement uses Ember Camp, its own lodging, or
-  both.
+- The exact content and triggers of the demo's one or two companion camp events.
+- The exact road or Cherry Blossom access point for the demo's first Ember Camp
+  visit.
 
 These decisions should be resolved during Milestone 14 before content and UI are
 budgeted around the camp.

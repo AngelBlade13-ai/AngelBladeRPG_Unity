@@ -236,8 +236,7 @@ Once Quest 3 is turned in and the reputation threshold is satisfied:
   `DEMO_MAIN_QUEST_CONTENT.md`.
 - The exact NPC who authorizes or frames the Goblin Boss quest.
 - Specific content for approximately three to five optional side quests.
-- What happens immediately after the Goblin Boss falls and the route to Cherry
-  Blossom opens.
-- The Cherry Blossom regional boss and the demo's final closing beat.
+- Final details for the post-Goblin return and Cherry Blossom arc recorded in
+  `DEMO_CHERRY_BLOSSOM_ARC.md`.
 - The later teleport-crystal system. It may support returning to Suncrest Hollow
   in the full game but is not required for the demo.

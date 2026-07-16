@@ -70,6 +70,10 @@ Grassland enemy roles, encounter groups, scout-intelligence advantages, and the
 regional Goblin Boss action pattern are recorded in
 `GRASSLAND_COMBAT_DESIGN.md`.
 
+The post-Goblin celebration, Cherry Blossom caravan request, Ember Camp
+introduction, sacred-tree disturbance, elder-beast boss, and unresolved demo
+ending are recorded in `DEMO_CHERRY_BLOSSOM_ARC.md`.
+
 Ember Camp is a reusable expedition rest and companion space. It must preserve
 Suncrest Hollow's role by excluding general quest turn-ins, commerce, smithing,
 recruitment, and major hub progression. Demo and full-game boundaries for this

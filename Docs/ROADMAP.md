@@ -11,7 +11,9 @@ direction lives in `GAMEPLAY_DIRECTION.md`. Job and roster constraints live in
 `DEMO_STORY_REFERENCE.md`. The opening quest structure lives in
 `DEMO_QUEST_FLOW.md`, with field content in
 `DEMO_MAIN_QUEST_CONTENT.md` and Grassland battles in
-`GRASSLAND_COMBAT_DESIGN.md`. Camp boundaries live in `CAMP_SYSTEM_DESIGN.md`.
+`GRASSLAND_COMBAT_DESIGN.md`. The Cherry Blossom ending lives in
+`DEMO_CHERRY_BLOSSOM_ARC.md`. Camp boundaries live in
+`CAMP_SYSTEM_DESIGN.md`.
 
 ## North Star
 
@@ -233,9 +235,10 @@ Goal: decide exactly what the demo contains before building production content.
   intelligence rewards, and optional thoroughness bonuses.
 - [x] Define Grassland enemy roles, dedicated and ambient groups, Quest 3 battle
   advantages, and the regional Goblin Boss action pattern.
-- [ ] Define the Cherry Blossom climax and demo ending.
-- [ ] Define the exact maps, NPC set, later companion use, and Cherry Blossom
-  boss within the selected demo regions.
+- [x] Define the post-Goblin celebration, Cherry Blossom transition, settlement
+  problem, elder-beast climax, and unresolved demo ending.
+- [ ] Define the exact maps, NPC set, later companion use, and final Cherry
+  Blossom elder-beast details within the selected demo regions.
 - [ ] Choose which jobs, abilities, items, and services appear in the demo.
 - [ ] Create the map, scene, quest, and content list for the agreed playtime.
 - [x] Use dedicated quest encounters alongside step-triggered ambient random
@@ -339,7 +342,8 @@ art where final art is not ready.
 - [ ] Add Lysander's three-quest recruitment threshold, forced exit scene, and
   party-management tutorial without save/load softlocks.
 - [ ] Add encounter selection, enemy groups, and progression pacing.
-- [ ] Add the demo boss and any required battle phases or scripted rules.
+- [ ] Add the Grassland Goblin Boss and Cherry Blossom elder-beast boss with
+  their required battle phases and scripted rules.
 - [ ] Add checkpoints, recovery behavior, and a demo ending flow.
 - [ ] Add the reusable Ember Camp scene and its small demo companion-event set.
 - [ ] Complete an internal start-to-finish playthrough with no debug shortcuts.
