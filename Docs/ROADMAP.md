@@ -14,7 +14,7 @@ direction lives in `GAMEPLAY_DIRECTION.md`. Job and roster constraints live in
 `GRASSLAND_COMBAT_DESIGN.md`. The Cherry Blossom ending lives in
 `DEMO_CHERRY_BLOSSOM_ARC.md`, with the Great Stag battle in
 `CHERRY_BLOSSOM_COMBAT_DESIGN.md`. Camp boundaries live in
-`CAMP_SYSTEM_DESIGN.md`.
+`CAMP_SYSTEM_DESIGN.md`. Optional demo quests live in `DEMO_SIDE_QUESTS.md`.
 
 ## North Star
 
@@ -240,6 +240,8 @@ Goal: decide exactly what the demo contains before building production content.
   problem, Great Stag climax, and unresolved demo ending.
 - [x] Define the Great Stag's identity, symbolism, subdued outcome, marked
   charge, Staggered response, and low-HP Panicked phase.
+- [x] Define four optional side quests supporting Suncrest Hollow returns,
+  Grassland exploration, party warmth, and Cherry Blossom unease.
 - [ ] Define the exact maps, NPC set, and later companion use within the selected
   demo regions.
 - [ ] Choose which jobs, abilities, items, and services appear in the demo.
@@ -340,8 +342,8 @@ art where final art is not ready.
 - [ ] Add NPC schedules or placement only where the demo requires them.
 - [ ] Add dialogue data, choices if required, and quest progression.
 - [ ] Add the delayed-caravan opening quest; `A Worried Merchant`, `The Smith
-  And The Missing Scout`, and `The Guard Captain's Warning`; and approximately
-  three to five optional side quests with tested one-time state.
+  And The Missing Scout`, and `The Guard Captain's Warning`; and the four
+  optional quests in `DEMO_SIDE_QUESTS.md` with tested one-time state.
 - [ ] Add Lysander's three-quest recruitment threshold, forced exit scene, and
   party-management tutorial without save/load softlocks.
 - [ ] Add encounter selection, enemy groups, and progression pacing.

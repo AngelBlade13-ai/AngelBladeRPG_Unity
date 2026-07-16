@@ -37,6 +37,8 @@ After the Goblin Boss, the party receives a warm Suncrest Hollow welcome and a q
 
 The Cherry Blossom boss is the Great Stag, a living protector whose branch-like flowering antlers symbolize a seasonal cycle falling out of rhythm. Its solo battle marks a target for a heavy charge; taunt can redirect it, and Defend causes a temporary Staggered opening. At low HP it becomes Panicked. Zero HP subdues rather than kills it, while preserving the ordinary one-time victory and reward path. Full rules are in `Docs/CHERRY_BLOSSOM_COMBAT_DESIGN.md`.
 
+Four optional quests are defined in `Docs/DEMO_SIDE_QUESTS.md`: `A Taste Of Home`, `The Roadside Chimes`, `A Painter's View`, and `Where The Herd Won't Graze`. They reuse ordinary quest interactions, support the intended playtime and hub loop, and add no critical-path gates, escort AI, timers, minigames, or new lore explanations.
+
 ## Current Git state
 
 Current local state:

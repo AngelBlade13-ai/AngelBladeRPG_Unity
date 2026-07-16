@@ -180,8 +180,7 @@ early dialogue and combat banter.
 
 - Public game title and developer or publisher identity.
 - One-paragraph player promise and feature hierarchy.
-- Final tuning for the three designed main quests, plus approximately three to
-  five optional side quests.
+- Final tuning for the three designed main quests and four optional side quests.
 - Final Great Stag balance and production assets.
 - Companion use and camp-event timing after the initial four party members and
   Lysander have joined.

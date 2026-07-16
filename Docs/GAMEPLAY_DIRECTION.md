@@ -78,6 +78,9 @@ The Great Stag's symbolic direction, marked-charge battle rhythm, Panicked
 phase, and nonlethal subdued outcome are recorded in
 `CHERRY_BLOSSOM_COMBAT_DESIGN.md`.
 
+The four optional quests supporting hub returns, Grassland exploration, party
+chemistry, and Cherry Blossom unease are recorded in `DEMO_SIDE_QUESTS.md`.
+
 Ember Camp is a reusable expedition rest and companion space. It must preserve
 Suncrest Hollow's role by excluding general quest turn-ins, commerce, smithing,
 recruitment, and major hub progression. Demo and full-game boundaries for this

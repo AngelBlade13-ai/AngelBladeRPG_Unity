@@ -107,8 +107,8 @@ encounter becomes available.
 - The numbered main quests form a guided story sequence, while travel and side
   quest order remain flexible.
 - These required quests form the shortest critical path to the Goblin Boss.
-- Approximately three to five side quests should support exploration, hub
-  returns, rewards, and character moments.
+- The four quests in `DEMO_SIDE_QUESTS.md` support exploration, hub returns,
+  rewards, and character moments.
 - Side quests remain optional for story progression and are not required to
   unlock the Goblin Boss.
 - Defeating the Goblin Boss unlocks progression from Grassland to Cherry
@@ -235,7 +235,8 @@ Once Quest 3 is turned in and the reputation threshold is satisfied:
 - Remaining field-content and reward tuning listed in
   `DEMO_MAIN_QUEST_CONTENT.md`.
 - The exact NPC who authorizes or frames the Goblin Boss quest.
-- Specific content for approximately three to five optional side quests.
+- Final side-quest tuning and production details listed in
+  `DEMO_SIDE_QUESTS.md`.
 - Final details for the post-Goblin return and Cherry Blossom arc recorded in
   `DEMO_CHERRY_BLOSSOM_ARC.md`.
 - The later teleport-crystal system. It may support returning to Suncrest Hollow
