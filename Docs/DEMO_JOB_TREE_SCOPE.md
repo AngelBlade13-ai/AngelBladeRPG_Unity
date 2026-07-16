@@ -32,7 +32,8 @@ hardcoded check that assumes every tree has the same shape.
   invalidate saves.
 - Track learned job nodes per persistent character and per job, not on the
   current party slot.
-- Changing jobs does not erase learned nodes or job progress.
+- Changing jobs does not erase learned nodes, job progress, or permanent stat
+  bonuses purchased in other job trees.
 - Reaching one job's limit does not prevent assigning that job or progressing
   another job.
 - The demo limit prevents purchasing deeper nodes. It does not pretend that the
@@ -40,11 +41,10 @@ hardcoded check that assumes every tree has the same shape.
 - Full-game development should extend the same tree and stable IDs instead of
   replacing demo progression with a separate system.
 
-The planning baseline is a compact early slice containing a job's defining
-trait, a signature active ability, and at least one additional role-defining
-choice or upgrade. Exact shapes and maximum tiers may differ by job when that
-produces a clearer or more balanced demo. Those limits must still be authored
-as data and covered by tests.
+The approved demo slice contains a job's defining trait and signature action,
+three purchased job abilities or passives, two two-rank permanent stat tracks,
+and one permanent mastery stat node. Exact full-game shapes may differ by job,
+but demo limits remain authored as data and covered by tests.
 
 ## Presentation
 
@@ -74,14 +74,17 @@ pet AI or creature-collection system.
 
 ## Resolved Progression Rules
 
-- Each tree grants a free core trait and action, has two `1 JP` Tier 1 nodes,
-  and ends with one `2 JP` Tier 2 node in the demo.
+- Each tree grants a free core trait and action, contains three purchased job
+  abilities or passives, two two-rank permanent stat tracks, and ends at a
+  Tier 3 permanent mastery node. A complete demo tree costs `10 JP`.
 - JP is an unspent per-character currency that may be spent on any job and is
   retained when a job reaches its demo limit.
 - Eligible victories grant JP to every available recruited character,
   including benched characters; exact encounter awards remain balance data.
-- Purchased nodes are permanent in the demo. Job switching is free at the
-  Suncrest Hollow job service, while node refunds are not included.
+- Learned nodes remain purchased when switching. Stat-node bonuses from every
+  learned job remain active, while inactive-job traits, actions, and passives
+  become unavailable. Job switching is free at the Suncrest Hollow job service;
+  node refunds are not included in the demo.
 - The Ember Wisp is a temporary auxiliary combatant with fixed behavior rather
   than a persistent pet or general-purpose AI character.
 
@@ -94,6 +97,16 @@ awards remain balance work after multi-party simulation is available.
 - Low affinity never blocks assignment or node purchase.
 - Each job enforces its authored demo progression limit.
 - Switching jobs preserves learned nodes and job-specific progress.
+- Switching jobs retains all learned permanent stat bonuses while disabling
+  traits, actions, and passives belonging to inactive jobs.
+- Permanent stat totals are derived once from unique learned node IDs after
+  loading and cannot be duplicated by repeated job switches.
+- Inactive-job skills and job-specific passives cannot be selected or applied
+  even when their nodes remain learned.
+- Buying Max HP or Max MP nodes increases the corresponding current value once;
+  loading and switching jobs cannot repeat that resource gain.
+- Node purchases reject missing prerequisites or insufficient JP without
+  partially spending currency or applying stats.
 - Progress belongs to persistent character IDs rather than active-party slots.
 - Stable job and node IDs survive display-name changes.
 - Invalid, duplicate, or cyclic node definitions fail validation.

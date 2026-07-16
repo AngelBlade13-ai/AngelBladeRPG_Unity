@@ -252,6 +252,8 @@ Goal: decide exactly what the demo contains before building production content.
   demo regions.
 - [x] Define the exact early nodes, abilities, JP costs, and progression limit
   for each demo job.
+- [x] Add permanent cross-job stat nodes while keeping job traits, passives, and
+  actions restricted to the currently equipped job.
 - [ ] Choose which items and town services appear in the demo.
 - [ ] Create the map, scene, quest, and content list for the agreed playtime.
 - [x] Use dedicated quest encounters alongside step-triggered ambient random
@@ -282,6 +284,8 @@ Goal: make the job and party systems visible and meaningful during play.
 - [ ] Apply job stats and affinities to playable combatants.
 - [ ] Add stable job-tree nodes, per-character unlock state, and data-driven
   demo progression limits for all 12 playable jobs.
+- [ ] Aggregate permanent stat nodes across learned jobs without activating
+  inactive-job skills or duplicating bonuses after loading or switching.
 - [ ] Add a compact party formation and job-assignment flow.
 - [ ] Handle incapacitation, victory, defeat, XP, and rewards for a party.
 - [ ] Add enemy groups and battle layouts needed by the demo.

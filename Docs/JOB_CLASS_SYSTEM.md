@@ -9,7 +9,7 @@ job tree can progress. The authoritative demo boundary is recorded in
 ## Design Goals
 
 - Provide 12 job archetypes across tank, physical damage, magic damage, healer, and support roles.
-- Allow every playable character to use or respec into every job.
+- Allow every playable character to switch into every job.
 - Give each character authored job affinities based on personality.
 - Use affinity to influence effectiveness or stat growth, never to block access to a job.
 - Give every job a clear role and an explicit mechanical downside.
@@ -55,8 +55,24 @@ Names are provisional. Role boundaries and trade-offs are the important design c
 - Each job owns a data-driven demo progression limit appropriate to its tree.
 - Learned nodes and job progress belong to a persistent character and survive
   switching jobs or changing active-party slots.
+- Permanent stat nodes from learned job trees remain active across job changes.
+  Job traits, actions, and job-specific passives require that job to be equipped.
 - Exact demo nodes, point rules, and per-job limits must be locked before their
   Milestone 15 gameplay implementation.
+
+## Cross-Job Stat Growth
+
+- Character level growth establishes base stats independently from job trees.
+- Learned permanent stat nodes add modest flat bonuses beyond level growth and
+  equipment.
+- Permanent bonuses from multiple jobs stack, but each stable node may apply
+  only once per character.
+- Affinity does not alter a permanent node's listed value. It remains guidance
+  for current-job effectiveness rather than a penalty on lasting progression.
+- Save data stores learned node IDs, not a second serialized permanent-stat
+  total. Effective stats are recalculated to prevent duplicated bonuses.
+- Switching jobs is not a respec. A future explicit respec would refund nodes
+  and remove their bonuses, but node refunds are outside the demo scope.
 
 ## Affinity Model
 
@@ -80,7 +96,7 @@ Four additional party members currently have stable IDs and natural archetypes. 
 - `pc_03`, Enora: bold, dramatic, and drawn to risk; naturally favors Blood Mage, self-damaging magic, and a scythe.
 - `pc_04`, Lysander (placeholder name): a grizzled, independent, experienced adventurer who is measured, protective, and leadership-oriented; naturally favors Paladin and balanced protection, damage, and rallying support. He joins after the protagonist earns a local reputation and enters slightly above the current party's level.
 
-Every one of these characters can still equip and respec into every job. Only each clearly stated natural job begins at high affinity; all unspecified affinities remain neutral until deliberately authored. Display-name changes must not change stable IDs or require save-data migration. Two additional roster positions remain open for future characters.
+Every one of these characters can still equip and switch into every job. Only each clearly stated natural job begins at high affinity; all unspecified affinities remain neutral until deliberately authored. Display-name changes must not change stable IDs or require save-data migration. Two additional roster positions remain open for future characters.
 
 ## Player-Created Protagonist
 
@@ -142,9 +158,9 @@ This is a deliberate gameplay consequence and must be considered during inventor
 1. Finish core gameplay tests.
 2. Define persistent character, roster, active-party, and job data contracts.
 3. Define job roles, growth values, trade-offs, affinity data, stable tree-node
-   IDs, and per-job demo progression limits.
-4. Test assignment, progression limits, respecing, affinity effects, learned
-   node persistence, and party-slot independence.
+   IDs, permanent stat bonuses, and per-job demo progression limits.
+4. Test assignment, progression limits, affinity effects, learned node
+   persistence, cross-job stat aggregation, and party-slot independence.
 5. Build data-driven monster and item content against those stable contracts.
 6. Add inventory and saving with explicit handling for destroying a removed character's equipped gear exactly once.
 

@@ -92,7 +92,9 @@ limit authored per job instead of hiding or disabling jobs. Affinity remains
 guidance rather than an access requirement. The detailed boundary and shared
 progression rules are recorded in `DEMO_JOB_TREE_SCOPE.md`.
 The approved core kits, early nodes, JP costs, and Summoner boundary are
-recorded in `DEMO_JOB_TREES.md`.
+recorded in `DEMO_JOB_TREES.md`. Permanent stat nodes remain active across job
+changes, but learned traits, actions, and job-specific passives require their
+job to be equipped.
 
 ## Core Player Loop
 
