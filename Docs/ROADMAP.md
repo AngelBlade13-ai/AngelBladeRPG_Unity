@@ -1,265 +1,479 @@
-# AngelBlade RPG Unity Roadmap
+# AngelBlade RPG Product Roadmap
 
-This roadmap tracks the work of converting the original command-line RPG into a beginner-friendly 2D Unity RPG prototype. Keep each milestone small enough to understand, test in the Unity Editor, and commit as its own branch or pull request.
+This roadmap guides `AngelBladeRPG_Unity` from its current prototype foundation
+to a public vertical-slice demo, then toward a complete commercial PC game. The
+long-term goal is a full release on Steam, not a collection of disconnected RPG
+systems.
 
-For deeper handoff notes and detailed Unity Editor setup steps, see `PROJECT_HANDOFF.md`. The target player experience and scene architecture are defined in `GAMEPLAY_DIRECTION.md`.
+Detailed technical handoff notes live in `PROJECT_HANDOFF.md`. Product and scene
+direction lives in `GAMEPLAY_DIRECTION.md`. Job and roster constraints live in
+`JOB_CLASS_SYSTEM.md`.
 
-## Target Experience
+## North Star
 
-- A 2D pixel-fantasy RPG with top-down exploration and movement inspired by `Stardew Valley`.
-- Towns and world areas are physical Tilemap-based spaces, not menus represented by full-screen panels.
-- Combat is turn-based and presented in a separate battle scene, inspired by older `Final Fantasy` games.
-- Entering combat transitions from exploration into battle; victory or escape returns the party to the appropriate world location.
-- Title and character creation remain in the setup scene. The former `TownPanel` and `BattlePanel` prototypes have been replaced by dedicated exploration and battle scenes.
+Build a polished 2D pixel-fantasy RPG with:
 
-## Current Progress
+- Top-down exploration through physical towns, interiors, routes, and dungeons.
+- Classic turn-based battles in a dedicated battle scene.
+- A flexible job system that lets the player shape each party member.
+- Character-driven story, party relationships, equipment, progression, and
+  meaningful combat decisions.
+- Reliable keyboard and controller play on a tested Windows PC build.
+- A scope and production pipeline that can support a full commercial game.
 
-- [x] Initial Unity project setup.
-- [x] Basic UI navigation between title, town, and battle panels.
-- [x] Simple battle prototype with player and monster attacks.
-- [x] Battle rewards with gold and XP.
-- [x] Town status UI showing hero stats.
-- [x] Beginner-friendly XP leveling system.
-- [x] Shared game state through `GameSession`.
-- [x] Character creation with player name entry.
-- [x] Core Edit Mode gameplay test foundation.
-- [x] Walkable town, world interactions, and scene doors.
-- [x] Separate turn-based battle scene with victory, defeat, and escape.
+The immediate production target is a small but representative public demo. It
+must feel like the opening of the real game, not like a mechanics test room.
 
-## Completed Milestones
+## Current Position
 
-### 1. Unity Foundation
+| Gate | Status |
+| --- | --- |
+| Prototype and architecture foundation | Complete |
+| Walkable world and interactions | Complete |
+| Separate battle-scene loop | Complete |
+| Job, character, and party data foundation | Complete |
+| Core combat expansion | In progress |
+| Vertical-slice demo | Not started |
+| Full-game production | Future |
+| Steam release candidate | Future |
 
-Branch: `main`
+Current branch: `feature/core-combat-expansion`
 
-- Created the Unity project.
-- Added the main game scene.
-- Added starter folders for scripts, scenes, prefabs, sprites, scriptable objects, UI, saving, items, combat, core, and characters.
+Current verification baseline: 117 Edit Mode tests passed in Unity
+`6000.5.3f1`, plus successful Play Mode checks for exploration, interactions,
+scene transitions, battle outcomes, rewards, and speed-based turn order.
 
-### 2. UI Navigation And Battle Prototype
+## Release Strategy
 
-Branch: `feature/ui-navigation-battle-prototype`
+Development is divided into four release gates:
 
-- Added title, town, and battle panels.
-- Added `GameManager` as the main UI flow controller.
-- Added `PlayerData`, `MonsterData`, and `SimpleBattleSystem`.
-- Added a simple Goblin fight.
+1. **Foundation:** Prove the architecture and core mechanics. Milestones 1-13.
+2. **Vertical Slice:** Build one polished, representative chapter. Milestones
+   14-20.
+3. **Public Demo:** Package, test, publish, and learn from the vertical slice.
+   Milestone 21.
+4. **Full Game:** Scale proven tools and content, then ship and support the
+   commercial release. Milestones 22-25.
 
-### 3. Battle Rewards And Town Status
+No release date should be announced until the vertical slice has passed its
+content-complete gate and production velocity is measurable.
 
-Branch: `feature/battle-rewards-town-status`
+## Demo Definition Of Done
 
-- Added gold and XP rewards to `MonsterData`.
-- Granted rewards after victory.
-- Updated the town status text to show hero status.
+The demo scope will be locked in Milestone 14. Until then, use this provisional
+target:
 
-### 4. XP Leveling
+- Approximately 30-60 minutes for a first playthrough.
+- A clear beginning, short objective, climax, and demo ending.
+- One polished hub or town area.
+- One connected route, dungeon, or hostile location.
+- A small set of purposeful NPC interactions and at least one complete quest.
+- Multiple normal battles and one boss or major encounter.
+- A small playable party that demonstrates jobs, party roles, and progression.
+- A useful subset of items, equipment, rewards, and town services.
+- Working save/load, settings, keyboard controls, and controller navigation.
+- Coherent pixel art, animation, UI, sound, and music suitable for public
+  screenshots and video.
+- A Windows build that launches cleanly outside the Unity Editor.
+- No progression blockers, lost saves, duplicate rewards, missing references,
+  placeholder instructions, or known critical defects.
+- An ending screen that clearly closes the demo and points players toward the
+  full game without pretending unfinished content is playable.
 
-Commit: `32b7b76 Add XP-based player leveling`
+The demo does not need every final job, item, location, party member, system, or
+story chapter. It does need to accurately represent the quality and identity of
+the intended full game.
 
-- Added `XPToNextLevel` to `PlayerData`.
-- Added `GainXP(int amount)` to `PlayerData`.
-- Increased level, max HP, attack, defense, and next XP requirement on level up.
-- Restored HP to full on level up.
-- Added battle log messaging when the player levels up.
-- Updated town status to show XP progress, such as `XP: 15/50`.
+## Completed Foundation
 
-### 5. Shared Game State
+### Milestones 1-5: Initial RPG Foundation
 
-Commit: `08e8240 Add shared RPG game state`
+Status: Complete
 
-- Added `GameSession`.
-- Moved player, monster, battle state, victory rewards, and defeat state into one shared game-state class.
-- Kept `GameManager` focused mostly on UI flow and UI text updates.
+- Created the Unity project and main scene structure.
+- Built the first title, town, and battle prototypes.
+- Added player and monster data, damage, rewards, XP, and leveling.
+- Separated shared gameplay state into `GameSession`.
 
-## Completed Milestone 6
+### Milestone 6: Character Creation
 
-### 6. Character Creation
+Status: Complete
 
-Branch: `feature/character-creation`
+- Added validated player-name entry and title navigation.
+- Completed and tested the required Unity UI wiring.
 
-Code status:
+### Milestone 7: Core Gameplay Tests
 
-- `GameManager` now supports a character creation panel.
-- `GameManager.StartNewGame()` opens character creation instead of immediately creating `Hero`.
-- `GameManager.ConfirmCharacterCreation()` validates the entered name.
-- `GameSession.TryStartNewGame(string playerName)` trims names and rejects blank names.
-- `GameManager.ReturnToTitle()` supports backing out of character creation.
+Status: Complete
 
-Unity Editor checklist:
+- Established Unity Edit Mode coverage for progression, damage, battle state,
+  rewards, and duplicate-reward prevention.
+- Documented the fast Editor test workflow in `TESTING.md`.
 
-- [x] Add a `CharacterCreationPanel` to the main scene.
-- [x] Add a TMP input field for the player name.
-- [x] Add an error text object for blank-name validation.
-- [x] Add a confirm button wired to `GameManager.ConfirmCharacterCreation()`.
-- [x] Add a back button wired to `GameManager.ReturnToTitle()`.
-- [x] Assign `characterCreationPanel`, `playerNameInput`, and `characterCreationErrorText` on the `GameManager` component.
-- [x] Confirm the panel starts hidden and title, town, and battle panel flow still works.
-- [x] Test title, character creation, town, and battle flow in Play Mode.
+### Milestone 8: Pixel World Foundation
 
-## Completed Milestone 7
+Status: Complete
 
-### 7. Core Gameplay Tests
+- Established a `320 x 180` reference resolution and `16` pixels-per-unit
+  baseline.
+- Added normalized top-down movement, collision, directional state, camera
+  follow, Tilemap foundations, and resolution checks.
 
-Branch: `test/core-gameplay-foundation`
+### Milestone 9: Walkable Town Prototype
 
-- [x] Add Edit Mode tests for player leveling and multiple level-ups.
-- [x] Add tests for player damage, monster damage, minimum damage, and HP clamping.
-- [x] Add tests for battle state and rewards being granted only once.
-- [x] Document how to run the core gameplay tests in Unity 6.5.
-- [x] Run all tests in Unity `6000.5.3f1`: 18 passed, 0 failed.
+Status: Complete
 
-## Completed Milestone 8
+- Replaced the town panel with a physical exploration scene.
+- Added scene-safe session state, spawn points, collision, and a compact HUD.
 
-### 8. Pixel World Foundation
+### Milestone 10: World Interaction System
 
-Branch: `feature/pixel-world-foundation`
+Status: Complete
 
-- [x] Establish a `320 x 180` pixel-art reference resolution and `16` pixels-per-unit baseline.
-- [x] Add top-down player movement using Unity's Input System.
-- [x] Add Rigidbody2D movement without diagonal speed gain.
-- [x] Expose directional idle and walk parameters for a future Animator Controller.
-- [x] Create and validate a small Tilemap test area with separate ground and collision layers.
-- [x] Add a camera-follow component and document Pixel Perfect Camera settings.
-- [x] Keep movement logic independent from town, story, and combat content.
-- [x] Test keyboard movement, diagonal movement, Rigidbody2D collision, wall sliding, and camera follow in Play Mode.
-- [x] Add and validate a temporary four-direction movement indicator.
-- [x] Test pixel-camera framing at `320 x 180`, `640 x 360`, and `1280 x 720`.
-- [x] Run all Edit Mode tests in Unity `6000.5.3f1`: 28 passed, 0 failed.
+- Added directional interaction, signs, dialogue presentation, doors, named
+  destination spawns, and scene transitions.
 
-Unity Editor setup and Play Mode checks: `PIXEL_WORLD_SETUP.md`.
+### Milestone 11: Separate Turn-Based Battle Scene
 
-## Completed Milestone 9
+Status: Complete
 
-### 9. Walkable Town Prototype
+- Replaced the battle panel with a dedicated scene.
+- Added encounter transfer, victory, defeat, escape, rewards, and return to the
+  correct exploration location.
 
-Branch: `feature/walkable-town`
+### Milestone 12: Jobs, Characters, And Party Data
 
-- [x] Preserve the active `GameSession` across scene loads.
-- [x] Route successful character creation to a dedicated town scene.
-- [x] Add reusable default-spawn positioning for the Player.
-- [x] Add a compact exploration status HUD formatter.
-- [x] Add Edit Mode coverage for session replacement, HUD text, and spawn positioning.
-- [x] Run all Edit Mode tests in Unity `6000.5.3f1`: 32 passed, 0 failed.
-- [x] Replace `TownPanel` as the primary town experience with a physical map.
-- [x] Spawn the player at a defined town entrance or return point.
-- [x] Add placeholder walls, paths, and building footprints with door gaps using Tilemaps and colliders.
-- [x] Preserve the current town status information as an unobtrusive HUD or menu.
-- [x] Complete the full title, character creation, town loading, movement, camera, HUD, and collision Play Mode check.
+Status: Complete
 
-Unity Editor setup and Play Mode checks: `WALKABLE_TOWN_SETUP.md`.
+- Defined 12 jobs and unrestricted character job assignment.
+- Added affinity growth, active/reserve party rules, stable character IDs,
+  authored profiles, roster history, bond data, and permanent removal state.
+- Preserved equipped-item destruction as a future inventory/save invariant.
 
-## Completed Milestone 10
+## Current Foundation Gate
 
-### 10. World Interaction System
-
-Branch: `feature/world-interactions`
-
-- [x] Add a reusable interaction contract and facing-based detector in code.
-- [x] Add player interaction input using the existing `Player/Interact` action.
-- [x] Add a simple dialogue presenter and sign implementation in code.
-- [x] Run all Edit Mode tests in Unity `6000.5.3f1`: 44 passed, 0 failed.
-- [x] Wire and verify the first sign manually in `TownScene`.
-- [x] Add reusable scene doors and one-time named destination spawns in code.
-- [x] Generate and verify a paired town/interior door transition.
-- [x] Support doors, signs, future NPC dialogue, and location transitions through a shared interface.
-- [x] Add a simple dialogue box without introducing full story content yet.
-- [x] Preserve player data and explicit return-spawn state across scene transitions.
-
-Unity Editor setup and Play Mode checks: `WORLD_INTERACTION_SETUP.md` and `WORLD_TRANSITION_SETUP.md`.
-
-## Completed Milestone 11
-
-### 11. Separate Turn-Based Battle Scene
-
-Branch: `feature/separate-battle-scene`
-
-- [x] Add explicit in-progress, victory, defeat, and escaped outcomes.
-- [x] Add escape handling without granting rewards.
-- [x] Add one-time battle return scene and spawn storage.
-- [x] Add a reusable exploration encounter interactable in code.
-- [x] Add a dedicated battle-scene controller in code.
-- [x] Create a dedicated battle scene rather than a battle panel inside the town scene.
-- [x] Transfer the active player and encounter data into the battle scene.
-- [x] Present classic turn-based commands, combatants, battle text, and rewards.
-- [x] Return to the correct exploration scene and position after victory or escape.
-- [x] Keep the existing tested combat math and reward rules as the initial battle foundation.
-- [x] Use visible interactable encounters for the deterministic prototype while leaving the final encounter policy open.
-- [x] Remove the obsolete `TownPanel` and `BattlePanel` scene flow.
-- [x] Require interactable targets to be in the player's facing direction.
-- [x] Run all Edit Mode tests in Unity `6000.5.3f1`: 60 passed, 0 failed.
-- [x] Complete the full title, town, interaction, victory, escape, defeat, and return Play Mode check.
-
-Unity Editor setup and Play Mode checks: `BATTLE_SCENE_SETUP.md`.
-
-## Latest Completed Milestone
-
-### 12. Jobs, Characters, And Party Data
-
-Complete this after the exploration and battle-scene loop is stable, and before inventory, saving, or substantial character content. Detailed design constraints are recorded in `JOB_CLASS_SYSTEM.md`.
-
-Branch: `feature/job-party-data`
-
-- [x] Define job definitions for 12 focused roles with explicit mechanical trade-offs.
-- [x] Support assigning and respecing any available playable character into any job.
-- [x] Add per-character job affinities with tested growth multipliers that never restrict access.
-- [x] Model a roster of roughly 6-7 characters with 4 active battle slots.
-- [x] Keep character records independent from active party slots and future equipment ownership.
-- [x] Record Reaver, Blood Mage, White Mage, and Paladin as tentative character affinities rather than locked classes.
-- [x] Add ID-keyed authored profiles for Iona, Damari, Enora, and Lysander without embedding full story content.
-- [x] Add permanent character-availability state and remove unavailable characters from the active party.
-- [x] Run all Edit Mode tests in Unity `6000.5.3f1`: 95 passed, 0 failed.
-- [x] Design internal speed-based turn order with random tie-breaking and no visible turn queue.
-- [x] Track per-character battle usage, consecutive bench time, and symmetric bond points for future roster systems.
-- [x] Preserve permanent-removal state and carry mandatory equipped-item destruction forward as an inventory/save invariant.
-
-## Next Milestone
-
-### 13. Core Combat Expansion
+### Milestone 13: Combat Core Completion
 
 Branch: `feature/core-combat-expansion`
 
-- [x] Define reusable combatant stats needed by jobs and multi-character battles, including speed and magic resources.
-- [x] Preserve existing leveling, physical damage, rewards, and battle-scene behavior through compatibility properties.
-- [x] Run all Edit Mode tests in Unity `6000.5.3f1`: 102 passed, 0 failed.
-- [x] Complete a Play Mode victory and reward regression using the shared stat model.
-- [x] Add ID-keyed Goblin, Ogre, Slime, and Wisp definitions that create independent runtime monsters.
-- [x] Run all Edit Mode tests after the monster roster slice: 112 passed, 0 failed.
-- [x] Migrate the town Goblin and Ogre encounters to catalog IDs and complete a Play Mode regression.
-- [x] Integrate speed-based ordering into battle sequencing without showing a turn queue.
-- [x] Run all Edit Mode tests after battle-round sequencing: 117 passed, 0 failed.
-- [x] Verify player-first and monster-first rounds in Play Mode using the Goblin, Ogre, and Wisp encounters.
-- [ ] Add accuracy, misses, critical hits, blocking, and improved escape rules in focused slices.
-- [ ] Establish combat-action contracts for physical attacks, magic, healing, and future abilities.
-- [ ] Keep each new rule independently testable before expanding the battle UI.
+Goal: finish a deterministic, testable combat foundation that can support party
+battles, jobs, equipment, abilities, and demo balancing.
 
-## Story And Lore Timing
+Completed:
 
-- Full story and lore are intentionally deferred while the core tests and gameplay data models are being established.
-- When Milestone 12 job-affinity work begins, only a compact playable-roster list and personality traits will be needed.
-- Full character histories, world lore, locations, factions, dialogue, and plot structure should be added when the project reaches quests and world-content planning.
-- Codex should explicitly ask for the relevant story material when each of those milestones is ready.
+- [x] Add shared HP, MP, attack, defense, magic, resistance, and speed stats.
+- [x] Preserve existing leveling, rewards, and physical damage behavior.
+- [x] Add ID-keyed Goblin, Ogre, Slime, and Wisp definitions.
+- [x] Create independent runtime monsters from reusable definitions.
+- [x] Migrate exploration encounters to monster IDs.
+- [x] Resolve each battle round in speed order without a visible turn queue.
+- [x] Prevent a defeated combatant from retaliating.
+- [x] Verify player-first and monster-first rounds in Play Mode.
+- [x] Run the current 117-test Edit Mode suite successfully.
 
-## Near-Term Backlog
+Remaining slices:
 
-Keep these as separate milestones unless a later design decision combines them.
+- [ ] Add explicit combat-result data instead of relying only on log strings.
+- [ ] Add accuracy and misses with injected, testable randomness.
+- [ ] Add critical hits as a separate tested rule.
+- [ ] Add blocking or guarding as a separate tested rule.
+- [ ] Replace guaranteed escape with a clear, tested escape rule.
+- [ ] Establish action contracts for physical attacks, magic, healing, items,
+  defend, and future job abilities.
+- [ ] Complete a full combat regression and update the verification baseline.
 
-- [x] Build the pixel-world movement and camera foundation.
-- [ ] Add final 2D player movement sprites and directional animations.
-- [ ] Replace the temporary direction indicator with directional pixel sprites and an Animator Controller when suitable character art is available.
-- [x] Replace the town panel with a walkable Tilemap town.
-- [x] Replace the battle panel with a separate turn-based battle scene.
-- [ ] Add multiple enemy types after the basic flow is stable.
-- [x] Add the job/class and party-data foundation.
-- [ ] Add healing/resting in town.
-- [ ] Add inventory, items, and shops.
-- [ ] Add saving and loading.
-- [ ] Add dialogue or story events from the original command-line RPG.
+Exit gate:
 
-## Branching And Commit Notes
+- Combat rules are independent from scene UI.
+- Random outcomes are controllable in tests.
+- Battle logs can explain every outcome to the player.
+- The battle scene can accept new actions without another structural rewrite.
 
-- Use one feature branch per small milestone.
-- Keep commits beginner-readable and focused.
-- After code changes, test in the Unity Editor before committing scene or prefab changes.
-- Commit scene wiring separately when possible, because Unity scene changes are easier to review when they are not mixed with unrelated code edits.
-- Avoid adding inventory, shops, saving, random monsters, or new UI panels until the current milestone is complete.
+## Vertical-Slice Milestones
+
+### Milestone 14: Demo Scope And Narrative Blueprint
+
+Goal: decide exactly what the demo contains before building production content.
+
+- [ ] Choose the public game title and confirm a consistent project identity.
+- [ ] Choose the developer/publisher identity and check proposed public names
+  for obvious store, domain, and trademark conflicts.
+- [ ] Write a one-paragraph player promise and a short feature hierarchy.
+- [ ] Define the demo's opening, objective, climax, and ending.
+- [ ] Select the demo location, route/dungeon, boss, NPCs, and party members.
+- [ ] Choose which jobs, abilities, items, and services appear in the demo.
+- [ ] Set the target playtime and create a scene/content list.
+- [ ] Decide visible, scripted, random, or hybrid encounter policy.
+- [ ] Create a content budget for maps, sprites, portraits, animations, music,
+  sound effects, dialogue, enemies, and UI screens.
+- [ ] Record content and asset ownership or license requirements.
+- [ ] Create a cut list of features explicitly deferred until after the demo.
+
+Exit gate:
+
+- A short demo design brief exists and every required asset or scene is listed.
+- The story can be completed using the agreed content budget.
+- No demo-critical design decision is hidden in chat history.
+
+Story checkpoint: this is the point to provide the relevant world premise,
+opening plot, demo location, involved characters, factions, and desired tone.
+Full-game lore that does not affect the demo can remain deferred.
+
+### Milestone 15: Party Battle And Job Gameplay
+
+Goal: make the job and party systems visible and meaningful during play.
+
+- [ ] Create runtime combatants for multiple active party members.
+- [ ] Add party targeting for allies and enemies.
+- [ ] Add MP, physical attacks, magic, healing, defend, and a small ability set.
+- [ ] Apply job stats and affinities to playable combatants.
+- [ ] Add a compact party formation and job-assignment flow.
+- [ ] Handle incapacitation, victory, defeat, XP, and rewards for a party.
+- [ ] Add enemy groups and battle layouts needed by the demo.
+- [ ] Verify keyboard and controller command navigation.
+
+Exit gate:
+
+- The demo party can complete representative normal and boss battles.
+- At least two different party/job strategies are viable.
+- Battle UI clearly communicates turn outcomes and valid targets.
+
+### Milestone 16: Items, Equipment, Economy, And Town Services
+
+Goal: complete the smallest progression economy that makes exploration and
+combat rewards matter.
+
+- [ ] Add stable item definitions for weapons, armor, accessories, and
+  consumables.
+- [ ] Add inventory quantities and capacity rules, if capacity is retained.
+- [ ] Add equipment ownership, stat bonuses, requirements, and comparisons.
+- [ ] Implement equipped-item destruction for permanent roster removal exactly
+  once without returning those items to shared inventory.
+- [ ] Add item use in and out of battle where appropriate.
+- [ ] Add one shop or service flow with buying and selling.
+- [ ] Add resting or healing in town.
+- [ ] Define demo loot tables, prices, and reward pacing.
+
+Exit gate:
+
+- The player can earn, inspect, equip, use, buy, and sell the demo item set.
+- Inventory and equipment rules are covered by Edit Mode tests.
+
+### Milestone 17: Save, Settings, Input, And Build Baseline
+
+Goal: remove platform and persistence risks before producing most demo content.
+
+- [ ] Add versioned save models independent from scene objects.
+- [ ] Save player, party, jobs, inventory, equipment, quests, world state, and
+  explicit spawn location.
+- [ ] Add manual save, autosave, Continue, new-game confirmation, and corrupt
+  save handling.
+- [ ] Store saves under Unity's application data path.
+- [ ] Add separate music and sound volume settings.
+- [ ] Add display mode, resolution, text-speed, and other necessary settings.
+- [ ] Support keyboard and common controller navigation across all demo screens.
+- [ ] Add input rebinding or document the deliberately supported fixed layout.
+- [ ] Establish accessibility basics: readable text, no color-only information,
+  configurable text speed, and reduced flashing where applicable.
+- [ ] Produce and smoke-test a Windows development build outside the Editor.
+- [ ] Add build version display and a repeatable build checklist.
+
+Exit gate:
+
+- A fresh install can start, save, quit, relaunch, continue, and finish the
+  current playable loop using keyboard or controller.
+
+### Milestone 18: Demo World, Quest, And Boss Content
+
+Goal: build the complete demo from start to finish using functional placeholder
+art where final art is not ready.
+
+- [ ] Build the final demo scene list from the Milestone 14 brief.
+- [ ] Add NPC schedules or placement only where the demo requires them.
+- [ ] Add dialogue data, choices if required, and quest progression.
+- [ ] Add one complete quest chain with tested one-time rewards.
+- [ ] Add encounter selection, enemy groups, and progression pacing.
+- [ ] Add the demo boss and any required battle phases or scripted rules.
+- [ ] Add checkpoints, recovery behavior, and a demo ending flow.
+- [ ] Complete an internal start-to-finish playthrough with no debug shortcuts.
+
+Exit gate:
+
+- The entire demo is content-complete and playable with placeholders.
+- No required story beat, map, battle, or progression step is missing.
+
+### Milestone 19: Demo Art, Audio, UI, And Store-Ready Identity
+
+Goal: replace prototype presentation with a cohesive public-facing vertical
+slice.
+
+- [ ] Lock the pixel-art palette, sprite scale, animation dimensions, and UI
+  style guide.
+- [ ] Replace the movement indicator and colored encounter squares.
+- [ ] Add final demo character, enemy, environment, portrait, item, and battle
+  assets.
+- [ ] Add readable exploration, dialogue, menu, inventory, job, and battle UI.
+- [ ] Add battle feedback, transitions, damage/healing feedback, and status
+  icons.
+- [ ] Add demo music, ambience, and sound effects with verified usage rights.
+- [ ] Add credits and third-party license notices.
+- [ ] Capture honest gameplay screenshots and video from the current build.
+- [ ] Prepare title treatment, capsule art, descriptions, and feature claims
+  that match implemented content.
+
+Exit gate:
+
+- The demo has no visible test-room presentation in the intended player path.
+- Screenshots and footage accurately represent the playable build.
+
+### Milestone 20: Demo Integration, Balance, And QA
+
+Goal: turn the content-complete vertical slice into a dependable public build.
+
+- [ ] Freeze demo features and triage all known defects.
+- [ ] Balance jobs, encounters, boss difficulty, rewards, shops, and healing.
+- [ ] Test new game, save migration, continue, defeat, escape, and demo ending.
+- [ ] Test supported resolutions, aspect ratios, keyboard, and controllers.
+- [ ] Test clean-machine installation and first launch.
+- [ ] Profile load times, memory, scene transitions, and common frame spikes.
+- [ ] Add logging suitable for diagnosing tester reports without collecting
+  personal data by default.
+- [ ] Run external playtests and record completion time, confusion points,
+  defects, and balance feedback.
+- [ ] Fix all critical and high-severity demo issues.
+- [ ] Produce a versioned demo release candidate and archive its source commit.
+
+Exit gate:
+
+- Multiple external players can finish without developer assistance.
+- Save data survives normal use and upgrades from the previous demo test build.
+- There are no known critical defects or progression blockers.
+
+### Milestone 21: Steam Demo Release
+
+Goal: publish the vertical slice as a correctly configured Steam demo and use it
+to validate player interest and production assumptions.
+
+- [ ] Complete Steamworks onboarding and the Steam Direct app setup when the
+  title, ownership, tax, banking, and public identity are ready.
+- [ ] Configure the base game store presence with truthful feature claims.
+- [ ] Create and link the separate demo App ID.
+- [ ] Configure depots, launch options, supported operating systems, controller
+  support, accessibility fields, and content survey accurately.
+- [ ] Upload and test the demo through the Steam client.
+- [ ] Complete required store and build checklists.
+- [ ] Submit store presence and builds with time reserved for review feedback.
+- [ ] Publish a Coming Soon page when the visual identity and feature set are
+  stable enough for public wishlists.
+- [ ] Prepare demo-specific screenshots, description, capsule/library assets,
+  trailer, support contact, and privacy disclosures where applicable.
+- [ ] Create a launch and feedback plan for announcements, bug reports, and
+  updates.
+- [ ] Tag and archive the released demo build.
+
+Steam Cloud and achievements are valuable candidates, but neither should block
+the first demo unless the demo design or save-transfer plan genuinely needs
+them.
+
+Exit gate:
+
+- The demo installs, launches, saves, and completes through the public Steam
+  client configuration.
+- Store claims, screenshots, supported features, and the shipped build agree.
+- Feedback is collected into actionable production decisions.
+
+## Full-Game Milestones
+
+### Milestone 22: Demo Feedback And Production Lock
+
+- [ ] Analyze completion, balance, usability, technical, and audience feedback.
+- [ ] Decide what to keep, change, cut, or prototype further.
+- [ ] Lock the full-game feature set, content budget, target platforms, and
+  production schedule.
+- [ ] Decide whether Early Access fits the actual production and community plan;
+  do not use it only as a substitute for finishing the game.
+- [ ] Establish release, pricing, localization, marketing, and support plans.
+
+### Milestone 23: Full-Game Production
+
+- [ ] Expand the story, world, quests, party roster, jobs, enemies, bosses,
+  items, equipment, shops, music, and art using proven demo pipelines.
+- [ ] Add full-game save migration and content validation tools.
+- [ ] Add localization-ready text storage before large dialogue production.
+- [ ] Maintain playable chapter gates instead of integrating everything only at
+  the end.
+- [ ] Run recurring automated, build, controller, and external playtests.
+
+### Milestone 24: Release Candidate And Steam Launch Readiness
+
+- [ ] Reach content complete, then feature freeze.
+- [ ] Complete localization, accessibility review, credits, legal, and licenses.
+- [ ] Complete performance, compatibility, save migration, and clean-install QA.
+- [ ] Finalize store assets, pricing, release date, support process, and launch
+  communications.
+- [ ] Submit a near-final build and store presence for Valve review with at least
+  the recommended lead time.
+- [ ] Maintain the required Coming Soon period before release.
+- [ ] Archive and sign off the release candidate before pressing Release.
+
+### Milestone 25: Launch And Post-Launch Support
+
+- [ ] Release deliberately through Steamworks and verify the live package.
+- [ ] Monitor crash reports, support requests, save issues, and severe defects.
+- [ ] Ship focused hotfixes without breaking existing saves.
+- [ ] Publish clear patch notes and maintain a tested rollback plan.
+- [ ] Review player feedback without allowing every request to redefine scope.
+- [ ] Decide on post-launch updates only after the base game is stable.
+
+## Quality Gates For Every Milestone
+
+- Define the player-visible outcome before implementation begins.
+- Keep gameplay rules independent from scene presentation where practical.
+- Add automated coverage proportional to behavioral risk.
+- Complete required Play Mode and build checks before marking the gate done.
+- Record manual Unity wiring and automate repeated setup.
+- Update `ROADMAP.md`, `TESTING.md`, and `PROJECT_HANDOFF.md` at each gate.
+- Commit focused work and push milestone branches so another machine can resume.
+- Do not mark a milestone complete while required work remains hidden in chat.
+
+## Branching Strategy
+
+- Finish the current `feature/core-combat-expansion` branch, push it, and merge
+  verified work before starting the vertical slice.
+- Use one branch per milestone or tightly scoped slice.
+- Start dependent branches from the latest integrated branch, not an old `main`.
+- Keep code, tests, generated scene changes, and documentation reviewable.
+- Tag public demo and full-game release candidates.
+- Keep generated Unity and IDE files ignored.
+
+## Scope Control
+
+- A feature enters the demo only if it supports the demo player promise.
+- Prefer a small complete content set over many incomplete systems.
+- Do not build full-game quantities of art or dialogue before the vertical slice
+  validates the pipeline and presentation.
+- New ideas go into a post-demo backlog unless they replace an agreed demo item.
+- Placeholder assets are acceptable during implementation, but not in the
+  intended public demo path unless clearly deliberate and presentation-ready.
+
+## Steam Planning References
+
+Current platform details must be rechecked against official Steamworks
+documentation when the relevant milestone begins:
+
+- Steam Direct fee and onboarding:
+  `https://partner.steamgames.com/doc/gettingstarted/appfee`
+- Store and build review:
+  `https://partner.steamgames.com/doc/store/review_process`
+- Coming Soon page:
+  `https://partner.steamgames.com/doc/store/coming_soon`
+- Demo applications:
+  `https://partner.steamgames.com/doc/store/application/demos`
+- Release process:
+  `https://partner.steamgames.com/doc/store/releasing`
+
+As of July 2026, Valve documents a $100 USD Steam Direct fee for each new product
+submitted through Steam Direct, typically 3-5 business days for store/build
+review with at least 7 business days recommended, and a minimum two-week Coming
+Soon period before a full release. A Steam demo uses a separate App ID linked to
+the base game and has its own configuration and release checklist.

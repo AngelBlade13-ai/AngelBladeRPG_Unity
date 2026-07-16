@@ -14,6 +14,24 @@ This document defines the intended player experience so future systems support t
 
 The references describe interaction structure and presentation direction. They do not require copying either game's art, characters, rules, or content.
 
+## Commercial Direction
+
+This project is intended to become a complete commercial PC game with an
+eventual Steam release. The next major product gate is a polished vertical-slice
+demo that represents the opening experience of the real game.
+
+- The demo must combine exploration, story, party/job choices, combat,
+  progression, saving, settings, and presentation in one complete playable arc.
+- Prototype scenes and placeholder assets are development tools, not the final
+  public identity.
+- Systems should be built deeply enough to support the demo, then scaled only
+  after the vertical slice validates the player experience and production
+  pipeline.
+- Store claims, screenshots, supported platforms, controller support, and
+  accessibility claims must always match the build players can actually use.
+
+The authoritative milestone and release gates are recorded in `ROADMAP.md`.
+
 ## Core Player Loop
 
 ```text
