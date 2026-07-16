@@ -7,21 +7,22 @@ formation, early quest progression, and Lysander recruitment. It builds on
 
 ## Protagonist Framing
 
-The player-created protagonist is a complete newcomer to Town Square.
+The player-created protagonist is a complete newcomer to Suncrest Hollow, the
+hub town previously described by the planning label `Town Square`.
 
 - Early NPCs treat the protagonist as unknown and newly arrived, not as a
   returning resident or established hero.
-- The opening should introduce Town Square through the protagonist's first
+- The opening should introduce Suncrest Hollow through the protagonist's first
   impressions without requiring a long exposition sequence.
-- The protagonist's reason for traveling to Town Square may be developed later,
-  but dialogue in this slice must not imply an unrecorded local history.
+- The protagonist's reason for traveling to Suncrest Hollow may be developed
+  later, but dialogue in this slice must not imply an unrecorded local history.
 
 ## Opening Quest: The Delayed Caravan
 
 At the beginning of the game, only one quest is available: a caravan carrying
-goods for Town Square is overdue, and someone is needed to investigate.
+goods for Suncrest Hollow is overdue, and someone is needed to investigate.
 
-1. The protagonist accepts the caravan quest in Town Square.
+1. The protagonist accepts the caravan quest in Suncrest Hollow.
 2. The player travels into Grassland.
 3. The caravan is found under attack by goblins.
 4. The goblins notice the protagonist and initiate the tutorial encounter.
@@ -88,7 +89,7 @@ conditions must never conflate the two.
 
 ## Post-Tutorial Party And Job Introduction
 
-After defeating the Hobgoblin, the group returns to Town Square.
+After defeating the Hobgoblin, the group returns to Suncrest Hollow.
 
 - The protagonist, Iona, Damari, and Enora become the standing four-character
   party.
@@ -102,8 +103,8 @@ After defeating the Hobgoblin, the group returns to Town Square.
 Three main story quests must be completed before the regional Goblin Boss
 encounter becomes available.
 
-- The three main quests may be completed in a flexible order unless an
-  individual quest has a clearly authored dependency.
+- The numbered main quests form a guided story sequence, while travel and side
+  quest order remain flexible.
 - These required quests form the shortest critical path to the Goblin Boss.
 - Approximately three to five side quests should support exploration, hub
   returns, rewards, and character moments.
@@ -112,8 +113,70 @@ encounter becomes available.
 - Defeating the Goblin Boss unlocks progression from Grassland to Cherry
   Blossom.
 
-The identities, quest givers, locations, and objectives of the three main
-quests remain to be authored.
+### Guild Posting And Briefing Pattern
+
+Each main quest begins as a deliberately vague posting in Guild Hall.
+
+1. The player accepts the posting and receives a district-level lead.
+2. The quest enters an `AwaitingBriefing` state rather than becoming fully
+   active.
+3. The player finds the named quest giver elsewhere in Suncrest Hollow.
+4. Speaking with that NPC supplies the details and initializes the active quest
+   objective.
+
+This pattern gives the player an organic tour of the hub without presenting a
+formal walking tutorial. Main quest state must distinguish posting acceptance,
+briefing, objective completion, and final turn-in so save/load cannot skip or
+repeat an initialization beat. These quest givers are local flavor characters;
+no later-game recurrence is currently planned for them.
+
+### Quest 1: A Worried Merchant
+
+- Posting: Guild Hall, describing goblin trouble affecting the roads.
+- Quest giver: Old Marlow in Whisper Market.
+- Character: an anxious, talkative shopkeeper whose livelihood depends on safe
+  roads.
+- Narrative purpose: establishes that the goblin problem is an ordinary but
+  continuing threat rather than a single caravan incident.
+
+### Quest 2: The Smith And The Missing Scout
+
+- Posting: Guild Hall, reporting that a scout sent to investigate has not
+  returned.
+- Quest giver: Bren at Ironforge Smithy.
+- Character: gruff but visibly worried because he knows the missing scout.
+- Narrative purpose: provides concrete information about the Goblin Boss, such
+  as its appearance, territory, or a useful behavioral pattern.
+- System opportunity: naturally introduces equipment inspection or upgrades at
+  the smithy without making a purchase mandatory.
+
+### Quest 3: The Guard Captain's Warning
+
+- Posting: Guild Hall, representing the town's official response to the growing
+  goblin threat.
+- Quest giver: Captain Vashti at Suncrest Watch.
+- Character: authoritative and treating the situation as a serious escalation.
+- Narrative purpose: serves as the final preparation beat before the Goblin
+  Boss becomes available.
+- Turn-in consequence: completes the required main-quest set and begins the
+  Lysander breadcrumb and exit-interception sequence.
+
+## Suncrest Hollow Districts
+
+- **Whisper Market:** commerce; Old Marlow briefs Quest 1 here.
+- **Ironforge Smithy:** crafting and equipment; Bren briefs Quest 2 here.
+- **Guild Hall:** quest board and initial posting location for all three main
+  quests.
+- **The Suncrest Inn:** tavern and social hub.
+- **The Sunwell Shrine:** temple and healing district.
+- **Amber Row:** residential quarter.
+- **The Sunroot Grove:** garden and town green; intended location for the
+  subtle, uncommented environmental decay hints.
+- **Suncrest Watch:** barracks and guard post; Captain Vashti briefs Quest 3,
+  and the nearby Grassland exit hosts Lysander's interception.
+
+The shared Suncrest, Amber, and Sun naming is intentional. These districts are
+interconnected parts of the hub, not separate world-map travel destinations.
 
 ## Lysander Recruitment
 
@@ -123,20 +186,29 @@ a small local reputation rather than joining by default.
 
 ### Unlock Rule
 
-- Lysander unlocks after three unique quests have been completed.
+- Lysander becomes reputation-eligible after three unique quests have been
+  completed.
 - Main and side quests both count toward this threshold.
 - The three required main quests satisfy the threshold by themselves, so side
   content is never required to recruit him.
+- His join sequence becomes pending once he is reputation-eligible and Quest 3
+  has been turned in. This preserves Captain Vashti's authored handoff beat.
 - Repeatable activity, duplicate rewards, and reloading completed turn-ins must
   not increment the counter again.
 
 ### Forced Join Beat
 
-Once the threshold is reached and Lysander has not joined, he blocks the Town
-Square exit toward Grassland.
+Before recruitment, Lysander is visible loitering near Guild Hall. He is
+non-interactive and does not provide dialogue, allowing attentive players to
+notice him without explaining his role early.
 
-- Attempting to leave triggers his dedicated join scene before travel can
-  continue.
+Once Quest 3 is turned in and the reputation threshold is satisfied:
+
+1. Captain Vashti notes that the paladin was looking for the protagonist.
+2. Lysander is removed from his earlier Guild Hall position.
+3. He intercepts the party at Suncrest Watch's exit toward Grassland.
+4. His dedicated join scene completes before travel can continue.
+
 - The join scene is mandatory and guarantees his recruitment before the Goblin
   Boss encounter.
 - The exit block and join scene must be driven by persistent quest and roster
@@ -159,9 +231,12 @@ Square exit toward Grassland.
 
 ## Open Narrative Items
 
-- Identities and locations of the three main quest givers.
-- Objectives and story content of the three main quests.
+- Exact field objectives, encounters, rewards, and turn-in details for the three
+  named main quests.
 - The exact NPC who authorizes or frames the Goblin Boss quest.
+- Specific content for approximately three to five optional side quests.
 - What happens immediately after the Goblin Boss falls and the route to Cherry
   Blossom opens.
 - The Cherry Blossom regional boss and the demo's final closing beat.
+- The later teleport-crystal system. It may support returning to Suncrest Hollow
+  in the full game but is not required for the demo.

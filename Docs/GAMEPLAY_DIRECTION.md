@@ -39,18 +39,19 @@ The authoritative milestone and release gates are recorded in `ROADMAP.md`.
 
 ## Demo World Direction
 
-The vertical-slice demo progresses through Town Square, Grassland, and Cherry
-Blossom. Town Square is the lively home hub; Grassland is an ordinary, healthy
+The vertical-slice demo progresses through Suncrest Hollow, Grassland, and Cherry
+Blossom. Suncrest Hollow is the lively home hub; Grassland is an ordinary, healthy
 first adventure region; Cherry Blossom remains beautiful but introduces quiet
 unease and a gate into later full-game content.
 
-Players can choose among available quests and explore without a prescribed
-quest order. Town services, turn-ins, character moments, and changing NPC
-dialogue should encourage regular hub visits. Defeating the Grassland goblin
-boss is the required gate to Cherry Blossom after three main quests make that
-encounter available; side-quest completion and elapsed playtime are not
-progression locks. The expected first playthrough is at least 90 minutes, while
-a practiced player may complete the critical path considerably faster.
+The three main quests form a guided story sequence, while travel and optional
+quest order remain flexible. Town services, turn-ins, character moments, and
+changing NPC dialogue should encourage regular hub visits. Defeating the
+Grassland goblin boss is the required gate to Cherry Blossom after the three
+main quests make that encounter available; side-quest completion and elapsed
+playtime are not progression locks. The expected first playthrough is at least
+90 minutes, while a practiced player may complete the critical path
+considerably faster.
 
 Story tone, location-specific boundaries, companion guidance, and explicit
 demo exclusions are recorded in `DEMO_STORY_REFERENCE.md`.
@@ -60,7 +61,7 @@ three-main-quest unlock, and Lysander recruitment are recorded in
 `DEMO_QUEST_FLOW.md`.
 
 Ember Camp is a reusable expedition rest and companion space. It must preserve
-Town Square's role by excluding general quest turn-ins, commerce, smithing,
+Suncrest Hollow's role by excluding general quest turn-ins, commerce, smithing,
 recruitment, and major hub progression. Demo and full-game boundaries for this
 system are recorded in `CAMP_SYSTEM_DESIGN.md`.
 

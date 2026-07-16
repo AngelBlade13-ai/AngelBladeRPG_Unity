@@ -2,18 +2,18 @@
 
 This document defines the intended role and technical boundary of Ember Camp.
 The system draws inspiration from party camps in character-driven RPGs, while
-remaining appropriate for this game's scope and preserving Town Square as the
+remaining appropriate for this game's scope and preserving Suncrest Hollow as the
 primary home hub.
 
 ## Player Experience
 
 Ember Camp is a temporary party space used between expeditions. It should feel
-quieter and more intimate than Town Square: a place to recover, check in with
+quieter and more intimate than Suncrest Hollow: a place to recover, check in with
 companions, and see the party becoming a found family.
 
 Camp complements the hub rather than replacing it.
 
-| Ember Camp | Town Square |
+| Ember Camp | Suncrest Hollow |
 | --- | --- |
 | Recover during an expedition | Accept and turn in most quests |
 | View camp-specific companion moments | Use market and smithy services |
@@ -23,7 +23,7 @@ Camp complements the hub rather than replacing it.
 
 Portable shops, smithing, guild services, and general quest turn-ins do not
 belong in camp. Keeping those functions hub-exclusive gives players practical
-and narrative reasons to return to Town Square.
+and narrative reasons to return to Suncrest Hollow.
 
 ## Demo Scope
 
@@ -62,12 +62,12 @@ These are expansion points, not promises that every feature must ship.
 
 - Camp must never become the optimal place to perform every between-battle task.
 - Most quest acceptance, turn-ins, purchasing, selling, equipment upgrades,
-  recruitment, and faction progression remain in Town Square or other
+  recruitment, and faction progression remain in Suncrest Hollow or other
   settlements.
 - Camp conversations should deepen party relationships; hub conversations
   should also react to quest and world progress so both spaces remain socially
   valuable.
-- The game may suggest returning to Town Square when new services or events are
+- The game may suggest returning to Suncrest Hollow when new services or events are
   available, but it should not interrupt exploration solely to force a visit.
 - Fast travel, when designed, must not erase the value of routes, camp access,
   or hub return decisions.

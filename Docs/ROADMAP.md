@@ -206,18 +206,18 @@ Exit gate:
 
 Goal: decide exactly what the demo contains before building production content.
 
-- [x] Establish the demo's location progression as Town Square, Grassland, and
+- [x] Establish the demo's location progression as Suncrest Hollow, Grassland, and
   Cherry Blossom.
 - [x] Define the demo's tone progression and narrative knowledge boundaries.
 - [x] Separate the player-created protagonist from the four authored companion
   identities.
 - [x] Record later-story material and systems that must remain outside the demo.
-- [x] Define a flexible quest loop with Town Square as a recurring hub and the
+- [x] Define a flexible quest loop with Suncrest Hollow as a recurring hub and the
   Grassland goblin boss as the gate to Cherry Blossom.
 - [x] Set a 90-minute-plus typical-playthrough target without artificial
   speedrun barriers.
 - [x] Define Ember Camp as a limited expedition recovery and companion space
-  that complements rather than replaces Town Square.
+  that complements rather than replaces Suncrest Hollow.
 - [x] Define the delayed-caravan opening, staged tutorial encounter, initial
   four-character party, three-main-quest boss unlock, and Lysander recruitment.
 - [ ] Choose the public game title and confirm a consistent project identity.
@@ -225,6 +225,8 @@ Goal: decide exactly what the demo contains before building production content.
   for obvious store, domain, and trademark conflicts.
 - [ ] Write a one-paragraph player promise and a short feature hierarchy.
 - [x] Define the demo opening and first-region objective through the Goblin Boss.
+- [x] Name Suncrest Hollow's districts and define the three main quest postings,
+  quest givers, narrative purposes, and Lysander breadcrumb sequence.
 - [ ] Define the Cherry Blossom climax and demo ending.
 - [ ] Define the exact maps, NPC set, later companion use, and Cherry Blossom
   boss within the selected demo regions.
@@ -282,7 +284,7 @@ combat rewards matter.
 - [ ] Add item use in and out of battle where appropriate.
 - [ ] Add one shop or service flow with buying and selling.
 - [ ] Add resting or healing in town.
-- [ ] Add tested party-rest rules shared by Town Square and Ember Camp where
+- [ ] Add tested party-rest rules shared by Suncrest Hollow and Ember Camp where
   appropriate.
 - [ ] Define demo loot tables, prices, and reward pacing.
 
@@ -324,8 +326,9 @@ art where final art is not ready.
 - [ ] Build the final demo scene list from the Milestone 14 brief.
 - [ ] Add NPC schedules or placement only where the demo requires them.
 - [ ] Add dialogue data, choices if required, and quest progression.
-- [ ] Add the delayed-caravan opening quest, three required main quests, and
-  approximately three to five optional side quests with tested one-time state.
+- [ ] Add the delayed-caravan opening quest; `A Worried Merchant`, `The Smith
+  And The Missing Scout`, and `The Guard Captain's Warning`; and approximately
+  three to five optional side quests with tested one-time state.
 - [ ] Add Lysander's three-quest recruitment threshold, forced exit scene, and
   party-management tutorial without save/load softlocks.
 - [ ] Add encounter selection, enemy groups, and progression pacing.
@@ -351,7 +354,7 @@ slice.
   assets.
 - [ ] Add readable exploration, dialogue, menu, inventory, job, and battle UI.
 - [ ] Give Ember Camp a cohesive final environment and readable companion-event
-  presentation without duplicating Town Square's services.
+  presentation without duplicating Suncrest Hollow's services.
 - [ ] Add battle feedback, transitions, damage/healing feedback, and status
   icons.
 - [ ] Add demo music, ambience, and sound effects with verified usage rights.

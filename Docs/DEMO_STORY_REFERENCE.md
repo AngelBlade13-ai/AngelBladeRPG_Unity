@@ -1,7 +1,7 @@
 # Demo Story And Lore Reference
 
 This document is the authoritative narrative boundary for the public demo. It
-covers Town Square and the first two traveled regions only. It should guide
+covers Suncrest Hollow and the first two traveled regions only. It should guide
 Milestone 14 planning, dialogue, environment art, encounters, and demo content
 without requiring full-game lore.
 
@@ -42,7 +42,7 @@ personalities, and job affinities.
 The demo's world scope follows this order:
 
 ```text
-Town Square hub -> Grassland -> Cherry Blossom -> demo progression gate
+Suncrest Hollow hub -> Grassland -> Cherry Blossom -> demo progression gate
 ```
 
 This sequence describes narrative progression, not a requirement that every
@@ -52,10 +52,10 @@ location be one Unity scene.
 
 The demo uses a hub-and-expedition loop rather than a fixed sequence of quests.
 
-- Town Square offers multiple quests that send the player into the available
+- Suncrest Hollow offers multiple quests that send the player into the available
   world areas and give them reasons to return afterward.
-- Players may explore freely and choose which available quests to pursue and in
-  which order.
+- The three main quests follow the guided sequence in `DEMO_QUEST_FLOW.md`.
+  Players may otherwise explore freely and choose optional quest order.
 - Optional quests should offer useful rewards, character moments, local world
   detail, or preparation for harder encounters without becoming hidden
   requirements.
@@ -69,7 +69,7 @@ The demo uses a hub-and-expedition loop rather than a fixed sequence of quests.
 
 ## Hub Return Incentives
 
-Town Square should become a familiar place the player wants to revisit, rather
+Suncrest Hollow should become a familiar place the player wants to revisit, rather
 than a menu they visit only when forced.
 
 - Quest turn-ins and new quest-board work should draw the player back naturally.
@@ -83,7 +83,7 @@ than a menu they visit only when forced.
 
 Ember Camp provides expedition recovery and quieter companion moments, but it
 does not provide the market, smithy, guild, recruitment, or general quest
-turn-in functions that make Town Square valuable. Its detailed boundaries are
+turn-in functions that make Suncrest Hollow valuable. Its detailed boundaries are
 recorded in `CAMP_SYSTEM_DESIGN.md`.
 
 ## Demo Pacing
@@ -98,26 +98,27 @@ recorded in `CAMP_SYSTEM_DESIGN.md`.
   routes are learnable and repeatable, even when combat still contains clearly
   communicated random outcomes.
 
-## Town Square
+## Suncrest Hollow
 
-Town Square is the player's home base and should be the liveliest, most vibrant
-location in the game.
+Suncrest Hollow is the proper name of the player's home-base town, previously
+described by the planning label `Town Square`. It should be the liveliest, most
+vibrant location in the game.
 
-- The hub contains a market, smithy, and guild or quest-board hall across a few
-  interconnected areas. These are parts of the hub, not separate travel
-  destinations.
+- Its interconnected districts include Whisper Market, Ironforge Smithy, Guild
+  Hall, the Suncrest Inn, the Sunwell Shrine, Amber Row, the Sunroot Grove, and
+  Suncrest Watch. These are hub districts, not world-map travel destinations.
 - NPC activity and environmental detail should make the town feel inhabited and
   welcoming.
 - A few optional, easy-to-miss details may suggest that something is slightly
   off, such as a plant wilting unexpectedly or a well running a little low.
 - NPCs must not comment on these details, and the details must not affect or
   block gameplay.
-- Town Square and Ember Camp should feel distinct: the town is lively, social,
+- Suncrest Hollow and Ember Camp should feel distinct: the town is lively, social,
   and service-rich, while camp is temporary and intimate.
 
 ## Region 1: Grassland
 
-Grassland is the first region reached from Town Square. It is vibrant, healthy,
+Grassland is the first region reached from Suncrest Hollow. It is vibrant, healthy,
 ordinary, and intentionally low stakes.
 
 - The environment contains no corruption or decay.
@@ -140,7 +141,7 @@ and physically pristine during the demo.
   sense that something is not right.
 - No resident knows or states the cause. Dialogue must not confirm an
   explanation that the player has not earned.
-- Services are intentionally more limited than in Town Square.
+- Services are intentionally more limited than in Suncrest Hollow.
 - The regional boss serves both as this region's story beat and as the gate
   preventing travel farther into the full game.
 - The boss's identity, the exact reason it blocks progress, and everything
@@ -170,13 +171,14 @@ early dialogue and combat banter.
   and large relationship-event chains.
 - Cherry Blossom's future changed state.
 - Any content beyond the Cherry Blossom progression gate.
+- The later teleport-crystal fast-travel system.
 
 ## Milestone 14 Decisions Still Needed
 
 - Public game title and developer or publisher identity.
 - One-paragraph player promise and feature hierarchy.
-- Contents of the three required main quests and approximately three to five
-  optional side quests.
+- Exact objectives and rewards for the three named main quests, plus
+  approximately three to five optional side quests.
 - Cherry Blossom boss identity and its demo-safe motivation.
 - Companion use and camp-event timing after the initial four party members and
   Lysander have joined.
