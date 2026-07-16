@@ -86,6 +86,12 @@ Suncrest Hollow's role by excluding general quest turn-ins, commerce, smithing,
 recruitment, and major hub progression. Demo and full-game boundaries for this
 system are recorded in `CAMP_SYSTEM_DESIGN.md`.
 
+All 12 catalog jobs are playable in the demo by every party member. The demo
+offers a meaningful early portion of each tree, with a data-driven progression
+limit authored per job instead of hiding or disabling jobs. Affinity remains
+guidance rather than an access requirement. The detailed boundary and open
+progression questions are recorded in `DEMO_JOB_TREE_SCOPE.md`.
+
 ## Core Player Loop
 
 ```text

@@ -41,6 +41,12 @@ Four optional quests are defined in `Docs/DEMO_SIDE_QUESTS.md`: `A Taste Of Home
 
 The demo Ember Camp is locked in `Docs/CAMP_SYSTEM_DESIGN.md`: it is discovered at one designated road campsite, begins with a free tutorial full rest, and uses one Camp Ration per later full rest. Camp restores every available recruited member but does not reset encounters or advance time. It allows party formation, equipment and item use, companion talks, and leaving, while job changes and town services remain in Suncrest Hollow. Its two events are `First Fire` and the optional Lysander conversation `Why This Party`.
 
+All 12 catalog jobs, including Summoner, are playable in the demo for the
+protagonist and every companion. Each tree has its own data-driven demo
+progression limit; affinity never restricts access, and learned nodes persist
+per character when jobs or party slots change. Exact nodes and point pacing are
+the next design pass. See `Docs/DEMO_JOB_TREE_SCOPE.md`.
+
 ## Current Git state
 
 Current local state:

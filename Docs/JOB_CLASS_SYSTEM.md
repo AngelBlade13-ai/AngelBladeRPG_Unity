@@ -2,6 +2,10 @@
 
 This document records future gameplay constraints for the job, character, party, inventory, and save-data architecture. It intentionally excludes story and world lore.
 
+The vertical-slice demo makes all 12 jobs playable while limiting how far each
+job tree can progress. The authoritative demo boundary is recorded in
+`DEMO_JOB_TREE_SCOPE.md`.
+
 ## Design Goals
 
 - Provide 12 job archetypes across tank, physical damage, magic damage, healer, and support roles.
@@ -41,7 +45,18 @@ Names are provisional. Role boundaries and trade-offs are the important design c
 
 10. Bard or Chanter: buffs, debuffs, and minor healing; low personal damage and survivability.
 11. Tactician or Strategist: battlefield and turn-order control; minimal direct damage and durability.
-12. Beastmaster or Summoner: temporary creature ally; summon is fragile, temporary, or otherwise unreliable. This job is optional and lower priority.
+12. Beastmaster or Summoner: temporary creature ally; summon is fragile, temporary, or otherwise unreliable. Summoner is part of the demo catalog, using a deliberately small first implementation rather than a general pet system.
+
+## Demo Availability
+
+- All 12 jobs are available when the demo introduces job assignment.
+- Every playable character may use every job; affinity guides effectiveness and
+  never gates access.
+- Each job owns a data-driven demo progression limit appropriate to its tree.
+- Learned nodes and job progress belong to a persistent character and survive
+  switching jobs or changing active-party slots.
+- Exact demo nodes, point rules, and per-job limits must be locked before their
+  Milestone 15 gameplay implementation.
 
 ## Affinity Model
 
@@ -126,8 +141,10 @@ This is a deliberate gameplay consequence and must be considered during inventor
 
 1. Finish core gameplay tests.
 2. Define persistent character, roster, active-party, and job data contracts.
-3. Define job roles, growth values, trade-offs, and affinity data.
-4. Test assignment, respecing, affinity effects, and party-slot independence.
+3. Define job roles, growth values, trade-offs, affinity data, stable tree-node
+   IDs, and per-job demo progression limits.
+4. Test assignment, progression limits, respecing, affinity effects, learned
+   node persistence, and party-slot independence.
 5. Build data-driven monster and item content against those stable contracts.
 6. Add inventory and saving with explicit handling for destroying a removed character's equipped gear exactly once.
 

@@ -7,7 +7,8 @@ systems.
 
 Detailed technical handoff notes live in `PROJECT_HANDOFF.md`. Product and scene
 direction lives in `GAMEPLAY_DIRECTION.md`. Job and roster constraints live in
-`JOB_CLASS_SYSTEM.md`. Demo narrative boundaries live in
+`JOB_CLASS_SYSTEM.md`, with demo job availability and progression limits in
+`DEMO_JOB_TREE_SCOPE.md`. Demo narrative boundaries live in
 `DEMO_STORY_REFERENCE.md`. The opening quest structure lives in
 `DEMO_QUEST_FLOW.md`, with field content in
 `DEMO_MAIN_QUEST_CONTENT.md` and Grassland battles in
@@ -244,9 +245,13 @@ Goal: decide exactly what the demo contains before building production content.
   Grassland exploration, party warmth, and Cherry Blossom unease.
 - [x] Lock the demo's designated Ember Camp access, ration-based full rest,
   available actions, and two one-time companion moments.
+- [x] Make all 12 jobs playable in the demo with a data-driven progression
+  limit owned by each job tree.
 - [ ] Define the exact maps, NPC set, and later companion use within the selected
   demo regions.
-- [ ] Choose which jobs, abilities, items, and services appear in the demo.
+- [ ] Define the exact early nodes, abilities, costs, and progression limit for
+  each demo job.
+- [ ] Choose which items and town services appear in the demo.
 - [ ] Create the map, scene, quest, and content list for the agreed playtime.
 - [x] Use dedicated quest encounters alongside step-triggered ambient random
   encounters as the default regional policy.
@@ -274,6 +279,8 @@ Goal: make the job and party systems visible and meaningful during play.
 - [ ] Add party targeting for allies and enemies.
 - [ ] Add MP, physical attacks, magic, healing, defend, and a small ability set.
 - [ ] Apply job stats and affinities to playable combatants.
+- [ ] Add stable job-tree nodes, per-character unlock state, and data-driven
+  demo progression limits for all 12 playable jobs.
 - [ ] Add a compact party formation and job-assignment flow.
 - [ ] Handle incapacitation, victory, defeat, XP, and rewards for a party.
 - [ ] Add enemy groups and battle layouts needed by the demo.
