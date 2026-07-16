@@ -3,7 +3,8 @@
 This document defines the demo's opening, tutorial encounter, initial party
 formation, early quest progression, and Lysander recruitment. It builds on
 `DEMO_STORY_REFERENCE.md`, `CAMP_SYSTEM_DESIGN.md`, and
-`JOB_CLASS_SYSTEM.md`.
+`JOB_CLASS_SYSTEM.md`. Detailed field objectives, encounters, and reward shapes
+live in `DEMO_MAIN_QUEST_CONTENT.md`.
 
 ## Protagonist Framing
 
@@ -231,8 +232,8 @@ Once Quest 3 is turned in and the reputation threshold is satisfied:
 
 ## Open Narrative Items
 
-- Exact field objectives, encounters, rewards, and turn-in details for the three
-  named main quests.
+- Remaining field-content and reward tuning listed in
+  `DEMO_MAIN_QUEST_CONTENT.md`.
 - The exact NPC who authorizes or frames the Goblin Boss quest.
 - Specific content for approximately three to five optional side quests.
 - What happens immediately after the Goblin Boss falls and the route to Cherry

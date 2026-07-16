@@ -9,7 +9,9 @@ Detailed technical handoff notes live in `PROJECT_HANDOFF.md`. Product and scene
 direction lives in `GAMEPLAY_DIRECTION.md`. Job and roster constraints live in
 `JOB_CLASS_SYSTEM.md`. Demo narrative boundaries live in
 `DEMO_STORY_REFERENCE.md`. The opening quest structure lives in
-`DEMO_QUEST_FLOW.md`. Camp boundaries live in `CAMP_SYSTEM_DESIGN.md`.
+`DEMO_QUEST_FLOW.md`, with field content in
+`DEMO_MAIN_QUEST_CONTENT.md`. Camp boundaries live in
+`CAMP_SYSTEM_DESIGN.md`.
 
 ## North Star
 
@@ -227,12 +229,15 @@ Goal: decide exactly what the demo contains before building production content.
 - [x] Define the demo opening and first-region objective through the Goblin Boss.
 - [x] Name Suncrest Hollow's districts and define the three main quest postings,
   quest givers, narrative purposes, and Lysander breadcrumb sequence.
+- [x] Define the three main quests' field structures, encounter escalation,
+  intelligence rewards, and optional thoroughness bonuses.
 - [ ] Define the Cherry Blossom climax and demo ending.
 - [ ] Define the exact maps, NPC set, later companion use, and Cherry Blossom
   boss within the selected demo regions.
 - [ ] Choose which jobs, abilities, items, and services appear in the demo.
 - [ ] Create the map, scene, quest, and content list for the agreed playtime.
-- [ ] Decide visible, scripted, random, or hybrid encounter policy.
+- [x] Use dedicated quest encounters alongside step-triggered ambient random
+  encounters as the default regional policy.
 - [ ] Create a content budget for maps, sprites, portraits, animations, music,
   sound effects, dialogue, enemies, and UI screens.
 - [ ] Record content and asset ownership or license requirements.

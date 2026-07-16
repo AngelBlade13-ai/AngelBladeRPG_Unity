@@ -60,6 +60,12 @@ The opening caravan quest, staged tutorial battle, initial party formation,
 three-main-quest unlock, and Lysander recruitment are recorded in
 `DEMO_QUEST_FLOW.md`.
 
+Grassland uses a hybrid encounter model: authored quest battles coexist with
+ambient generic-creature battles triggered after a configured number of
+eligible exploration steps. Field objectives, encounter boundaries, and reward
+shapes for the three main quests are recorded in
+`DEMO_MAIN_QUEST_CONTENT.md`.
+
 Ember Camp is a reusable expedition rest and companion space. It must preserve
 Suncrest Hollow's role by excluding general quest turn-ins, commerce, smithing,
 recruitment, and major hub progression. Demo and full-game boundaries for this
@@ -134,7 +140,6 @@ The tested gameplay rules survived the presentation change while the obsolete sc
 ## Decisions Still Open
 
 - Four-direction versus eight-direction movement animation.
-- Visible enemies, random encounters, scripted encounters, or a controlled combination.
 - One exploration scene per location versus larger connected maps.
 - Whether battle backgrounds are authored per region or assembled from reusable layers.
 - Exact battle camera, party layout, command UI, and transition effect.

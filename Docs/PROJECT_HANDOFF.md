@@ -29,6 +29,8 @@ Ember Camp is now part of the demo plan as a compact recovery and companion-inte
 
 The protagonist begins as a newcomer and investigates a delayed caravan in Grassland. A mandatory staged tutorial battle recruits Iona, then Damari and Enora, before the four return to Suncrest Hollow for the job tutorial. The Guild Hall posts three main quests whose briefings lead to Old Marlow, Bren, and Captain Vashti in different town districts. All three unlock the regional Goblin Boss. Lysander becomes eligible after any three unique quest completions and joins after Captain Vashti's Quest 3 handoff and the forced town-exit scene. The authoritative flow and tutorial safety constraints are in `Docs/DEMO_QUEST_FLOW.md`.
 
+The main quest field content is defined in `Docs/DEMO_MAIN_QUEST_CONTENT.md`: Quest 1 uses minimum-plus-optional investigation spots, Quest 2 follows a linear clue trail to an injured scout, and Quest 3 rescues scattered scouts for scaling intelligence and rewards. Grassland combines these dedicated goblin encounters with step-triggered ambient creature battles. Exact balance values and several content identities remain open.
+
 ## Current Git state
 
 Current local state:

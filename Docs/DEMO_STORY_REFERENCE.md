@@ -177,13 +177,13 @@ early dialogue and combat banter.
 
 - Public game title and developer or publisher identity.
 - One-paragraph player promise and feature hierarchy.
-- Exact objectives and rewards for the three named main quests, plus
-  approximately three to five optional side quests.
+- Final tuning for the three designed main quests, plus approximately three to
+  five optional side quests.
 - Cherry Blossom boss identity and its demo-safe motivation.
 - Companion use and camp-event timing after the initial four party members and
   Lysander have joined.
 - Exact protagonist customization categories and art budget.
-- Demo jobs, abilities, items, services, and encounter policy.
+- Demo jobs, abilities, items, and services.
 - Camp access, rest-cost, recovery, and demo-event rules described as open
   decisions in `CAMP_SYSTEM_DESIGN.md`.
 - Map and scene list, dialogue budget, and full asset list for the 90-minute-plus
