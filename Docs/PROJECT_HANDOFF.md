@@ -23,6 +23,8 @@ The existing full-screen town and battle panels are useful prototypes for gamepl
 
 The demo follows Town Square, Grassland, and Cherry Blossom. Its tone and lore boundaries are recorded in `Docs/DEMO_STORY_REFERENCE.md`. The main character is a custom-created protagonist and is not one of the authored companion IDs `pc_01` through `pc_04`; those records belong to Iona, Damari, Enora, and Lysander.
 
+Demo progression uses a flexible hub-and-expedition quest loop. Players choose their quest order and are encouraged to revisit Town Square for turn-ins, services, and character moments. The Grassland goblin boss is the required gate to Cherry Blossom; optional quest completion and elapsed time are not gates. A typical first run should contain at least 90 minutes of content, while a practiced critical-path run may be substantially shorter.
+
 ## Current Git state
 
 Current local state:

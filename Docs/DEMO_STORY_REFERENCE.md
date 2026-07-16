@@ -45,9 +45,52 @@ The demo's world scope follows this order:
 Town Square hub -> Grassland -> Cherry Blossom -> demo progression gate
 ```
 
-The exact opening objective, return trips, quest structure, and final demo scene
-remain to be defined. This sequence describes narrative progression, not a
-requirement that every location be one Unity scene.
+This sequence describes narrative progression, not a requirement that every
+location be one Unity scene.
+
+## Quest And Progression Structure
+
+The demo uses a hub-and-expedition loop rather than a fixed sequence of quests.
+
+- Town Square offers multiple quests that send the player into the available
+  world areas and give them reasons to return afterward.
+- Players may explore freely and choose which available quests to pursue and in
+  which order.
+- Optional quests should offer useful rewards, character moments, local world
+  detail, or preparation for harder encounters without becoming hidden
+  requirements.
+- Defeating the Grassland goblin boss is the only required progression gate for
+  reaching Cherry Blossom.
+- Quest order, completion percentage, character level, equipment score, and
+  elapsed playtime must not independently block that transition.
+- Exact opening dialogue, quest names, individual objectives, and the final demo
+  scene remain to be defined.
+
+## Hub Return Incentives
+
+Town Square should become a familiar place the player wants to revisit, rather
+than a menu they visit only when forced.
+
+- Quest turn-ins and new quest-board work should draw the player back naturally.
+- The market, smithy, guild, recovery, party conversations, and future
+  progression services may provide practical reasons to return, limited to the
+  systems selected for the demo.
+- New NPC remarks or companion banter can make the hub feel responsive after
+  important quests and boss victories.
+- Mandatory returns should be used only when needed for a clear story beat.
+  Routine backtracking should remain the player's choice.
+
+## Demo Pacing
+
+- Target at least 90 minutes for a typical first playthrough that includes
+  exploration, several quests, dialogue, preparation, and normal combat.
+- Do not enforce that duration with timers, excessive travel, mandatory grinding,
+  unskippable repetition, or a required number of optional quests.
+- A knowledgeable or highly skilled player may follow a much shorter critical
+  path, complete the required objectives, and progress quickly.
+- Quest and dialogue state should be deterministic enough that speedrunning
+  routes are learnable and repeatable, even when combat still contains clearly
+  communicated random outcomes.
 
 ## Town Square
 
@@ -74,6 +117,9 @@ ordinary, and intentionally low stakes.
 - The regional boss is a troublesome goblin acting as a bandit-style nuisance.
 - The encounter should read as a conventional first boss with no supernatural
   meaning and no connection to a larger threat.
+- Defeating this boss unlocks progression to Cherry Blossom. Other Grassland
+  quests remain optional unless a later Milestone 14 decision explicitly makes
+  one part of the boss objective.
 - No foreshadowing that belongs to the later story may be moved into this
   region.
 
@@ -120,12 +166,14 @@ early dialogue and combat banter.
 
 - Public game title and developer or publisher identity.
 - One-paragraph player promise and feature hierarchy.
-- The demo opening quest, immediate objective, climax, and closing beat.
+- Exact quests, immediate opening objective, climax presentation, and closing
+  beat.
 - Cherry Blossom boss identity and its demo-safe motivation.
 - Which companions join the protagonist, and at what points.
 - Exact protagonist customization categories and art budget.
 - Demo jobs, abilities, items, services, and encounter policy.
-- Target playtime, map and scene list, dialogue budget, and full asset list.
+- Map and scene list, dialogue budget, and full asset list for the 90-minute-plus
+  target.
 
 Later lore should remain deferred until a milestone needs it. New story input
 should be added here only when it changes the public demo.

@@ -65,12 +65,14 @@ content-complete gate and production velocity is measurable.
 The demo scope will be locked in Milestone 14. Until then, use this provisional
 target:
 
-- Approximately 30-60 minutes for a first playthrough.
+- At least 90 minutes for a typical first playthrough, with a shorter critical
+  path free from optional-quest or elapsed-time gates.
 - A clear beginning, short objective, climax, and demo ending.
 - One polished hub or town area.
-- One connected route, dungeon, or hostile location.
-- A small set of purposeful NPC interactions and at least one complete quest.
-- Multiple normal battles and one boss or major encounter.
+- Two traveled regions: Grassland and Cherry Blossom.
+- Several purposeful quests and NPC interactions that can be approached in a
+  flexible order.
+- Multiple normal battles and the Grassland and Cherry Blossom regional bosses.
 - A small playable party that demonstrates jobs, party roles, and progression.
 - A useful subset of items, equipment, rewards, and town services.
 - Working save/load, settings, keyboard controls, and controller navigation.
@@ -207,6 +209,10 @@ Goal: decide exactly what the demo contains before building production content.
 - [x] Separate the player-created protagonist from the four authored companion
   identities.
 - [x] Record later-story material and systems that must remain outside the demo.
+- [x] Define a flexible quest loop with Town Square as a recurring hub and the
+  Grassland goblin boss as the gate to Cherry Blossom.
+- [x] Set a 90-minute-plus typical-playthrough target without artificial
+  speedrun barriers.
 - [ ] Choose the public game title and confirm a consistent project identity.
 - [ ] Choose the developer/publisher identity and check proposed public names
   for obvious store, domain, and trademark conflicts.
@@ -215,7 +221,7 @@ Goal: decide exactly what the demo contains before building production content.
 - [ ] Define the exact maps, NPC set, companion join order, and Cherry Blossom
   boss within the selected demo regions.
 - [ ] Choose which jobs, abilities, items, and services appear in the demo.
-- [ ] Set the target playtime and create a scene/content list.
+- [ ] Create the map, scene, quest, and content list for the agreed playtime.
 - [ ] Decide visible, scripted, random, or hybrid encounter policy.
 - [ ] Create a content budget for maps, sprites, portraits, animations, music,
   sound effects, dialogue, enemies, and UI screens.

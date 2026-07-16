@@ -44,6 +44,14 @@ Blossom. Town Square is the lively home hub; Grassland is an ordinary, healthy
 first adventure region; Cherry Blossom remains beautiful but introduces quiet
 unease and a gate into later full-game content.
 
+Players can choose among available quests and explore without a prescribed
+quest order. Town services, turn-ins, character moments, and changing NPC
+dialogue should encourage regular hub visits. Defeating the Grassland goblin
+boss is the required gate to Cherry Blossom; optional quest completion and
+elapsed playtime are not progression locks. The expected first playthrough is
+at least 90 minutes, while a practiced player may complete the critical path
+considerably faster.
+
 Story tone, location-specific boundaries, companion guidance, and explicit
 demo exclusions are recorded in `DEMO_STORY_REFERENCE.md`.
 
