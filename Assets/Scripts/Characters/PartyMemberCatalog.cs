@@ -45,7 +45,7 @@ public static class PartyMemberCatalog
                     "Lysander",
                     true,
                     JobId.Paladin,
-                    "Measured, protective, and oriented toward leadership rather than display.",
+                    "Grizzled, independent, experienced, measured, and protective.",
                     "Balances front-line fighting with protection and rallying support.",
                     HighAffinity(JobId.Paladin))
             }

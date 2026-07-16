@@ -8,7 +8,8 @@ systems.
 Detailed technical handoff notes live in `PROJECT_HANDOFF.md`. Product and scene
 direction lives in `GAMEPLAY_DIRECTION.md`. Job and roster constraints live in
 `JOB_CLASS_SYSTEM.md`. Demo narrative boundaries live in
-`DEMO_STORY_REFERENCE.md`. Camp boundaries live in `CAMP_SYSTEM_DESIGN.md`.
+`DEMO_STORY_REFERENCE.md`. The opening quest structure lives in
+`DEMO_QUEST_FLOW.md`. Camp boundaries live in `CAMP_SYSTEM_DESIGN.md`.
 
 ## North Star
 
@@ -217,12 +218,15 @@ Goal: decide exactly what the demo contains before building production content.
   speedrun barriers.
 - [x] Define Ember Camp as a limited expedition recovery and companion space
   that complements rather than replaces Town Square.
+- [x] Define the delayed-caravan opening, staged tutorial encounter, initial
+  four-character party, three-main-quest boss unlock, and Lysander recruitment.
 - [ ] Choose the public game title and confirm a consistent project identity.
 - [ ] Choose the developer/publisher identity and check proposed public names
   for obvious store, domain, and trademark conflicts.
 - [ ] Write a one-paragraph player promise and a short feature hierarchy.
-- [ ] Define the demo's opening, objective, climax, and ending.
-- [ ] Define the exact maps, NPC set, companion join order, and Cherry Blossom
+- [x] Define the demo opening and first-region objective through the Goblin Boss.
+- [ ] Define the Cherry Blossom climax and demo ending.
+- [ ] Define the exact maps, NPC set, later companion use, and Cherry Blossom
   boss within the selected demo regions.
 - [ ] Choose which jobs, abilities, items, and services appear in the demo.
 - [ ] Create the map, scene, quest, and content list for the agreed playtime.
@@ -254,6 +258,8 @@ Goal: make the job and party systems visible and meaningful during play.
 - [ ] Add a compact party formation and job-assignment flow.
 - [ ] Handle incapacitation, victory, defeat, XP, and rewards for a party.
 - [ ] Add enemy groups and battle layouts needed by the demo.
+- [ ] Support the tutorial encounter's waves, safe damage checkpoints, disabled
+  escape, reinforcements, enemy threat control, and one-time completion.
 - [ ] Verify keyboard and controller command navigation.
 
 Exit gate:
@@ -318,7 +324,10 @@ art where final art is not ready.
 - [ ] Build the final demo scene list from the Milestone 14 brief.
 - [ ] Add NPC schedules or placement only where the demo requires them.
 - [ ] Add dialogue data, choices if required, and quest progression.
-- [ ] Add one complete quest chain with tested one-time rewards.
+- [ ] Add the delayed-caravan opening quest, three required main quests, and
+  approximately three to five optional side quests with tested one-time state.
+- [ ] Add Lysander's three-quest recruitment threshold, forced exit scene, and
+  party-management tutorial without save/load softlocks.
 - [ ] Add encounter selection, enemy groups, and progression pacing.
 - [ ] Add the demo boss and any required battle phases or scripted rules.
 - [ ] Add checkpoints, recovery behavior, and a demo ending flow.

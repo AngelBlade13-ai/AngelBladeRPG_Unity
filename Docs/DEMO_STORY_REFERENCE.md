@@ -61,10 +61,11 @@ The demo uses a hub-and-expedition loop rather than a fixed sequence of quests.
   requirements.
 - Defeating the Grassland goblin boss is the only required progression gate for
   reaching Cherry Blossom.
-- Quest order, completion percentage, character level, equipment score, and
-  elapsed playtime must not independently block that transition.
-- Exact opening dialogue, quest names, individual objectives, and the final demo
-  scene remain to be defined.
+- Three main quests unlock that boss encounter. Side-quest completion,
+  character level, equipment score, and elapsed playtime do not independently
+  block the transition.
+- The opening, tutorial party formation, main-quest count, and Lysander
+  recruitment flow are defined in `DEMO_QUEST_FLOW.md`.
 
 ## Hub Return Incentives
 
@@ -124,8 +125,8 @@ ordinary, and intentionally low stakes.
 - The encounter should read as a conventional first boss with no supernatural
   meaning and no connection to a larger threat.
 - Defeating this boss unlocks progression to Cherry Blossom. Other Grassland
-  quests remain optional unless a later Milestone 14 decision explicitly makes
-  one part of the boss objective.
+  side quests remain optional; the three authored main quests are required to
+  make the boss encounter available.
 - No foreshadowing that belongs to the later story may be moved into this
   region.
 
@@ -156,8 +157,9 @@ early dialogue and combat banter.
 - Dialogue should establish contrasting personalities and growing
   found-family chemistry without requiring full backstory exposition.
 - No permanent companion loss or major late-story turn occurs in the demo.
-- The exact companions present at each demo beat and when they join remain open
-  planning decisions.
+- The opening recruitment order through Lysander is fixed in
+  `DEMO_QUEST_FLOW.md`. Active-party choices and camp-event timing afterward
+  remain open planning decisions.
 
 ## Explicit Demo Exclusions
 
@@ -173,10 +175,11 @@ early dialogue and combat banter.
 
 - Public game title and developer or publisher identity.
 - One-paragraph player promise and feature hierarchy.
-- Exact quests, immediate opening objective, climax presentation, and closing
-  beat.
+- Contents of the three required main quests and approximately three to five
+  optional side quests.
 - Cherry Blossom boss identity and its demo-safe motivation.
-- Which companions join the protagonist, and at what points.
+- Companion use and camp-event timing after the initial four party members and
+  Lysander have joined.
 - Exact protagonist customization categories and art budget.
 - Demo jobs, abilities, items, services, and encounter policy.
 - Camp access, rest-cost, recovery, and demo-event rules described as open

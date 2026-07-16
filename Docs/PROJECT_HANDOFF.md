@@ -27,6 +27,8 @@ Demo progression uses a flexible hub-and-expedition quest loop. Players choose t
 
 Ember Camp is now part of the demo plan as a compact recovery and companion-interaction space. It must not duplicate Town Square's quest, commerce, smithy, recruitment, or major progression functions. The demo/full-game scope and technical boundaries are recorded in `Docs/CAMP_SYSTEM_DESIGN.md`.
 
+The protagonist begins as a newcomer and investigates a delayed caravan in Grassland. A mandatory staged tutorial battle recruits Iona, then Damari and Enora, before the four return to Town Square for the job tutorial. Three main quests unlock the regional Goblin Boss. Lysander joins after any three unique quest completions and triggers the five-member party-management tutorial before the boss. The authoritative flow and tutorial safety constraints are in `Docs/DEMO_QUEST_FLOW.md`.
+
 ## Current Git state
 
 Current local state:

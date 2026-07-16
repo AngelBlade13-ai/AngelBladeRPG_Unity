@@ -63,7 +63,7 @@ Four additional party members currently have stable IDs and natural archetypes. 
 - `pc_01`, Iona (placeholder name): warm, steady, and others-first; naturally favors White Mage and keeping allies alive.
 - `pc_02`, Damari: chaotic, crude, and aggressive; naturally favors Reaver and trading caution for front-line damage.
 - `pc_03`, Enora: bold, dramatic, and drawn to risk; naturally favors Blood Mage, self-damaging magic, and a scythe.
-- `pc_04`, Lysander (placeholder name): measured, protective, and leadership-oriented; naturally favors Paladin and balanced protection, damage, and rallying support.
+- `pc_04`, Lysander (placeholder name): a grizzled, independent, experienced adventurer who is measured, protective, and leadership-oriented; naturally favors Paladin and balanced protection, damage, and rallying support. He joins after the protagonist earns a local reputation and enters slightly above the current party's level.
 
 Every one of these characters can still equip and respec into every job. Only each clearly stated natural job begins at high affinity; all unspecified affinities remain neutral until deliberately authored. Display-name changes must not change stable IDs or require save-data migration. Two additional roster positions remain open for future characters.
 
