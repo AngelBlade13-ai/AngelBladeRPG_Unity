@@ -52,17 +52,19 @@ treated as a crisis.
 
 ## Ember Camp Introduction
 
-Ember Camp appears for the first time on the road to Cherry Blossom or shortly
-after arrival. The exact access point remains a map-layout decision.
+Ember Camp appears for the first time at a designated campsite on the road to
+Cherry Blossom. The first visit and free tutorial rest are required story beats;
+later visits are optional.
 
 - This is the party's first extended trip away from Suncrest Hollow.
-- The demo camp contains one or two companion conversations.
-- One conversation may feature Damari and Enora's marriage-like running banter
-  without confirming relationship details that have not been authored.
-- Another may let Lysander explain a little of why he is choosing to remain with
-  this party, without turning into a full backstory reveal.
+- `First Fire` features Damari and Enora's marriage-like running banter without
+  confirming relationship details that have not been authored.
+- `Why This Party` lets Lysander explain a little of why he is choosing to
+  remain, without turning into a full backstory reveal.
 - Camp remains a recovery and companion space, not a replacement town service
   center.
+- Detailed access, ration, recovery, action, and event rules are in
+  `CAMP_SYSTEM_DESIGN.md`.
 
 ## Nomadic Settlement Problem
 

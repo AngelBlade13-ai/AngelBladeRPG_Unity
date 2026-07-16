@@ -29,19 +29,98 @@ and narrative reasons to return to Suncrest Hollow.
 
 The demo should contain a compact but genuine version of Ember Camp:
 
-- Enter camp from approved safe conditions or designated camp access points.
+- Discover one designated campsite on the road to Cherry Blossom as a required
+  story beat after the post-Goblin Suncrest Hollow scenes.
 - Load one reusable camp scene rather than building a separate camp map for
   every region.
-- Restore the party through a clearly communicated rest action.
-- Present one or two authored companion conversations or banter moments unlocked
-  by demo progress.
-- Allow basic party and equipment review if those screens are available by the
-  time camp is implemented.
+- Restore the party through the full-rest rules below.
+- Present the two authored companion moments below.
+- Allow party formation, equipment review, shared-inventory review, item use,
+  and companion interaction.
 - Leave camp and return to the exact exploration scene and position.
 - Preserve camp conversations, rest state, and return information in save data.
 
 The demo does not need cooking, camp decoration, elaborate schedules, a day and
 night simulation, romance systems, or a large cinematic event pipeline.
+
+## Demo Access And Return Rules
+
+- Campsite ID: `camp_cherry_road`.
+- The first visit is mandatory so every demo player learns the camp loop.
+- After discovery, the campsite remains available from its physical road access
+  point. The demo does not provide an anywhere-on-the-map camp command.
+- Leaving camp returns the party to the exact road scene and access position.
+- The route back to Suncrest Hollow remains open; lack of supplies cannot create
+  an unrecoverable progression state.
+- Entering or leaving camp does not advance quest objectives unless an explicit
+  camp-event condition says otherwise.
+
+Designated campsites remain the default full-game access model unless later
+testing establishes a strong reason to allow camping from most safe locations.
+
+## Demo Rest Rules
+
+The item `item_camp_ration`, displayed as **Camp Ration**, pays for a full rest.
+
+- The first tutorial full rest is free.
+- The party receives two Camp Rations in its Cherry Blossom departure supplies.
+- Each later full rest consumes one Camp Ration after confirmation.
+- Cancelled, rejected, or failed rest attempts consume nothing.
+- Suncrest Hollow's inn or market can sell additional rations once the demo
+  economy is implemented. A small number may also be found during exploration.
+
+A full rest:
+
+- Restores HP and MP for every available recruited party member, including
+  benched characters.
+- Revives incapacitated available party members.
+- Clears temporary combat conditions such as poison, burn, buffs, debuffs, and
+  guarding state.
+- Does not change permanent, equipment, quest, relationship, or story state.
+- Does not reset dedicated quest encounters, ambient encounter step progress,
+  treasure, pickups, or one-time rewards.
+- Does not advance a day, clock, schedule, or timed quest in the demo.
+
+If the party is already fully recovered, the UI should communicate that before
+accepting a ration. Camp conversations remain available without spending or
+repeating a rest.
+
+## Demo Camp Actions
+
+- **Rest:** perform the confirmed full-rest action.
+- **Party:** arrange the four active slots and benched members.
+- **Equipment:** inspect and change equipment and use appropriate inventory
+  items.
+- **Talk:** interact with recruited companions and available camp moments.
+- **Leave:** return to the recorded road position.
+
+Job assignment and respecing remain Guild Hall services. Camp does not provide
+shopping, selling, smithing, quest acceptance, quest turn-in, recruitment, or
+faction progression.
+
+## Demo Companion Moments
+
+### First Fire
+
+- Stable event ID: `camp_event_demo_first_fire`.
+- Triggers once after the free tutorial rest.
+- Uses a short group scene centered on Damari and Enora's marriage-like running
+  banter while Iona and the protagonist react.
+- Lysander remains slightly reserved because he is still new to the group's
+  established rhythm.
+
+### Why This Party
+
+- Stable event ID: `camp_event_demo_lysander_stays`.
+- Becomes available after First Fire and is started by talking to Lysander.
+- Lets him explain a little of why he has chosen to remain with this particular
+  party without revealing his full history.
+- Remains available on later camp visits if the player leaves without viewing
+  it, then resolves exactly once.
+
+Camp displays all recruited, available companions even when they are not in the
+four active battle slots. Event availability depends on roster and story state,
+not active-party placement or repeated resting.
 
 ## Full-Game Expansion
 
@@ -49,9 +128,9 @@ After the demo validates the core loop, Ember Camp may grow to support:
 
 - Region-aware visual variants built from reusable camp layouts and data.
 - Larger companion event chains and relationship-dependent group scenes.
-- Camp supplies, meals, or preparation bonuses if they create meaningful
-  choices without causing unrecoverable resource shortages.
-- Party swapping and catch-up support for benched characters.
+- Meals or preparation bonuses if they create meaningful choices without
+  causing unrecoverable resource shortages.
+- Formation presets and catch-up support for benched characters.
 - Story visitors or special events driven by explicit quest and world-state
   conditions.
 - Changes to camp availability during authored story sequences.
@@ -88,17 +167,28 @@ Camp rules should remain independent from scene presentation.
 - Save data records enough state to prevent one-time conversations or rewards
   from replaying incorrectly.
 
+## Test Requirements
+
+- The first tutorial rest is free exactly once and does not consume a ration.
+- Each later confirmed rest consumes exactly one ration.
+- Cancelling a rest or attempting one without supplies consumes nothing.
+- Full rest restores and revives every available recruited member, including
+  benched characters, without restoring permanently unavailable characters.
+- Temporary conditions clear while equipment, quests, relationships, encounter
+  steps, pickups, and one-time world state remain unchanged.
+- First Fire resolves once after the tutorial rest.
+- Why This Party remains available until viewed and then resolves once.
+- Changing active formation cannot hide or replay camp events.
+- Leaving camp restores the recorded road scene and position.
+- Save/load cannot duplicate rations, rests, event rewards, or event completion.
+
 ## Decisions Still Open
 
-- Whether camp is entered only at designated campsites or from most safe outdoor
-  locations.
-- Whether resting is free, consumes supplies, or uses another limitation.
-- Which HP, MP, status effects, and temporary bonuses a rest restores or clears.
-- Whether resting advances a lightweight time value or respawns encounters.
-- Which party, equipment, job, and inventory actions are available in camp.
-- The exact content and triggers of the demo's one or two companion camp events.
-- The exact road or Cherry Blossom access point for the demo's first Ember Camp
-  visit.
+- Exact Camp Ration price, exploration quantity, icon, and inventory rules.
+- Exact campsite road coordinates, return marker, visual layout, and props.
+- Final First Fire and Why This Party dialogue.
+- Whether full-game camps eventually gain regional layouts, meals, time
+  advancement, or broader safe-location access.
 
-These decisions should be resolved during Milestone 14 before content and UI are
-budgeted around the camp.
+The remaining demo values should be resolved with the item economy, map layout,
+and dialogue content budgets.

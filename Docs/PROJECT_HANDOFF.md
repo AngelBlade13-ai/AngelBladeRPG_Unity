@@ -39,6 +39,8 @@ The Cherry Blossom boss is the Great Stag, a living protector whose branch-like 
 
 Four optional quests are defined in `Docs/DEMO_SIDE_QUESTS.md`: `A Taste Of Home`, `The Roadside Chimes`, `A Painter's View`, and `Where The Herd Won't Graze`. They reuse ordinary quest interactions, support the intended playtime and hub loop, and add no critical-path gates, escort AI, timers, minigames, or new lore explanations.
 
+The demo Ember Camp is locked in `Docs/CAMP_SYSTEM_DESIGN.md`: it is discovered at one designated road campsite, begins with a free tutorial full rest, and uses one Camp Ration per later full rest. Camp restores every available recruited member but does not reset encounters or advance time. It allows party formation, equipment and item use, companion talks, and leaving, while job changes and town services remain in Suncrest Hollow. Its two events are `First Fire` and the optional Lysander conversation `Why This Party`.
+
 ## Current Git state
 
 Current local state:

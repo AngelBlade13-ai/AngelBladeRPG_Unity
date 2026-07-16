@@ -242,6 +242,8 @@ Goal: decide exactly what the demo contains before building production content.
   charge, Staggered response, and low-HP Panicked phase.
 - [x] Define four optional side quests supporting Suncrest Hollow returns,
   Grassland exploration, party warmth, and Cherry Blossom unease.
+- [x] Lock the demo's designated Ember Camp access, ration-based full rest,
+  available actions, and two one-time companion moments.
 - [ ] Define the exact maps, NPC set, and later companion use within the selected
   demo regions.
 - [ ] Choose which jobs, abilities, items, and services appear in the demo.
@@ -292,6 +294,7 @@ combat rewards matter.
 
 - [ ] Add stable item definitions for weapons, armor, accessories, and
   consumables.
+- [ ] Add `Camp Ration` and the confirmed full-rest consumption rules.
 - [ ] Add inventory quantities and capacity rules, if capacity is retained.
 - [ ] Add equipment ownership, stat bonuses, requirements, and comparisons.
 - [ ] Implement equipped-item destruction for permanent roster removal exactly
@@ -350,7 +353,7 @@ art where final art is not ready.
 - [ ] Add the Grassland Goblin Boss and Cherry Blossom Great Stag with
   their required battle phases and scripted rules.
 - [ ] Add checkpoints, recovery behavior, and a demo ending flow.
-- [ ] Add the reusable Ember Camp scene and its small demo companion-event set.
+- [ ] Add the reusable Ember Camp scene, `First Fire`, and `Why This Party`.
 - [ ] Complete an internal start-to-finish playthrough with no debug shortcuts.
 
 Exit gate:

@@ -182,12 +182,10 @@ early dialogue and combat banter.
 - One-paragraph player promise and feature hierarchy.
 - Final tuning for the three designed main quests and four optional side quests.
 - Final Great Stag balance and production assets.
-- Companion use and camp-event timing after the initial four party members and
-  Lysander have joined.
+- Final companion dialogue and active-party use after Lysander joins.
 - Exact protagonist customization categories and art budget.
 - Demo jobs, abilities, items, and services.
-- Camp access, rest-cost, recovery, and demo-event rules described as open
-  decisions in `CAMP_SYSTEM_DESIGN.md`.
+- Final Camp Ration economy, camp dialogue, and campsite layout.
 - Map and scene list, dialogue budget, and full asset list for the 90-minute-plus
   target.
 
