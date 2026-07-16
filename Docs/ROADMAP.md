@@ -10,8 +10,8 @@ direction lives in `GAMEPLAY_DIRECTION.md`. Job and roster constraints live in
 `JOB_CLASS_SYSTEM.md`. Demo narrative boundaries live in
 `DEMO_STORY_REFERENCE.md`. The opening quest structure lives in
 `DEMO_QUEST_FLOW.md`, with field content in
-`DEMO_MAIN_QUEST_CONTENT.md`. Camp boundaries live in
-`CAMP_SYSTEM_DESIGN.md`.
+`DEMO_MAIN_QUEST_CONTENT.md` and Grassland battles in
+`GRASSLAND_COMBAT_DESIGN.md`. Camp boundaries live in `CAMP_SYSTEM_DESIGN.md`.
 
 ## North Star
 
@@ -231,6 +231,8 @@ Goal: decide exactly what the demo contains before building production content.
   quest givers, narrative purposes, and Lysander breadcrumb sequence.
 - [x] Define the three main quests' field structures, encounter escalation,
   intelligence rewards, and optional thoroughness bonuses.
+- [x] Define Grassland enemy roles, dedicated and ambient groups, Quest 3 battle
+  advantages, and the regional Goblin Boss action pattern.
 - [ ] Define the Cherry Blossom climax and demo ending.
 - [ ] Define the exact maps, NPC set, later companion use, and Cherry Blossom
   boss within the selected demo regions.

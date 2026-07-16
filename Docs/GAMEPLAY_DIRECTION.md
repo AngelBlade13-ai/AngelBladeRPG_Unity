@@ -66,6 +66,10 @@ eligible exploration steps. Field objectives, encounter boundaries, and reward
 shapes for the three main quests are recorded in
 `DEMO_MAIN_QUEST_CONTENT.md`.
 
+Grassland enemy roles, encounter groups, scout-intelligence advantages, and the
+regional Goblin Boss action pattern are recorded in
+`GRASSLAND_COMBAT_DESIGN.md`.
+
 Ember Camp is a reusable expedition rest and companion space. It must preserve
 Suncrest Hollow's role by excluding general quest turn-ins, commerce, smithing,
 recruitment, and major hub progression. Demo and full-game boundaries for this

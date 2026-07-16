@@ -31,6 +31,8 @@ The protagonist begins as a newcomer and investigates a delayed caravan in Grass
 
 The main quest field content is defined in `Docs/DEMO_MAIN_QUEST_CONTENT.md`: Quest 1 uses minimum-plus-optional investigation spots, Quest 2 follows a linear clue trail to an injured scout, and Quest 3 rescues scattered scouts for scaling intelligence and rewards. Grassland combines these dedicated goblin encounters with step-triggered ambient creature battles. Exact balance values and several content identities remain open.
 
+Approved Grassland combat content is recorded in `Docs/GRASSLAND_COMBAT_DESIGN.md`. It defines Skirmisher, Slinger, Guard, and Raider goblins; Slime and Wild Boar ambient groups; the three scout-intelligence advantages; and a non-supernatural Goblin Boss built around Commanding Shout, telegraphed Brutal Swing, Off Balance, reinforcements, and a low-HP Reckless state. Numeric balance remains provisional until party combat is implemented.
+
 ## Current Git state
 
 Current local state:
