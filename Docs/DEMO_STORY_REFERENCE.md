@@ -80,6 +80,11 @@ than a menu they visit only when forced.
 - Mandatory returns should be used only when needed for a clear story beat.
   Routine backtracking should remain the player's choice.
 
+Ember Camp provides expedition recovery and quieter companion moments, but it
+does not provide the market, smithy, guild, recruitment, or general quest
+turn-in functions that make Town Square valuable. Its detailed boundaries are
+recorded in `CAMP_SYSTEM_DESIGN.md`.
+
 ## Demo Pacing
 
 - Target at least 90 minutes for a typical first playthrough that includes
@@ -106,7 +111,8 @@ location in the game.
   off, such as a plant wilting unexpectedly or a well running a little low.
 - NPCs must not comment on these details, and the details must not affect or
   block gameplay.
-- Ember Camp is a later mobile rest-point concept and is excluded from the demo.
+- Town Square and Ember Camp should feel distinct: the town is lively, social,
+  and service-rich, while camp is temporary and intimate.
 
 ## Region 1: Grassland
 
@@ -158,7 +164,8 @@ early dialogue and combat banter.
 - The true cause of the world's decay or any confirmed explanation for it.
 - Additional later bosses, regions, factions, or endgame content.
 - The planned permanent roster removal and its story circumstances.
-- Ember Camp.
+- Full-game camp expansions such as cooking, decoration, elaborate schedules,
+  and large relationship-event chains.
 - Cherry Blossom's future changed state.
 - Any content beyond the Cherry Blossom progression gate.
 
@@ -172,6 +179,8 @@ early dialogue and combat banter.
 - Which companions join the protagonist, and at what points.
 - Exact protagonist customization categories and art budget.
 - Demo jobs, abilities, items, services, and encounter policy.
+- Camp access, rest-cost, recovery, and demo-event rules described as open
+  decisions in `CAMP_SYSTEM_DESIGN.md`.
 - Map and scene list, dialogue budget, and full asset list for the 90-minute-plus
   target.
 

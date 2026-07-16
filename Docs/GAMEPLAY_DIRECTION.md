@@ -55,6 +55,11 @@ considerably faster.
 Story tone, location-specific boundaries, companion guidance, and explicit
 demo exclusions are recorded in `DEMO_STORY_REFERENCE.md`.
 
+Ember Camp is a reusable expedition rest and companion space. It must preserve
+Town Square's role by excluding general quest turn-ins, commerce, smithing,
+recruitment, and major hub progression. Demo and full-game boundaries for this
+system are recorded in `CAMP_SYSTEM_DESIGN.md`.
+
 ## Core Player Loop
 
 ```text

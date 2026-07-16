@@ -25,6 +25,8 @@ The demo follows Town Square, Grassland, and Cherry Blossom. Its tone and lore b
 
 Demo progression uses a flexible hub-and-expedition quest loop. Players choose their quest order and are encouraged to revisit Town Square for turn-ins, services, and character moments. The Grassland goblin boss is the required gate to Cherry Blossom; optional quest completion and elapsed time are not gates. A typical first run should contain at least 90 minutes of content, while a practiced critical-path run may be substantially shorter.
 
+Ember Camp is now part of the demo plan as a compact recovery and companion-interaction space. It must not duplicate Town Square's quest, commerce, smithy, recruitment, or major progression functions. The demo/full-game scope and technical boundaries are recorded in `Docs/CAMP_SYSTEM_DESIGN.md`.
+
 ## Current Git state
 
 Current local state:

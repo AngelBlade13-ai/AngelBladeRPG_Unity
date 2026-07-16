@@ -8,7 +8,7 @@ systems.
 Detailed technical handoff notes live in `PROJECT_HANDOFF.md`. Product and scene
 direction lives in `GAMEPLAY_DIRECTION.md`. Job and roster constraints live in
 `JOB_CLASS_SYSTEM.md`. Demo narrative boundaries live in
-`DEMO_STORY_REFERENCE.md`.
+`DEMO_STORY_REFERENCE.md`. Camp boundaries live in `CAMP_SYSTEM_DESIGN.md`.
 
 ## North Star
 
@@ -70,6 +70,8 @@ target:
 - A clear beginning, short objective, climax, and demo ending.
 - One polished hub or town area.
 - Two traveled regions: Grassland and Cherry Blossom.
+- One reusable Ember Camp space for recovery and a small set of companion
+  moments.
 - Several purposeful quests and NPC interactions that can be approached in a
   flexible order.
 - Multiple normal battles and the Grassland and Cherry Blossom regional bosses.
@@ -213,6 +215,8 @@ Goal: decide exactly what the demo contains before building production content.
   Grassland goblin boss as the gate to Cherry Blossom.
 - [x] Set a 90-minute-plus typical-playthrough target without artificial
   speedrun barriers.
+- [x] Define Ember Camp as a limited expedition recovery and companion space
+  that complements rather than replaces Town Square.
 - [ ] Choose the public game title and confirm a consistent project identity.
 - [ ] Choose the developer/publisher identity and check proposed public names
   for obvious store, domain, and trademark conflicts.
@@ -272,6 +276,8 @@ combat rewards matter.
 - [ ] Add item use in and out of battle where appropriate.
 - [ ] Add one shop or service flow with buying and selling.
 - [ ] Add resting or healing in town.
+- [ ] Add tested party-rest rules shared by Town Square and Ember Camp where
+  appropriate.
 - [ ] Define demo loot tables, prices, and reward pacing.
 
 Exit gate:
@@ -286,6 +292,7 @@ Goal: remove platform and persistence risks before producing most demo content.
 - [ ] Add versioned save models independent from scene objects.
 - [ ] Save player, party, jobs, inventory, equipment, quests, world state, and
   explicit spawn location.
+- [ ] Save camp state, consumed camp-event IDs, and exact camp return context.
 - [ ] Add manual save, autosave, Continue, new-game confirmation, and corrupt
   save handling.
 - [ ] Store saves under Unity's application data path.
@@ -315,6 +322,7 @@ art where final art is not ready.
 - [ ] Add encounter selection, enemy groups, and progression pacing.
 - [ ] Add the demo boss and any required battle phases or scripted rules.
 - [ ] Add checkpoints, recovery behavior, and a demo ending flow.
+- [ ] Add the reusable Ember Camp scene and its small demo companion-event set.
 - [ ] Complete an internal start-to-finish playthrough with no debug shortcuts.
 
 Exit gate:
@@ -333,6 +341,8 @@ slice.
 - [ ] Add final demo character, enemy, environment, portrait, item, and battle
   assets.
 - [ ] Add readable exploration, dialogue, menu, inventory, job, and battle UI.
+- [ ] Give Ember Camp a cohesive final environment and readable companion-event
+  presentation without duplicating Town Square's services.
 - [ ] Add battle feedback, transitions, damage/healing feedback, and status
   icons.
 - [ ] Add demo music, ambience, and sound effects with verified usage rights.
