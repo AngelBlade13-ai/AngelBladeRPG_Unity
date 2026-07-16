@@ -32,16 +32,17 @@ must feel like the opening of the real game, not like a mechanics test room.
 | Walkable world and interactions | Complete |
 | Separate battle-scene loop | Complete |
 | Job, character, and party data foundation | Complete |
-| Core combat expansion | In progress |
+| Core combat expansion | Complete |
 | Vertical-slice demo | Not started |
 | Full-game production | Future |
 | Steam release candidate | Future |
 
 Current branch: `feature/core-combat-expansion`
 
-Current verification baseline: 117 Edit Mode tests passed in Unity
+Current verification baseline: 138 Edit Mode tests passed in Unity
 `6000.5.3f1`, plus successful Play Mode checks for exploration, interactions,
-scene transitions, battle outcomes, rewards, and speed-based turn order.
+scene transitions, structured battle outcomes, guarding, misses, critical hits,
+speed-based escape, rewards, and speed-based turn order.
 
 ## Release Strategy
 
@@ -150,11 +151,13 @@ Status: Complete
   authored profiles, roster history, bond data, and permanent removal state.
 - Preserved equipped-item destruction as a future inventory/save invariant.
 
-## Current Foundation Gate
+## Latest Completed Foundation Gate
 
 ### Milestone 13: Combat Core Completion
 
 Branch: `feature/core-combat-expansion`
+
+Status: Complete
 
 Goal: finish a deterministic, testable combat foundation that can support party
 battles, jobs, equipment, abilities, and demo balancing.
@@ -169,18 +172,20 @@ Completed:
 - [x] Resolve each battle round in speed order without a visible turn queue.
 - [x] Prevent a defeated combatant from retaliating.
 - [x] Verify player-first and monster-first rounds in Play Mode.
-- [x] Run the current 117-test Edit Mode suite successfully.
+- [x] Run the initial 117-test Edit Mode suite successfully.
 
-Remaining slices:
+Final slices:
 
-- [ ] Add explicit combat-result data instead of relying only on log strings.
-- [ ] Add accuracy and misses with injected, testable randomness.
-- [ ] Add critical hits as a separate tested rule.
-- [ ] Add blocking or guarding as a separate tested rule.
-- [ ] Replace guaranteed escape with a clear, tested escape rule.
-- [ ] Establish action contracts for physical attacks, magic, healing, items,
+- [x] Add explicit combat-result data instead of relying only on log strings.
+- [x] Add accuracy and misses with injected, testable randomness.
+- [x] Add critical hits as a separate tested rule.
+- [x] Add guarding as a separate tested rule and battle command.
+- [x] Replace guaranteed escape with a clear, speed-based tested escape rule.
+- [x] Establish action contracts for physical attacks, magic, healing, items,
   defend, and future job abilities.
-- [ ] Complete a full combat regression and update the verification baseline.
+- [x] Run all 138 Edit Mode tests in Unity `6000.5.3f1` successfully.
+- [x] Complete the Play Mode combat regression for guarding, failed and
+  successful escape, misses, critical hits, victory, defeat, and rewards.
 
 Exit gate:
 
@@ -189,7 +194,7 @@ Exit gate:
 - Battle logs can explain every outcome to the player.
 - The battle scene can accept new actions without another structural rewrite.
 
-## Vertical-Slice Milestones
+## Next Product Gate: Vertical Slice
 
 ### Milestone 14: Demo Scope And Narrative Blueprint
 

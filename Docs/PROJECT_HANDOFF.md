@@ -317,7 +317,7 @@ The Edit Mode suite covers:
 - Level-up reward feedback
 - Starting and ending battle state
 
-The original core suite ran successfully in Unity `6000.5.3f1` on July 14, 2026: 18 passed, 0 failed. The current suite contains 117 passing tests after adding pixel-world movement, camera, temporary direction-indicator, walkable-town foundation, directional world interaction, door-transition, battle-scene, job, affinity, party-roster, authored party-member, speed-based turn-order, speed-resolved battle-round, bond, roster-history, shared combat-stat, and reusable monster-definition coverage. Run instructions are in `Docs/TESTING.md`.
+The original core suite ran successfully in Unity `6000.5.3f1` on July 14, 2026: 18 passed, 0 failed. The current suite contains 138 passing tests after adding pixel-world movement, camera, temporary direction-indicator, walkable-town foundation, directional world interaction, door-transition, battle-scene, job, affinity, party-roster, authored party-member, speed-based turn-order, speed-resolved battle-round, bond, roster-history, shared combat-stat, reusable monster-definition, and structured combat-action coverage. Run instructions are in `Docs/TESTING.md`.
 
 There was previously a stale generated `.csproj` reference to the missing file `Assets/Editor/HubForceResolve.cs`. Unity itself successfully compiled the gameplay scripts. Generated Unity project files should remain ignored and can be regenerated rather than manually maintained.
 
@@ -376,10 +376,10 @@ vertical-slice demo, full-game production, and Steam release.
 ### Phase 6 — Core combat expansion
 
 - [x] Reusable ID-keyed monster definitions and a small monster roster
-- [ ] Critical hits, accuracy, misses, block, and escape
+- [x] Critical hits, accuracy, misses, guarding, and speed-based escape
 - [ ] Potions and combat abilities
 - [ ] Poison and burn
-- [ ] Improved battle sequencing and outcome presentation
+- [x] Improved speed-based battle sequencing and structured outcome data
 
 ### Phase 7 — Data-driven content
 
@@ -537,7 +537,7 @@ For learning and automation, introduce a new Unity concept manually the first ti
 5. Open the project using Unity `6000.5.3f1`.
 6. Open `Assets/Scenes/MainGameScene.unity`.
 7. Run the Edit Mode suite using `Docs/TESTING.md`.
-8. Confirm all 117 tests pass.
+8. Confirm all 138 tests pass.
 9. Run the character-creation Play Mode checklist if the Unity version or scene changes.
 10. Review the completed Unity Editor checklist in `Docs/PIXEL_WORLD_SETUP.md` when changing the exploration foundation.
 
