@@ -182,12 +182,12 @@ early dialogue and combat banter.
 - One-paragraph player promise and feature hierarchy.
 - Final tuning for the three designed main quests and four optional side quests.
 - Final Great Stag balance and production assets.
-- Final companion dialogue and active-party use after Lysander joins.
+- Final companion dialogue after Lysander joins.
 - Exact protagonist customization categories and art budget.
-- Demo jobs, abilities, items, and services.
+- Final demo item values, equipment set, prices, and service economy.
 - Final Camp Ration economy, camp dialogue, and campsite layout.
-- Map and scene list, dialogue budget, and full asset list for the 90-minute-plus
-  target.
+- Final dialogue count and asset-production estimates for the 90-minute-plus
+  target. The required content inventory is in `DEMO_CONTENT_MANIFEST.md`.
 
 Later lore should remain deferred until a milestone needs it. New story input
 should be added here only when it changes the public demo.

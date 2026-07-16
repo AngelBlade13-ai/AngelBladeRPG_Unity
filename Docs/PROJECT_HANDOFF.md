@@ -53,6 +53,12 @@ traits, actions, and passives do not. JP is stored per character, may be spent
 on any job, and is not lost at a demo cap. See also
 `Docs/DEMO_JOB_TREE_SCOPE.md` for the broader boundary.
 
+The required demo maps, NPC roles, single-leader exploration presentation,
+quests, services, enemy roster, UI, preliminary asset budget, and explicit cut
+list are consolidated in `Docs/DEMO_CONTENT_MANIFEST.md`. It corrects older
+planning assumptions: all 12 capped jobs and all four optional side quests are
+required, and the Cherry Blossom boss is the already-defined Great Stag.
+
 ## Current Git state
 
 Current local state:

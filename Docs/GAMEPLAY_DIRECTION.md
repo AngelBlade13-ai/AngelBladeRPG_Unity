@@ -96,6 +96,10 @@ recorded in `DEMO_JOB_TREES.md`. Permanent stat nodes remain active across job
 changes, but learned traits, actions, and job-specific passives require their
 job to be equipped.
 
+The consolidated map, NPC, quest, companion-use, item-family, enemy, UI, asset,
+and explicit cut inventory for the vertical slice is recorded in
+`DEMO_CONTENT_MANIFEST.md`.
+
 ## Core Player Loop
 
 ```text

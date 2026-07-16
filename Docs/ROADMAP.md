@@ -17,6 +17,7 @@ direction lives in `GAMEPLAY_DIRECTION.md`. Job and roster constraints live in
 `DEMO_CHERRY_BLOSSOM_ARC.md`, with the Great Stag battle in
 `CHERRY_BLOSSOM_COMBAT_DESIGN.md`. Camp boundaries live in
 `CAMP_SYSTEM_DESIGN.md`. Optional demo quests live in `DEMO_SIDE_QUESTS.md`.
+The consolidated production inventory lives in `DEMO_CONTENT_MANIFEST.md`.
 
 ## North Star
 
@@ -248,20 +249,22 @@ Goal: decide exactly what the demo contains before building production content.
   available actions, and two one-time companion moments.
 - [x] Make all 12 jobs playable in the demo with a data-driven progression
   limit owned by each job tree.
-- [ ] Define the exact maps, NPC set, and later companion use within the selected
+- [x] Define the exact maps, NPC set, and later companion use within the selected
   demo regions.
 - [x] Define the exact early nodes, abilities, JP costs, and progression limit
   for each demo job.
 - [x] Add permanent cross-job stat nodes while keeping job traits, passives, and
   actions restricted to the currently equipped job.
-- [ ] Choose which items and town services appear in the demo.
-- [ ] Create the map, scene, quest, and content list for the agreed playtime.
+- [x] Define the required item families and town/settlement service roles.
+- [ ] Lock the exact demo item catalog, equipment restrictions, prices,
+  quantities, rewards, and inventory rules.
+- [x] Create the map, scene, quest, and content list for the agreed playtime.
 - [x] Use dedicated quest encounters alongside step-triggered ambient random
   encounters as the default regional policy.
-- [ ] Create a content budget for maps, sprites, portraits, animations, music,
-  sound effects, dialogue, enemies, and UI screens.
+- [x] Create a preliminary content budget for maps, sprites, portraits,
+  animations, music, sound effects, dialogue, enemies, and UI screens.
 - [ ] Record content and asset ownership or license requirements.
-- [ ] Create a cut list of features explicitly deferred until after the demo.
+- [x] Create a cut list of features explicitly deferred until after the demo.
 
 Exit gate:
 

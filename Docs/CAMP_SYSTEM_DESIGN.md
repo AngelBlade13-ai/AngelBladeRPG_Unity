@@ -94,9 +94,10 @@ repeating a rest.
 - **Talk:** interact with recruited companions and available camp moments.
 - **Leave:** return to the recorded road position.
 
-Job assignment and respecing remain Guild Hall services. Camp does not provide
-shopping, selling, smithing, quest acceptance, quest turn-in, recruitment, or
-faction progression.
+Job assignment and job-node purchases remain Guild Hall services. A future
+respec service, if implemented after the demo, also belongs there. Camp does not
+provide shopping, selling, smithing, quest acceptance, quest turn-in,
+recruitment, or faction progression.
 
 ## Demo Companion Moments
 
