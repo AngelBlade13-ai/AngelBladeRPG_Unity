@@ -145,9 +145,10 @@ tree's seasonal behavior becomes subtly wrong.
 - Services are intentionally more limited than in Suncrest Hollow.
 - The regional boss serves both as this region's story beat and as the gate
   preventing travel farther into the full game.
-- The boss is a distressed territorial elder beast traditionally viewed as a
-  protector rather than a villain. Its arc and the demo ending are defined in
-  `DEMO_CHERRY_BLOSSOM_ARC.md`.
+- The boss is the Great Stag, a distressed territorial protector that the party
+  subdues rather than kills. Its arc and the demo ending are defined in
+  `DEMO_CHERRY_BLOSSOM_ARC.md`, with combat rules in
+  `CHERRY_BLOSSOM_COMBAT_DESIGN.md`.
 - A later version of this region may change visibly, but that alternate state is
   excluded from the demo.
 
@@ -181,7 +182,7 @@ early dialogue and combat banter.
 - One-paragraph player promise and feature hierarchy.
 - Final tuning for the three designed main quests, plus approximately three to
   five optional side quests.
-- Final Cherry Blossom elder-beast identity and combat details.
+- Final Great Stag balance and production assets.
 - Companion use and camp-event timing after the initial four party members and
   Lysander have joined.
 - Exact protagonist customization categories and art budget.

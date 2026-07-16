@@ -71,8 +71,12 @@ regional Goblin Boss action pattern are recorded in
 `GRASSLAND_COMBAT_DESIGN.md`.
 
 The post-Goblin celebration, Cherry Blossom caravan request, Ember Camp
-introduction, sacred-tree disturbance, elder-beast boss, and unresolved demo
+introduction, sacred-tree disturbance, Great Stag boss, and unresolved demo
 ending are recorded in `DEMO_CHERRY_BLOSSOM_ARC.md`.
+
+The Great Stag's symbolic direction, marked-charge battle rhythm, Panicked
+phase, and nonlethal subdued outcome are recorded in
+`CHERRY_BLOSSOM_COMBAT_DESIGN.md`.
 
 Ember Camp is a reusable expedition rest and companion space. It must preserve
 Suncrest Hollow's role by excluding general quest turn-ins, commerce, smithing,
