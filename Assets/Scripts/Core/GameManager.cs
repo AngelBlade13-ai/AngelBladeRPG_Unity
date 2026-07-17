@@ -1,11 +1,16 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
+    public const string DefaultStartingSceneName = "SuncrestGuildHallScene";
+
     [Header("Scenes")]
-    [SerializeField] private string townSceneName = "TownScene";
+    [FormerlySerializedAs("townSceneName")]
+    [SerializeField] private string startingSceneName =
+        DefaultStartingSceneName;
 
     [Header("Panels")]
     public GameObject titlePanel;
@@ -41,7 +46,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        SceneManager.LoadScene(townSceneName);
+        SceneManager.LoadScene(startingSceneName);
     }
 
     public void ReturnToTitle()

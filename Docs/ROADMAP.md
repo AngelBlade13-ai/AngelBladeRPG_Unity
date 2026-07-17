@@ -52,12 +52,13 @@ must feel like the opening of the real game, not like a mechanics test room.
 | Full-game production | Future |
 | Steam release candidate | Future |
 
-Current branch: `feature/core-combat-expansion`
+Current branch: `feature/milestone-15-party-jobs`
 
-Current verification baseline: 138 Edit Mode tests passed in Unity
+Current verification baseline: 237 Edit Mode tests passed in Unity
 `6000.5.3f1`, plus successful Play Mode checks for exploration, interactions,
-scene transitions, structured battle outcomes, guarding, misses, critical hits,
-speed-based escape, rewards, and speed-based turn order.
+district transitions, party/job assignment, structured battle outcomes,
+guarding, misses, critical hits, speed-based escape, rewards, and speed-based
+turn order.
 
 ## Release Strategy
 
@@ -330,6 +331,12 @@ Current implementation checkpoint:
   growth and missing HP/MP during recalculation, and keeps learned permanent
   bonuses active across job changes without stacking derived values.
 - The expanded 225-test Edit Mode suite passes in Unity `6000.5.3f1`.
+- The party-management checkpoint adds active/reserve validation, four-member
+  formation ordering, and unrestricted job assignment with affinity guidance.
+  New games now enter `SuncrestGuildHallScene`, where a generated party service
+  exposes all 12 jobs and updates effective stats immediately.
+- The expanded 237-test Edit Mode suite and Guild Hall Play Mode smoke test pass
+  in Unity `6000.5.3f1`.
 
 - [x] Create runtime combatants for multiple active party members.
 - [x] Add party targeting for allies and enemies.
@@ -339,7 +346,7 @@ Current implementation checkpoint:
   demo progression limits for all 12 playable jobs.
 - [x] Aggregate permanent stat nodes across learned jobs without activating
   inactive-job skills or duplicating bonuses after loading or switching.
-- [ ] Add a compact party formation and job-assignment flow.
+- [x] Add a compact party formation and job-assignment flow.
 - [ ] Handle incapacitation, victory, defeat, XP, and rewards for a party.
 - [ ] Add enemy groups and battle layouts needed by the demo.
 - [ ] Support the tutorial encounter's waves, safe damage checkpoints, disabled

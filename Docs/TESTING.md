@@ -12,9 +12,9 @@ The core gameplay tests are Unity Edit Mode tests. They exercise plain gameplay 
 
 The test assembly is `AngelBladeRPG.EditModeTests` under `Assets/Tests/EditMode`.
 
-Verified on July 16, 2026 with Unity `6000.5.3f1`: 218 passed, 0 failed.
+Verified on July 17, 2026 with Unity `6000.5.3f1`: 237 passed, 0 failed.
 
-The current suite includes 21 core gameplay tests, five pixel-world movement and camera tests, five temporary direction-indicator tests, four walkable-town foundation tests, seven interaction tests, eight door-transition tests, 17 battle-scene tests, 13 party-command selection tests, 11 core-ability tests, 40 job, affinity, progression, playable-character, and party-roster tests, 11 runtime-party targeting tests, 13 party-round resolver tests, 10 authored party-member tests, five speed-based turn-order tests, nine legacy speed-resolved battle-round tests, five bond and roster-history tests, nine shared combat-stat tests, 10 reusable monster-definition tests, and 15 structured combat-action tests.
+The current suite includes 21 core gameplay tests, five pixel-world movement and camera tests, five temporary direction-indicator tests, four walkable-town foundation tests, seven interaction tests, eight door-transition tests, 17 battle-scene tests, 13 party-command selection tests, 11 core-ability tests, 59 job, affinity, progression, playable-character, party-roster, and party-management tests, 11 runtime-party targeting tests, 13 party-round resolver tests, 10 authored party-member tests, five speed-based turn-order tests, nine legacy speed-resolved battle-round tests, five bond and roster-history tests, nine shared combat-stat tests, 10 reusable monster-definition tests, and 15 structured combat-action tests.
 
 ### Milestone 15 Job Progression Checkpoint
 
@@ -110,9 +110,40 @@ The added coverage checks:
 - the prompt communicating ability name, cost, actor, and target; and
 - self-targeted actions displaying both actor and target markers.
 
+### Milestone 15 Equipped-Job Stat Checkpoint
+
+The equipped-job stat checkpoint adds seven Edit Mode cases. The full suite
+reports 225 passing tests in Unity `6000.5.3f1`.
+
+The added coverage checks distinct job packages, affinity scaling, permanent
+cross-job bonuses, non-stacking recalculation, missing-resource preservation,
+external level growth, and incapacitation preservation.
+
+### Milestone 15 Party And Job Service Checkpoint
+
+The party-management checkpoint adds 12 Edit Mode cases. The full suite reports
+237 passing tests in Unity `6000.5.3f1`. The generated Guild Hall service passed
+its Play Mode check for new-game routing, job preview and assignment, effective
+stat updates, modal movement control, and closing back into exploration.
+
+The added coverage checks:
+
+- active members appearing in formation order before stable-ID-sorted reserves;
+- adding, benching, and reordering characters without exceeding four members;
+- preventing the final active character from being benched;
+- invalid formation changes leaving the roster untouched;
+- all catalog jobs remaining assignable regardless of affinity; and
+- removed or unknown characters being rejected safely.
+
 ### Fastest Development Workflow
 
 Keep the Unity Editor open and use the Test Runner while actively developing. The current Edit Mode suite itself completes in well under one second; most command-line test time comes from launching and initializing a new Unity Editor process.
+
+Use project Editor builders for repeated scene creation and Inspector wiring.
+After a builder runs, the manual pass should be limited to visual composition,
+interaction feel, and a short end-to-end smoke test. Learn a Unity concept by
+building it manually once; automate repeats unless deliberate practice is the
+goal.
 
 Use command-line batch testing for milestone verification, CI, or situations where the Editor is already closed. Avoid adding `-quit` to the test command because the Unity 6.5 test runner controls its own shutdown after writing the result file.
 

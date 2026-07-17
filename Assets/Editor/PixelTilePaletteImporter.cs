@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -97,6 +98,64 @@ public static class PixelTilePaletteImporter
             "Phase 1 Tiles Ready",
             $"Imported {tiles.Count} tiles and arranged them by category " +
             "in the exploration palette.",
+            "OK");
+    }
+
+    [MenuItem(
+        "Tools/AngelBlade RPG/Art/Move Mispainted Soft Grass To Ground")]
+    public static void MoveMispaintedSoftGrassToGround()
+    {
+        GameObject groundObject = GameObject.Find("GroundTilemap");
+        GameObject foregroundObject = GameObject.Find("ForegroundTilemap");
+        Tilemap ground = groundObject == null
+            ? null
+            : groundObject.GetComponent<Tilemap>();
+        Tilemap foreground = foregroundObject == null
+            ? null
+            : foregroundObject.GetComponent<Tilemap>();
+
+        if (ground == null || foreground == null)
+        {
+            EditorUtility.DisplayDialog(
+                "Soft Grass Repair",
+                "The active scene needs GroundTilemap and ForegroundTilemap objects.",
+                "OK");
+            return;
+        }
+
+        Undo.RegisterCompleteObjectUndo(ground, "Move Soft Grass To Ground");
+        Undo.RegisterCompleteObjectUndo(
+            foreground,
+            "Move Soft Grass To Ground");
+
+        int movedCount = 0;
+        foreach (Vector3Int position in foreground.cellBounds.allPositionsWithin)
+        {
+            TileBase tile = foreground.GetTile(position);
+            if (tile == null || !tile.name.StartsWith(
+                "Phase1_EnvTile_SoftGrass",
+                StringComparison.Ordinal))
+            {
+                continue;
+            }
+
+            ground.SetTile(position, tile);
+            foreground.SetTile(position, null);
+            movedCount++;
+        }
+
+        ground.CompressBounds();
+        foreground.CompressBounds();
+        EditorUtility.SetDirty(ground);
+        EditorUtility.SetDirty(foreground);
+        EditorSceneManager.MarkSceneDirty(
+            EditorSceneManager.GetActiveScene());
+        EditorUtility.DisplayDialog(
+            "Soft Grass Repair",
+            movedCount == 0
+                ? "No misplaced SoftGrass tiles were found in the foreground."
+                : $"Moved {movedCount} SoftGrass tiles to GroundTilemap. " +
+                    "Save the scene after inspecting the result.",
             "OK");
     }
 

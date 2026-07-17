@@ -997,7 +997,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40f5a9dd0eaa84149a65a39ae3eef79a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  townSceneName: TownScene
+  startingSceneName: SuncrestGuildHallScene
   titlePanel: {fileID: 157929100}
   characterCreationPanel: {fileID: 1603960151}
   playerNameInput: {fileID: 1889018678}
