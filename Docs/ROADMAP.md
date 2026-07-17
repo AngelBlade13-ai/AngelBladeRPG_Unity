@@ -315,6 +315,11 @@ Current implementation checkpoint:
   complete command set to the party round resolver.
 - The expanded 199-test Edit Mode suite and repaired-scene smoke test pass in
   Unity `6000.5.3f1`.
+- The core-ability checkpoint adds stable definitions for Power
+  Strike, Ember, Blood Bolt, Mend, and Lay On Hands; validates job, target, and
+  resource requirements before a round mutates; and resolves physical, magic,
+  healing, MP-cost, and safe HP-cost effects through the shared speed order.
+- The expanded 210-test Edit Mode suite passes in Unity `6000.5.3f1`.
 
 - [x] Create runtime combatants for multiple active party members.
 - [x] Add party targeting for allies and enemies.

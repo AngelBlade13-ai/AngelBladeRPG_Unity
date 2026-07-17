@@ -4,6 +4,7 @@ using System.Collections.Generic;
 public enum PartyBattleCommandType
 {
     PhysicalAttack,
+    Ability,
     Defend
 }
 
@@ -12,11 +13,13 @@ public sealed class PartyBattleCommand
     public string ActorId { get; }
     public PartyBattleCommandType Type { get; }
     public string TargetId { get; }
+    public string AbilityId { get; }
 
     private PartyBattleCommand(
         string actorId,
         PartyBattleCommandType type,
-        string targetId)
+        string targetId,
+        string abilityId = "")
     {
         if (string.IsNullOrWhiteSpace(actorId))
         {
@@ -30,6 +33,9 @@ public sealed class PartyBattleCommand
         TargetId = string.IsNullOrWhiteSpace(targetId)
             ? string.Empty
             : targetId.Trim();
+        AbilityId = string.IsNullOrWhiteSpace(abilityId)
+            ? string.Empty
+            : abilityId.Trim();
     }
 
     public static PartyBattleCommand Attack(string actorId, string targetId)
@@ -53,6 +59,32 @@ public sealed class PartyBattleCommand
             actorId,
             PartyBattleCommandType.Defend,
             string.Empty);
+    }
+
+    public static PartyBattleCommand Ability(
+        string actorId,
+        string abilityId,
+        string targetId)
+    {
+        if (string.IsNullOrWhiteSpace(abilityId))
+        {
+            throw new ArgumentException(
+                "An ability ID is required.",
+                nameof(abilityId));
+        }
+
+        if (string.IsNullOrWhiteSpace(targetId))
+        {
+            throw new ArgumentException(
+                "An ability target ID is required.",
+                nameof(targetId));
+        }
+
+        return new PartyBattleCommand(
+            actorId,
+            PartyBattleCommandType.Ability,
+            targetId,
+            abilityId);
     }
 }
 
@@ -201,6 +233,17 @@ public sealed class PartyBattleRoundResolver
                 continue;
             }
 
+            if (command.Type == PartyBattleCommandType.Ability)
+            {
+                ResolveAbility(
+                    battle,
+                    actor,
+                    command,
+                    guardingIds,
+                    actions);
+                continue;
+            }
+
             ICombatant target = ResolveAttackTarget(battle, actor, command);
             if (target == null)
             {
@@ -300,6 +343,12 @@ public sealed class PartyBattleRoundResolver
             return;
         }
 
+        if (command.Type == PartyBattleCommandType.Ability)
+        {
+            ValidateAbilityCommand(battle, command);
+            return;
+        }
+
         if (!battle.TrySelectTarget(
             command.ActorId,
             BattleTargetType.SingleEnemy,
@@ -308,6 +357,38 @@ public sealed class PartyBattleRoundResolver
         {
             throw new ArgumentException(
                 $"{command.TargetId} is not a valid target for {command.ActorId}.");
+        }
+    }
+
+    private static void ValidateAbilityCommand(
+        PartyBattleState battle,
+        PartyBattleCommand command)
+    {
+        ICombatant actor = battle.GetCombatant(command.ActorId);
+        CombatAbilityDefinition ability =
+            CombatAbilityCatalog.Get(command.AbilityId);
+        if (!(actor is PlayableCharacterData character) ||
+            ability == null || character.CurrentJob != ability.RequiredJob)
+        {
+            throw new ArgumentException(
+                $"{command.ActorId} cannot use ability {command.AbilityId}.");
+        }
+
+        if (!ability.CanPayCost(actor))
+        {
+            throw new ArgumentException(
+                $"{command.ActorId} cannot pay for ability {command.AbilityId}.");
+        }
+
+        if (!battle.TrySelectTarget(
+            command.ActorId,
+            ability.TargetType,
+            command.TargetId,
+            out _))
+        {
+            throw new ArgumentException(
+                $"{command.TargetId} is not a valid target for " +
+                $"{command.AbilityId}.");
         }
     }
 
@@ -354,6 +435,54 @@ public sealed class PartyBattleRoundResolver
             actor.CombatantId,
             BattleTargetType.SingleEnemy);
         return livingTargets.Count > 0 ? livingTargets[0] : null;
+    }
+
+    private void ResolveAbility(
+        PartyBattleState battle,
+        ICombatant actor,
+        PartyBattleCommand command,
+        ISet<string> guardingIds,
+        ICollection<CombatActionResult> actions)
+    {
+        CombatAbilityDefinition ability =
+            CombatAbilityCatalog.Get(command.AbilityId);
+        ICombatant target = ResolveAbilityTarget(
+            battle,
+            actor,
+            command,
+            ability);
+        if (target == null)
+        {
+            return;
+        }
+
+        actions.Add(new CombatAbilityAction(ability).Execute(
+            new CombatActionContext(
+                actor,
+                target,
+                combatRandom,
+                guardingIds.Contains(target.CombatantId))));
+    }
+
+    private static ICombatant ResolveAbilityTarget(
+        PartyBattleState battle,
+        ICombatant actor,
+        PartyBattleCommand command,
+        CombatAbilityDefinition ability)
+    {
+        if (battle.TrySelectTarget(
+            actor.CombatantId,
+            ability.TargetType,
+            command.TargetId,
+            out ICombatant selectedTarget))
+        {
+            return selectedTarget;
+        }
+
+        IReadOnlyList<ICombatant> validTargets = battle.GetValidTargets(
+            actor.CombatantId,
+            ability.TargetType);
+        return validTargets.Count > 0 ? validTargets[0] : null;
     }
 
     private static ICombatant FindById(
