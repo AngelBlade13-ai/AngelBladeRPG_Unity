@@ -88,8 +88,8 @@ Current local state:
 
 - Active branch: `feature/milestone-15-party-jobs`
 - The feature branch tracks `origin/feature/milestone-15-party-jobs`.
-- Milestone 15 is in progress through the verified party outcome and reward
-  checkpoint.
+- Milestone 15 is in progress through the verified enemy group and battle
+  layout checkpoint.
 - Character creation, walkable district exploration, world interactions, the
   separate battle-scene loop, persistent job/roster data, reusable monster
   definitions, and the completed combat core are available on the pushed
@@ -380,7 +380,7 @@ The Edit Mode suite covers:
 - Level-up reward feedback
 - Starting and ending battle state
 
-The original core suite ran successfully in Unity `6000.5.3f1` on July 14, 2026: 18 passed, 0 failed. The current suite contains 246 passing tests after adding pixel-world movement, camera, temporary direction-indicator, walkable-town foundation, directional world interaction, door-transition, battle-scene, job, affinity, equipped-job stat derivation, progression, party-roster, party management, party-wide outcomes and rewards, runtime-party targeting, party-round resolution, party-command selection, core abilities, ability-command targeting, authored party-member, speed-based turn-order, legacy speed-resolved battle-round, bond, roster-history, shared combat-stat, reusable monster-definition, and structured combat-action coverage. Run instructions are in `Docs/TESTING.md`.
+The original core suite ran successfully in Unity `6000.5.3f1` on July 14, 2026: 18 passed, 0 failed. The current suite contains 274 passing tests after adding pixel-world movement, camera, temporary direction-indicator, walkable-town foundation, directional world interaction, door-transition, battle-scene, job, affinity, equipped-job stat derivation, progression, party-roster, party management, party-wide outcomes and rewards, enemy groups and battle layouts, runtime-party targeting, party-round resolution, party-command selection, core abilities, ability-command targeting, authored party-member, speed-based turn-order, legacy speed-resolved battle-round, bond, roster-history, shared combat-stat, reusable monster-definition, and structured combat-action coverage. Run instructions are in `Docs/TESTING.md`.
 
 Milestone 15 job progression is currently in progress on
 `feature/milestone-15-party-jobs`. The first checkpoint adds stable definitions
@@ -459,6 +459,17 @@ Structured reward results expose each participant's level gains for the battle
 log. Victory, defeat, and escape also record active and benched participation
 exactly once. Its nine added tests pass as part of the verified 246-test Edit
 Mode suite, and it requires no scene or Inspector changes.
+
+The tenth checkpoint is implemented and verified. `MonsterCatalog` now
+includes the eight authored
+Grassland/tutorial roles, while `BattleEncounterCatalog` defines the ten
+currently planned Grassland quest, patrol, ambient, and boss groups.
+`BattleLayoutCatalog` provides standard and boss slot arrangements. Encounter
+instances receive unique combatant IDs, group victories require every enemy
+to fall, and rewards aggregate across the full group. The existing battle scene
+reuses its placeholder visuals at runtime to show one block per active party
+member and enemy, so this checkpoint requires no scene or Inspector changes.
+Its 28 added tests pass as part of the verified 274-test Edit Mode suite.
 
 There was previously a stale generated `.csproj` reference to the missing file `Assets/Editor/HubForceResolve.cs`. Unity itself successfully compiled the gameplay scripts. Generated Unity project files should remain ignored and can be regenerated rather than manually maintained.
 
@@ -678,8 +689,8 @@ For learning and automation, introduce a new Unity concept manually the first ti
 5. Open the project using Unity `6000.5.3f1`.
 6. Open `Assets/Scenes/MainGameScene.unity`.
 7. Run the Edit Mode suite using `Docs/TESTING.md`.
-8. Confirm all 246 tests pass while the party outcome and reward checkpoint is
-   active.
+8. Confirm all 274 tests pass while the enemy group and battle layout
+   checkpoint is active.
 9. Run the character-creation Play Mode checklist if the Unity version or scene changes.
 10. Review the completed Unity Editor checklist in `Docs/PIXEL_WORLD_SETUP.md` when changing the exploration foundation.
 

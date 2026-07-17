@@ -54,7 +54,7 @@ must feel like the opening of the real game, not like a mechanics test room.
 
 Current branch: `feature/milestone-15-party-jobs`
 
-Current verification baseline: 246 Edit Mode tests passed in Unity
+Current verification baseline: 274 Edit Mode tests passed in Unity
 `6000.5.3f1`, plus successful Play Mode checks for exploration, interactions,
 district transitions, party/job assignment, structured battle outcomes,
 guarding, misses, critical hits, speed-based escape, rewards, and speed-based
@@ -343,6 +343,12 @@ Current implementation checkpoint:
   each character's level gains. Victory, defeat, and escape record active and
   benched participation exactly once.
 - The expanded 246-test Edit Mode suite passes in Unity `6000.5.3f1`.
+- The enemy-group checkpoint is implemented and verified.
+  It adds the eight authored Grassland/tutorial enemy roles, all ten currently
+  defined Grassland quest and ambient groups, stable standard and boss
+  formation layouts, unique runtime IDs for duplicate enemies, group targeting
+  and victory, aggregated rewards, and runtime placeholder positioning.
+- The expanded 274-test Edit Mode suite passes in Unity `6000.5.3f1`.
 
 - [x] Create runtime combatants for multiple active party members.
 - [x] Add party targeting for allies and enemies.
@@ -354,7 +360,7 @@ Current implementation checkpoint:
   inactive-job skills or duplicating bonuses after loading or switching.
 - [x] Add a compact party formation and job-assignment flow.
 - [x] Handle incapacitation, victory, defeat, XP, and rewards for a party.
-- [ ] Add enemy groups and battle layouts needed by the demo.
+- [x] Add enemy groups and battle layouts needed by the demo.
 - [ ] Support the tutorial encounter's waves, safe damage checkpoints, disabled
   escape, reinforcements, enemy threat control, and one-time completion.
 - [ ] Verify keyboard and controller command navigation.

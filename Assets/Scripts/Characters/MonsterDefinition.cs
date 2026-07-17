@@ -89,8 +89,20 @@ public class MonsterDefinition
 
     public MonsterData CreateMonster()
     {
+        return CreateMonster(Id);
+    }
+
+    public MonsterData CreateMonster(string combatantId)
+    {
+        if (string.IsNullOrWhiteSpace(combatantId))
+        {
+            throw new ArgumentException(
+                "A runtime combatant ID is required.",
+                nameof(combatantId));
+        }
+
         return new MonsterData(
-            Id,
+            combatantId.Trim(),
             DisplayName,
             MaxHp,
             Attack,
@@ -104,7 +116,8 @@ public class MonsterDefinition
             Accuracy,
             Evasion,
             CriticalChance,
-            JobPointReward);
+            JobPointReward,
+            Id);
     }
 
     private static void ValidateNonNegative(int value, string parameterName)

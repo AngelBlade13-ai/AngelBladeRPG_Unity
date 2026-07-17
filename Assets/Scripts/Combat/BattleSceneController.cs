@@ -42,6 +42,7 @@ public class BattleSceneController : MonoBehaviour
             return;
         }
 
+        ArrangeFormationPlaceholders();
         battleLogText.text = BuildEncounterOpening(session.PartyBattle.Enemies);
         BeginCommandSelection();
     }
@@ -122,7 +123,9 @@ public class BattleSceneController : MonoBehaviour
         if (!session.HasActiveBattle || commandSelection == null ||
             commandSelection.HasQueuedCommands ||
             commandSelection.IsChoosingAbility ||
-            session.PartyBattle.PartyMembers.Count != 1)
+            session.PartyBattle.PartyMembers.Count != 1 ||
+            session.PartyBattle.Enemies.Count != 1 ||
+            !session.EscapeAllowed)
         {
             return;
         }
@@ -318,7 +321,9 @@ public class BattleSceneController : MonoBehaviour
         escapeButton.SetActive(
             commandsAreActive && session != null &&
             session.PartyBattle != null &&
-            session.PartyBattle.PartyMembers.Count == 1);
+            session.PartyBattle.PartyMembers.Count == 1 &&
+            session.PartyBattle.Enemies.Count == 1 &&
+            session.EscapeAllowed);
         if (previousTargetButton != null)
         {
             previousTargetButton.SetActive(commandsAreActive);
@@ -438,6 +443,49 @@ public class BattleSceneController : MonoBehaviour
         return names.Count == 1
             ? $"A {names[0]} appears!"
             : $"Enemies appear: {string.Join(", ", names)}!";
+    }
+
+    private void ArrangeFormationPlaceholders()
+    {
+        if (session.BattleLayout == null)
+        {
+            return;
+        }
+
+        ArrangePlaceholderGroup(
+            "PlayerPlaceholder",
+            session.PartyBattle.PartyMembers.Count,
+            session.BattleLayout.PartySlots);
+        ArrangePlaceholderGroup(
+            "MonsterPlaceholder",
+            session.PartyBattle.Enemies.Count,
+            session.BattleLayout.EnemySlots);
+    }
+
+    private static void ArrangePlaceholderGroup(
+        string objectName,
+        int visibleCount,
+        IReadOnlyList<BattleSlotPosition> slots)
+    {
+        GameObject source = GameObject.Find(objectName);
+        if (source == null || slots == null || visibleCount < 1)
+        {
+            return;
+        }
+
+        int count = Mathf.Min(visibleCount, slots.Count);
+        for (int index = 0; index < count; index++)
+        {
+            GameObject placeholder = index == 0
+                ? source
+                : Instantiate(source, source.transform.parent);
+            placeholder.name = $"{objectName}_{index + 1}";
+            RectTransform rect = placeholder.GetComponent<RectTransform>();
+            BattleSlotPosition slot = slots[index];
+            rect.anchorMin = new Vector2(slot.X, slot.Y);
+            rect.anchorMax = rect.anchorMin;
+            rect.anchoredPosition = Vector2.zero;
+        }
     }
 
     private static void SetTargetButtonInteractable(

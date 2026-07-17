@@ -12,9 +12,9 @@ The core gameplay tests are Unity Edit Mode tests. They exercise plain gameplay 
 
 The test assembly is `AngelBladeRPG.EditModeTests` under `Assets/Tests/EditMode`.
 
-Verified on July 17, 2026 with Unity `6000.5.3f1`: 246 passed, 0 failed.
+Verified on July 17, 2026 with Unity `6000.5.3f1`: 274 passed, 0 failed.
 
-The current suite includes 26 core gameplay tests, five pixel-world movement and camera tests, five temporary direction-indicator tests, four walkable-town foundation tests, seven interaction tests, eight door-transition tests, 17 battle-scene tests, 13 party-command selection tests, 11 core-ability tests, 63 job, affinity, progression, playable-character, party-roster, and party-management tests, 11 runtime-party targeting tests, 13 party-round resolver tests, 10 authored party-member tests, five speed-based turn-order tests, nine legacy speed-resolved battle-round tests, five bond and roster-history tests, nine shared combat-stat tests, 10 reusable monster-definition tests, and 15 structured combat-action tests.
+The current suite includes 30 core gameplay tests, five pixel-world movement and camera tests, five temporary direction-indicator tests, four walkable-town foundation tests, seven interaction tests, eight door-transition tests, 19 battle-scene tests, 13 party-command selection tests, 11 core-ability tests, 63 job, affinity, progression, playable-character, party-roster, and party-management tests, 11 runtime-party targeting tests, 13 party-round resolver tests, 10 authored party-member tests, five speed-based turn-order tests, nine legacy speed-resolved battle-round tests, five bond and roster-history tests, nine shared combat-stat tests, 18 reusable monster-definition tests, 14 enemy encounter and layout tests, and 15 structured combat-action tests.
 
 ### Milestone 15 Job Progression Checkpoint
 
@@ -151,6 +151,23 @@ The added coverage checks:
 - per-character level-up details in structured battle rewards; and
 - victory, defeat, and escape recording participation only once, with defeat
   and escape granting no currency, XP, or JP.
+
+### Milestone 15 Enemy Group And Layout Checkpoint
+
+This checkpoint adds 28 Edit Mode cases. The full suite reports 274 passing
+tests in Unity `6000.5.3f1`. It requires no scene rebuilding or Inspector
+wiring.
+
+The added coverage checks:
+
+- all eight authored Grassland/tutorial monster roles and their stable IDs;
+- all ten current Grassland quest, patrol, ambient, and boss groups;
+- duplicate enemy roles receiving unique runtime combatant IDs and labels;
+- standard four-enemy and boss five-enemy formation capacity;
+- encounter groups fitting their selected layout;
+- `GameSession` starting authored groups and retaining legacy single enemies;
+- victory waiting for the entire enemy group and aggregating every reward; and
+- the Goblin Boss encounter selecting its boss layout and rejecting escape.
 
 ### Fastest Development Workflow
 

@@ -22,5 +22,29 @@ namespace AngelBladeRPG.Tests
 
             Assert.That(valid, Is.EqualTo(expected));
         }
+
+        [Test]
+        public void HasEncounterConfigurationAcceptsKnownEncounterGroup()
+        {
+            bool valid = BattleEncounterInteractable2D.HasEncounterConfiguration(
+                "BattleScene",
+                "TownReturn",
+                BattleEncounterCatalog.Quest1SkirmishAId,
+                string.Empty);
+
+            Assert.That(valid, Is.True);
+        }
+
+        [Test]
+        public void HasEncounterConfigurationRejectsUnknownGroupAndMonster()
+        {
+            bool valid = BattleEncounterInteractable2D.HasEncounterConfiguration(
+                "BattleScene",
+                "TownReturn",
+                "encounter_unknown",
+                "monster_unknown");
+
+            Assert.That(valid, Is.False);
+        }
     }
 }

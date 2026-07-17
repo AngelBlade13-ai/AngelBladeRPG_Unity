@@ -118,6 +118,76 @@ namespace AngelBladeRPG.Tests
         }
 
         [Test]
+        public void StartBattleUsesAuthoredEnemyGroupAndLayout()
+        {
+            GameSession session = CreateSessionWithPlayer();
+            BattleEncounterDefinition encounter = BattleEncounterCatalog.Get(
+                BattleEncounterCatalog.Quest1SkirmishAId);
+
+            bool started = session.StartEncounter(encounter);
+
+            Assert.That(started, Is.True);
+            Assert.That(session.Encounter, Is.SameAs(encounter));
+            Assert.That(
+                session.BattleLayout.Id,
+                Is.EqualTo(BattleLayoutCatalog.StandardId));
+            Assert.That(session.PartyBattle.Enemies, Has.Count.EqualTo(2));
+            Assert.That(session.Monster, Is.SameAs(session.PartyBattle.Enemies[0]));
+        }
+
+        [Test]
+        public void GroupVictoryRequiresAllEnemiesToBeDefeated()
+        {
+            GameSession session = CreateSessionWithPlayer();
+            session.StartEncounter(BattleEncounterCatalog.Get(
+                BattleEncounterCatalog.AmbientSlimesId));
+            session.PartyBattle.Enemies[0].Stats.CurrentHp = 0;
+
+            bool completed = session.TryCompleteVictory(
+                out BattleRewardResult rewards);
+
+            Assert.That(completed, Is.False);
+            Assert.That(rewards, Is.Null);
+            Assert.That(session.HasActiveBattle, Is.True);
+        }
+
+        [Test]
+        public void GroupVictoryAggregatesEveryEnemyReward()
+        {
+            GameSession session = CreateSessionWithPlayer();
+            session.StartEncounter(BattleEncounterCatalog.Get(
+                BattleEncounterCatalog.AmbientSlimesId));
+            foreach (ICombatant enemy in session.PartyBattle.Enemies)
+            {
+                enemy.Stats.CurrentHp = 0;
+            }
+
+            bool completed = session.TryCompleteVictory(
+                out BattleRewardResult rewards);
+
+            Assert.That(completed, Is.True);
+            Assert.That(rewards.Gold, Is.EqualTo(8));
+            Assert.That(rewards.XP, Is.EqualTo(12));
+            Assert.That(rewards.JobPoints, Is.EqualTo(2));
+            Assert.That(session.Player.Gold, Is.EqualTo(8));
+            Assert.That(session.Player.XP, Is.EqualTo(12));
+        }
+
+        [Test]
+        public void AuthoredBossEncounterRejectsEscape()
+        {
+            GameSession session = CreateSessionWithPlayer();
+            session.StartEncounter(BattleEncounterCatalog.Get(
+                BattleEncounterCatalog.GoblinBossId));
+
+            bool escaped = session.CompleteEscape();
+
+            Assert.That(escaped, Is.False);
+            Assert.That(session.HasActiveBattle, Is.True);
+            Assert.That(session.BattleOutcome, Is.EqualTo(BattleOutcome.InProgress));
+        }
+
+        [Test]
         public void TryCompleteVictoryRejectsLivingMonster()
         {
             GameSession session = CreateSessionWithPlayer();

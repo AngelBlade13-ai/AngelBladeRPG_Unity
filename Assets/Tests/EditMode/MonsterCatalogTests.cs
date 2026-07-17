@@ -7,20 +7,27 @@ namespace AngelBladeRPG.Tests
     public class MonsterCatalogTests
     {
         [Test]
-        public void CatalogContainsFourUniqueMonsterDefinitions()
+        public void CatalogContainsElevenUniqueMonsterDefinitions()
         {
             MonsterDefinition[] definitions = MonsterCatalog.All.ToArray();
 
-            Assert.That(definitions, Has.Length.EqualTo(4));
+            Assert.That(definitions, Has.Length.EqualTo(11));
             Assert.That(
                 definitions.Select(monster => monster.Id).Distinct().Count(),
-                Is.EqualTo(4));
+                Is.EqualTo(definitions.Length));
         }
 
         [TestCase("monster_goblin", "Goblin")]
         [TestCase("monster_ogre", "Ogre")]
         [TestCase("monster_slime", "Slime")]
         [TestCase("monster_wisp", "Wisp")]
+        [TestCase("monster_goblin_skirmisher", "Goblin Skirmisher")]
+        [TestCase("monster_goblin_slinger", "Goblin Slinger")]
+        [TestCase("monster_goblin_guard", "Goblin Guard")]
+        [TestCase("monster_goblin_raider", "Goblin Raider")]
+        [TestCase("monster_tutorial_hobgoblin", "Hobgoblin")]
+        [TestCase("boss_grassland_goblin", "Goblin Boss")]
+        [TestCase("monster_wild_boar", "Wild Boar")]
         public void DefinitionCreatesExpectedMonster(
             string monsterId,
             string expectedName)
@@ -64,6 +71,18 @@ namespace AngelBladeRPG.Tests
             Assert.That(goblin.Id, Is.EqualTo("monster_goblin"));
             Assert.That(goblin.Name, Is.EqualTo("Goblin"));
             Assert.That(goblin.Id, Is.Not.EqualTo(goblin.Name));
+        }
+
+        [Test]
+        public void DefinitionCanCreateUniqueRuntimeCombatantId()
+        {
+            MonsterData goblin = MonsterCatalog.Get(
+                "monster_goblin_skirmisher").CreateMonster("encounter_enemy_01");
+
+            Assert.That(goblin.Id, Is.EqualTo("encounter_enemy_01"));
+            Assert.That(
+                goblin.DefinitionId,
+                Is.EqualTo("monster_goblin_skirmisher"));
         }
 
         [Test]

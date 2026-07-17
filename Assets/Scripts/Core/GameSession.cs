@@ -6,6 +6,9 @@ public class GameSession
     public PartyRoster Party { get; private set; }
     public MonsterData Monster { get; private set; }
     public PartyBattleState PartyBattle { get; private set; }
+    public BattleEncounterDefinition Encounter { get; private set; }
+    public BattleLayoutDefinition BattleLayout { get; private set; }
+    public bool EscapeAllowed { get; private set; }
     public bool BattleIsOver { get; private set; }
     public BattleOutcome BattleOutcome { get; private set; }
 
@@ -45,6 +48,9 @@ public class GameSession
         Party.TrySetActiveParty(new[] { protagonist.Id });
         Monster = null;
         PartyBattle = null;
+        Encounter = null;
+        BattleLayout = null;
+        EscapeAllowed = true;
         BattleIsOver = true;
         BattleOutcome = BattleOutcome.None;
         return true;
@@ -52,16 +58,61 @@ public class GameSession
 
     public bool StartBattle(MonsterData newMonster)
     {
-        if (Player == null || Player.CurrentHp <= 0 || newMonster == null ||
-            HasActiveBattle || Party.GetActiveCharacters().Count < 1)
+        if (newMonster == null)
         {
             return false;
         }
 
+        return StartBattle(
+            new[] { newMonster },
+            null,
+            BattleLayoutCatalog.Get(BattleLayoutCatalog.StandardId),
+            true);
+    }
+
+    public bool StartEncounter(BattleEncounterDefinition encounter)
+    {
+        if (encounter == null)
+        {
+            return false;
+        }
+
+        return StartBattle(
+            encounter.CreateEnemies(),
+            encounter,
+            BattleLayoutCatalog.Get(encounter.LayoutId),
+            encounter.EscapeAllowed);
+    }
+
+    private bool StartBattle(
+        IReadOnlyList<MonsterData> enemies,
+        BattleEncounterDefinition encounter,
+        BattleLayoutDefinition layout,
+        bool escapeAllowed)
+    {
+        if (Player == null || Player.CurrentHp <= 0 || enemies == null ||
+            enemies.Count < 1 || layout == null || HasActiveBattle ||
+            Party.GetActiveCharacters().Count < 1 ||
+            enemies.Count > layout.EnemySlots.Count)
+        {
+            return false;
+        }
+
+        foreach (MonsterData enemy in enemies)
+        {
+            if (enemy == null || enemy.CurrentHp <= 0)
+            {
+                return false;
+            }
+        }
+
         PartyBattle = PartyBattleState.FromRoster(
             Party,
-            new ICombatant[] { newMonster });
-        Monster = newMonster;
+            enemies);
+        Monster = enemies[0];
+        Encounter = encounter;
+        BattleLayout = layout;
+        EscapeAllowed = escapeAllowed;
         BattleIsOver = false;
         BattleOutcome = BattleOutcome.InProgress;
         return true;
@@ -71,9 +122,25 @@ public class GameSession
     {
         rewards = null;
 
-        if (!HasActiveBattle || Monster.CurrentHp > 0)
+        if (!HasActiveBattle || !PartyBattle.AreEnemiesDefeated)
         {
             return false;
+        }
+
+        int goldReward = 0;
+        int xpReward = 0;
+        int jobPointReward = 0;
+        foreach (ICombatant combatant in PartyBattle.Enemies)
+        {
+            MonsterData enemy = combatant as MonsterData;
+            if (enemy == null)
+            {
+                continue;
+            }
+
+            goldReward += enemy.GoldReward;
+            xpReward += enemy.XPReward;
+            jobPointReward += enemy.JobPointReward;
         }
 
         List<CharacterBattleReward> characterRewards =
@@ -88,26 +155,26 @@ public class GameSession
                 continue;
             }
 
-            int levelsGained = character.GainXP(Monster.XPReward);
+            int levelsGained = character.GainXP(xpReward);
             characterRewards.Add(new CharacterBattleReward(
                 character.Id,
                 character.Name,
-                Monster.XPReward,
+                xpReward,
                 levelsGained,
                 character.Level));
         }
 
-        Player.Gold += Monster.GoldReward;
+        Player.Gold += goldReward;
         int jobPointRecipients =
-            Party.GrantJobPointsToAvailableCharacters(Monster.JobPointReward);
+            Party.GrantJobPointsToAvailableCharacters(jobPointReward);
         Party.RecordBattleParticipation();
         BattleIsOver = true;
         BattleOutcome = BattleOutcome.Victory;
 
         rewards = new BattleRewardResult(
-            Monster.GoldReward,
-            Monster.XPReward,
-            Monster.JobPointReward,
+            goldReward,
+            xpReward,
+            jobPointReward,
             jobPointRecipients,
             characterRewards);
 
@@ -130,7 +197,7 @@ public class GameSession
 
     public bool CompleteEscape()
     {
-        if (!HasActiveBattle)
+        if (!HasActiveBattle || !EscapeAllowed)
         {
             return false;
         }

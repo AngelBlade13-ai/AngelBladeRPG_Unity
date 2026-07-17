@@ -7,7 +7,10 @@ public class BattleEncounterInteractable2D : MonoBehaviour, IWorldInteractable
     [SerializeField] private string battleSceneName = "BattleScene";
     [SerializeField] private string returnSpawnId = "TownAfterBattle";
 
-    [Header("Monster")]
+    [Header("Encounter")]
+    [SerializeField] private string encounterId;
+
+    [Header("Legacy Single Monster")]
     [SerializeField] private string monsterId = "monster_goblin";
 
     public bool CanInteract(GameObject interactor)
@@ -16,6 +19,7 @@ public class BattleEncounterInteractable2D : MonoBehaviour, IWorldInteractable
         return HasEncounterConfiguration(
                 battleSceneName,
                 returnSpawnId,
+                encounterId,
                 monsterId) &&
             session.HasPlayer &&
             session.Player.CurrentHp > 0 &&
@@ -29,10 +33,14 @@ public class BattleEncounterInteractable2D : MonoBehaviour, IWorldInteractable
             return;
         }
 
-        MonsterData monster = MonsterCatalog.Get(monsterId).CreateMonster();
         GameSession session = GameSessionStore.Current;
+        BattleEncounterDefinition encounter =
+            BattleEncounterCatalog.Get(encounterId);
+        bool started = encounter != null
+            ? session.StartEncounter(encounter)
+            : session.StartBattle(MonsterCatalog.Get(monsterId).CreateMonster());
 
-        if (!session.StartBattle(monster) ||
+        if (!started ||
             !BattleReturnStore.RequestReturn(
                 gameObject.scene.name,
                 returnSpawnId))
@@ -50,7 +58,19 @@ public class BattleEncounterInteractable2D : MonoBehaviour, IWorldInteractable
     {
         battleSceneName = sceneName;
         returnSpawnId = spawnId;
+        encounterId = string.Empty;
         monsterId = configuredMonsterId;
+    }
+
+    public void ConfigureEncounterGroup(
+        string sceneName,
+        string spawnId,
+        string configuredEncounterId)
+    {
+        battleSceneName = sceneName;
+        returnSpawnId = spawnId;
+        encounterId = configuredEncounterId;
+        monsterId = string.Empty;
     }
 
     public static bool HasEncounterConfiguration(
@@ -58,8 +78,22 @@ public class BattleEncounterInteractable2D : MonoBehaviour, IWorldInteractable
         string spawnId,
         string configuredMonsterId)
     {
+        return HasEncounterConfiguration(
+            sceneName,
+            spawnId,
+            string.Empty,
+            configuredMonsterId);
+    }
+
+    public static bool HasEncounterConfiguration(
+        string sceneName,
+        string spawnId,
+        string configuredEncounterId,
+        string configuredMonsterId)
+    {
         return !string.IsNullOrWhiteSpace(sceneName) &&
             !string.IsNullOrWhiteSpace(spawnId) &&
-            MonsterCatalog.Get(configuredMonsterId) != null;
+            (BattleEncounterCatalog.Get(configuredEncounterId) != null ||
+                MonsterCatalog.Get(configuredMonsterId) != null);
     }
 }

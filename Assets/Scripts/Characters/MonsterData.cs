@@ -5,6 +5,7 @@ public class MonsterData : ICombatant
     public int GoldReward;
     public int XPReward;
     public int JobPointReward;
+    public string DefinitionId { get; }
     public CombatantStats Stats { get; }
     public string CombatantId => Id;
     public string DisplayName => Name;
@@ -42,7 +43,8 @@ public class MonsterData : ICombatant
         int accuracy = 95,
         int evasion = 5,
         int criticalChance = 10,
-        int jobPointReward = 1)
+        int jobPointReward = 1,
+        string definitionId = null)
         : this(
             name,
             name,
@@ -58,7 +60,8 @@ public class MonsterData : ICombatant
             accuracy,
             evasion,
             criticalChance,
-            jobPointReward)
+            jobPointReward,
+            definitionId)
     {
     }
 
@@ -77,9 +80,13 @@ public class MonsterData : ICombatant
         int accuracy = 95,
         int evasion = 5,
         int criticalChance = 10,
-        int jobPointReward = 1)
+        int jobPointReward = 1,
+        string definitionId = null)
     {
         Id = id;
+        DefinitionId = string.IsNullOrWhiteSpace(definitionId)
+            ? id
+            : definitionId.Trim();
         Name = name;
         Stats = new CombatantStats(
             hp,
