@@ -12,9 +12,9 @@ The core gameplay tests are Unity Edit Mode tests. They exercise plain gameplay 
 
 The test assembly is `AngelBladeRPG.EditModeTests` under `Assets/Tests/EditMode`.
 
-Verified on July 16, 2026 with Unity `6000.5.3f1`: 177 passed, 0 failed.
+Verified on July 16, 2026 with Unity `6000.5.3f1`: 190 passed, 0 failed.
 
-The current suite includes 21 core gameplay tests, five pixel-world movement and camera tests, five temporary direction-indicator tests, four walkable-town foundation tests, seven interaction tests, eight door-transition tests, 13 battle-scene tests, 40 job, affinity, progression, playable-character, and party-roster tests, 11 runtime-party targeting tests, 10 authored party-member tests, five speed-based turn-order tests, nine speed-resolved battle-round tests, five bond and roster-history tests, nine shared combat-stat tests, 10 reusable monster-definition tests, and 15 structured combat-action tests.
+The current suite includes 21 core gameplay tests, five pixel-world movement and camera tests, five temporary direction-indicator tests, four walkable-town foundation tests, seven interaction tests, eight door-transition tests, 13 battle-scene tests, 40 job, affinity, progression, playable-character, and party-roster tests, 11 runtime-party targeting tests, 13 party-round resolver tests, 10 authored party-member tests, five speed-based turn-order tests, nine legacy speed-resolved battle-round tests, five bond and roster-history tests, nine shared combat-stat tests, 10 reusable monster-definition tests, and 15 structured combat-action tests.
 
 ### Milestone 15 Job Progression Checkpoint
 
@@ -45,6 +45,21 @@ The added coverage checks:
 - living, incapacitated, self, single-target, and all-target rules;
 - duplicate combatant IDs and the four-member active-party limit;
 - party defeat occurring only when every active member is incapacitated.
+
+### Milestone 15 Party Round Resolver Checkpoint
+
+The party-round checkpoint added 13 Edit Mode cases. The full suite now reports
+190 passing tests in Unity `6000.5.3f1`.
+
+The added coverage checks:
+
+- commands for every living party member before a round can mutate combat;
+- shared speed order across multiple party members and enemies;
+- incapacitated actors losing queued turns without requiring commands;
+- replaceable enemy command selection and invalid-policy rejection;
+- automatic ally and enemy retargeting after the original target falls;
+- Defend applying only after the defending combatant's turn begins;
+- structured party/enemy defeat results and completed-battle no-op behavior.
 
 ### Fastest Development Workflow
 

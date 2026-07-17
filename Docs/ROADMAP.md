@@ -304,6 +304,11 @@ Current implementation checkpoint:
   stats, creates a stable active protagonist record for new sessions, and adds
   actor-relative ally/enemy targeting with incapacitation rules.
 - The expanded 177-test Edit Mode suite passes in Unity `6000.5.3f1`.
+- The in-progress round-resolver checkpoint accepts one command per living
+  party member, generates replaceable enemy commands, resolves every combatant
+  by speed, supports speed-sensitive Defend, skips incapacitated turns, and
+  retargets attacks when an earlier action defeats the selected target.
+- The expanded 190-test Edit Mode suite passes in Unity `6000.5.3f1`.
 
 - [x] Create runtime combatants for multiple active party members.
 - [x] Add party targeting for allies and enemies.

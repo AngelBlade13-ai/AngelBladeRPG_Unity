@@ -373,7 +373,7 @@ The Edit Mode suite covers:
 - Level-up reward feedback
 - Starting and ending battle state
 
-The original core suite ran successfully in Unity `6000.5.3f1` on July 14, 2026: 18 passed, 0 failed. The current suite contains 177 passing tests after adding pixel-world movement, camera, temporary direction-indicator, walkable-town foundation, directional world interaction, door-transition, battle-scene, job, affinity, progression, party-roster, runtime-party targeting, authored party-member, speed-based turn-order, speed-resolved battle-round, bond, roster-history, shared combat-stat, reusable monster-definition, and structured combat-action coverage. Run instructions are in `Docs/TESTING.md`.
+The original core suite ran successfully in Unity `6000.5.3f1` on July 14, 2026: 18 passed, 0 failed. The current suite contains 190 passing tests after adding pixel-world movement, camera, temporary direction-indicator, walkable-town foundation, directional world interaction, door-transition, battle-scene, job, affinity, progression, party-roster, runtime-party targeting, party-round resolution, authored party-member, speed-based turn-order, legacy speed-resolved battle-round, bond, roster-history, shared combat-stat, reusable monster-definition, and structured combat-action coverage. Run instructions are in `Docs/TESTING.md`.
 
 Milestone 15 job progression is currently in progress on
 `feature/milestone-15-party-jobs`. The first checkpoint adds stable definitions
@@ -387,6 +387,14 @@ each `PlayableCharacterData` a persistent runtime combatant, creates the custom
 protagonist under stable ID `pc_protagonist`, preserves active formation order,
 and introduces actor-relative ally/enemy targeting with explicit incapacitation
 rules. Its 17 added test cases pass as part of the verified 177-test Edit Mode
+suite.
+
+The third checkpoint is implemented and verified. The new
+`PartyBattleRoundResolver` validates all living-party commands before mutation,
+generates enemy commands through a replaceable policy, resolves all living
+combatants in speed order, applies Defend from the actor's turn onward, skips
+incapacitated turns, and retargets attacks whose original targets fall earlier
+in the round. Its 13 added tests pass as part of the verified 190-test Edit Mode
 suite.
 
 There was previously a stale generated `.csproj` reference to the missing file `Assets/Editor/HubForceResolve.cs`. Unity itself successfully compiled the gameplay scripts. Generated Unity project files should remain ignored and can be regenerated rather than manually maintained.
@@ -607,7 +615,7 @@ For learning and automation, introduce a new Unity concept manually the first ti
 5. Open the project using Unity `6000.5.3f1`.
 6. Open `Assets/Scenes/MainGameScene.unity`.
 7. Run the Edit Mode suite using `Docs/TESTING.md`.
-8. Confirm all 177 tests pass.
+8. Confirm all 190 tests pass.
 9. Run the character-creation Play Mode checklist if the Unity version or scene changes.
 10. Review the completed Unity Editor checklist in `Docs/PIXEL_WORLD_SETUP.md` when changing the exploration foundation.
 
