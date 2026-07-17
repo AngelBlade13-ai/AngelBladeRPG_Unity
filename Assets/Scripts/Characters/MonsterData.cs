@@ -4,6 +4,7 @@ public class MonsterData : ICombatant
     public string Name;
     public int GoldReward;
     public int XPReward;
+    public int JobPointReward;
     public CombatantStats Stats { get; }
     public string CombatantId => Id;
     public string DisplayName => Name;
@@ -40,7 +41,8 @@ public class MonsterData : ICombatant
         int magicDefense = 0,
         int accuracy = 95,
         int evasion = 5,
-        int criticalChance = 10)
+        int criticalChance = 10,
+        int jobPointReward = 1)
         : this(
             name,
             name,
@@ -55,7 +57,8 @@ public class MonsterData : ICombatant
             magicDefense,
             accuracy,
             evasion,
-            criticalChance)
+            criticalChance,
+            jobPointReward)
     {
     }
 
@@ -73,7 +76,8 @@ public class MonsterData : ICombatant
         int magicDefense,
         int accuracy = 95,
         int evasion = 5,
-        int criticalChance = 10)
+        int criticalChance = 10,
+        int jobPointReward = 1)
     {
         Id = id;
         Name = name;
@@ -90,5 +94,6 @@ public class MonsterData : ICombatant
             criticalChance);
         GoldReward = goldReward;
         XPReward = xpReward;
+        JobPointReward = jobPointReward;
     }
 }

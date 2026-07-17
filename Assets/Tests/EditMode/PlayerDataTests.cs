@@ -67,5 +67,17 @@ namespace AngelBladeRPG.Tests
             Assert.That(player.Attack, Is.EqualTo(18));
             Assert.That(player.Defense, Is.EqualTo(5));
         }
+
+        [Test]
+        public void GainXPIgnoresNonPositiveAmounts()
+        {
+            PlayerData player = new PlayerData("Angel");
+
+            bool leveledUp = player.GainXP(-10);
+
+            Assert.That(leveledUp, Is.False);
+            Assert.That(player.XP, Is.Zero);
+            Assert.That(player.Level, Is.EqualTo(1));
+        }
     }
 }

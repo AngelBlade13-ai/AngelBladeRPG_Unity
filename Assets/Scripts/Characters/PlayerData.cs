@@ -1,10 +1,66 @@
+using System;
+
+public class CharacterProgression
+{
+    public int Level { get; private set; } = 1;
+    public int XP { get; private set; }
+    public int XPToNextLevel { get; private set; } = 50;
+
+    public int GainXP(int amount, CombatantStats stats)
+    {
+        if (amount <= 0)
+        {
+            return 0;
+        }
+
+        if (stats == null)
+        {
+            throw new ArgumentNullException(nameof(stats));
+        }
+
+        XP += amount;
+        int levelsGained = 0;
+
+        while (XP >= XPToNextLevel)
+        {
+            XP -= XPToNextLevel;
+            Level += 1;
+            XPToNextLevel += 25;
+            stats.MaxHp += 20;
+            stats.CurrentHp = stats.MaxHp;
+            stats.Attack += 3;
+            stats.Defense += 1;
+            levelsGained += 1;
+        }
+
+        return levelsGained;
+    }
+
+    public void SetXP(int amount)
+    {
+        if (amount < 0 || amount >= XPToNextLevel)
+        {
+            throw new ArgumentOutOfRangeException(nameof(amount));
+        }
+
+        XP = amount;
+    }
+}
+
 public class PlayerData : ICombatant
 {
+    private readonly CharacterProgression progression;
+
     public string Name;
-    public int Level;
     public int Gold;
-    public int XP;
-    public int XPToNextLevel;
+    public int Level => progression.Level;
+    public int XP
+    {
+        get { return progression.XP; }
+        set { progression.SetXP(value); }
+    }
+    public int XPToNextLevel => progression.XPToNextLevel;
+    public CharacterProgression Progression => progression;
     public CombatantStats Stats { get; }
     public string CombatantId => "player";
     public string DisplayName => Name;
@@ -84,7 +140,7 @@ public class PlayerData : ICombatant
     public PlayerData(string name)
     {
         Name = name;
-        Level = 1;
+        progression = new CharacterProgression();
         Stats = new CombatantStats(
             100,
             12,
@@ -94,28 +150,10 @@ public class PlayerData : ICombatant
             8,
             3);
         Gold = 0;
-        XP = 0;
-        XPToNextLevel = 50;
     }
 
     public bool GainXP(int amount)
     {
-        XP += amount;
-        bool leveledUp = false;
-
-        while (XP >= XPToNextLevel)
-        {
-            XP -= XPToNextLevel;
-            Level += 1;
-            MaxHp += 20;
-            CurrentHp = MaxHp;
-            Attack += 3;
-            Defense += 1;
-            XPToNextLevel += 25;
-
-            leveledUp = true;
-        }
-
-        return leveledUp;
+        return progression.GainXP(amount, Stats) > 0;
     }
 }

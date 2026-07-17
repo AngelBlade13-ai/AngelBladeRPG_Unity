@@ -16,6 +16,7 @@ public class MonsterDefinition
     public int CriticalChance { get; }
     public int GoldReward { get; }
     public int XPReward { get; }
+    public int JobPointReward { get; }
 
     public MonsterDefinition(
         string id,
@@ -31,7 +32,8 @@ public class MonsterDefinition
         int xpReward,
         int accuracy = 95,
         int evasion = 5,
-        int criticalChance = 10)
+        int criticalChance = 10,
+        int jobPointReward = 1)
     {
         if (string.IsNullOrWhiteSpace(id))
         {
@@ -60,6 +62,7 @@ public class MonsterDefinition
         ValidateNonNegative(magicDefense, nameof(magicDefense));
         ValidateNonNegative(goldReward, nameof(goldReward));
         ValidateNonNegative(xpReward, nameof(xpReward));
+        ValidateNonNegative(jobPointReward, nameof(jobPointReward));
         ValidatePercentage(accuracy, nameof(accuracy), 100);
         ValidatePercentage(evasion, nameof(evasion), 95);
         ValidatePercentage(
@@ -81,6 +84,7 @@ public class MonsterDefinition
         CriticalChance = criticalChance;
         GoldReward = goldReward;
         XPReward = xpReward;
+        JobPointReward = jobPointReward;
     }
 
     public MonsterData CreateMonster()
@@ -99,7 +103,8 @@ public class MonsterDefinition
             MagicDefense,
             Accuracy,
             Evasion,
-            CriticalChance);
+            CriticalChance,
+            JobPointReward);
     }
 
     private static void ValidateNonNegative(int value, string parameterName)

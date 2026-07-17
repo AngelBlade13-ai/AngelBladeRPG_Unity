@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 public class GameSession
 {
     public PlayerData Player { get; private set; }
@@ -37,7 +39,8 @@ public class GameSession
             PlayableCharacterData.ProtagonistId,
             Player.Name,
             JobId.Mercenary,
-            Player.Stats);
+            Player.Stats,
+            characterProgression: Player.Progression);
         Party.TryAddCharacter(protagonist);
         Party.TrySetActiveParty(new[] { protagonist.Id });
         Monster = null;
@@ -73,27 +76,56 @@ public class GameSession
             return false;
         }
 
+        List<CharacterBattleReward> characterRewards =
+            new List<CharacterBattleReward>();
+
+        foreach (ICombatant combatant in PartyBattle.PartyMembers)
+        {
+            PlayableCharacterData character =
+                combatant as PlayableCharacterData;
+            if (character == null || !character.IsAvailable)
+            {
+                continue;
+            }
+
+            int levelsGained = character.GainXP(Monster.XPReward);
+            characterRewards.Add(new CharacterBattleReward(
+                character.Id,
+                character.Name,
+                Monster.XPReward,
+                levelsGained,
+                character.Level));
+        }
+
         Player.Gold += Monster.GoldReward;
-        bool playerLeveledUp = Player.GainXP(Monster.XPReward);
+        int jobPointRecipients =
+            Party.GrantJobPointsToAvailableCharacters(Monster.JobPointReward);
+        Party.RecordBattleParticipation();
         BattleIsOver = true;
         BattleOutcome = BattleOutcome.Victory;
 
         rewards = new BattleRewardResult(
             Monster.GoldReward,
             Monster.XPReward,
-            playerLeveledUp);
+            Monster.JobPointReward,
+            jobPointRecipients,
+            characterRewards);
 
         return true;
     }
 
-    public void CompleteDefeat()
+    public bool CompleteDefeat()
     {
-        if (HasActiveBattle && PartyBattle != null &&
-            PartyBattle.IsPartyDefeated)
+        if (!HasActiveBattle || PartyBattle == null ||
+            !PartyBattle.IsPartyDefeated)
         {
-            BattleIsOver = true;
-            BattleOutcome = BattleOutcome.Defeat;
+            return false;
         }
+
+        Party.RecordBattleParticipation();
+        BattleIsOver = true;
+        BattleOutcome = BattleOutcome.Defeat;
+        return true;
     }
 
     public bool CompleteEscape()
@@ -103,6 +135,7 @@ public class GameSession
             return false;
         }
 
+        Party.RecordBattleParticipation();
         BattleIsOver = true;
         BattleOutcome = BattleOutcome.Escaped;
         return true;
@@ -122,12 +155,64 @@ public class BattleRewardResult
 {
     public int Gold { get; private set; }
     public int XP { get; private set; }
-    public bool PlayerLeveledUp { get; private set; }
+    public int JobPoints { get; private set; }
+    public int JobPointRecipients { get; private set; }
+    public IReadOnlyList<CharacterBattleReward> CharacterRewards
+    {
+        get;
+        private set;
+    }
+    public bool PlayerLeveledUp
+    {
+        get
+        {
+            foreach (CharacterBattleReward reward in CharacterRewards)
+            {
+                if (reward.CharacterId == PlayableCharacterData.ProtagonistId)
+                {
+                    return reward.LevelsGained > 0;
+                }
+            }
 
-    public BattleRewardResult(int gold, int xp, bool playerLeveledUp)
+            return false;
+        }
+    }
+
+    public BattleRewardResult(
+        int gold,
+        int xp,
+        int jobPoints,
+        int jobPointRecipients,
+        IList<CharacterBattleReward> characterRewards)
     {
         Gold = gold;
         XP = xp;
-        PlayerLeveledUp = playerLeveledUp;
+        JobPoints = jobPoints;
+        JobPointRecipients = jobPointRecipients;
+        CharacterRewards = new List<CharacterBattleReward>(
+            characterRewards).AsReadOnly();
+    }
+}
+
+public class CharacterBattleReward
+{
+    public string CharacterId { get; private set; }
+    public string CharacterName { get; private set; }
+    public int XP { get; private set; }
+    public int LevelsGained { get; private set; }
+    public int NewLevel { get; private set; }
+
+    public CharacterBattleReward(
+        string characterId,
+        string characterName,
+        int xp,
+        int levelsGained,
+        int newLevel)
+    {
+        CharacterId = characterId;
+        CharacterName = characterName;
+        XP = xp;
+        LevelsGained = levelsGained;
+        NewLevel = newLevel;
     }
 }

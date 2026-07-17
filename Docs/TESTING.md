@@ -12,9 +12,9 @@ The core gameplay tests are Unity Edit Mode tests. They exercise plain gameplay 
 
 The test assembly is `AngelBladeRPG.EditModeTests` under `Assets/Tests/EditMode`.
 
-Verified on July 17, 2026 with Unity `6000.5.3f1`: 237 passed, 0 failed.
+Verified on July 17, 2026 with Unity `6000.5.3f1`: 246 passed, 0 failed.
 
-The current suite includes 21 core gameplay tests, five pixel-world movement and camera tests, five temporary direction-indicator tests, four walkable-town foundation tests, seven interaction tests, eight door-transition tests, 17 battle-scene tests, 13 party-command selection tests, 11 core-ability tests, 59 job, affinity, progression, playable-character, party-roster, and party-management tests, 11 runtime-party targeting tests, 13 party-round resolver tests, 10 authored party-member tests, five speed-based turn-order tests, nine legacy speed-resolved battle-round tests, five bond and roster-history tests, nine shared combat-stat tests, 10 reusable monster-definition tests, and 15 structured combat-action tests.
+The current suite includes 26 core gameplay tests, five pixel-world movement and camera tests, five temporary direction-indicator tests, four walkable-town foundation tests, seven interaction tests, eight door-transition tests, 17 battle-scene tests, 13 party-command selection tests, 11 core-ability tests, 63 job, affinity, progression, playable-character, party-roster, and party-management tests, 11 runtime-party targeting tests, 13 party-round resolver tests, 10 authored party-member tests, five speed-based turn-order tests, nine legacy speed-resolved battle-round tests, five bond and roster-history tests, nine shared combat-stat tests, 10 reusable monster-definition tests, and 15 structured combat-action tests.
 
 ### Milestone 15 Job Progression Checkpoint
 
@@ -134,6 +134,23 @@ The added coverage checks:
 - invalid formation changes leaving the roster untouched;
 - all catalog jobs remaining assignable regardless of affinity; and
 - removed or unknown characters being rejected safely.
+
+### Milestone 15 Party Outcome And Reward Checkpoint
+
+This checkpoint adds nine Edit Mode cases. The full suite reports 246 passing
+tests in Unity `6000.5.3f1`. It requires no scene rebuilding or Inspector
+wiring.
+
+The added coverage checks:
+
+- shared level and XP progression for the protagonist and companions;
+- level growth remaining stable across later job changes;
+- active participants receiving XP, including incapacitated allies;
+- available active and reserve characters receiving the same authored JP;
+- reserves receiving no battle XP;
+- per-character level-up details in structured battle rewards; and
+- victory, defeat, and escape recording participation only once, with defeat
+  and escape granting no currency, XP, or JP.
 
 ### Fastest Development Workflow
 

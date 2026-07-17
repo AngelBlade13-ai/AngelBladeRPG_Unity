@@ -178,6 +178,60 @@ namespace AngelBladeRPG.Tests
             Assert.That(character.Stats.CurrentHp, Is.Zero);
         }
 
+        [Test]
+        public void CharacterStartsWithIndependentLevelProgression()
+        {
+            PlayableCharacterData character = CreateCharacter();
+
+            Assert.That(character.Level, Is.EqualTo(1));
+            Assert.That(character.XP, Is.Zero);
+            Assert.That(character.XPToNextLevel, Is.EqualTo(50));
+        }
+
+        [Test]
+        public void GainXPLevelsCompanionAndRestoresHp()
+        {
+            PlayableCharacterData character = CreateCharacter(JobId.Mercenary);
+            character.Stats.CurrentHp = 1;
+
+            int levelsGained = character.GainXP(50);
+
+            Assert.That(levelsGained, Is.EqualTo(1));
+            Assert.That(character.Level, Is.EqualTo(2));
+            Assert.That(character.XP, Is.Zero);
+            Assert.That(character.Stats.MaxHp, Is.EqualTo(120));
+            Assert.That(character.Stats.CurrentHp, Is.EqualTo(120));
+            Assert.That(character.Stats.Attack, Is.EqualTo(20));
+            Assert.That(character.Stats.Defense, Is.EqualTo(4));
+        }
+
+        [Test]
+        public void LevelGrowthSurvivesJobChangesWithoutStacking()
+        {
+            PlayableCharacterData character = CreateCharacter(JobId.Mercenary);
+            character.GainXP(50);
+
+            character.TryAssignJob(JobId.Knight);
+            character.TryAssignJob(JobId.Mercenary);
+
+            Assert.That(character.Stats.MaxHp, Is.EqualTo(120));
+            Assert.That(character.Stats.Attack, Is.EqualTo(20));
+            Assert.That(character.Stats.Defense, Is.EqualTo(4));
+        }
+
+        [Test]
+        public void PermanentlyRemovedCharacterCannotGainXP()
+        {
+            PlayableCharacterData character = CreateCharacter();
+            character.RemovePermanently();
+
+            int levelsGained = character.GainXP(50);
+
+            Assert.That(levelsGained, Is.Zero);
+            Assert.That(character.Level, Is.EqualTo(1));
+            Assert.That(character.XP, Is.Zero);
+        }
+
         private static PlayableCharacterData CreateCharacter()
         {
             return new PlayableCharacterData("hero", "Angel", JobId.Knight);

@@ -15,6 +15,7 @@ public class PlayableCharacterData : ICombatant
     private readonly Dictionary<JobId, JobAffinity> jobAffinities =
         new Dictionary<JobId, JobAffinity>();
     private readonly JobProgression jobProgression = new JobProgression();
+    private readonly CharacterProgression characterProgression;
     private readonly bool applyJobModifiers;
     private readonly StatValues baseStats;
     private StatValues lastEffectiveStats;
@@ -29,6 +30,9 @@ public class PlayableCharacterData : ICombatant
     public bool IsIncapacitated => Stats.CurrentHp <= 0;
     public CharacterRosterHistory RosterHistory { get; }
     public int JobPoints => jobProgression.JobPoints;
+    public int Level => characterProgression.Level;
+    public int XP => characterProgression.XP;
+    public int XPToNextLevel => characterProgression.XPToNextLevel;
     public IReadOnlyCollection<string> LearnedJobNodeIds =>
         jobProgression.LearnedNodeIds;
 
@@ -37,7 +41,8 @@ public class PlayableCharacterData : ICombatant
         string name,
         JobId startingJob,
         CombatantStats combatStats = null,
-        bool applyJobModifiers = true)
+        bool applyJobModifiers = true,
+        CharacterProgression characterProgression = null)
     {
         if (string.IsNullOrWhiteSpace(id))
         {
@@ -58,6 +63,8 @@ public class PlayableCharacterData : ICombatant
         Name = name.Trim();
         CurrentJob = startingJob;
         Stats = combatStats ?? CreateDefaultCombatStats();
+        this.characterProgression =
+            characterProgression ?? new CharacterProgression();
         this.applyJobModifiers = applyJobModifiers;
         baseStats = StatValues.From(Stats);
         RosterHistory = new CharacterRosterHistory(Id);
@@ -85,6 +92,23 @@ public class PlayableCharacterData : ICombatant
     public bool TryAddJobPoints(int amount)
     {
         return IsAvailable && jobProgression.TryAddJobPoints(amount);
+    }
+
+    public int GainXP(int amount)
+    {
+        if (!IsAvailable)
+        {
+            return 0;
+        }
+
+        int levelsGained = characterProgression.GainXP(amount, Stats);
+        if (levelsGained > 0)
+        {
+            CaptureExternalBaseStatChanges();
+            lastEffectiveStats = StatValues.From(Stats);
+        }
+
+        return levelsGained;
     }
 
     public bool TryPurchaseJobNode(string nodeId)

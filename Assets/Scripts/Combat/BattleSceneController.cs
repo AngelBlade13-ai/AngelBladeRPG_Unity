@@ -271,12 +271,18 @@ public class BattleSceneController : MonoBehaviour
         battleLogText.text =
             playerMessage +
             "\nVictory!" +
-            $"\nGained {rewards.XP} XP and {rewards.Gold} gold.";
+            $"\nActive party gained {rewards.XP} XP each." +
+            $"\nRoster gained {rewards.JobPoints} JP each; " +
+            $"gained {rewards.Gold} gold.";
 
-        if (rewards.PlayerLeveledUp)
+        foreach (CharacterBattleReward reward in rewards.CharacterRewards)
         {
-            battleLogText.text +=
-                $"\n{session.Player.Name} reached level {session.Player.Level}!";
+            if (reward.LevelsGained > 0)
+            {
+                battleLogText.text +=
+                    $"\n{reward.CharacterName} reached level " +
+                    $"{reward.NewLevel}!";
+            }
         }
 
         FinishBattle("Return");

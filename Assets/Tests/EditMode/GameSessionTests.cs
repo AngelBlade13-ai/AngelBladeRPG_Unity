@@ -48,6 +48,9 @@ namespace AngelBladeRPG.Tests
             Assert.That(protagonist.Name, Is.EqualTo("Angel"));
             Assert.That(protagonist.Stats, Is.SameAs(session.Player.Stats));
             Assert.That(
+                protagonist.Level,
+                Is.EqualTo(session.Player.Level));
+            Assert.That(
                 session.Party.ActiveCharacterIds,
                 Is.EqualTo(new[] { PlayableCharacterData.ProtagonistId }));
             Assert.That(PartyMemberCatalog.Get(protagonist.Id), Is.Null);
@@ -142,9 +145,16 @@ namespace AngelBladeRPG.Tests
             Assert.That(firstCompletion, Is.True);
             Assert.That(rewards.Gold, Is.EqualTo(10));
             Assert.That(rewards.XP, Is.EqualTo(15));
+            Assert.That(rewards.JobPoints, Is.EqualTo(1));
+            Assert.That(rewards.JobPointRecipients, Is.EqualTo(1));
+            Assert.That(rewards.CharacterRewards, Has.Count.EqualTo(1));
             Assert.That(rewards.PlayerLeveledUp, Is.False);
             Assert.That(session.Player.Gold, Is.EqualTo(10));
             Assert.That(session.Player.XP, Is.EqualTo(15));
+            Assert.That(
+                session.Party.GetCharacter(
+                    PlayableCharacterData.ProtagonistId).JobPoints,
+                Is.EqualTo(1));
             Assert.That(session.BattleIsOver, Is.True);
             Assert.That(session.HasActiveBattle, Is.False);
             Assert.That(
@@ -155,6 +165,74 @@ namespace AngelBladeRPG.Tests
             Assert.That(duplicateRewards, Is.Null);
             Assert.That(session.Player.Gold, Is.EqualTo(10));
             Assert.That(session.Player.XP, Is.EqualTo(15));
+        }
+
+        [Test]
+        public void VictoryGrantsXpToActivePartyAndJpToAvailableRoster()
+        {
+            GameSession session = CreateSessionWithPlayer();
+            PlayableCharacterData active =
+                PartyMemberCatalog.Get("pc_01").CreateCharacter();
+            PlayableCharacterData reserve =
+                PartyMemberCatalog.Get("pc_02").CreateCharacter();
+            session.Party.TryAddCharacter(active);
+            session.Party.TryAddCharacter(reserve);
+            session.Party.TrySetActiveParty(new[]
+            {
+                PlayableCharacterData.ProtagonistId,
+                active.Id
+            });
+            MonsterData monster = new MonsterData(
+                "Ogre",
+                1,
+                1,
+                0,
+                20,
+                50,
+                jobPointReward: 3);
+            session.StartBattle(monster);
+            monster.CurrentHp = 0;
+
+            session.TryCompleteVictory(out BattleRewardResult rewards);
+
+            Assert.That(session.Player.Level, Is.EqualTo(2));
+            Assert.That(active.Level, Is.EqualTo(2));
+            Assert.That(reserve.Level, Is.EqualTo(1));
+            Assert.That(reserve.XP, Is.Zero);
+            Assert.That(
+                session.Party.Characters.Select(character => character.JobPoints),
+                Is.All.EqualTo(3));
+            Assert.That(rewards.CharacterRewards, Has.Count.EqualTo(2));
+            Assert.That(rewards.JobPointRecipients, Is.EqualTo(3));
+            Assert.That(active.RosterHistory.BattlesActive, Is.EqualTo(1));
+            Assert.That(reserve.RosterHistory.BattlesBenched, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void IncapacitatedActiveCharacterStillReceivesVictoryXp()
+        {
+            GameSession session = CreateSessionWithPlayer();
+            PlayableCharacterData companion =
+                PartyMemberCatalog.Get("pc_01").CreateCharacter();
+            session.Party.TryAddCharacter(companion);
+            session.Party.TrySetActiveParty(new[]
+            {
+                PlayableCharacterData.ProtagonistId,
+                companion.Id
+            });
+            MonsterData monster = new MonsterData("Ogre", 1, 1, 0, 1, 50);
+            session.StartBattle(monster);
+            companion.Stats.CurrentHp = 0;
+            monster.CurrentHp = 0;
+
+            session.TryCompleteVictory(out BattleRewardResult rewards);
+
+            Assert.That(companion.Level, Is.EqualTo(2));
+            Assert.That(companion.Stats.CurrentHp, Is.EqualTo(companion.Stats.MaxHp));
+            Assert.That(
+                rewards.CharacterRewards.Any(
+                    reward => reward.CharacterId == companion.Id),
+                Is.True);
         }
 
         [Test]
@@ -171,6 +249,48 @@ namespace AngelBladeRPG.Tests
             Assert.That(rewards.PlayerLeveledUp, Is.True);
             Assert.That(session.Player.Level, Is.EqualTo(2));
             Assert.That(session.Player.XP, Is.Zero);
+            Assert.That(
+                session.Party.GetCharacter(
+                    PlayableCharacterData.ProtagonistId)
+                    .RosterHistory.BattlesActive,
+                Is.EqualTo(1));
+        }
+
+        [Test]
+        public void EscapeRecordsParticipationOnlyOnce()
+        {
+            GameSession session = CreateSessionWithPlayer();
+            PlayableCharacterData protagonist = session.Party.GetCharacter(
+                PlayableCharacterData.ProtagonistId);
+            session.StartBattle(CreateGoblin());
+
+            bool first = session.CompleteEscape();
+            bool duplicate = session.CompleteEscape();
+
+            Assert.That(first, Is.True);
+            Assert.That(duplicate, Is.False);
+            Assert.That(protagonist.RosterHistory.BattlesActive, Is.EqualTo(1));
+            Assert.That(protagonist.JobPoints, Is.Zero);
+        }
+
+        [Test]
+        public void DefeatRecordsParticipationWithoutRewards()
+        {
+            GameSession session = CreateSessionWithPlayer();
+            PlayableCharacterData protagonist = session.Party.GetCharacter(
+                PlayableCharacterData.ProtagonistId);
+            session.StartBattle(CreateGoblin());
+            session.Player.CurrentHp = 0;
+
+            bool completed = session.CompleteDefeat();
+            bool duplicate = session.CompleteDefeat();
+
+            Assert.That(completed, Is.True);
+            Assert.That(duplicate, Is.False);
+            Assert.That(protagonist.RosterHistory.BattlesActive, Is.EqualTo(1));
+            Assert.That(protagonist.XP, Is.Zero);
+            Assert.That(protagonist.JobPoints, Is.Zero);
+            Assert.That(session.Player.Gold, Is.Zero);
         }
 
         [Test]
