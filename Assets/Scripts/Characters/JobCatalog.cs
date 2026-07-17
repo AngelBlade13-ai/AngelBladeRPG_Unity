@@ -9,6 +9,7 @@ public static class JobCatalog
                 JobId.Knight,
                 new JobDefinition(
                     JobId.Knight,
+                    "job_knight",
                     "Knight",
                     JobRole.Tank,
                     "Heavy defense and reliable protection.",
@@ -18,6 +19,7 @@ public static class JobCatalog
                 JobId.Reaver,
                 new JobDefinition(
                     JobId.Reaver,
+                    "job_reaver",
                     "Reaver",
                     JobRole.Tank | JobRole.PhysicalDamage,
                     "Absorbs punishment and converts risk into heavy damage.",
@@ -27,6 +29,7 @@ public static class JobCatalog
                 JobId.Mercenary,
                 new JobDefinition(
                     JobId.Mercenary,
+                    "job_mercenary",
                     "Mercenary",
                     JobRole.PhysicalDamage,
                     "Consistent direct melee damage.",
@@ -36,6 +39,7 @@ public static class JobCatalog
                 JobId.Rogue,
                 new JobDefinition(
                     JobId.Rogue,
+                    "job_rogue",
                     "Rogue",
                     JobRole.PhysicalDamage | JobRole.Support,
                     "Fast burst damage, evasion, and status pressure.",
@@ -45,6 +49,7 @@ public static class JobCatalog
                 JobId.Ranger,
                 new JobDefinition(
                     JobId.Ranger,
+                    "job_ranger",
                     "Ranger",
                     JobRole.PhysicalDamage | JobRole.Support,
                     "Ranged damage and tactical utility.",
@@ -54,6 +59,7 @@ public static class JobCatalog
                 JobId.Mage,
                 new JobDefinition(
                     JobId.Mage,
+                    "job_mage",
                     "Mage",
                     JobRole.MagicDamage,
                     "Powerful and flexible elemental magic.",
@@ -63,6 +69,7 @@ public static class JobCatalog
                 JobId.BloodMage,
                 new JobDefinition(
                     JobId.BloodMage,
+                    "job_blood_mage",
                     "Blood Mage",
                     JobRole.MagicDamage,
                     "Spends health to cast unusually powerful magic.",
@@ -72,6 +79,7 @@ public static class JobCatalog
                 JobId.WhiteMage,
                 new JobDefinition(
                     JobId.WhiteMage,
+                    "job_white_mage",
                     "White Mage",
                     JobRole.Healer | JobRole.Support,
                     "Strong restoration and protective support.",
@@ -81,6 +89,7 @@ public static class JobCatalog
                 JobId.Paladin,
                 new JobDefinition(
                     JobId.Paladin,
+                    "job_paladin",
                     "Paladin",
                     JobRole.Tank | JobRole.PhysicalDamage |
                         JobRole.Healer | JobRole.Support,
@@ -91,6 +100,7 @@ public static class JobCatalog
                 JobId.Bard,
                 new JobDefinition(
                     JobId.Bard,
+                    "job_bard",
                     "Bard",
                     JobRole.Support | JobRole.Healer,
                     "Buffs allies, hinders enemies, and provides minor healing.",
@@ -100,6 +110,7 @@ public static class JobCatalog
                 JobId.Tactician,
                 new JobDefinition(
                     JobId.Tactician,
+                    "job_tactician",
                     "Tactician",
                     JobRole.Support,
                     "Controls battlefield conditions and action timing.",
@@ -109,6 +120,7 @@ public static class JobCatalog
                 JobId.Summoner,
                 new JobDefinition(
                     JobId.Summoner,
+                    "job_summoner",
                     "Summoner",
                     JobRole.MagicDamage | JobRole.Support,
                     "Calls a temporary creature ally for flexible pressure.",

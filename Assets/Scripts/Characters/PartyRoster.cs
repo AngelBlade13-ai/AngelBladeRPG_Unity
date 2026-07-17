@@ -96,6 +96,25 @@ public class PartyRoster
         }
     }
 
+    public int GrantJobPointsToAvailableCharacters(int amount)
+    {
+        if (amount <= 0)
+        {
+            return 0;
+        }
+
+        int recipients = 0;
+        foreach (PlayableCharacterData character in characters.Values)
+        {
+            if (character.TryAddJobPoints(amount))
+            {
+                recipients += 1;
+            }
+        }
+
+        return recipients;
+    }
+
     public bool TryAddBondPoints(
         string firstCharacterId,
         string secondCharacterId,

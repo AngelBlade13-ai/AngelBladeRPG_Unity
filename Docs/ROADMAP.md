@@ -292,13 +292,22 @@ Goal: make the job and party systems visible and meaningful during play.
 
 Status: In progress
 
+Current implementation checkpoint:
+
+- Stable definitions now cover the 96 purchased demo nodes across all 12 jobs.
+- Each persistent character owns unspent JP and learned node IDs.
+- Available active and benched roster members can receive JP together.
+- Permanent stat bonuses aggregate across learned jobs, while purchased skills
+  and passives require their matching job to be equipped.
+- The expanded 160-test Edit Mode suite passes in Unity `6000.5.3f1`.
+
 - [ ] Create runtime combatants for multiple active party members.
 - [ ] Add party targeting for allies and enemies.
 - [ ] Add MP, physical attacks, magic, healing, defend, and a small ability set.
 - [ ] Apply job stats and affinities to playable combatants.
-- [ ] Add stable job-tree nodes, per-character unlock state, and data-driven
+- [x] Add stable job-tree nodes, per-character unlock state, and data-driven
   demo progression limits for all 12 playable jobs.
-- [ ] Aggregate permanent stat nodes across learned jobs without activating
+- [x] Aggregate permanent stat nodes across learned jobs without activating
   inactive-job skills or duplicating bonuses after loading or switching.
 - [ ] Add a compact party formation and job-assignment flow.
 - [ ] Handle incapacitation, victory, defeat, XP, and rewards for a party.

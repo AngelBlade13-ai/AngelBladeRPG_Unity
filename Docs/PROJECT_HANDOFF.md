@@ -370,7 +370,14 @@ The Edit Mode suite covers:
 - Level-up reward feedback
 - Starting and ending battle state
 
-The original core suite ran successfully in Unity `6000.5.3f1` on July 14, 2026: 18 passed, 0 failed. The current suite contains 138 passing tests after adding pixel-world movement, camera, temporary direction-indicator, walkable-town foundation, directional world interaction, door-transition, battle-scene, job, affinity, party-roster, authored party-member, speed-based turn-order, speed-resolved battle-round, bond, roster-history, shared combat-stat, reusable monster-definition, and structured combat-action coverage. Run instructions are in `Docs/TESTING.md`.
+The original core suite ran successfully in Unity `6000.5.3f1` on July 14, 2026: 18 passed, 0 failed. The current suite contains 160 passing tests after adding pixel-world movement, camera, temporary direction-indicator, walkable-town foundation, directional world interaction, door-transition, battle-scene, job, affinity, progression, party-roster, authored party-member, speed-based turn-order, speed-resolved battle-round, bond, roster-history, shared combat-stat, reusable monster-definition, and structured combat-action coverage. Run instructions are in `Docs/TESTING.md`.
+
+Milestone 15 job progression is currently in progress on
+`feature/milestone-15-party-jobs`. The first checkpoint adds stable definitions
+for all 96 purchased demo job nodes, character-owned JP and unlock state,
+cross-job permanent stat aggregation, equipped-job feature restrictions, and
+roster-wide awards for available active and benched characters. Its 22 added
+test cases pass as part of the verified 160-test Edit Mode suite.
 
 There was previously a stale generated `.csproj` reference to the missing file `Assets/Editor/HubForceResolve.cs`. Unity itself successfully compiled the gameplay scripts. Generated Unity project files should remain ignored and can be regenerated rather than manually maintained.
 
@@ -585,12 +592,12 @@ For learning and automation, introduce a new Unity concept manually the first ti
 
 1. Clone or pull `AngelBladeRPG_Unity`.
 2. Fetch all remote branches.
-3. Check out `feature/core-combat-expansion`.
-4. Confirm the pixel-world, battle-scene, job/party, shared-stat, and monster-definition commits are present.
+3. Check out `feature/milestone-15-party-jobs`.
+4. Confirm the pixel-world, battle-scene, job/party, shared-stat, monster-definition, and structured-action commits are present.
 5. Open the project using Unity `6000.5.3f1`.
 6. Open `Assets/Scenes/MainGameScene.unity`.
 7. Run the Edit Mode suite using `Docs/TESTING.md`.
-8. Confirm all 138 tests pass.
+8. Confirm all 160 tests pass while the Milestone 15 checkpoint is active.
 9. Run the character-creation Play Mode checklist if the Unity version or scene changes.
 10. Review the completed Unity Editor checklist in `Docs/PIXEL_WORLD_SETUP.md` when changing the exploration foundation.
 

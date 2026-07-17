@@ -15,6 +15,12 @@ namespace AngelBladeRPG.Tests
             Assert.That(
                 jobs.Select(job => job.Id).Distinct().Count(),
                 Is.EqualTo(12));
+            Assert.That(
+                jobs.Select(job => job.StableId).Distinct().Count(),
+                Is.EqualTo(12));
+            Assert.That(
+                jobs.All(job => job.DemoMaximumTier == 3),
+                Is.True);
         }
 
         [TestCase(JobId.Reaver)]

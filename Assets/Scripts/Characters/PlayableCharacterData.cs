@@ -12,12 +12,16 @@ public class PlayableCharacterData
 {
     private readonly Dictionary<JobId, JobAffinity> jobAffinities =
         new Dictionary<JobId, JobAffinity>();
+    private readonly JobProgression jobProgression = new JobProgression();
 
     public string Id { get; }
     public string Name { get; }
     public JobId CurrentJob { get; private set; }
     public bool IsAvailable { get; private set; } = true;
     public CharacterRosterHistory RosterHistory { get; }
+    public int JobPoints => jobProgression.JobPoints;
+    public IReadOnlyCollection<string> LearnedJobNodeIds =>
+        jobProgression.LearnedNodeIds;
 
     public PlayableCharacterData(
         string id,
@@ -54,6 +58,37 @@ public class PlayableCharacterData
 
         CurrentJob = jobId;
         return true;
+    }
+
+    public bool TryAddJobPoints(int amount)
+    {
+        return IsAvailable && jobProgression.TryAddJobPoints(amount);
+    }
+
+    public bool TryPurchaseJobNode(string nodeId)
+    {
+        if (!IsAvailable || string.IsNullOrWhiteSpace(nodeId))
+        {
+            return false;
+        }
+
+        return jobProgression.TryPurchase(JobNodeCatalog.Get(nodeId));
+    }
+
+    public bool HasLearnedJobNode(string nodeId)
+    {
+        return jobProgression.HasLearned(nodeId);
+    }
+
+    public bool CanUseLearnedJobFeature(string nodeId)
+    {
+        return IsAvailable &&
+            jobProgression.CanUseLearnedJobFeature(nodeId, CurrentJob);
+    }
+
+    public PermanentStatBonuses GetPermanentStatBonuses()
+    {
+        return jobProgression.GetPermanentStatBonuses();
     }
 
     public void SetJobAffinity(JobId jobId, JobAffinity affinity)

@@ -30,22 +30,40 @@ public enum JobId
 public class JobDefinition
 {
     public JobId Id { get; }
+    public string StableId { get; }
     public string DisplayName { get; }
     public JobRole Roles { get; }
     public string Strength { get; }
     public string TradeOff { get; }
+    public int DemoMaximumTier { get; }
 
     public JobDefinition(
         JobId id,
+        string stableId,
         string displayName,
         JobRole roles,
         string strength,
-        string tradeOff)
+        string tradeOff,
+        int demoMaximumTier = 3)
     {
+        if (string.IsNullOrWhiteSpace(stableId))
+        {
+            throw new ArgumentException(
+                "A stable job ID is required.",
+                nameof(stableId));
+        }
+
+        if (demoMaximumTier < 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(demoMaximumTier));
+        }
+
         Id = id;
+        StableId = stableId.Trim();
         DisplayName = displayName;
         Roles = roles;
         Strength = strength;
         TradeOff = tradeOff;
+        DemoMaximumTier = demoMaximumTier;
     }
 }

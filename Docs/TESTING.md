@@ -12,9 +12,23 @@ The core gameplay tests are Unity Edit Mode tests. They exercise plain gameplay 
 
 The test assembly is `AngelBladeRPG.EditModeTests` under `Assets/Tests/EditMode`.
 
-Verified on July 16, 2026 with Unity `6000.5.3f1`: 138 passed, 0 failed.
+Verified on July 16, 2026 with Unity `6000.5.3f1`: 160 passed, 0 failed.
 
-The current suite includes 18 core gameplay tests, five pixel-world movement and camera tests, five temporary direction-indicator tests, four walkable-town foundation tests, seven interaction tests, eight door-transition tests, 13 battle-scene tests, 15 job, affinity, and party-roster tests, 10 authored party-member tests, five speed-based turn-order tests, nine speed-resolved battle-round tests, five bond and roster-history tests, nine shared combat-stat tests, 10 reusable monster-definition tests, and 15 structured combat-action tests.
+The current suite includes 18 core gameplay tests, five pixel-world movement and camera tests, five temporary direction-indicator tests, four walkable-town foundation tests, seven interaction tests, eight door-transition tests, 13 battle-scene tests, 37 job, affinity, progression, and party-roster tests, 10 authored party-member tests, five speed-based turn-order tests, nine speed-resolved battle-round tests, five bond and roster-history tests, nine shared combat-stat tests, 10 reusable monster-definition tests, and 15 structured combat-action tests.
+
+### Milestone 15 Job Progression Checkpoint
+
+The job-progression checkpoint added 22 Edit Mode cases. The full suite now
+reports 160 passing tests in Unity `6000.5.3f1`.
+
+The added coverage checks:
+
+- all 96 stable purchased nodes and the eight-node, 10-JP shape of each job;
+- catalog prerequisites, stable-ID uniqueness, and the Tier 3 demo cap;
+- atomic JP spending, duplicate prevention, and prerequisite enforcement;
+- permanent stat aggregation across job changes;
+- equipped-job restrictions for learned abilities and passives;
+- active and benched JP awards while permanently removed members are excluded.
 
 ### Fastest Development Workflow
 

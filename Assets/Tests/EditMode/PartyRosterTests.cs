@@ -156,6 +156,32 @@ namespace AngelBladeRPG.Tests
             Assert.That(removed.IsAvailable, Is.False);
         }
 
+        [Test]
+        public void JobPointsGoToActiveAndBenchedAvailableCharacters()
+        {
+            PartyRoster roster = CreateRoster(3);
+            roster.TrySetActiveParty(new[] { "member-1", "member-2" });
+
+            int recipients = roster.GrantJobPointsToAvailableCharacters(2);
+
+            Assert.That(recipients, Is.EqualTo(3));
+            Assert.That(roster.GetCharacter("member-1").JobPoints, Is.EqualTo(2));
+            Assert.That(roster.GetCharacter("member-3").JobPoints, Is.EqualTo(2));
+        }
+
+        [Test]
+        public void RemovedCharacterDoesNotReceiveJobPoints()
+        {
+            PartyRoster roster = CreateRoster(2);
+            roster.TryRemovePermanently("member-2");
+
+            int recipients = roster.GrantJobPointsToAvailableCharacters(3);
+
+            Assert.That(recipients, Is.EqualTo(1));
+            Assert.That(roster.GetCharacter("member-1").JobPoints, Is.EqualTo(3));
+            Assert.That(roster.GetCharacter("member-2").JobPoints, Is.Zero);
+        }
+
         private static PartyRoster CreateRoster(int characterCount)
         {
             PartyRoster roster = new PartyRoster();
