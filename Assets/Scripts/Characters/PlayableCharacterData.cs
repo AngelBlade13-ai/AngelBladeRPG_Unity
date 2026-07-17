@@ -15,6 +15,9 @@ public class PlayableCharacterData : ICombatant
     private readonly Dictionary<JobId, JobAffinity> jobAffinities =
         new Dictionary<JobId, JobAffinity>();
     private readonly JobProgression jobProgression = new JobProgression();
+    private readonly bool applyJobModifiers;
+    private readonly StatValues baseStats;
+    private StatValues lastEffectiveStats;
 
     public string Id { get; }
     public string Name { get; }
@@ -33,7 +36,8 @@ public class PlayableCharacterData : ICombatant
         string id,
         string name,
         JobId startingJob,
-        CombatantStats combatStats = null)
+        CombatantStats combatStats = null,
+        bool applyJobModifiers = true)
     {
         if (string.IsNullOrWhiteSpace(id))
         {
@@ -54,7 +58,10 @@ public class PlayableCharacterData : ICombatant
         Name = name.Trim();
         CurrentJob = startingJob;
         Stats = combatStats ?? CreateDefaultCombatStats();
+        this.applyJobModifiers = applyJobModifiers;
+        baseStats = StatValues.From(Stats);
         RosterHistory = new CharacterRosterHistory(Id);
+        RecalculateEffectiveStats();
     }
 
     private static CombatantStats CreateDefaultCombatStats()
@@ -71,6 +78,7 @@ public class PlayableCharacterData : ICombatant
         }
 
         CurrentJob = jobId;
+        RecalculateEffectiveStats();
         return true;
     }
 
@@ -86,7 +94,13 @@ public class PlayableCharacterData : ICombatant
             return false;
         }
 
-        return jobProgression.TryPurchase(JobNodeCatalog.Get(nodeId));
+        bool purchased = jobProgression.TryPurchase(JobNodeCatalog.Get(nodeId));
+        if (purchased)
+        {
+            RecalculateEffectiveStats();
+        }
+
+        return purchased;
     }
 
     public bool HasLearnedJobNode(string nodeId)
@@ -113,6 +127,10 @@ public class PlayableCharacterData : ICombatant
         }
 
         jobAffinities[jobId] = affinity;
+        if (jobId == CurrentJob)
+        {
+            RecalculateEffectiveStats();
+        }
     }
 
     public JobAffinity GetJobAffinity(JobId jobId)
@@ -138,5 +156,115 @@ public class PlayableCharacterData : ICombatant
     public void RemovePermanently()
     {
         IsAvailable = false;
+    }
+
+    private void RecalculateEffectiveStats()
+    {
+        CaptureExternalBaseStatChanges();
+
+        int missingHp = Stats.MaxHp - Stats.CurrentHp;
+        int missingMp = Stats.MaxMp - Stats.CurrentMp;
+        bool wasIncapacitated = Stats.CurrentHp <= 0;
+        PermanentStatBonuses permanent = GetPermanentStatBonuses();
+        JobStatModifiers job = applyJobModifiers
+            ? JobCatalog.Get(CurrentJob).StatModifiers
+            : JobStatModifiers.None;
+        JobAffinity affinity = GetJobAffinity(CurrentJob);
+
+        Stats.MaxHp = baseStats.MaxHp + permanent.MaxHp +
+            ScaleJobBonus(job.MaxHp, affinity);
+        Stats.MaxMp = baseStats.MaxMp + permanent.MaxMp +
+            ScaleJobBonus(job.MaxMp, affinity);
+        Stats.Attack = baseStats.Attack + permanent.Attack +
+            ScaleJobBonus(job.Attack, affinity);
+        Stats.Defense = baseStats.Defense + permanent.Defense +
+            ScaleJobBonus(job.Defense, affinity);
+        Stats.Speed = baseStats.Speed + permanent.Speed +
+            ScaleJobBonus(job.Speed, affinity);
+        Stats.MagicPower = baseStats.MagicPower + permanent.MagicPower +
+            ScaleJobBonus(job.MagicPower, affinity);
+        Stats.MagicDefense = baseStats.MagicDefense + permanent.MagicDefense +
+            ScaleJobBonus(job.MagicDefense, affinity);
+        Stats.Accuracy = baseStats.Accuracy + permanent.Accuracy +
+            ScaleJobBonus(job.Accuracy, affinity);
+        Stats.Evasion = baseStats.Evasion + permanent.Evasion +
+            ScaleJobBonus(job.Evasion, affinity);
+        Stats.CriticalChance = baseStats.CriticalChance +
+            permanent.CriticalChance +
+            ScaleJobBonus(job.CriticalChance, affinity);
+
+        Stats.CurrentHp = wasIncapacitated
+            ? 0
+            : Math.Max(0, Stats.MaxHp - missingHp);
+        Stats.CurrentMp = Math.Max(0, Stats.MaxMp - missingMp);
+        lastEffectiveStats = StatValues.From(Stats);
+    }
+
+    private void CaptureExternalBaseStatChanges()
+    {
+        if (lastEffectiveStats == null)
+        {
+            return;
+        }
+
+        baseStats.MaxHp += Stats.MaxHp - lastEffectiveStats.MaxHp;
+        baseStats.Attack += Stats.Attack - lastEffectiveStats.Attack;
+        baseStats.Defense += Stats.Defense - lastEffectiveStats.Defense;
+        baseStats.Speed += Stats.Speed - lastEffectiveStats.Speed;
+        baseStats.MaxMp += Stats.MaxMp - lastEffectiveStats.MaxMp;
+        baseStats.MagicPower +=
+            Stats.MagicPower - lastEffectiveStats.MagicPower;
+        baseStats.MagicDefense +=
+            Stats.MagicDefense - lastEffectiveStats.MagicDefense;
+        baseStats.Accuracy += Stats.Accuracy - lastEffectiveStats.Accuracy;
+        baseStats.Evasion += Stats.Evasion - lastEffectiveStats.Evasion;
+        baseStats.CriticalChance +=
+            Stats.CriticalChance - lastEffectiveStats.CriticalChance;
+    }
+
+    private static int ScaleJobBonus(int bonus, JobAffinity affinity)
+    {
+        if (bonus <= 0 || affinity == JobAffinity.Neutral)
+        {
+            return bonus;
+        }
+
+        long tenths = affinity == JobAffinity.High
+            ? (long)bonus * 11
+            : (long)bonus * 9;
+        return affinity == JobAffinity.High
+            ? (int)((tenths + 9) / 10)
+            : (int)(tenths / 10);
+    }
+
+    private sealed class StatValues
+    {
+        public int MaxHp;
+        public int Attack;
+        public int Defense;
+        public int Speed;
+        public int MaxMp;
+        public int MagicPower;
+        public int MagicDefense;
+        public int Accuracy;
+        public int Evasion;
+        public int CriticalChance;
+
+        public static StatValues From(CombatantStats stats)
+        {
+            return new StatValues
+            {
+                MaxHp = stats.MaxHp,
+                Attack = stats.Attack,
+                Defense = stats.Defense,
+                Speed = stats.Speed,
+                MaxMp = stats.MaxMp,
+                MagicPower = stats.MagicPower,
+                MagicDefense = stats.MagicDefense,
+                Accuracy = stats.Accuracy,
+                Evasion = stats.Evasion,
+                CriticalChance = stats.CriticalChance
+            };
+        }
     }
 }

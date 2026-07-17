@@ -87,9 +87,105 @@ namespace AngelBladeRPG.Tests
             Assert.That(stats.CurrentHp, Is.EqualTo(68));
         }
 
+        [Test]
+        public void EquippedJobAddsItsNeutralStatModifiers()
+        {
+            PlayableCharacterData character = CreateCharacter(JobId.Mercenary);
+
+            Assert.That(character.Stats.Attack, Is.EqualTo(17));
+            Assert.That(character.Stats.CriticalChance, Is.EqualTo(20));
+        }
+
+        [Test]
+        public void AffinityScalesOnlyTheEquippedJobContribution()
+        {
+            PlayableCharacterData high = CreateCharacter(JobId.Mercenary);
+            PlayableCharacterData low = CreateCharacter(JobId.Mercenary);
+
+            high.SetJobAffinity(JobId.Mercenary, JobAffinity.High);
+            low.SetJobAffinity(JobId.Mercenary, JobAffinity.Low);
+
+            Assert.That(high.Stats.Attack, Is.EqualTo(18));
+            Assert.That(low.Stats.Attack, Is.EqualTo(16));
+            Assert.That(high.Stats.CriticalChance, Is.EqualTo(21));
+            Assert.That(low.Stats.CriticalChance, Is.EqualTo(19));
+        }
+
+        [Test]
+        public void SwitchingJobsReplacesBonusesWithoutStackingOrHealing()
+        {
+            PlayableCharacterData character = CreateCharacter(JobId.Mercenary);
+            character.Stats.ApplyDamage(30);
+
+            character.TryAssignJob(JobId.Knight);
+
+            Assert.That(character.Stats.MaxHp, Is.EqualTo(120));
+            Assert.That(character.Stats.CurrentHp, Is.EqualTo(90));
+            Assert.That(character.Stats.Attack, Is.EqualTo(12));
+            Assert.That(character.Stats.Defense, Is.EqualTo(8));
+
+            character.TryAssignJob(JobId.Mercenary);
+
+            Assert.That(character.Stats.MaxHp, Is.EqualTo(100));
+            Assert.That(character.Stats.CurrentHp, Is.EqualTo(70));
+            Assert.That(character.Stats.Attack, Is.EqualTo(17));
+        }
+
+        [Test]
+        public void PermanentMaxHpNodePreservesMissingHpAcrossJobs()
+        {
+            PlayableCharacterData character = CreateCharacter(JobId.Knight);
+            character.Stats.ApplyDamage(30);
+            character.TryAddJobPoints(1);
+
+            bool purchased = character.TryPurchaseJobNode(
+                "job_knight_fortitude_1");
+
+            Assert.That(purchased, Is.True);
+            Assert.That(character.Stats.MaxHp, Is.EqualTo(130));
+            Assert.That(character.Stats.CurrentHp, Is.EqualTo(100));
+
+            character.TryAssignJob(JobId.Mage);
+
+            Assert.That(character.Stats.MaxHp, Is.EqualTo(110));
+            Assert.That(character.Stats.CurrentHp, Is.EqualTo(80));
+        }
+
+        [Test]
+        public void ExternalLevelGrowthSurvivesLaterJobChanges()
+        {
+            PlayableCharacterData character = CreateCharacter(JobId.Mercenary);
+            character.Stats.MaxHp += 20;
+            character.Stats.CurrentHp = character.Stats.MaxHp;
+            character.Stats.Attack += 3;
+
+            character.TryAssignJob(JobId.Knight);
+            character.TryAssignJob(JobId.Mercenary);
+
+            Assert.That(character.Stats.MaxHp, Is.EqualTo(120));
+            Assert.That(character.Stats.CurrentHp, Is.EqualTo(120));
+            Assert.That(character.Stats.Attack, Is.EqualTo(20));
+        }
+
+        [Test]
+        public void RecalculatingMaximumHpDoesNotReviveACharacter()
+        {
+            PlayableCharacterData character = CreateCharacter(JobId.Mercenary);
+            character.Stats.CurrentHp = 0;
+
+            character.TryAssignJob(JobId.Knight);
+
+            Assert.That(character.Stats.CurrentHp, Is.Zero);
+        }
+
         private static PlayableCharacterData CreateCharacter()
         {
             return new PlayableCharacterData("hero", "Angel", JobId.Knight);
+        }
+
+        private static PlayableCharacterData CreateCharacter(JobId jobId)
+        {
+            return new PlayableCharacterData("hero", "Angel", jobId);
         }
     }
 }

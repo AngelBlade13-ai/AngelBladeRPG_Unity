@@ -378,7 +378,7 @@ The Edit Mode suite covers:
 - Level-up reward feedback
 - Starting and ending battle state
 
-The original core suite ran successfully in Unity `6000.5.3f1` on July 14, 2026: 18 passed, 0 failed. The current suite contains 218 passing tests after adding pixel-world movement, camera, temporary direction-indicator, walkable-town foundation, directional world interaction, door-transition, battle-scene, job, affinity, progression, party-roster, runtime-party targeting, party-round resolution, party-command selection, core abilities, ability-command targeting, authored party-member, speed-based turn-order, legacy speed-resolved battle-round, bond, roster-history, shared combat-stat, reusable monster-definition, and structured combat-action coverage. Run instructions are in `Docs/TESTING.md`.
+The original core suite ran successfully in Unity `6000.5.3f1` on July 14, 2026: 18 passed, 0 failed. The current suite contains 225 passing tests after adding pixel-world movement, camera, temporary direction-indicator, walkable-town foundation, directional world interaction, door-transition, battle-scene, job, affinity, equipped-job stat derivation, progression, party-roster, runtime-party targeting, party-round resolution, party-command selection, core abilities, ability-command targeting, authored party-member, speed-based turn-order, legacy speed-resolved battle-round, bond, roster-history, shared combat-stat, reusable monster-definition, and structured combat-action coverage. Run instructions are in `Docs/TESTING.md`.
 
 Milestone 15 job progression is currently in progress on
 `feature/milestone-15-party-jobs`. The first checkpoint adds stable definitions
@@ -429,6 +429,13 @@ marks self-targeting clearly, and uses Attack or Defend as direct alternatives.
 Inspector work. Its eight added tests pass as part of the verified 218-test
 Edit Mode suite, and the repaired scene passed its manual ability-command smoke
 test.
+
+The seventh checkpoint is implemented and verified. Every job now contributes
+a distinct runtime stat package. Character affinity scales only the equipped
+job's package, while level growth and learned permanent-stat nodes retain their
+full values. Recalculation replaces previous derived values instead of stacking
+them, preserves missing HP and MP, and never revives an incapacitated character.
+Its seven added tests pass as part of the verified 225-test Edit Mode suite.
 
 There was previously a stale generated `.csproj` reference to the missing file `Assets/Editor/HubForceResolve.cs`. Unity itself successfully compiled the gameplay scripts. Generated Unity project files should remain ignored and can be regenerated rather than manually maintained.
 

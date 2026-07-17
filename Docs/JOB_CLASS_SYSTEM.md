@@ -87,6 +87,32 @@ The exact formula should be selected during implementation and covered by tests 
 
 Initial implementation uses `0.9` for low affinity, `1.0` for neutral affinity, and `1.1` for high affinity. These values are intentionally conservative and can be rebalanced without changing job access or character identity.
 
+Affinity scales only the equipped job's modifiers. Positive fractional values
+round down for low affinity and up for high affinity so even a small job bonus
+has a visible difference. Base level growth and learned permanent-stat nodes
+are never affinity-scaled.
+
+### Initial Equipped-Job Modifiers
+
+These are first-pass demo balance values and should be tuned after party battle
+playtests. They are derived at runtime and are not added permanently to save
+data.
+
+| Job | Neutral-affinity modifiers |
+| --- | --- |
+| Knight | `+20 Max HP`, `+5 Defense`, `+2 Magic Defense` |
+| Reaver | `+30 Max HP`, `+5 Attack`, `+1 Defense` |
+| Mercenary | `+5 Attack`, `+10 Critical Chance` |
+| Rogue | `+5 Speed`, `+10 Evasion`, `+5 Critical Chance` |
+| Ranger | `+4 Attack`, `+2 Speed`, `+5 Accuracy` |
+| Mage | `+20 Max MP`, `+5 Magic Power`, `+2 Magic Defense` |
+| Blood Mage | `+20 Max HP`, `+10 Max MP`, `+5 Magic Power` |
+| White Mage | `+20 Max MP`, `+5 Magic Power`, `+3 Magic Defense` |
+| Paladin | `+20 Max HP`, `+3 Attack`, `+4 Defense`, `+10 Max MP`, `+3 Magic Power`, `+3 Magic Defense` |
+| Bard | `+3 Speed`, `+15 Max MP`, `+3 Magic Power`, `+4 Magic Defense` |
+| Tactician | `+5 Speed`, `+15 Max MP`, `+5 Accuracy`, `+5 Evasion` |
+| Summoner | `+20 Max MP`, `+4 Magic Power`, `+4 Magic Defense` |
+
 ## Initial Party Member Profiles
 
 Four additional party members currently have stable IDs and natural archetypes. These represent high affinities and combat flavor, not locked classes:

@@ -289,7 +289,8 @@ namespace AngelBladeRPG.Tests
                 id,
                 id,
                 JobId.Mercenary,
-                new CombatantStats(hp, attack, 0, speed, 10, 5, 2));
+                new CombatantStats(hp, attack, 0, speed, 10, 5, 2),
+                applyJobModifiers: false);
         }
 
         private static MonsterData Enemy(

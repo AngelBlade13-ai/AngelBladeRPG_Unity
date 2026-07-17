@@ -302,7 +302,8 @@ namespace AngelBladeRPG.Tests
                     speed,
                     20,
                     magicPower,
-                    2));
+                    2),
+                applyJobModifiers: false);
         }
 
         private static MonsterData Enemy(

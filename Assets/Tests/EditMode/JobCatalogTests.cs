@@ -23,6 +23,14 @@ namespace AngelBladeRPG.Tests
                 Is.True);
         }
 
+        [Test]
+        public void EveryJobDefinesACombatStatIdentity()
+        {
+            Assert.That(
+                JobCatalog.All.All(job => job.StatModifiers.HasAnyBonus),
+                Is.True);
+        }
+
         [TestCase(JobId.Reaver)]
         [TestCase(JobId.BloodMage)]
         [TestCase(JobId.WhiteMage)]

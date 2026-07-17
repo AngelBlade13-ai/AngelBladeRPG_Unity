@@ -325,11 +325,16 @@ Current implementation checkpoint:
   prompts, disabled unaffordable actions, and combined self-target markers.
 - The expanded 218-test Edit Mode suite and repaired-scene smoke test pass in
   Unity `6000.5.3f1`.
+- The equipped-job stat checkpoint gives all 12 jobs distinct runtime stat
+  packages, scales only those packages by character affinity, preserves level
+  growth and missing HP/MP during recalculation, and keeps learned permanent
+  bonuses active across job changes without stacking derived values.
+- The expanded 225-test Edit Mode suite passes in Unity `6000.5.3f1`.
 
 - [x] Create runtime combatants for multiple active party members.
 - [x] Add party targeting for allies and enemies.
-- [ ] Add MP, physical attacks, magic, healing, defend, and a small ability set.
-- [ ] Apply job stats and affinities to playable combatants.
+- [x] Add MP, physical attacks, magic, healing, defend, and a small ability set.
+- [x] Apply job stats and affinities to playable combatants.
 - [x] Add stable job-tree nodes, per-character unlock state, and data-driven
   demo progression limits for all 12 playable jobs.
 - [x] Aggregate permanent stat nodes across learned jobs without activating
@@ -401,7 +406,10 @@ Exit gate:
 Goal: build the complete demo from start to finish using functional placeholder
 art where final art is not ready.
 
-- [ ] Build the final demo scene list from the Milestone 14 brief.
+- [ ] Build all eight Suncrest Hollow district scenes using the connection
+  graph, dimensions, and transition contract in
+  `SUNCREST_DISTRICT_LAYOUT.md`.
+- [ ] Build the remaining final demo scene list from the Milestone 14 brief.
 - [ ] Add NPC schedules or placement only where the demo requires them.
 - [ ] Add dialogue data, choices if required, and quest progression.
 - [ ] Add the delayed-caravan opening quest; `A Worried Merchant`, `The Smith
