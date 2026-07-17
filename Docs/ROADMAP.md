@@ -309,6 +309,12 @@ Current implementation checkpoint:
   by speed, supports speed-sensitive Defend, skips incapacitated turns, and
   retargets attacks when an earlier action defeats the selected target.
 - The expanded 190-test Edit Mode suite passes in Unity `6000.5.3f1`.
+- The battle-command UI checkpoint displays compact party/enemy
+  HP and MP lists, marks the current actor and target without relying on color,
+  cycles enemy targets, collects commands in formation order, and submits the
+  complete command set to the party round resolver.
+- The expanded 199-test Edit Mode suite and repaired-scene smoke test pass in
+  Unity `6000.5.3f1`.
 
 - [x] Create runtime combatants for multiple active party members.
 - [x] Add party targeting for allies and enemies.

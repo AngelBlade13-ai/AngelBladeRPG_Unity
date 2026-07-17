@@ -12,9 +12,9 @@ The core gameplay tests are Unity Edit Mode tests. They exercise plain gameplay 
 
 The test assembly is `AngelBladeRPG.EditModeTests` under `Assets/Tests/EditMode`.
 
-Verified on July 16, 2026 with Unity `6000.5.3f1`: 190 passed, 0 failed.
+Verified on July 16, 2026 with Unity `6000.5.3f1`: 199 passed, 0 failed.
 
-The current suite includes 21 core gameplay tests, five pixel-world movement and camera tests, five temporary direction-indicator tests, four walkable-town foundation tests, seven interaction tests, eight door-transition tests, 13 battle-scene tests, 40 job, affinity, progression, playable-character, and party-roster tests, 11 runtime-party targeting tests, 13 party-round resolver tests, 10 authored party-member tests, five speed-based turn-order tests, nine legacy speed-resolved battle-round tests, five bond and roster-history tests, nine shared combat-stat tests, 10 reusable monster-definition tests, and 15 structured combat-action tests.
+The current suite includes 21 core gameplay tests, five pixel-world movement and camera tests, five temporary direction-indicator tests, four walkable-town foundation tests, seven interaction tests, eight door-transition tests, 15 battle-scene tests, seven party-command selection tests, 40 job, affinity, progression, playable-character, and party-roster tests, 11 runtime-party targeting tests, 13 party-round resolver tests, 10 authored party-member tests, five speed-based turn-order tests, nine legacy speed-resolved battle-round tests, five bond and roster-history tests, nine shared combat-stat tests, 10 reusable monster-definition tests, and 15 structured combat-action tests.
 
 ### Milestone 15 Job Progression Checkpoint
 
@@ -60,6 +60,22 @@ The added coverage checks:
 - automatic ally and enemy retargeting after the original target falls;
 - Defend applying only after the defending combatant's turn begins;
 - structured party/enemy defeat results and completed-battle no-op behavior.
+
+### Milestone 15 Party Command UI Checkpoint
+
+The command-UI checkpoint adds nine Edit Mode cases. The full suite now reports
+199 passing tests in Unity `6000.5.3f1`. The repaired battle scene also passed
+its manual command-flow smoke test.
+
+The added coverage checks:
+
+- command selection advancing through living formation order;
+- attack and Defend command creation for each active actor;
+- enemy-target cycling and wraparound in both directions;
+- preserving the selected stable target ID in queued commands;
+- completed selection rejecting accidental extra commands;
+- party/enemy status text exposing HP, MP, actor, target, and incapacitation;
+- command prompts naming the acting party member and selected enemy.
 
 ### Fastest Development Workflow
 

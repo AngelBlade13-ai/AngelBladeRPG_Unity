@@ -279,23 +279,23 @@ public static class BattlePrototypeBuilder
         TextMeshProUGUI playerStatus = CreateText(
             "PlayerStatusText",
             canvasObject.transform,
-            "Hero\nHP 100/100",
+            "> Hero  HP 100/100 MP 20/20",
             new Vector2(0f, 1f),
             new Vector2(0f, 1f),
-            new Vector2(8f, -8f),
-            new Vector2(120f, 32f),
-            9f,
+            new Vector2(8f, -25f),
+            new Vector2(154f, 48f),
+            7f,
             TextAlignmentOptions.TopLeft,
             new Vector2(0f, 1f));
         TextMeshProUGUI monsterStatus = CreateText(
             "MonsterStatusText",
             canvasObject.transform,
-            "Goblin\nHP 35/35",
+            "* Goblin  HP 35/35 MP 0/0",
             new Vector2(1f, 1f),
             new Vector2(1f, 1f),
-            new Vector2(-8f, -8f),
-            new Vector2(120f, 32f),
-            9f,
+            new Vector2(-8f, -25f),
+            new Vector2(142f, 48f),
+            7f,
             TextAlignmentOptions.TopRight,
             Vector2.one);
 
@@ -322,7 +322,7 @@ public static class BattlePrototypeBuilder
             new Vector2(0f, 0f),
             new Vector2(1f, 0f),
             Vector2.zero,
-            new Vector2(0f, 62f),
+            new Vector2(0f, 78f),
             new Color(0.08f, 0.09f, 0.1f, 0.96f),
             new Vector2(0.5f, 0f));
         TextMeshProUGUI battleLog = CreateText(
@@ -333,7 +333,7 @@ public static class BattlePrototypeBuilder
             Vector2.one,
             Vector2.zero,
             Vector2.zero,
-            9f,
+            7f,
             TextAlignmentOptions.TopLeft);
         RectTransform logRect = battleLog.rectTransform;
         logRect.offsetMin = new Vector2(8f, 7f);
@@ -366,6 +366,31 @@ public static class BattlePrototypeBuilder
             new Vector2(80f, 22f));
         TextMeshProUGUI continueLabel =
             continueButton.GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI commandPrompt = CreateText(
+            "CommandPromptText",
+            commandBand.transform,
+            "Hero -> Goblin",
+            new Vector2(1f, 0f),
+            new Vector2(1f, 0f),
+            new Vector2(-80f, 5f),
+            new Vector2(100f, 17f),
+            8f,
+            TextAlignmentOptions.Center,
+            new Vector2(0.5f, 0f));
+        GameObject previousTargetButton = CreateButton(
+            "PreviousTargetButton",
+            commandBand.transform,
+            "<",
+            new Vector2(1f, 0f),
+            new Vector2(-146f, 12f),
+            new Vector2(24f, 18f));
+        GameObject nextTargetButton = CreateButton(
+            "NextTargetButton",
+            commandBand.transform,
+            ">",
+            new Vector2(1f, 0f),
+            new Vector2(-14f, 12f),
+            new Vector2(24f, 18f));
 
         UnityEventTools.AddPersistentListener(
             attackButton.GetComponent<Button>().onClick,
@@ -377,6 +402,12 @@ public static class BattlePrototypeBuilder
             escapeButton.GetComponent<Button>().onClick,
             controller.Escape);
         UnityEventTools.AddPersistentListener(
+            previousTargetButton.GetComponent<Button>().onClick,
+            controller.PreviousTarget);
+        UnityEventTools.AddPersistentListener(
+            nextTargetButton.GetComponent<Button>().onClick,
+            controller.NextTarget);
+        UnityEventTools.AddPersistentListener(
             continueButton.GetComponent<Button>().onClick,
             controller.Continue);
 
@@ -385,10 +416,13 @@ public static class BattlePrototypeBuilder
             playerStatus,
             monsterStatus,
             battleLog,
+            commandPrompt,
             continueLabel,
             attackButton,
             defendButton,
             escapeButton,
+            previousTargetButton,
+            nextTargetButton,
             continueButton);
     }
 
@@ -404,6 +438,11 @@ public static class BattlePrototypeBuilder
                 .GetComponent<BattleSceneController>();
         Transform commandBand =
             FindSceneObject(battleScene, "CommandBand");
+        RectTransform commandBandRect =
+            commandBand.GetComponent<RectTransform>();
+        commandBandRect.sizeDelta = new Vector2(
+            commandBandRect.sizeDelta.x,
+            78f);
         GameObject attackButton =
             FindSceneObject(battleScene, "AttackButton").gameObject;
         Transform defendTransform =
@@ -432,6 +471,45 @@ public static class BattlePrototypeBuilder
                 .GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI continueLabel =
             continueButton.GetComponentInChildren<TextMeshProUGUI>();
+        Transform promptTransform =
+            FindSceneObject(battleScene, "CommandPromptText");
+        TextMeshProUGUI commandPrompt = promptTransform == null
+            ? CreateText(
+                "CommandPromptText",
+                commandBand,
+                "Hero -> Goblin",
+                new Vector2(1f, 0f),
+                new Vector2(1f, 0f),
+                new Vector2(-80f, 5f),
+                new Vector2(100f, 17f),
+                8f,
+                TextAlignmentOptions.Center,
+                new Vector2(0.5f, 0f))
+            : promptTransform.GetComponent<TextMeshProUGUI>();
+        Transform previousTargetTransform =
+            FindSceneObject(battleScene, "PreviousTargetButton");
+        bool createdPreviousTarget = previousTargetTransform == null;
+        GameObject previousTargetButton = createdPreviousTarget
+            ? CreateButton(
+                "PreviousTargetButton",
+                commandBand,
+                "<",
+                new Vector2(1f, 0f),
+                new Vector2(-146f, 12f),
+                new Vector2(24f, 18f))
+            : previousTargetTransform.gameObject;
+        Transform nextTargetTransform =
+            FindSceneObject(battleScene, "NextTargetButton");
+        bool createdNextTarget = nextTargetTransform == null;
+        GameObject nextTargetButton = createdNextTarget
+            ? CreateButton(
+                "NextTargetButton",
+                commandBand,
+                ">",
+                new Vector2(1f, 0f),
+                new Vector2(-14f, 12f),
+                new Vector2(24f, 18f))
+            : nextTargetTransform.gameObject;
 
         SetRect(
             attackButton.GetComponent<RectTransform>(),
@@ -455,6 +533,44 @@ public static class BattlePrototypeBuilder
             new Vector2(48f, 22f),
             new Vector2(0.5f, 0.5f));
         battleLog.rectTransform.offsetMax = new Vector2(-168f, -7f);
+        battleLog.fontSize = 7f;
+        SetRect(
+            playerStatus.rectTransform,
+            new Vector2(0f, 1f),
+            new Vector2(0f, 1f),
+            new Vector2(8f, -25f),
+            new Vector2(154f, 48f),
+            new Vector2(0f, 1f));
+        playerStatus.fontSize = 7f;
+        SetRect(
+            monsterStatus.rectTransform,
+            new Vector2(1f, 1f),
+            new Vector2(1f, 1f),
+            new Vector2(-8f, -25f),
+            new Vector2(142f, 48f),
+            Vector2.one);
+        monsterStatus.fontSize = 7f;
+        SetRect(
+            commandPrompt.rectTransform,
+            new Vector2(1f, 0f),
+            new Vector2(1f, 0f),
+            new Vector2(-80f, 5f),
+            new Vector2(100f, 17f),
+            new Vector2(0.5f, 0f));
+        SetRect(
+            previousTargetButton.GetComponent<RectTransform>(),
+            new Vector2(1f, 0f),
+            new Vector2(1f, 0f),
+            new Vector2(-146f, 12f),
+            new Vector2(24f, 18f),
+            new Vector2(0.5f, 0.5f));
+        SetRect(
+            nextTargetButton.GetComponent<RectTransform>(),
+            new Vector2(1f, 0f),
+            new Vector2(1f, 0f),
+            new Vector2(-14f, 12f),
+            new Vector2(24f, 18f),
+            new Vector2(0.5f, 0.5f));
 
         if (createdDefendButton)
         {
@@ -463,14 +579,31 @@ public static class BattlePrototypeBuilder
                 controller.Defend);
         }
 
+        if (createdPreviousTarget)
+        {
+            UnityEventTools.AddPersistentListener(
+                previousTargetButton.GetComponent<Button>().onClick,
+                controller.PreviousTarget);
+        }
+
+        if (createdNextTarget)
+        {
+            UnityEventTools.AddPersistentListener(
+                nextTargetButton.GetComponent<Button>().onClick,
+                controller.NextTarget);
+        }
+
         controller.Configure(
             playerStatus,
             monsterStatus,
             battleLog,
+            commandPrompt,
             continueLabel,
             attackButton,
             defendButton,
             escapeButton,
+            previousTargetButton,
+            nextTargetButton,
             continueButton);
 
         EditorSceneManager.MarkSceneDirty(battleScene);
@@ -546,7 +679,7 @@ public static class BattlePrototypeBuilder
         textComponent.alignment = alignment;
         textComponent.color = Color.white;
         textComponent.raycastTarget = false;
-        textComponent.enableWordWrapping = true;
+        textComponent.textWrappingMode = TextWrappingModes.Normal;
         SetRect(
             textComponent.rectTransform,
             anchorMinimum,
@@ -587,6 +720,7 @@ public static class BattlePrototypeBuilder
             9f,
             TextAlignmentOptions.Center);
         buttonText.color = new Color(0.08f, 0.09f, 0.1f, 1f);
+        buttonText.richText = false;
         return buttonObject;
     }
 

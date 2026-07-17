@@ -14,5 +14,54 @@ namespace AngelBladeRPG.Tests
 
             Assert.That(status, Is.EqualTo("Goblin\nHP 12/35"));
         }
+
+        [Test]
+        public void FormatCombatantGroupShowsActorTargetResourcesAndDefeat()
+        {
+            PlayableCharacterData active = new PlayableCharacterData(
+                "active",
+                "Angel",
+                JobId.Mercenary);
+            PlayableCharacterData fallen = new PlayableCharacterData(
+                "fallen",
+                "Iona",
+                JobId.WhiteMage);
+            fallen.Stats.CurrentHp = 0;
+
+            string status = BattleSceneController.FormatCombatantGroup(
+                new ICombatant[] { active, fallen },
+                active.Id,
+                fallen.Id);
+
+            Assert.That(status, Does.Contain("> Angel  HP 100/100 MP 20/20"));
+            Assert.That(status, Does.Contain("* Iona  INCAPACITATED"));
+        }
+
+        [Test]
+        public void FormatCommandPromptNamesActorAndTarget()
+        {
+            PlayableCharacterData actor = new PlayableCharacterData(
+                "hero",
+                "Angel",
+                JobId.Mercenary);
+            MonsterData target = new MonsterData(
+                "goblin",
+                "Goblin",
+                30,
+                8,
+                1,
+                5,
+                5,
+                8,
+                0,
+                0,
+                0);
+
+            string prompt = BattleSceneController.FormatCommandPrompt(
+                actor,
+                target);
+
+            Assert.That(prompt, Is.EqualTo("Angel -> Goblin"));
+        }
     }
 }
