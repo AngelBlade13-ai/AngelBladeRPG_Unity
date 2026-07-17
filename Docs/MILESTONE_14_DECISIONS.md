@@ -38,7 +38,8 @@ The protected feature tiers are in
 
 - One currency: gold.
 - Five equipment slots: Weapon, Armor, Accessory 1, Accessory 2, and Necklace.
-- Eight weapon categories shared across compatible jobs.
+- Eight narrowly shared weapon categories: Heavy Blade, Scythe, Bow, Dagger,
+  Staff, Instrument, Tome/Charm, and Bonded Totem/Horn.
 - Rarity: Common, Uncommon, Rare, Epic, and Legendary.
 - Equipment rarity remains distinct from monster affixes such as Savage,
   Nimble, and Elder.
@@ -55,4 +56,3 @@ Full rules are in `ITEM_EQUIPMENT_ECONOMY.md`.
 - Friend-specific agreements remain pending until each person's role, scope,
   rights, credit, and compensation are confirmed.
 - No pending contribution or third-party asset may ship in a public build.
-

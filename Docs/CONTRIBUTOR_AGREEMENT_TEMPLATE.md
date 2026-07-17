@@ -22,6 +22,11 @@ milestone, revision allowance, acceptance process, source-file requirement,
 credit, and delivery date. General friendship, informal discussion, or access
 to the repository is not a substitute for a written contribution schedule.
 
+- Role or contribution: `[ART/MUSIC/WRITING/TESTING/OTHER]`
+- Agreement scope: `[DEMO/FULL GAME/SPECIFIC MILESTONE OR DELIVERABLES]`
+- Expected ongoing involvement: `[FIXED/AS AVAILABLE/NO ONGOING COMMITMENT]`
+- Contributor-specific notes: `[EXPERIENCE, OUTPUT EXPECTATIONS, OTHER CONTEXT]`
+
 ## Rights And Ownership
 
 The final reviewed agreement should address all of the following explicitly:
@@ -121,6 +126,10 @@ work-in-progress, rights in paid/accepted deliverables, return or deletion of
 confidential material, cancellation, Project renaming, delayed release, and the
 possibility that accepted work may be modified or not used.
 
+A Contributor may step back from future work under the reviewed agreement's
+notice terms without erasing rights already granted or compensation already
+owed for accepted work.
+
 ## General Terms
 
 The final agreement should include governing law and venue, notices, assignment,
@@ -142,4 +151,3 @@ warranties, and dispute terms.
   `https://www.copyright.gov/title17/92chap2.html`
 - U.S. Copyright Office claimant/transfer help:
   `https://www.copyright.gov/eco/help-claimant.html`
-

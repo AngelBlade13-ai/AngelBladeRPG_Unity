@@ -6,6 +6,10 @@ agreements, and attribution text in a private administrative archive; do not
 commit personal addresses, signatures, tax data, or confidential contracts to
 the public repository.
 
+Log an asset when it is added, even if some fields are initially unknown. Mark
+it `Pending` and complete the record before public use rather than relying on a
+large memory-based audit near release.
+
 ## Status Values
 
 - `Proposed`: not yet imported or approved.
@@ -56,6 +60,8 @@ For every asset, confirm:
 1. Assign a stable asset ID before production use.
 2. Record the source and intended use.
 3. Store legal evidence in the private archive and reference it by path or ID.
+   Preserve a copy or screenshot of third-party license text in case the source
+   page changes or disappears.
 4. Keep uncleared files out of release-addressable asset groups and builds.
 5. Review the log before screenshots, trailers, external playtests, store review,
    demo release, and full release.
@@ -63,4 +69,3 @@ For every asset, confirm:
 
 Friend-specific agreements remain `Pending` until role, scope, compensation,
 credit, and rights are signed. Informal permission is not release clearance.
-

@@ -204,16 +204,16 @@ exactly once across save/load. The four side quests are not deferred content.
 ### Required Item Families
 
 - Single-target HP recovery.
-- Single-target MP recovery.
 - Removable-status recovery.
-- Incapacitated-ally recovery if ordinary battles are balanced around access to
-  revival; otherwise revival remains a town/camp service for the demo.
 - Basic protagonist and companion starting weapons, armor, and accessories.
 - Small weapon and armor upgrades supporting physical, magical, tank, healer,
   and support builds without requiring one item for every job.
 
 Final names, statistics, prices, quantities, weapon restrictions, inventory
 capacity, and loot tables remain Milestone 16 decisions.
+
+MP and incapacitation recovery items are not required unless battle testing
+demonstrates a critical-path need.
 
 ### Suncrest Hollow Services
 

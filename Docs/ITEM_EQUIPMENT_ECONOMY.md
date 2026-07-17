@@ -1,7 +1,9 @@
 # Item And Equipment Economy
 
-This document defines the demo economy structure. Exact item statistics,
-prices, drop rates, quantities, and reward tuning remain Milestone 16 data.
+This document defines the Tier 2 demo economy structure. Itemization should
+provide satisfying build variety without competing with story pacing or
+requiring grinding. Exact item statistics, prices, drop rates, quantities, and
+reward tuning remain Milestone 16 data.
 
 ## Currency And Pacing
 
@@ -35,18 +37,18 @@ categories and intended compatibility are:
 
 | Category | Compatible jobs |
 | --- | --- |
-| Sword | Knight, Mercenary, Paladin, Tactician |
-| Greatblade | Knight, Reaver, Mercenary |
-| Dagger | Rogue, Ranger, Tactician |
-| Bow | Ranger, Rogue |
-| Staff | Mage, White Mage, Summoner |
-| Scythe | Reaver, Blood Mage |
-| Tome | Mage, Blood Mage, White Mage, Tactician, Summoner |
+| Heavy Blade | Knight, Reaver, Mercenary, Paladin |
+| Scythe | Blood Mage |
+| Bow | Ranger |
+| Dagger | Rogue |
+| Staff | Mage, White Mage |
 | Instrument | Bard |
+| Tome Or Charm | Tactician |
+| Bonded Totem Or Horn | Summoner |
 
-This matrix is the initial production interpretation of the eight-category
-decision and should be balance-tested before item content is authored in bulk.
-Enora starts with a scythe-compatible weapon.
+Heavy Blade includes swords, great blades, and sword-and-shield items. A shield
+is part of that Weapon item rather than a separate equipment slot. Enora starts
+with a scythe-compatible weapon.
 
 - Switching jobs previews weapon compatibility.
 - An incompatible equipped weapon moves safely to shared inventory when the
@@ -69,8 +71,24 @@ Equipment rarity uses these player-facing tiers:
 Rarity communicates relative scarcity and expected power budget. It does not
 guarantee that a higher-rarity item is correct for every build.
 
+Legendary equipment may have a small unique effect and should generally come
+from special quests or other authored rewards rather than ordinary random
+drops. Individual item names carry narrative flavor; rarity labels stay plain
+and functional.
+
 Monster variation uses separate affix language such as Savage, Nimble, and
 Elder. Item UI must not use those words as rarity tiers.
+
+## Demo Consumables
+
+- One basic single-target HP recovery potion family.
+- At least one item that removes a supported negative status.
+- Camp Rations and named quest consumables already required by the content
+  manifest.
+
+MP and incapacitation recovery consumables are not required for the demo. Add
+them only if encounter testing shows that camp, town services, and job recovery
+cannot support fair critical-path pacing.
 
 ## Demo Service Roles
 
@@ -93,4 +111,3 @@ Elder. Item UI must not use those words as rarity tiers.
 - No random drop is required to demonstrate a job or defeat a demo boss.
 - Loot, purchases, sales, and one-time rewards remain deterministic under
   save/load and cannot duplicate.
-
