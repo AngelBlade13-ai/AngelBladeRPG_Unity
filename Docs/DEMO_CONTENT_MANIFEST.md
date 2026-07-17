@@ -279,6 +279,8 @@ The Great Stag itself is already named and mechanically defined.
 ## Preliminary Art And Audio Budget
 
 This is a minimum planning budget, not a final outsourcing quote.
+The production-facing breakdown, scale test, and artist handoff requirements are
+maintained in `DEMO_ART_CHECKLIST.md`.
 
 | Category | Minimum demo content |
 | --- | --- |
@@ -356,3 +358,4 @@ must never be placed on the cut list without an explicit scope change.
 - `ITEM_EQUIPMENT_ECONOMY.md`
 - `CONTRIBUTOR_AGREEMENT_TEMPLATE.md`
 - `ASSET_LICENSE_TRACKING.md`
+- `DEMO_ART_CHECKLIST.md`
