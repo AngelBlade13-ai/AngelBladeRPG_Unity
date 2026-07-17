@@ -7,10 +7,16 @@ public sealed class PartyCommandSelection
     private readonly List<PartyBattleCommand> commands =
         new List<PartyBattleCommand>();
     private int selectedTargetIndex;
+    private CombatAbilityDefinition pendingAbility;
 
     public IReadOnlyList<PartyBattleCommand> Commands => commands.AsReadOnly();
     public bool HasQueuedCommands => commands.Count > 0;
     public bool IsComplete => CurrentActor == null;
+    public bool IsChoosingAbility => pendingAbility != null;
+    public CombatAbilityDefinition PendingAbility => pendingAbility;
+    public BattleTargetType CurrentTargetType => pendingAbility == null
+        ? BattleTargetType.SingleEnemy
+        : pendingAbility.TargetType;
 
     public ICombatant CurrentActor
     {
@@ -58,6 +64,29 @@ public sealed class PartyCommandSelection
         this.battle = battle ?? throw new ArgumentNullException(nameof(battle));
     }
 
+    public CombatAbilityDefinition GetCurrentCoreAbility()
+    {
+        return CurrentActor is PlayableCharacterData character
+            ? CombatAbilityCatalog.GetCoreForJob(character.CurrentJob)
+            : null;
+    }
+
+    public bool CanChooseCurrentCoreAbility()
+    {
+        ICombatant actor = CurrentActor;
+        CombatAbilityDefinition ability = GetCurrentCoreAbility();
+        return actor != null && ability != null &&
+            ability.CanPayCost(actor) &&
+            battle.GetValidTargets(
+                actor.CombatantId,
+                ability.TargetType).Count > 0;
+    }
+
+    public int GetCurrentTargetCount()
+    {
+        return GetCurrentTargets().Count;
+    }
+
     public bool CycleTarget(int direction)
     {
         IReadOnlyList<ICombatant> targets = GetCurrentTargets();
@@ -74,6 +103,7 @@ public sealed class PartyCommandSelection
 
     public bool TryQueueAttack()
     {
+        pendingAbility = null;
         ICombatant actor = CurrentActor;
         ICombatant target = SelectedTarget;
         if (actor == null || target == null)
@@ -84,7 +114,7 @@ public sealed class PartyCommandSelection
         commands.Add(PartyBattleCommand.Attack(
             actor.CombatantId,
             target.CombatantId));
-        selectedTargetIndex = 0;
+        ResetForNextActor();
         return true;
     }
 
@@ -97,7 +127,37 @@ public sealed class PartyCommandSelection
         }
 
         commands.Add(PartyBattleCommand.Defend(actor.CombatantId));
+        ResetForNextActor();
+        return true;
+    }
+
+    public bool TryBeginCoreAbility()
+    {
+        if (pendingAbility != null || !CanChooseCurrentCoreAbility())
+        {
+            return false;
+        }
+
+        pendingAbility = GetCurrentCoreAbility();
         selectedTargetIndex = 0;
+        return true;
+    }
+
+    public bool TryQueuePendingAbility()
+    {
+        ICombatant actor = CurrentActor;
+        ICombatant target = SelectedTarget;
+        if (actor == null || target == null || pendingAbility == null ||
+            !pendingAbility.CanPayCost(actor))
+        {
+            return false;
+        }
+
+        commands.Add(PartyBattleCommand.Ability(
+            actor.CombatantId,
+            pendingAbility.StableId,
+            target.CombatantId));
+        ResetForNextActor();
         return true;
     }
 
@@ -108,7 +168,13 @@ public sealed class PartyCommandSelection
             ? Array.Empty<ICombatant>()
             : battle.GetValidTargets(
                 actor.CombatantId,
-                BattleTargetType.SingleEnemy);
+                CurrentTargetType);
+    }
+
+    private void ResetForNextActor()
+    {
+        pendingAbility = null;
+        selectedTargetIndex = 0;
     }
 
     private static int WrapIndex(int index, int count)

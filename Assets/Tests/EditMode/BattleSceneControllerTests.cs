@@ -63,5 +63,41 @@ namespace AngelBladeRPG.Tests
 
             Assert.That(prompt, Is.EqualTo("Angel -> Goblin"));
         }
+
+        [Test]
+        public void FormatAbilityPromptNamesAbilityActorAndTarget()
+        {
+            PlayableCharacterData actor = new PlayableCharacterData(
+                "healer",
+                "Iona",
+                JobId.WhiteMage);
+            PlayableCharacterData target = new PlayableCharacterData(
+                "hero",
+                "Angel",
+                JobId.Mercenary);
+
+            string prompt = BattleSceneController.FormatAbilityPrompt(
+                actor,
+                target,
+                CombatAbilityCatalog.Get(CombatAbilityCatalog.MendId));
+
+            Assert.That(prompt, Is.EqualTo("Mend (4 MP): Iona -> Angel"));
+        }
+
+        [Test]
+        public void FormatCombatantGroupShowsCombinedSelfTargetMarker()
+        {
+            PlayableCharacterData actor = new PlayableCharacterData(
+                "healer",
+                "Iona",
+                JobId.WhiteMage);
+
+            string status = BattleSceneController.FormatCombatantGroup(
+                new ICombatant[] { actor },
+                actor.Id,
+                actor.Id);
+
+            Assert.That(status, Does.StartWith(">* Iona"));
+        }
     }
 }

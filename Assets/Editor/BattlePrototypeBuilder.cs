@@ -344,19 +344,29 @@ public static class BattlePrototypeBuilder
             commandBand.transform,
             "Attack",
             new Vector2(1f, 0.5f),
-            new Vector2(-134f, 12f));
+            new Vector2(-148f, 12f),
+            new Vector2(40f, 22f));
+        GameObject abilityButton = CreateButton(
+            "AbilityButton",
+            commandBand.transform,
+            "Ability",
+            new Vector2(1f, 0.5f),
+            new Vector2(-106f, 12f),
+            new Vector2(40f, 22f));
         GameObject defendButton = CreateButton(
             "DefendButton",
             commandBand.transform,
             "Defend",
             new Vector2(1f, 0.5f),
-            new Vector2(-82f, 12f));
+            new Vector2(-64f, 12f),
+            new Vector2(40f, 22f));
         GameObject escapeButton = CreateButton(
             "EscapeButton",
             commandBand.transform,
             "Escape",
             new Vector2(1f, 0.5f),
-            new Vector2(-30f, 12f));
+            new Vector2(-22f, 12f),
+            new Vector2(40f, 22f));
         GameObject continueButton = CreateButton(
             "ContinueButton",
             commandBand.transform,
@@ -374,7 +384,7 @@ public static class BattlePrototypeBuilder
             new Vector2(1f, 0f),
             new Vector2(-80f, 5f),
             new Vector2(100f, 17f),
-            8f,
+            7f,
             TextAlignmentOptions.Center,
             new Vector2(0.5f, 0f));
         GameObject previousTargetButton = CreateButton(
@@ -395,6 +405,9 @@ public static class BattlePrototypeBuilder
         UnityEventTools.AddPersistentListener(
             attackButton.GetComponent<Button>().onClick,
             controller.Attack);
+        UnityEventTools.AddPersistentListener(
+            abilityButton.GetComponent<Button>().onClick,
+            controller.Ability);
         UnityEventTools.AddPersistentListener(
             defendButton.GetComponent<Button>().onClick,
             controller.Defend);
@@ -419,6 +432,7 @@ public static class BattlePrototypeBuilder
             commandPrompt,
             continueLabel,
             attackButton,
+            abilityButton,
             defendButton,
             escapeButton,
             previousTargetButton,
@@ -445,6 +459,18 @@ public static class BattlePrototypeBuilder
             78f);
         GameObject attackButton =
             FindSceneObject(battleScene, "AttackButton").gameObject;
+        Transform abilityTransform =
+            FindSceneObject(battleScene, "AbilityButton");
+        bool createdAbilityButton = abilityTransform == null;
+        GameObject abilityButton = createdAbilityButton
+            ? CreateButton(
+                "AbilityButton",
+                commandBand,
+                "Ability",
+                new Vector2(1f, 0.5f),
+                new Vector2(-106f, 12f),
+                new Vector2(40f, 22f))
+            : abilityTransform.gameObject;
         Transform defendTransform =
             FindSceneObject(battleScene, "DefendButton");
         bool createdDefendButton = defendTransform == null;
@@ -454,7 +480,8 @@ public static class BattlePrototypeBuilder
                 commandBand,
                 "Defend",
                 new Vector2(1f, 0.5f),
-                new Vector2(-82f, 12f))
+                new Vector2(-64f, 12f),
+                new Vector2(40f, 22f))
             : defendTransform.gameObject;
         GameObject escapeButton =
             FindSceneObject(battleScene, "EscapeButton").gameObject;
@@ -482,7 +509,7 @@ public static class BattlePrototypeBuilder
                 new Vector2(1f, 0f),
                 new Vector2(-80f, 5f),
                 new Vector2(100f, 17f),
-                8f,
+                7f,
                 TextAlignmentOptions.Center,
                 new Vector2(0.5f, 0f))
             : promptTransform.GetComponent<TextMeshProUGUI>();
@@ -515,22 +542,29 @@ public static class BattlePrototypeBuilder
             attackButton.GetComponent<RectTransform>(),
             new Vector2(1f, 0.5f),
             new Vector2(1f, 0.5f),
-            new Vector2(-134f, 12f),
-            new Vector2(48f, 22f),
+            new Vector2(-148f, 12f),
+            new Vector2(40f, 22f),
+            new Vector2(0.5f, 0.5f));
+        SetRect(
+            abilityButton.GetComponent<RectTransform>(),
+            new Vector2(1f, 0.5f),
+            new Vector2(1f, 0.5f),
+            new Vector2(-106f, 12f),
+            new Vector2(40f, 22f),
             new Vector2(0.5f, 0.5f));
         SetRect(
             defendButton.GetComponent<RectTransform>(),
             new Vector2(1f, 0.5f),
             new Vector2(1f, 0.5f),
-            new Vector2(-82f, 12f),
-            new Vector2(48f, 22f),
+            new Vector2(-64f, 12f),
+            new Vector2(40f, 22f),
             new Vector2(0.5f, 0.5f));
         SetRect(
             escapeButton.GetComponent<RectTransform>(),
             new Vector2(1f, 0.5f),
             new Vector2(1f, 0.5f),
-            new Vector2(-30f, 12f),
-            new Vector2(48f, 22f),
+            new Vector2(-22f, 12f),
+            new Vector2(40f, 22f),
             new Vector2(0.5f, 0.5f));
         battleLog.rectTransform.offsetMax = new Vector2(-168f, -7f);
         battleLog.fontSize = 7f;
@@ -557,6 +591,7 @@ public static class BattlePrototypeBuilder
             new Vector2(-80f, 5f),
             new Vector2(100f, 17f),
             new Vector2(0.5f, 0f));
+        commandPrompt.fontSize = 7f;
         SetRect(
             previousTargetButton.GetComponent<RectTransform>(),
             new Vector2(1f, 0f),
@@ -577,6 +612,13 @@ public static class BattlePrototypeBuilder
             UnityEventTools.AddPersistentListener(
                 defendButton.GetComponent<Button>().onClick,
                 controller.Defend);
+        }
+
+        if (createdAbilityButton)
+        {
+            UnityEventTools.AddPersistentListener(
+                abilityButton.GetComponent<Button>().onClick,
+                controller.Ability);
         }
 
         if (createdPreviousTarget)
@@ -600,6 +642,7 @@ public static class BattlePrototypeBuilder
             commandPrompt,
             continueLabel,
             attackButton,
+            abilityButton,
             defendButton,
             escapeButton,
             previousTargetButton,

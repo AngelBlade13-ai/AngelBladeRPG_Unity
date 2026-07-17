@@ -42,21 +42,26 @@ After pulling the party-command checkpoint:
    repaired the interface without overwriting the scene.
 4. Save `TownScene` if Unity still marks it dirty.
 
-The repair adds and wires `CommandPromptText`, `PreviousTargetButton`, and
-`NextTargetButton`, expands the battle log, and resizes the party/enemy status
-areas. No manual Inspector wiring is required.
+The repair adds and wires `CommandPromptText`, `PreviousTargetButton`,
+`NextTargetButton`, and `AbilityButton`, expands the battle log, and resizes the
+party/enemy status areas. No manual Inspector wiring is required.
 
 ### Party Command Smoke Test
 
-- [ ] Start from `MainGameScene`, create a protagonist, and enter a battle.
-- [ ] Confirm the party status begins with `>` on the acting protagonist.
-- [ ] Confirm the selected enemy begins with `*` and appears in the command
+- [x] Start from `MainGameScene`, create a protagonist, and enter a battle.
+- [x] Confirm the party status begins with `>` on the acting protagonist.
+- [x] Confirm the selected enemy begins with `*` and appears in the command
   prompt.
-- [ ] Confirm target arrows are disabled when only one enemy is alive.
-- [ ] Confirm Attack and Defend resolve through the new party round flow.
-- [ ] Confirm HP/MP and the battle log update after each resolved round.
-- [ ] Confirm victory, defeat, escape, and return behavior still work.
-- [ ] Confirm text and controls do not overlap at `320 x 180`, `640 x 360`, and
+- [x] Confirm target arrows are disabled when only one enemy is alive.
+- [x] Confirm Attack and Defend resolve through the new party round flow.
+- [x] Confirm Ability changes to Confirm and the prompt shows Power Strike's
+  `4 MP` cost and current target.
+- [x] Confirm ally/enemy target cycling remains covered by Edit Mode tests.
+- [x] Confirm Confirm spends MP, resolves Power Strike, and returns the button
+  label to Ability for the next round.
+- [x] Confirm HP/MP and the battle log update after each resolved round.
+- [x] Confirm victory, defeat, escape, and return behavior still work.
+- [x] Confirm text and controls do not overlap at `320 x 180`, `640 x 360`, and
   `1280 x 720`.
 
 ## Escape Check

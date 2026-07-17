@@ -373,7 +373,7 @@ The Edit Mode suite covers:
 - Level-up reward feedback
 - Starting and ending battle state
 
-The original core suite ran successfully in Unity `6000.5.3f1` on July 14, 2026: 18 passed, 0 failed. The current suite contains 210 passing tests after adding pixel-world movement, camera, temporary direction-indicator, walkable-town foundation, directional world interaction, door-transition, battle-scene, job, affinity, progression, party-roster, runtime-party targeting, party-round resolution, party-command selection, core abilities, authored party-member, speed-based turn-order, legacy speed-resolved battle-round, bond, roster-history, shared combat-stat, reusable monster-definition, and structured combat-action coverage. Run instructions are in `Docs/TESTING.md`.
+The original core suite ran successfully in Unity `6000.5.3f1` on July 14, 2026: 18 passed, 0 failed. The current suite contains 218 passing tests after adding pixel-world movement, camera, temporary direction-indicator, walkable-town foundation, directional world interaction, door-transition, battle-scene, job, affinity, progression, party-roster, runtime-party targeting, party-round resolution, party-command selection, core abilities, ability-command targeting, authored party-member, speed-based turn-order, legacy speed-resolved battle-round, bond, roster-history, shared combat-stat, reusable monster-definition, and structured combat-action coverage. Run instructions are in `Docs/TESTING.md`.
 
 Milestone 15 job progression is currently in progress on
 `feature/milestone-15-party-jobs`. The first checkpoint adds stable definitions
@@ -414,6 +414,16 @@ round mutation. The shared round resolver executes their physical, magic, and
 healing effects in speed order and fails safely if earlier damage makes an HP
 cost unsafe. Its 11 added tests pass as part of the verified 210-test Edit Mode
 suite.
+
+The sixth checkpoint is implemented and verified. `PartyCommandSelection` can
+enter a core ability's authored ally or
+enemy targeting mode, cycle valid targets, and confirm a stable ability command.
+`BattleSceneController` displays action costs, disables unaffordable actions,
+marks self-targeting clearly, and uses Attack or Defend as direct alternatives.
+`BattlePrototypeBuilder` creates and wires the Ability button without manual
+Inspector work. Its eight added tests pass as part of the verified 218-test
+Edit Mode suite, and the repaired scene passed its manual ability-command smoke
+test.
 
 There was previously a stale generated `.csproj` reference to the missing file `Assets/Editor/HubForceResolve.cs`. Unity itself successfully compiled the gameplay scripts. Generated Unity project files should remain ignored and can be regenerated rather than manually maintained.
 

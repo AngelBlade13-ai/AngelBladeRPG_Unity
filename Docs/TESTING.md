@@ -12,9 +12,9 @@ The core gameplay tests are Unity Edit Mode tests. They exercise plain gameplay 
 
 The test assembly is `AngelBladeRPG.EditModeTests` under `Assets/Tests/EditMode`.
 
-Verified on July 16, 2026 with Unity `6000.5.3f1`: 210 passed, 0 failed.
+Verified on July 16, 2026 with Unity `6000.5.3f1`: 218 passed, 0 failed.
 
-The current suite includes 21 core gameplay tests, five pixel-world movement and camera tests, five temporary direction-indicator tests, four walkable-town foundation tests, seven interaction tests, eight door-transition tests, 15 battle-scene tests, seven party-command selection tests, 11 core-ability tests, 40 job, affinity, progression, playable-character, and party-roster tests, 11 runtime-party targeting tests, 13 party-round resolver tests, 10 authored party-member tests, five speed-based turn-order tests, nine legacy speed-resolved battle-round tests, five bond and roster-history tests, nine shared combat-stat tests, 10 reusable monster-definition tests, and 15 structured combat-action tests.
+The current suite includes 21 core gameplay tests, five pixel-world movement and camera tests, five temporary direction-indicator tests, four walkable-town foundation tests, seven interaction tests, eight door-transition tests, 17 battle-scene tests, 13 party-command selection tests, 11 core-ability tests, 40 job, affinity, progression, playable-character, and party-roster tests, 11 runtime-party targeting tests, 13 party-round resolver tests, 10 authored party-member tests, five speed-based turn-order tests, nine legacy speed-resolved battle-round tests, five bond and roster-history tests, nine shared combat-stat tests, 10 reusable monster-definition tests, and 15 structured combat-action tests.
 
 ### Milestone 15 Job Progression Checkpoint
 
@@ -93,6 +93,22 @@ The added coverage checks:
   whole round before mutation;
 - healing resolving in the shared speed order; and
 - a Blood Mage spell failing safely if earlier damage makes its HP cost unsafe.
+
+### Milestone 15 Ability Command UI Checkpoint
+
+The ability-command checkpoint adds eight Edit Mode cases. The full suite now
+reports 218 passing tests in Unity `6000.5.3f1`. The repaired battle scene also
+passed its manual ability-command smoke test.
+
+The added coverage checks:
+
+- core actions entering their authored ally or enemy targeting mode;
+- living-ally target cycling for healing abilities;
+- confirmed commands preserving stable ability and target IDs;
+- unaffordable MP and unsafe HP costs disabling ability targeting;
+- Attack canceling ability mode and returning to enemy targeting;
+- the prompt communicating ability name, cost, actor, and target; and
+- self-targeted actions displaying both actor and target markers.
 
 ### Fastest Development Workflow
 

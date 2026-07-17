@@ -320,6 +320,11 @@ Current implementation checkpoint:
   resource requirements before a round mutates; and resolves physical, magic,
   healing, MP-cost, and safe HP-cost effects through the shared speed order.
 - The expanded 210-test Edit Mode suite passes in Unity `6000.5.3f1`.
+- The ability-command UI checkpoint adds a generated Ability button,
+  two-step targeting and confirmation, ally/enemy target cycling, action-cost
+  prompts, disabled unaffordable actions, and combined self-target markers.
+- The expanded 218-test Edit Mode suite and repaired-scene smoke test pass in
+  Unity `6000.5.3f1`.
 
 - [x] Create runtime combatants for multiple active party members.
 - [x] Add party targeting for allies and enemies.

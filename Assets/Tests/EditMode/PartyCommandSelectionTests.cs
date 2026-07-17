@@ -117,6 +117,120 @@ namespace AngelBladeRPG.Tests
             Assert.That(selection.HasQueuedCommands, Is.True);
         }
 
+        [Test]
+        public void CoreAbilityBeginsWithItsAuthoredTargetType()
+        {
+            PartyCommandSelection selection = Selection(
+                new[] { Member("hero", JobId.Mercenary) },
+                new[] { Enemy("enemy") });
+
+            bool began = selection.TryBeginCoreAbility();
+
+            Assert.That(began, Is.True);
+            Assert.That(selection.IsChoosingAbility, Is.True);
+            Assert.That(
+                selection.PendingAbility.StableId,
+                Is.EqualTo(CombatAbilityCatalog.PowerStrikeId));
+            Assert.That(
+                selection.CurrentTargetType,
+                Is.EqualTo(BattleTargetType.SingleEnemy));
+            Assert.That(selection.SelectedTarget.CombatantId, Is.EqualTo("enemy"));
+        }
+
+        [Test]
+        public void HealingAbilityCyclesThroughLivingAllies()
+        {
+            PlayableCharacterData healer = Member(
+                "healer",
+                JobId.WhiteMage);
+            PlayableCharacterData ally = Member("ally", JobId.Knight);
+            PartyCommandSelection selection = Selection(
+                new[] { healer, ally },
+                new[] { Enemy("enemy") });
+
+            selection.TryBeginCoreAbility();
+            selection.CycleTarget(1);
+
+            Assert.That(
+                selection.CurrentTargetType,
+                Is.EqualTo(BattleTargetType.SingleAlly));
+            Assert.That(selection.SelectedTarget, Is.SameAs(ally));
+        }
+
+        [Test]
+        public void ConfirmedAbilityStoresStableAbilityAndTargetIds()
+        {
+            PlayableCharacterData healer = Member(
+                "healer",
+                JobId.WhiteMage);
+            PlayableCharacterData ally = Member("ally", JobId.Knight);
+            PartyCommandSelection selection = Selection(
+                new[] { healer, ally },
+                new[] { Enemy("enemy") });
+            selection.TryBeginCoreAbility();
+            selection.CycleTarget(1);
+
+            bool queued = selection.TryQueuePendingAbility();
+
+            Assert.That(queued, Is.True);
+            Assert.That(
+                selection.Commands[0].Type,
+                Is.EqualTo(PartyBattleCommandType.Ability));
+            Assert.That(
+                selection.Commands[0].AbilityId,
+                Is.EqualTo(CombatAbilityCatalog.MendId));
+            Assert.That(selection.Commands[0].TargetId, Is.EqualTo(ally.Id));
+            Assert.That(selection.IsChoosingAbility, Is.False);
+        }
+
+        [Test]
+        public void UnaffordableCoreAbilityCannotBeginTargeting()
+        {
+            PlayableCharacterData mage = Member("mage", JobId.Mage);
+            mage.Stats.CurrentMp = 3;
+            PartyCommandSelection selection = Selection(
+                new[] { mage },
+                new[] { Enemy("enemy") });
+
+            Assert.That(selection.TryBeginCoreAbility(), Is.False);
+            Assert.That(selection.IsChoosingAbility, Is.False);
+        }
+
+        [Test]
+        public void AttackCancelsAbilityTargetingAndUsesAnEnemyTarget()
+        {
+            PlayableCharacterData healer = Member(
+                "healer",
+                JobId.WhiteMage);
+            PartyCommandSelection selection = Selection(
+                new[] { healer },
+                new[] { Enemy("enemy") });
+            selection.TryBeginCoreAbility();
+
+            bool queued = selection.TryQueueAttack();
+
+            Assert.That(queued, Is.True);
+            Assert.That(
+                selection.Commands[0].Type,
+                Is.EqualTo(PartyBattleCommandType.PhysicalAttack));
+            Assert.That(selection.Commands[0].TargetId, Is.EqualTo("enemy"));
+            Assert.That(selection.IsChoosingAbility, Is.False);
+        }
+
+        [Test]
+        public void UnsafeBloodCostCannotBeginTargeting()
+        {
+            PlayableCharacterData bloodMage = Member(
+                "blood-mage",
+                JobId.BloodMage);
+            bloodMage.Stats.CurrentHp = 8;
+            PartyCommandSelection selection = Selection(
+                new[] { bloodMage },
+                new[] { Enemy("enemy") });
+
+            Assert.That(selection.TryBeginCoreAbility(), Is.False);
+        }
+
         private static PartyCommandSelection Selection(
             PlayableCharacterData[] party,
             MonsterData[] enemies)
@@ -125,9 +239,11 @@ namespace AngelBladeRPG.Tests
                 new PartyBattleState(party, enemies));
         }
 
-        private static PlayableCharacterData Member(string id)
+        private static PlayableCharacterData Member(
+            string id,
+            JobId job = JobId.Mercenary)
         {
-            return new PlayableCharacterData(id, id, JobId.Mercenary);
+            return new PlayableCharacterData(id, id, job);
         }
 
         private static MonsterData Enemy(string id)

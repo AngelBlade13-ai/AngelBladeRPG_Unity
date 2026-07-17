@@ -18,6 +18,7 @@ public class BattleSceneController : MonoBehaviour
 
     [Header("Commands")]
     [SerializeField] private GameObject attackButton;
+    [SerializeField] private GameObject abilityButton;
     [SerializeField] private GameObject defendButton;
     [SerializeField] private GameObject escapeButton;
     [SerializeField] private GameObject previousTargetButton;
@@ -77,6 +78,29 @@ public class BattleSceneController : MonoBehaviour
         AdvanceOrResolveRound();
     }
 
+    public void Ability()
+    {
+        if (!session.HasActiveBattle || commandSelection == null)
+        {
+            return;
+        }
+
+        if (!commandSelection.IsChoosingAbility)
+        {
+            if (commandSelection.TryBeginCoreAbility())
+            {
+                RefreshStatus();
+            }
+
+            return;
+        }
+
+        if (commandSelection.TryQueuePendingAbility())
+        {
+            AdvanceOrResolveRound();
+        }
+    }
+
     public void PreviousTarget()
     {
         if (commandSelection != null && commandSelection.CycleTarget(-1))
@@ -97,6 +121,7 @@ public class BattleSceneController : MonoBehaviour
     {
         if (!session.HasActiveBattle || commandSelection == null ||
             commandSelection.HasQueuedCommands ||
+            commandSelection.IsChoosingAbility ||
             session.PartyBattle.PartyMembers.Count != 1)
         {
             return;
@@ -157,9 +182,11 @@ public class BattleSceneController : MonoBehaviour
         List<string> lines = new List<string>();
         foreach (ICombatant combatant in combatants)
         {
-            string marker = combatant.CombatantId == actingId
-                ? ">"
-                : combatant.CombatantId == targetId ? "*" : " ";
+            bool isActor = combatant.CombatantId == actingId;
+            bool isTarget = combatant.CombatantId == targetId;
+            string marker = isActor && isTarget
+                ? ">*"
+                : isActor ? ">" : isTarget ? "*" : " ";
             string state = combatant.Stats.CurrentHp > 0
                 ? $"HP {combatant.Stats.CurrentHp}/{combatant.Stats.MaxHp} " +
                     $"MP {combatant.Stats.CurrentMp}/{combatant.Stats.MaxMp}"
@@ -184,6 +211,27 @@ public class BattleSceneController : MonoBehaviour
             : $"{actor.DisplayName} -> {target.DisplayName}";
     }
 
+    public static string FormatAbilityPrompt(
+        ICombatant actor,
+        ICombatant target,
+        CombatAbilityDefinition ability)
+    {
+        if (actor == null || ability == null)
+        {
+            return string.Empty;
+        }
+
+        string costType = ability.CostType == CombatAbilityCostType.Mp
+            ? "MP"
+            : "HP";
+        string action =
+            $"{ability.DisplayName} ({ability.ResourceCost} {costType})";
+        return target == null
+            ? $"{action}: choose a target"
+            : $"{action}: {actor.DisplayName} -> " +
+                $"{target.DisplayName}";
+    }
+
     public void Configure(
         TextMeshProUGUI playerStatus,
         TextMeshProUGUI monsterStatus,
@@ -191,6 +239,7 @@ public class BattleSceneController : MonoBehaviour
         TextMeshProUGUI commandPrompt,
         TextMeshProUGUI continueLabel,
         GameObject attackCommand,
+        GameObject abilityCommand,
         GameObject defendCommand,
         GameObject escapeCommand,
         GameObject previousTargetCommand,
@@ -203,6 +252,7 @@ public class BattleSceneController : MonoBehaviour
         commandPromptText = commandPrompt;
         continueButtonText = continueLabel;
         attackButton = attackCommand;
+        abilityButton = abilityCommand;
         defendButton = defendCommand;
         escapeButton = escapeCommand;
         previousTargetButton = previousTargetCommand;
@@ -253,6 +303,11 @@ public class BattleSceneController : MonoBehaviour
     private void SetCommandState(bool commandsAreActive)
     {
         attackButton.SetActive(commandsAreActive);
+        if (abilityButton != null)
+        {
+            abilityButton.SetActive(commandsAreActive);
+        }
+
         defendButton.SetActive(commandsAreActive);
         escapeButton.SetActive(
             commandsAreActive && session != null &&
@@ -293,27 +348,40 @@ public class BattleSceneController : MonoBehaviour
 
         ICombatant actor = commandSelection?.CurrentActor;
         ICombatant target = commandSelection?.SelectedTarget;
+        string partyTargetId = IsInGroup(
+            session.PartyBattle.PartyMembers,
+            target)
+            ? target?.CombatantId
+            : null;
+        string enemyTargetId = IsInGroup(
+            session.PartyBattle.Enemies,
+            target)
+            ? target?.CombatantId
+            : null;
         playerStatusText.text = FormatCombatantGroup(
             session.PartyBattle.PartyMembers,
             actor?.CombatantId,
-            null);
+            partyTargetId);
         monsterStatusText.text = FormatCombatantGroup(
             session.PartyBattle.Enemies,
             null,
-            target?.CombatantId);
+            enemyTargetId);
 
         if (commandPromptText != null)
         {
-            commandPromptText.text = FormatCommandPrompt(actor, target);
+            commandPromptText.text = commandSelection != null &&
+                commandSelection.IsChoosingAbility
+                ? FormatAbilityPrompt(
+                    actor,
+                    target,
+                    commandSelection.PendingAbility)
+                : FormatCommandPrompt(actor, target);
         }
 
-        int targetCount = actor == null
-            ? 0
-            : session.PartyBattle.GetValidTargets(
-                actor.CombatantId,
-                BattleTargetType.SingleEnemy).Count;
+        int targetCount = commandSelection?.GetCurrentTargetCount() ?? 0;
         SetTargetButtonInteractable(previousTargetButton, targetCount > 1);
         SetTargetButtonInteractable(nextTargetButton, targetCount > 1);
+        RefreshAbilityButton();
     }
 
     private void BeginCommandSelection()
@@ -375,5 +443,48 @@ public class BattleSceneController : MonoBehaviour
         {
             button.interactable = interactable;
         }
+    }
+
+    private void RefreshAbilityButton()
+    {
+        if (abilityButton == null || commandSelection == null)
+        {
+            return;
+        }
+
+        if (abilityButton.TryGetComponent(out Button button))
+        {
+            button.interactable = commandSelection.IsChoosingAbility ||
+                commandSelection.CanChooseCurrentCoreAbility();
+        }
+
+        TextMeshProUGUI label =
+            abilityButton.GetComponentInChildren<TextMeshProUGUI>();
+        if (label != null)
+        {
+            label.text = commandSelection.IsChoosingAbility
+                ? "Confirm"
+                : "Ability";
+        }
+    }
+
+    private static bool IsInGroup(
+        IReadOnlyList<ICombatant> combatants,
+        ICombatant target)
+    {
+        if (target == null)
+        {
+            return false;
+        }
+
+        foreach (ICombatant combatant in combatants)
+        {
+            if (combatant.CombatantId == target.CombatantId)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
