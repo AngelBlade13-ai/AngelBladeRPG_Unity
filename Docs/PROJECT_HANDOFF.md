@@ -73,6 +73,9 @@ quests, services, enemy roster, UI, preliminary asset budget, and explicit cut
 list are consolidated in `Docs/DEMO_CONTENT_MANIFEST.md`. It corrects older
 planning assumptions: all 12 capped jobs and all four optional side quests are
 required, and the Cherry Blossom boss is the already-defined Great Stag.
+The artist-facing production order, three-level character presentation,
+provisional scale tests, animation backlog, and delivery rules are maintained in
+`Docs/DEMO_ART_CHECKLIST.md`.
 
 ## Current Git state
 
@@ -370,7 +373,7 @@ The Edit Mode suite covers:
 - Level-up reward feedback
 - Starting and ending battle state
 
-The original core suite ran successfully in Unity `6000.5.3f1` on July 14, 2026: 18 passed, 0 failed. The current suite contains 160 passing tests after adding pixel-world movement, camera, temporary direction-indicator, walkable-town foundation, directional world interaction, door-transition, battle-scene, job, affinity, progression, party-roster, authored party-member, speed-based turn-order, speed-resolved battle-round, bond, roster-history, shared combat-stat, reusable monster-definition, and structured combat-action coverage. Run instructions are in `Docs/TESTING.md`.
+The original core suite ran successfully in Unity `6000.5.3f1` on July 14, 2026: 18 passed, 0 failed. The current suite contains 177 passing tests after adding pixel-world movement, camera, temporary direction-indicator, walkable-town foundation, directional world interaction, door-transition, battle-scene, job, affinity, progression, party-roster, runtime-party targeting, authored party-member, speed-based turn-order, speed-resolved battle-round, bond, roster-history, shared combat-stat, reusable monster-definition, and structured combat-action coverage. Run instructions are in `Docs/TESTING.md`.
 
 Milestone 15 job progression is currently in progress on
 `feature/milestone-15-party-jobs`. The first checkpoint adds stable definitions
@@ -378,6 +381,13 @@ for all 96 purchased demo job nodes, character-owned JP and unlock state,
 cross-job permanent stat aggregation, equipped-job feature restrictions, and
 roster-wide awards for available active and benched characters. Its 22 added
 test cases pass as part of the verified 160-test Edit Mode suite.
+
+The second checkpoint is implemented and verified. It makes
+each `PlayableCharacterData` a persistent runtime combatant, creates the custom
+protagonist under stable ID `pc_protagonist`, preserves active formation order,
+and introduces actor-relative ally/enemy targeting with explicit incapacitation
+rules. Its 17 added test cases pass as part of the verified 177-test Edit Mode
+suite.
 
 There was previously a stale generated `.csproj` reference to the missing file `Assets/Editor/HubForceResolve.cs`. Unity itself successfully compiled the gameplay scripts. Generated Unity project files should remain ignored and can be regenerated rather than manually maintained.
 
@@ -597,7 +607,7 @@ For learning and automation, introduce a new Unity concept manually the first ti
 5. Open the project using Unity `6000.5.3f1`.
 6. Open `Assets/Scenes/MainGameScene.unity`.
 7. Run the Edit Mode suite using `Docs/TESTING.md`.
-8. Confirm all 160 tests pass while the Milestone 15 checkpoint is active.
+8. Confirm all 177 tests pass.
 9. Run the character-creation Play Mode checklist if the Unity version or scene changes.
 10. Review the completed Unity Editor checklist in `Docs/PIXEL_WORLD_SETUP.md` when changing the exploration foundation.
 

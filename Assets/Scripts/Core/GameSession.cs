@@ -1,7 +1,9 @@
 public class GameSession
 {
     public PlayerData Player { get; private set; }
+    public PartyRoster Party { get; private set; }
     public MonsterData Monster { get; private set; }
+    public PartyBattleState PartyBattle { get; private set; }
     public bool BattleIsOver { get; private set; }
     public BattleOutcome BattleOutcome { get; private set; }
 
@@ -17,6 +19,7 @@ public class GameSession
 
     public GameSession()
     {
+        Party = new PartyRoster();
         BattleIsOver = true;
         BattleOutcome = BattleOutcome.None;
     }
@@ -29,7 +32,16 @@ public class GameSession
         }
 
         Player = new PlayerData(playerName.Trim());
+        Party = new PartyRoster();
+        PlayableCharacterData protagonist = new PlayableCharacterData(
+            PlayableCharacterData.ProtagonistId,
+            Player.Name,
+            JobId.Mercenary,
+            Player.Stats);
+        Party.TryAddCharacter(protagonist);
+        Party.TrySetActiveParty(new[] { protagonist.Id });
         Monster = null;
+        PartyBattle = null;
         BattleIsOver = true;
         BattleOutcome = BattleOutcome.None;
         return true;
@@ -38,11 +50,14 @@ public class GameSession
     public bool StartBattle(MonsterData newMonster)
     {
         if (Player == null || Player.CurrentHp <= 0 || newMonster == null ||
-            HasActiveBattle)
+            HasActiveBattle || Party.GetActiveCharacters().Count < 1)
         {
             return false;
         }
 
+        PartyBattle = PartyBattleState.FromRoster(
+            Party,
+            new ICombatant[] { newMonster });
         Monster = newMonster;
         BattleIsOver = false;
         BattleOutcome = BattleOutcome.InProgress;
@@ -73,7 +88,8 @@ public class GameSession
 
     public void CompleteDefeat()
     {
-        if (HasActiveBattle && Player.CurrentHp <= 0)
+        if (HasActiveBattle && PartyBattle != null &&
+            PartyBattle.IsPartyDefeated)
         {
             BattleIsOver = true;
             BattleOutcome = BattleOutcome.Defeat;

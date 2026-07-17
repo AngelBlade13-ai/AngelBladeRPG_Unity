@@ -57,6 +57,36 @@ namespace AngelBladeRPG.Tests
             Assert.That(character.IsAvailable, Is.False);
         }
 
+        [Test]
+        public void CharacterIsACombatantWithStableIdentityAndOwnedStats()
+        {
+            PlayableCharacterData character = CreateCharacter();
+
+            Assert.That(character.CombatantId, Is.EqualTo("hero"));
+            Assert.That(character.DisplayName, Is.EqualTo("Angel"));
+            Assert.That(character.Stats, Is.Not.Null);
+            Assert.That(character.IsIncapacitated, Is.False);
+
+            character.Stats.CurrentHp = 0;
+            Assert.That(character.IsIncapacitated, Is.True);
+        }
+
+        [Test]
+        public void CharacterCanShareExistingPersistentCombatStats()
+        {
+            CombatantStats stats = new CombatantStats(80, 9, 4, 7, 10, 5, 3);
+            PlayableCharacterData character = new PlayableCharacterData(
+                "hero",
+                "Angel",
+                JobId.Mercenary,
+                stats);
+
+            character.Stats.ApplyDamage(12);
+
+            Assert.That(character.Stats, Is.SameAs(stats));
+            Assert.That(stats.CurrentHp, Is.EqualTo(68));
+        }
+
         private static PlayableCharacterData CreateCharacter()
         {
             return new PlayableCharacterData("hero", "Angel", JobId.Knight);

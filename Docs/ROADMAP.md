@@ -300,9 +300,13 @@ Current implementation checkpoint:
 - Permanent stat bonuses aggregate across learned jobs, while purchased skills
   and passives require their matching job to be equipped.
 - The expanded 160-test Edit Mode suite passes in Unity `6000.5.3f1`.
+- The next checkpoint gives persistent roster members shared runtime combat
+  stats, creates a stable active protagonist record for new sessions, and adds
+  actor-relative ally/enemy targeting with incapacitation rules.
+- The expanded 177-test Edit Mode suite passes in Unity `6000.5.3f1`.
 
-- [ ] Create runtime combatants for multiple active party members.
-- [ ] Add party targeting for allies and enemies.
+- [x] Create runtime combatants for multiple active party members.
+- [x] Add party targeting for allies and enemies.
 - [ ] Add MP, physical attacks, magic, healing, defend, and a small ability set.
 - [ ] Apply job stats and affinities to playable combatants.
 - [x] Add stable job-tree nodes, per-character unlock state, and data-driven

@@ -12,6 +12,23 @@ public class PartyRoster
         characters.Values;
     public IReadOnlyList<string> ActiveCharacterIds => activeCharacterIds;
 
+    public IReadOnlyList<PlayableCharacterData> GetActiveCharacters()
+    {
+        List<PlayableCharacterData> activeCharacters =
+            new List<PlayableCharacterData>();
+
+        foreach (string characterId in activeCharacterIds)
+        {
+            PlayableCharacterData character = GetCharacter(characterId);
+            if (character != null && character.IsAvailable)
+            {
+                activeCharacters.Add(character);
+            }
+        }
+
+        return activeCharacters.AsReadOnly();
+    }
+
     public bool TryAddCharacter(PlayableCharacterData character)
     {
         if (character == null || characters.ContainsKey(character.Id))

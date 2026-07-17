@@ -1,3 +1,4 @@
+using System.Linq;
 using NUnit.Framework;
 
 namespace AngelBladeRPG.Tests
@@ -35,6 +36,24 @@ namespace AngelBladeRPG.Tests
         }
 
         [Test]
+        public void NewGameCreatesStableActiveProtagonistCombatant()
+        {
+            GameSession session = new GameSession();
+
+            session.TryStartNewGame("Angel");
+
+            PlayableCharacterData protagonist = session.Party.GetCharacter(
+                PlayableCharacterData.ProtagonistId);
+            Assert.That(protagonist, Is.Not.Null);
+            Assert.That(protagonist.Name, Is.EqualTo("Angel"));
+            Assert.That(protagonist.Stats, Is.SameAs(session.Player.Stats));
+            Assert.That(
+                session.Party.ActiveCharacterIds,
+                Is.EqualTo(new[] { PlayableCharacterData.ProtagonistId }));
+            Assert.That(PartyMemberCatalog.Get(protagonist.Id), Is.Null);
+        }
+
+        [Test]
         public void StartBattleRequiresLivingPlayerAndMonster()
         {
             GameSession session = new GameSession();
@@ -64,6 +83,35 @@ namespace AngelBladeRPG.Tests
             Assert.That(
                 session.BattleOutcome,
                 Is.EqualTo(BattleOutcome.InProgress));
+            Assert.That(session.PartyBattle, Is.Not.Null);
+            Assert.That(session.PartyBattle.PartyMembers, Has.Count.EqualTo(1));
+            Assert.That(session.PartyBattle.Enemies, Is.EqualTo(new[] { monster }));
+        }
+
+        [Test]
+        public void StartBattleUsesAllActivePartyMembers()
+        {
+            GameSession session = CreateSessionWithPlayer();
+            PlayableCharacterData companion =
+                PartyMemberCatalog.Get("pc_01").CreateCharacter();
+            session.Party.TryAddCharacter(companion);
+            session.Party.TrySetActiveParty(new[]
+            {
+                PlayableCharacterData.ProtagonistId,
+                companion.Id
+            });
+
+            bool started = session.StartBattle(CreateGoblin());
+
+            Assert.That(started, Is.True);
+            Assert.That(
+                session.PartyBattle.PartyMembers.Select(
+                    member => member.CombatantId),
+                Is.EqualTo(new[]
+                {
+                    PlayableCharacterData.ProtagonistId,
+                    "pc_01"
+                }));
         }
 
         [Test]
@@ -142,6 +190,30 @@ namespace AngelBladeRPG.Tests
             Assert.That(
                 session.BattleOutcome,
                 Is.EqualTo(BattleOutcome.Defeat));
+        }
+
+        [Test]
+        public void LivingCompanionPreventsPartyDefeat()
+        {
+            GameSession session = CreateSessionWithPlayer();
+            PlayableCharacterData companion =
+                PartyMemberCatalog.Get("pc_01").CreateCharacter();
+            session.Party.TryAddCharacter(companion);
+            session.Party.TrySetActiveParty(new[]
+            {
+                PlayableCharacterData.ProtagonistId,
+                companion.Id
+            });
+            session.StartBattle(CreateGoblin());
+            session.Player.CurrentHp = 0;
+
+            session.CompleteDefeat();
+
+            Assert.That(session.HasActiveBattle, Is.True);
+
+            companion.Stats.CurrentHp = 0;
+            session.CompleteDefeat();
+            Assert.That(session.BattleOutcome, Is.EqualTo(BattleOutcome.Defeat));
         }
 
         [Test]

@@ -8,16 +8,22 @@ public enum JobAffinity
     High
 }
 
-public class PlayableCharacterData
+public class PlayableCharacterData : ICombatant
 {
+    public const string ProtagonistId = "pc_protagonist";
+
     private readonly Dictionary<JobId, JobAffinity> jobAffinities =
         new Dictionary<JobId, JobAffinity>();
     private readonly JobProgression jobProgression = new JobProgression();
 
     public string Id { get; }
     public string Name { get; }
+    public string CombatantId => Id;
+    public string DisplayName => Name;
+    public CombatantStats Stats { get; }
     public JobId CurrentJob { get; private set; }
     public bool IsAvailable { get; private set; } = true;
+    public bool IsIncapacitated => Stats.CurrentHp <= 0;
     public CharacterRosterHistory RosterHistory { get; }
     public int JobPoints => jobProgression.JobPoints;
     public IReadOnlyCollection<string> LearnedJobNodeIds =>
@@ -26,7 +32,8 @@ public class PlayableCharacterData
     public PlayableCharacterData(
         string id,
         string name,
-        JobId startingJob)
+        JobId startingJob,
+        CombatantStats combatStats = null)
     {
         if (string.IsNullOrWhiteSpace(id))
         {
@@ -46,7 +53,14 @@ public class PlayableCharacterData
         Id = id.Trim();
         Name = name.Trim();
         CurrentJob = startingJob;
+        Stats = combatStats ?? CreateDefaultCombatStats();
         RosterHistory = new CharacterRosterHistory(Id);
+    }
+
+    private static CombatantStats CreateDefaultCombatStats()
+    {
+        // Temporary shared level-one profile until authored growth data lands.
+        return new CombatantStats(100, 12, 3, 10, 20, 8, 3);
     }
 
     public bool TryAssignJob(JobId jobId)

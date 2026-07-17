@@ -18,6 +18,22 @@ namespace AngelBladeRPG.Tests
         }
 
         [Test]
+        public void ActiveCharactersPreserveFormationOrderAndReferences()
+        {
+            PartyRoster roster = CreateRoster(3);
+            PlayableCharacterData second = roster.GetCharacter("member-2");
+            roster.TrySetActiveParty(new[] { "member-2", "member-1" });
+
+            Assert.That(
+                roster.GetActiveCharacters(),
+                Is.EqualTo(new[]
+                {
+                    second,
+                    roster.GetCharacter("member-1")
+                }));
+        }
+
+        [Test]
         public void ActivePartyRejectsMoreThanFourCharacters()
         {
             PartyRoster roster = CreateRoster(5);
