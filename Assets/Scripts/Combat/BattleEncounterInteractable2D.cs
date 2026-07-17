@@ -16,6 +16,8 @@ public class BattleEncounterInteractable2D : MonoBehaviour, IWorldInteractable
     public bool CanInteract(GameObject interactor)
     {
         GameSession session = GameSessionStore.Current;
+        BattleEncounterDefinition encounter =
+            BattleEncounterCatalog.Get(encounterId);
         return HasEncounterConfiguration(
                 battleSceneName,
                 returnSpawnId,
@@ -23,7 +25,9 @@ public class BattleEncounterInteractable2D : MonoBehaviour, IWorldInteractable
                 monsterId) &&
             session.HasPlayer &&
             session.Player.CurrentHp > 0 &&
-            !session.HasActiveBattle;
+            !session.HasActiveBattle &&
+            (encounter == null || encounter.IsRepeatable ||
+                !session.IsEncounterCompleted(encounter.Id));
     }
 
     public void Interact(GameObject interactor)

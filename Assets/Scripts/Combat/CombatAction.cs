@@ -30,17 +30,32 @@ public class CombatActionContext
     public ICombatant Target { get; }
     public ICombatRandom Random { get; }
     public bool TargetIsGuarding { get; }
+    public int MinimumTargetHp { get; }
 
     public CombatActionContext(
         ICombatant actor,
         ICombatant target,
         ICombatRandom random,
-        bool targetIsGuarding = false)
+        bool targetIsGuarding = false,
+        int minimumTargetHp = 0)
     {
         Actor = actor ?? throw new ArgumentNullException(nameof(actor));
         Target = target ?? throw new ArgumentNullException(nameof(target));
         Random = random ?? throw new ArgumentNullException(nameof(random));
         TargetIsGuarding = targetIsGuarding;
+        MinimumTargetHp = Math.Min(
+            Math.Max(minimumTargetHp, 0),
+            Target.Stats.MaxHp);
+    }
+
+    public int ApplyDamage(int amount)
+    {
+        int maximumDamage = Math.Max(
+            0,
+            Target.Stats.CurrentHp - MinimumTargetHp);
+        return Target.Stats.ApplyDamage(Math.Min(
+            Math.Max(amount, 0),
+            maximumDamage));
     }
 }
 
@@ -122,7 +137,7 @@ public class PhysicalAttackAction : ICombatAction
             damage = Math.Max(1, (damage + 1) / 2);
         }
 
-        int appliedDamage = target.Stats.ApplyDamage(damage);
+        int appliedDamage = context.ApplyDamage(damage);
         string message = wasCritical
             ? $"Critical hit! {actor.DisplayName} attacks " +
                 $"{target.DisplayName} for {appliedDamage} damage."

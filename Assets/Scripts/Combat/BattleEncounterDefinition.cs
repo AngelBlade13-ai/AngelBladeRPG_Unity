@@ -9,6 +9,7 @@ public class BattleEncounterDefinition
     public string DisplayName { get; }
     public string LayoutId { get; }
     public bool EscapeAllowed { get; }
+    public bool IsRepeatable { get; }
     public IReadOnlyList<string> MonsterDefinitionIds =>
         monsterDefinitionIds.AsReadOnly();
 
@@ -17,7 +18,8 @@ public class BattleEncounterDefinition
         string displayName,
         string layoutId,
         IEnumerable<string> monsterIds,
-        bool escapeAllowed = true)
+        bool escapeAllowed = true,
+        bool isRepeatable = true)
     {
         if (string.IsNullOrWhiteSpace(id))
         {
@@ -68,6 +70,7 @@ public class BattleEncounterDefinition
         DisplayName = displayName.Trim();
         LayoutId = layout.Id;
         EscapeAllowed = escapeAllowed;
+        IsRepeatable = isRepeatable;
     }
 
     public IReadOnlyList<MonsterData> CreateEnemies()

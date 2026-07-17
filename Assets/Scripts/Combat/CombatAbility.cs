@@ -307,7 +307,7 @@ public sealed class CombatAbilityAction : ICombatAction
             damage = Math.Max(1, (damage + 1) / 2);
         }
 
-        int appliedDamage = context.Target.Stats.ApplyDamage(damage);
+        int appliedDamage = context.ApplyDamage(damage);
         string message =
             $"{context.Actor.DisplayName} uses {ability.DisplayName} on " +
             $"{context.Target.DisplayName} for {appliedDamage} damage.";
@@ -334,7 +334,7 @@ public sealed class CombatAbilityAction : ICombatAction
             1,
             context.Actor.Stats.MagicPower + ability.Potency -
                 context.Target.Stats.MagicDefense);
-        int appliedDamage = context.Target.Stats.ApplyDamage(damage);
+        int appliedDamage = context.ApplyDamage(damage);
 
         return new CombatActionResult(
             Type,

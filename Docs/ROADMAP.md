@@ -349,6 +349,12 @@ Current implementation checkpoint:
   formation layouts, unique runtime IDs for duplicate enemies, group targeting
   and victory, aggregated rewards, and runtime placeholder positioning.
 - The expanded 274-test Edit Mode suite passes in Unity `6000.5.3f1`.
+- The caravan tutorial checkpoint is implemented and verified. It adds
+  explicit battle stages, safe HP floors, Iona,
+  Damari, and Enora reinforcements, Hobgoblin protection until the final beat,
+  authored enemy focus, cumulative wave rewards, disabled escape, and a
+  one-time completion flag.
+- The expanded 283-test Edit Mode suite passes in Unity `6000.5.3f1`.
 
 - [x] Create runtime combatants for multiple active party members.
 - [x] Add party targeting for allies and enemies.
@@ -361,7 +367,7 @@ Current implementation checkpoint:
 - [x] Add a compact party formation and job-assignment flow.
 - [x] Handle incapacitation, victory, defeat, XP, and rewards for a party.
 - [x] Add enemy groups and battle layouts needed by the demo.
-- [ ] Support the tutorial encounter's waves, safe damage checkpoints, disabled
+- [x] Support the tutorial encounter's waves, safe damage checkpoints, disabled
   escape, reinforcements, enemy threat control, and one-time completion.
 - [ ] Verify keyboard and controller command navigation.
 

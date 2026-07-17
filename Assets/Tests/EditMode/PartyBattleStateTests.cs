@@ -176,6 +176,29 @@ namespace AngelBladeRPG.Tests
         }
 
         [Test]
+        public void ReinforcementsCanJoinAndReplaceDefeatedWave()
+        {
+            PlayableCharacterData hero = CreateMember("hero");
+            PlayableCharacterData ally = CreateMember("ally");
+            MonsterData firstWave = CreateEnemy("wave-one");
+            PartyBattleState battle = new PartyBattleState(
+                new[] { hero },
+                new[] { firstWave });
+            firstWave.CurrentHp = 0;
+            MonsterData secondWave = CreateEnemy("wave-two");
+
+            bool added = battle.TryAddPartyMember(ally);
+            bool replaced = battle.TryReplaceEnemies(new[] { secondWave });
+
+            Assert.That(added, Is.True);
+            Assert.That(replaced, Is.True);
+            Assert.That(battle.PartyMembers, Is.EqualTo(new[] { hero, ally }));
+            Assert.That(battle.Enemies, Is.EqualTo(new[] { secondWave }));
+            Assert.That(battle.GetCombatant(firstWave.Id), Is.Null);
+            Assert.That(battle.AreEnemiesDefeated, Is.False);
+        }
+
+        [Test]
         public void MoreThanFourPartyMembersAreRejected()
         {
             PlayableCharacterData[] party = Enumerable.Range(1, 5)

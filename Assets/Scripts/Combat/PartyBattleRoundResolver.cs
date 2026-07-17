@@ -95,6 +95,11 @@ public interface IEnemyBattleCommandSource
         PartyBattleState battle);
 }
 
+public interface IBattleDamageRules
+{
+    int GetMinimumHp(ICombatant target);
+}
+
 public sealed class FirstLivingTargetCommandSource : IEnemyBattleCommandSource
 {
     public PartyBattleCommand CreateCommand(
@@ -166,6 +171,7 @@ public sealed class PartyBattleRoundResolver
     private readonly ITurnOrderRandom tieBreaker;
     private readonly ICombatRandom combatRandom;
     private readonly IEnemyBattleCommandSource enemyCommandSource;
+    private readonly IBattleDamageRules damageRules;
     private readonly PhysicalAttackAction physicalAttack =
         new PhysicalAttackAction();
     private readonly DefendAction defend = new DefendAction();
@@ -173,12 +179,14 @@ public sealed class PartyBattleRoundResolver
     public PartyBattleRoundResolver(
         ITurnOrderRandom tieBreaker = null,
         ICombatRandom combatRandom = null,
-        IEnemyBattleCommandSource enemyCommandSource = null)
+        IEnemyBattleCommandSource enemyCommandSource = null,
+        IBattleDamageRules damageRules = null)
     {
         this.tieBreaker = tieBreaker;
         this.combatRandom = combatRandom ?? new SystemCombatRandom();
         this.enemyCommandSource =
             enemyCommandSource ?? new FirstLivingTargetCommandSource();
+        this.damageRules = damageRules;
     }
 
     public PartyBattleRoundResult ResolveRound(
@@ -255,7 +263,8 @@ public sealed class PartyBattleRoundResolver
                     actor,
                     target,
                     combatRandom,
-                    guardingIds.Contains(target.CombatantId))));
+                    guardingIds.Contains(target.CombatantId),
+                    GetMinimumHp(target))));
         }
 
         return BuildResult(battle, actions);
@@ -461,7 +470,13 @@ public sealed class PartyBattleRoundResolver
                 actor,
                 target,
                 combatRandom,
-                guardingIds.Contains(target.CombatantId))));
+                guardingIds.Contains(target.CombatantId),
+                GetMinimumHp(target))));
+    }
+
+    private int GetMinimumHp(ICombatant target)
+    {
+        return damageRules == null ? 0 : damageRules.GetMinimumHp(target);
     }
 
     private static ICombatant ResolveAbilityTarget(

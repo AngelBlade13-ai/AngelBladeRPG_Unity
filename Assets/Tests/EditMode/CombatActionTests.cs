@@ -88,6 +88,24 @@ namespace AngelBladeRPG.Tests
             Assert.That(result.ChancePercent, Is.EqualTo(5));
         }
 
+        [Test]
+        public void DamageFloorReportsOnlyDamageActuallyApplied()
+        {
+            PlayerData player = new PlayerData("Hero");
+            MonsterData monster = CreateMonster(attack: 100);
+
+            CombatActionResult result = new PhysicalAttackAction().Execute(
+                new CombatActionContext(
+                    monster,
+                    player,
+                    new SequenceCombatRandom(true, false),
+                    minimumTargetHp: 25));
+
+            Assert.That(player.CurrentHp, Is.EqualTo(25));
+            Assert.That(result.Damage, Is.EqualTo(75));
+            Assert.That(result.Message, Does.Contain("75 damage"));
+        }
+
         [TestCase(20, 5, 95)]
         [TestCase(10, 10, 50)]
         [TestCase(5, 20, 20)]

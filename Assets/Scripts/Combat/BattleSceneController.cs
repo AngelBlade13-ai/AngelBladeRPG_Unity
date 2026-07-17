@@ -34,7 +34,7 @@ public class BattleSceneController : MonoBehaviour
     {
         session = GameSessionStore.Current;
         legacyRoundResolver = new BattleRoundResolver();
-        partyRoundResolver = new PartyBattleRoundResolver();
+        partyRoundResolver = session.CreatePartyRoundResolver();
 
         if (!session.HasActiveBattle || session.PartyBattle == null)
         {
@@ -318,12 +318,7 @@ public class BattleSceneController : MonoBehaviour
         }
 
         defendButton.SetActive(commandsAreActive);
-        escapeButton.SetActive(
-            commandsAreActive && session != null &&
-            session.PartyBattle != null &&
-            session.PartyBattle.PartyMembers.Count == 1 &&
-            session.PartyBattle.Enemies.Count == 1 &&
-            session.EscapeAllowed);
+        RefreshEscapeButton(commandsAreActive);
         if (previousTargetButton != null)
         {
             previousTargetButton.SetActive(commandsAreActive);
@@ -414,9 +409,20 @@ public class BattleSceneController : MonoBehaviour
             session.PartyBattle,
             commandSelection.Commands);
         string roundMessages = string.Join("\n", round.Messages);
+        IReadOnlyList<string> tutorialMessages =
+            session.AdvanceTutorialAfterRound(round);
+        if (tutorialMessages.Count > 0)
+        {
+            roundMessages = string.IsNullOrEmpty(roundMessages)
+                ? string.Join("\n", tutorialMessages)
+                : roundMessages + "\n" + string.Join("\n", tutorialMessages);
+        }
+
         battleLogText.text = roundMessages;
 
-        if (round.EnemiesWereDefeated)
+        bool tutorialIsComplete = session.CaravanTutorial == null ||
+            session.CaravanTutorial.Stage == CaravanTutorialStage.Completed;
+        if (session.PartyBattle.AreEnemiesDefeated && tutorialIsComplete)
         {
             CompleteVictory(roundMessages);
             return;
@@ -426,6 +432,11 @@ public class BattleSceneController : MonoBehaviour
         {
             CompleteDefeat();
             return;
+        }
+
+        if (tutorialMessages.Count > 0)
+        {
+            ArrangeFormationPlaceholders();
         }
 
         BeginCommandSelection();
@@ -473,13 +484,25 @@ public class BattleSceneController : MonoBehaviour
             return;
         }
 
+        Transform parent = source.transform.parent;
+        for (int childIndex = parent.childCount - 1; childIndex >= 0; childIndex--)
+        {
+            GameObject child = parent.GetChild(childIndex).gameObject;
+            if (child != source && child.name.StartsWith(objectName + "_"))
+            {
+                Destroy(child);
+            }
+        }
+
         int count = Mathf.Min(visibleCount, slots.Count);
         for (int index = 0; index < count; index++)
         {
             GameObject placeholder = index == 0
                 ? source
                 : Instantiate(source, source.transform.parent);
-            placeholder.name = $"{objectName}_{index + 1}";
+            placeholder.name = index == 0
+                ? objectName
+                : $"{objectName}_{index + 1}";
             RectTransform rect = placeholder.GetComponent<RectTransform>();
             BattleSlotPosition slot = slots[index];
             rect.anchorMin = new Vector2(slot.X, slot.Y);
@@ -519,6 +542,34 @@ public class BattleSceneController : MonoBehaviour
             label.text = commandSelection.IsChoosingAbility
                 ? "Confirm"
                 : "Ability";
+        }
+    }
+
+    private void RefreshEscapeButton(bool commandsAreActive)
+    {
+        if (escapeButton == null)
+        {
+            return;
+        }
+
+        bool isTutorial = session != null && session.CaravanTutorial != null;
+        bool canAttemptEscape = commandsAreActive && session != null &&
+            session.PartyBattle != null &&
+            session.PartyBattle.PartyMembers.Count == 1 &&
+            session.PartyBattle.Enemies.Count == 1 &&
+            session.EscapeAllowed;
+        escapeButton.SetActive(canAttemptEscape ||
+            (commandsAreActive && isTutorial));
+        if (escapeButton.TryGetComponent(out Button button))
+        {
+            button.interactable = canAttemptEscape;
+        }
+
+        TextMeshProUGUI label =
+            escapeButton.GetComponentInChildren<TextMeshProUGUI>();
+        if (label != null)
+        {
+            label.text = isTutorial ? "No Escape" : "Escape";
         }
     }
 

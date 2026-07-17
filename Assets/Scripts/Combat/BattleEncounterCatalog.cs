@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public static class BattleEncounterCatalog
 {
+    public const string CaravanTutorialId = "encounter_tutorial_caravan";
     public const string Quest1SkirmishAId = "encounter_grassland_q1_a";
     public const string Quest1SkirmishBId = "encounter_grassland_q1_b";
     public const string Quest2RescueId = "encounter_grassland_q2_rescue";
@@ -18,6 +19,20 @@ public static class BattleEncounterCatalog
         encounters = new Dictionary<string, BattleEncounterDefinition>(
             StringComparer.Ordinal)
         {
+            {
+                CaravanTutorialId,
+                new BattleEncounterDefinition(
+                    CaravanTutorialId,
+                    "The Delayed Caravan",
+                    BattleLayoutCatalog.BossId,
+                    new[]
+                    {
+                        "monster_goblin_skirmisher",
+                        "monster_goblin_skirmisher"
+                    },
+                    escapeAllowed: false,
+                    isRepeatable: false)
+            },
             {
                 Quest1SkirmishAId,
                 Encounter(
@@ -105,7 +120,8 @@ public static class BattleEncounterCatalog
                         "monster_goblin_guard",
                         "monster_goblin_guard"
                     },
-                    escapeAllowed: false)
+                    escapeAllowed: false,
+                    isRepeatable: false)
             }
         };
 

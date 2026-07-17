@@ -169,6 +169,30 @@ The added coverage checks:
 - victory waiting for the entire enemy group and aggregating every reward; and
 - the Goblin Boss encounter selecting its boss layout and rejecting escape.
 
+### Milestone 15 Caravan Tutorial Checkpoint
+
+This checkpoint adds nine Edit Mode cases. The full suite reports 283 passing
+tests in Unity `6000.5.3f1`. No manual Inspector wiring is required.
+
+The added coverage checks:
+
+- the solo Goblin wave, Iona/Hobgoblin pressure stage, Damari and Enora
+  reinforcement stage, and final completion occurring in order;
+- scripted low-HP checkpoints and combat damage floors remaining nonlethal;
+- the Hobgoblin remaining at 1 HP until the reinforcement beat;
+- enemy focus moving from Iona to Damari after the taunt demonstration;
+- escape being disabled and rewards being unavailable before completion;
+- all wave rewards being aggregated exactly once;
+- the protagonist, Iona, Damari, and Enora becoming the active party; and
+- the completed one-time tutorial refusing replay in the same session.
+
+For the Play Mode smoke test, run
+`Tools > AngelBlade RPG > Battle > Add Caravan Tutorial Test Encounter`, then
+start from `MainGameScene`. The orange marker in the Guild Hall district
+launches the caravan tutorial. Confirm each reinforcement appears, `No Escape`
+is disabled, the Hobgoblin survives the two-character pressure round, and the
+fight returns to the Guild Hall after the four-character victory.
+
 ### Fastest Development Workflow
 
 Keep the Unity Editor open and use the Test Runner while actively developing. The current Edit Mode suite itself completes in well under one second; most command-line test time comes from launching and initializing a new Unity Editor process.

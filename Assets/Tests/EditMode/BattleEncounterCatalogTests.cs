@@ -7,12 +7,12 @@ namespace AngelBladeRPG.Tests
     public class BattleEncounterCatalogTests
     {
         [Test]
-        public void CatalogContainsTenUniqueGrasslandGroups()
+        public void CatalogContainsElevenUniqueGrasslandGroups()
         {
             BattleEncounterDefinition[] encounters =
                 BattleEncounterCatalog.All.ToArray();
 
-            Assert.That(encounters, Has.Length.EqualTo(10));
+            Assert.That(encounters, Has.Length.EqualTo(11));
             Assert.That(
                 encounters.Select(encounter => encounter.Id).Distinct().Count(),
                 Is.EqualTo(encounters.Length));
@@ -62,6 +62,18 @@ namespace AngelBladeRPG.Tests
             Assert.That(
                 encounter.MonsterDefinitionIds[0],
                 Is.EqualTo("boss_grassland_goblin"));
+        }
+
+        [Test]
+        public void CaravanTutorialIsOneTimeAndDisablesEscape()
+        {
+            BattleEncounterDefinition encounter = BattleEncounterCatalog.Get(
+                BattleEncounterCatalog.CaravanTutorialId);
+
+            Assert.That(encounter.LayoutId, Is.EqualTo(BattleLayoutCatalog.BossId));
+            Assert.That(encounter.EscapeAllowed, Is.False);
+            Assert.That(encounter.IsRepeatable, Is.False);
+            Assert.That(encounter.CreateEnemies(), Has.Count.EqualTo(2));
         }
 
         [Test]

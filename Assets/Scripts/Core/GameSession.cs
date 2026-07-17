@@ -2,6 +2,11 @@ using System.Collections.Generic;
 
 public class GameSession
 {
+    private readonly HashSet<string> completedEncounterIds =
+        new HashSet<string>(System.StringComparer.Ordinal);
+    private readonly List<MonsterData> battleEnemies =
+        new List<MonsterData>();
+
     public PlayerData Player { get; private set; }
     public PartyRoster Party { get; private set; }
     public MonsterData Monster { get; private set; }
@@ -9,6 +14,7 @@ public class GameSession
     public BattleEncounterDefinition Encounter { get; private set; }
     public BattleLayoutDefinition BattleLayout { get; private set; }
     public bool EscapeAllowed { get; private set; }
+    public CaravanTutorialBattle CaravanTutorial { get; private set; }
     public bool BattleIsOver { get; private set; }
     public BattleOutcome BattleOutcome { get; private set; }
 
@@ -51,6 +57,9 @@ public class GameSession
         Encounter = null;
         BattleLayout = null;
         EscapeAllowed = true;
+        CaravanTutorial = null;
+        completedEncounterIds.Clear();
+        battleEnemies.Clear();
         BattleIsOver = true;
         BattleOutcome = BattleOutcome.None;
         return true;
@@ -72,7 +81,8 @@ public class GameSession
 
     public bool StartEncounter(BattleEncounterDefinition encounter)
     {
-        if (encounter == null)
+        if (encounter == null ||
+            (!encounter.IsRepeatable && IsEncounterCompleted(encounter.Id)))
         {
             return false;
         }
@@ -109,10 +119,16 @@ public class GameSession
         PartyBattle = PartyBattleState.FromRoster(
             Party,
             enemies);
+        battleEnemies.Clear();
+        battleEnemies.AddRange(enemies);
         Monster = enemies[0];
         Encounter = encounter;
         BattleLayout = layout;
         EscapeAllowed = escapeAllowed;
+        CaravanTutorial = encounter != null &&
+            encounter.Id == BattleEncounterCatalog.CaravanTutorialId
+            ? new CaravanTutorialBattle(this)
+            : null;
         BattleIsOver = false;
         BattleOutcome = BattleOutcome.InProgress;
         return true;
@@ -122,7 +138,9 @@ public class GameSession
     {
         rewards = null;
 
-        if (!HasActiveBattle || !PartyBattle.AreEnemiesDefeated)
+        if (!HasActiveBattle || !PartyBattle.AreEnemiesDefeated ||
+            (CaravanTutorial != null &&
+                CaravanTutorial.Stage != CaravanTutorialStage.Completed))
         {
             return false;
         }
@@ -130,14 +148,8 @@ public class GameSession
         int goldReward = 0;
         int xpReward = 0;
         int jobPointReward = 0;
-        foreach (ICombatant combatant in PartyBattle.Enemies)
+        foreach (MonsterData enemy in battleEnemies)
         {
-            MonsterData enemy = combatant as MonsterData;
-            if (enemy == null)
-            {
-                continue;
-            }
-
             goldReward += enemy.GoldReward;
             xpReward += enemy.XPReward;
             jobPointReward += enemy.JobPointReward;
@@ -170,6 +182,10 @@ public class GameSession
         Party.RecordBattleParticipation();
         BattleIsOver = true;
         BattleOutcome = BattleOutcome.Victory;
+        if (Encounter != null && !Encounter.IsRepeatable)
+        {
+            completedEncounterIds.Add(Encounter.Id);
+        }
 
         rewards = new BattleRewardResult(
             goldReward,
@@ -205,6 +221,78 @@ public class GameSession
         Party.RecordBattleParticipation();
         BattleIsOver = true;
         BattleOutcome = BattleOutcome.Escaped;
+        return true;
+    }
+
+    public bool IsEncounterCompleted(string encounterId)
+    {
+        return !string.IsNullOrWhiteSpace(encounterId) &&
+            completedEncounterIds.Contains(encounterId.Trim());
+    }
+
+    public PartyBattleRoundResolver CreatePartyRoundResolver(
+        ITurnOrderRandom tieBreaker = null,
+        ICombatRandom combatRandom = null)
+    {
+        return new PartyBattleRoundResolver(
+            tieBreaker,
+            combatRandom,
+            CaravanTutorial,
+            CaravanTutorial);
+    }
+
+    public IReadOnlyList<string> AdvanceTutorialAfterRound(
+        PartyBattleRoundResult round)
+    {
+        return CaravanTutorial == null
+            ? System.Array.Empty<string>()
+            : CaravanTutorial.AdvanceAfterRound(round);
+    }
+
+    internal PlayableCharacterData EnsureTutorialCompanion(
+        string characterId)
+    {
+        PlayableCharacterData character = Party.GetCharacter(characterId);
+        if (character == null)
+        {
+            PartyMemberDefinition definition =
+                PartyMemberCatalog.Get(characterId);
+            if (definition == null)
+            {
+                return null;
+            }
+
+            character = definition.CreateCharacter();
+            if (!Party.TryAddCharacter(character))
+            {
+                return null;
+            }
+        }
+
+        List<string> activeIds = new List<string>(Party.ActiveCharacterIds);
+        if (!activeIds.Contains(character.Id))
+        {
+            activeIds.Add(character.Id);
+            if (!Party.TrySetActiveParty(activeIds))
+            {
+                return null;
+            }
+        }
+
+        return character;
+    }
+
+    internal bool ReplaceTutorialEnemies(
+        IReadOnlyList<MonsterData> enemies)
+    {
+        if (PartyBattle == null || enemies == null || enemies.Count < 1 ||
+            !PartyBattle.TryReplaceEnemies(enemies))
+        {
+            return false;
+        }
+
+        battleEnemies.AddRange(enemies);
+        Monster = enemies[0];
         return true;
     }
 }

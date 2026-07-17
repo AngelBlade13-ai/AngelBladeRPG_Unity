@@ -79,6 +79,57 @@ public sealed class PartyBattleState
             : null;
     }
 
+    public bool TryAddPartyMember(ICombatant combatant)
+    {
+        if (!IsValidNewCombatant(combatant) ||
+            partyMembers.Count >= PartyRoster.MaximumActiveMembers)
+        {
+            return false;
+        }
+
+        partyMembers.Add(combatant);
+        combatants.Add(combatant.CombatantId, combatant);
+        return true;
+    }
+
+    public bool TryReplaceEnemies(IEnumerable<ICombatant> replacements)
+    {
+        List<ICombatant> nextEnemies;
+        try
+        {
+            nextEnemies = CopyCombatants(replacements, nameof(replacements));
+        }
+        catch (ArgumentException)
+        {
+            return false;
+        }
+
+        if (nextEnemies.Count < 1)
+        {
+            return false;
+        }
+
+        HashSet<string> nextIds = new HashSet<string>(StringComparer.Ordinal);
+        foreach (ICombatant enemy in nextEnemies)
+        {
+            if (!nextIds.Add(enemy.CombatantId) ||
+                combatants.ContainsKey(enemy.CombatantId))
+            {
+                return false;
+            }
+        }
+
+        foreach (ICombatant enemy in enemies)
+        {
+            combatants.Remove(enemy.CombatantId);
+        }
+
+        enemies.Clear();
+        enemies.AddRange(nextEnemies);
+        AddUniqueCombatants(enemies);
+        return true;
+    }
+
     public IReadOnlyList<ICombatant> GetValidTargets(
         string actorId,
         BattleTargetType targetType)
@@ -151,6 +202,14 @@ public sealed class PartyBattleState
 
             combatants.Add(combatant.CombatantId, combatant);
         }
+    }
+
+    private bool IsValidNewCombatant(ICombatant combatant)
+    {
+        return combatant != null &&
+            !string.IsNullOrWhiteSpace(combatant.CombatantId) &&
+            combatant.Stats != null &&
+            !combatants.ContainsKey(combatant.CombatantId);
     }
 
     private static List<ICombatant> CopyCombatants(

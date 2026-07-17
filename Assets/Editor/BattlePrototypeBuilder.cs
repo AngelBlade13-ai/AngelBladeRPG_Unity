@@ -12,6 +12,39 @@ public static class BattlePrototypeBuilder
     private const string TownScenePath = "Assets/Scenes/TownScene.unity";
     private const string BattleScenePath = "Assets/Scenes/BattleScene.unity";
     private const string MainScenePath = "Assets/Scenes/MainGameScene.unity";
+    private const string GuildHallScenePath =
+        "Assets/Scenes/Suncrest/SuncrestGuildHallScene.unity";
+    private const string PlaceholderSpritePath =
+        "Assets/Tilemaps/Tiles/PlaceholderTileSprite.png";
+
+    [MenuItem("Tools/AngelBlade RPG/Battle/Add Caravan Tutorial Test Encounter")]
+    public static void AddCaravanTutorialTestEncounter()
+    {
+        if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
+        {
+            return;
+        }
+
+        Scene scene = EditorSceneManager.OpenScene(
+            GuildHallScenePath,
+            OpenSceneMode.Single);
+        EnsureEncounterGroup(
+            "CaravanTutorialTestEncounter",
+            new Vector3(-2f, 2f, 0f),
+            new Color(0.9f, 0.55f, 0.12f, 1f),
+            BattleEncounterCatalog.CaravanTutorialId,
+            "Default");
+        EditorSceneManager.MarkSceneDirty(scene);
+        EditorSceneManager.SaveScene(scene);
+        AddSceneToBuildList(BattleScenePath);
+        Selection.activeGameObject =
+            GameObject.Find("CaravanTutorialTestEncounter");
+        SceneView.lastActiveSceneView?.FrameSelected();
+        EditorUtility.DisplayDialog(
+            "Caravan Tutorial",
+            "The orange tutorial test marker is ready in the Guild Hall district.",
+            "OK");
+    }
 
     [MenuItem("Tools/AngelBlade RPG/Build Placeholder Battle Scene")]
     public static void BuildPlaceholderBattleScene()
@@ -133,6 +166,11 @@ public static class BattlePrototypeBuilder
             new Vector3(-3f, 3f, 0f),
             new Color(0.16f, 0.7f, 0.78f, 1f),
             "monster_wisp");
+        EnsureEncounterGroup(
+            "CaravanTutorialTestEncounter",
+            new Vector3(-3f, -3f, 0f),
+            new Color(0.9f, 0.55f, 0.12f, 1f),
+            BattleEncounterCatalog.CaravanTutorialId);
     }
 
     private static void EnsureEncounter(
@@ -168,6 +206,58 @@ public static class BattlePrototypeBuilder
             "BattleScene",
             "TownAfterBattle",
             monsterId);
+    }
+
+    private static void EnsureEncounterGroup(
+        string objectName,
+        Vector3 position,
+        Color color,
+        string encounterId,
+        string returnSpawnId = "TownAfterBattle")
+    {
+        GameObject encounterObject = EnsureEncounterObject(
+            objectName,
+            position,
+            color);
+        BattleEncounterInteractable2D encounter =
+            encounterObject.GetComponent<BattleEncounterInteractable2D>();
+        if (encounter == null)
+        {
+            encounter =
+                encounterObject.AddComponent<BattleEncounterInteractable2D>();
+        }
+
+        encounter.ConfigureEncounterGroup(
+            "BattleScene",
+            returnSpawnId,
+            encounterId);
+    }
+
+    private static GameObject EnsureEncounterObject(
+        string objectName,
+        Vector3 position,
+        Color color)
+    {
+        GameObject encounterObject = GameObject.Find(objectName);
+        if (encounterObject == null)
+        {
+            encounterObject = new GameObject(objectName);
+            encounterObject.transform.localScale =
+                new Vector3(0.8f, 0.8f, 1f);
+            encounterObject.AddComponent<BoxCollider2D>();
+        }
+
+        encounterObject.transform.position = position;
+        SpriteRenderer renderer =
+            encounterObject.GetComponent<SpriteRenderer>();
+        if (renderer == null)
+        {
+            renderer = encounterObject.AddComponent<SpriteRenderer>();
+        }
+
+        renderer.sprite = GetPlaceholderSprite();
+        renderer.color = color;
+        return encounterObject;
     }
 
     private static PlayerSpawnPoint2D EnsureReturnSpawn()
@@ -784,6 +874,13 @@ public static class BattlePrototypeBuilder
 
     private static Sprite GetPlaceholderSprite()
     {
+        Sprite placeholder = AssetDatabase.LoadAssetAtPath<Sprite>(
+            PlaceholderSpritePath);
+        if (placeholder != null)
+        {
+            return placeholder;
+        }
+
         GameObject sign = GameObject.Find("TestSign");
         SpriteRenderer signRenderer = sign == null
             ? null
