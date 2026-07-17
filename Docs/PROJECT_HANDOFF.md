@@ -36,7 +36,7 @@ Combat should use a dedicated turn-based battle scene inspired by older `Final F
 
 The existing full-screen town and battle panels are useful prototypes for gameplay rules and flow. They are not the final presentation architecture. See `Docs/GAMEPLAY_DIRECTION.md` for the current product direction and scene responsibilities.
 
-The demo follows Suncrest Hollow, Grassland, and Cherry Blossom. Suncrest Hollow is the proper in-world name for the home hub previously described as `Town Square`; existing prototype scene names do not need to change yet. Its tone and lore boundaries are recorded in `Docs/DEMO_STORY_REFERENCE.md`. The main character is a custom-created protagonist and is not one of the authored companion IDs `pc_01` through `pc_04`; those records belong to Iona, Damari, Enora, and Lysander.
+The demo follows Suncrest Hollow, Grassland, and Cherry Blossom. Suncrest Hollow is the proper in-world name for the home hub previously described as `Town Square`; existing prototype scene names do not need to change yet. Its eight districts will be separate, interconnected outdoor scenes so the hub can support meaningful exploration without one oversized Tilemap. Guild Hall is the central arrival district, surrounding districts form traversal loops, and Suncrest Watch owns the Grassland gate. The authoritative scene names, working dimensions, connection graph, and migration order are in `Docs/SUNCREST_DISTRICT_LAYOUT.md`. Its tone and lore boundaries are recorded in `Docs/DEMO_STORY_REFERENCE.md`. The main character is a custom-created protagonist and is not one of the authored companion IDs `pc_01` through `pc_04`; those records belong to Iona, Damari, Enora, and Lysander.
 
 Demo progression uses a flexible hub-and-expedition quest loop. Players are encouraged to revisit Suncrest Hollow for turn-ins, services, and character moments. The three main quests form a guided story sequence, while travel and side-quest order remain flexible. The Grassland goblin boss is the required gate to Cherry Blossom; optional quest completion and elapsed time are not gates. A typical first run should contain at least 90 minutes of content, while a practiced critical-path run may be substantially shorter.
 
@@ -73,6 +73,11 @@ quests, services, enemy roster, UI, preliminary asset budget, and explicit cut
 list are consolidated in `Docs/DEMO_CONTENT_MANIFEST.md`. It corrects older
 planning assumptions: all 12 capped jobs and all four optional side quests are
 required, and the Cherry Blossom boss is the already-defined Great Stag.
+All eight Suncrest district foundations have now been generated and registered
+in Build Settings. A manual traversal smoke test confirmed every reciprocal
+interaction transition works. The scenes intentionally remain generic grass
+and dirt blockouts until Guild Hall and Whisper Market establish the reusable
+district composition standard.
 The artist-facing production order, three-level character presentation,
 provisional scale tests, animation backlog, and delivery rules are maintained in
 `Docs/DEMO_ART_CHECKLIST.md`.

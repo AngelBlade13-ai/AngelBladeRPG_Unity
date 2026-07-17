@@ -173,6 +173,10 @@ For each required enemy visual base:
 
 ### Suncrest Hollow
 
+- [ ] Build each of the eight districts as a distinct, interconnected outdoor
+  scene using the scale targets in `SUNCREST_DISTRICT_LAYOUT.md`.
+- [ ] Give every district a first-screen landmark, readable exits, clear main
+  route, and at least one secondary nook or loop.
 - [ ] Shared town terrain, path, wall, roof, water, and vegetation tiles.
 - [ ] Whisper Market dressing and stalls.
 - [ ] Ironforge Smithy exterior and compact interior.

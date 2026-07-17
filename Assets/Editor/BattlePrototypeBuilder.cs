@@ -189,7 +189,7 @@ public static class BattlePrototypeBuilder
     private static void AddSpawnToController(PlayerSpawnPoint2D spawnPoint)
     {
         WorldSceneSpawnController2D controller =
-            Object.FindFirstObjectByType<WorldSceneSpawnController2D>();
+            Object.FindAnyObjectByType<WorldSceneSpawnController2D>();
         SerializedObject serializedController = new SerializedObject(controller);
         SerializedProperty spawns =
             serializedController.FindProperty("additionalSpawnPoints");

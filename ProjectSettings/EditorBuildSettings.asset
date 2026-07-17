@@ -17,5 +17,29 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BattleScene.unity
     guid: bd029ab01e941934f84cb453257da763
+  - enabled: 1
+    path: Assets/Scenes/Suncrest/SuncrestGuildHallScene.unity
+    guid: f6e873274c7b35c4cbbe9c12753489bc
+  - enabled: 1
+    path: Assets/Scenes/Suncrest/SuncrestWhisperMarketScene.unity
+    guid: d6984136d22506547804f91b680d55a9
+  - enabled: 1
+    path: Assets/Scenes/Suncrest/SuncrestIronforgeScene.unity
+    guid: e3d24ac40cef18c4fafd848c82e7b547
+  - enabled: 1
+    path: Assets/Scenes/Suncrest/SuncrestInnScene.unity
+    guid: ce13f99183c007443ac2a98e071904be
+  - enabled: 1
+    path: Assets/Scenes/Suncrest/SuncrestShrineScene.unity
+    guid: 3eadcab2a5537a44ab99670fa313259c
+  - enabled: 1
+    path: Assets/Scenes/Suncrest/SuncrestAmberRowScene.unity
+    guid: ddc93c9647759b848a42f8e965d950ed
+  - enabled: 1
+    path: Assets/Scenes/Suncrest/SuncrestGroveScene.unity
+    guid: 8b00a26b79343f64b95336f0141aa198
+  - enabled: 1
+    path: Assets/Scenes/Suncrest/SuncrestWatchScene.unity
+    guid: 0f721e8a05fdcf047be6c9dff773a1b6
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

@@ -39,7 +39,10 @@ Unity scene names.
 
 ### Suncrest Hollow
 
-The home hub contains eight interconnected districts plus its Grassland exit:
+The home hub contains eight interconnected outdoor district scenes plus its
+Grassland exit. They load as adjoining parts of one town, not as world-map
+travel destinations. Working scene names, blockout dimensions, connections,
+and transition rules are defined in `SUNCREST_DISTRICT_LAYOUT.md`.
 
 - Whisper Market: Old Marlow, basic goods, and Quest 1 briefing/turn-in.
 - Ironforge Smithy: Bren, equipment service, and Quest 2 briefing/turn-in.
@@ -53,8 +56,8 @@ The home hub contains eight interconnected districts plus its Grassland exit:
   required Quest 3 handoff and three-quest threshold.
 
 Required interior presentation exists for the Guild Hall, inn, smithy, shrine,
-and Watch. These may be compact interiors or readable district structures
-rather than five large standalone maps.
+and Watch. These may be compact interior scenes or readable structures within
+their district scenes rather than five additional large maps.
 
 ### Grassland
 

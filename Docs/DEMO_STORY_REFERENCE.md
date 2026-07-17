@@ -106,7 +106,9 @@ vibrant location in the game.
 
 - Its interconnected districts include Whisper Market, Ironforge Smithy, Guild
   Hall, the Suncrest Inn, the Sunwell Shrine, Amber Row, the Sunroot Grove, and
-  Suncrest Watch. These are hub districts, not world-map travel destinations.
+  Suncrest Watch. Each district is a separate explorable Unity scene, but they
+  are adjoining hub districts rather than world-map travel destinations. See
+  `SUNCREST_DISTRICT_LAYOUT.md` for the authoritative connection graph.
 - NPC activity and environmental detail should make the town feel inhabited and
   welcoming.
 - A few optional, easy-to-miss details may suggest that something is slightly
