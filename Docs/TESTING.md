@@ -193,6 +193,45 @@ launches the caravan tutorial. Confirm each reinforcement appears, `No Escape`
 is disabled, the Hobgoblin survives the two-character pressure round, and the
 fight returns to the Guild Hall after the four-character victory.
 
+### Milestone 15 Action-Gauge Checkpoint
+
+This checkpoint adds 21 Edit Mode cases, bringing the expected suite to 304
+tests. No new scene or Inspector wiring is required.
+
+The added coverage checks:
+
+- faster combatants filling and acting before slower combatants;
+- stable ordering for exact timing ties;
+- separately preserving multiple enemy turns that become ready together;
+- Wait Mode pausing every gauge while a command menu is open;
+- Active Mode continuing every gauge while a command menu is open;
+- consuming only the acting combatant's gauge;
+- zero-Speed combatants still eventually receiving a turn;
+- tutorial enemy replacement and reinforcement gauge synchronization;
+- one party action resolving immediately without an automatic enemy reply;
+- ready enemies acting without a queued party-command batch;
+- Defend lasting until the defender's next action begins;
+- immediate ability use, invalid-target fallback, and rejection of living
+  targets on the wrong side;
+- fixed command selection using only the gauge-ready party member;
+- visible `AT` percentage formatting; and
+- the tutorial waiting for the Hobgoblin's pressure action before Damari and
+  Enora reinforce the party;
+- Taunt being a zero-cost active Reaver ability; and
+- Taunt redirecting enemies until the Reaver's next action begins.
+
+For the Play Mode smoke test, launch any battle and confirm:
+
+1. `AT` percentages rise at different rates based on Speed.
+2. Command buttons appear for only one ready party member.
+3. Attack, Ability, and Defend resolve immediately after selection.
+4. In default Wait Mode, every `AT` percentage freezes while the command menu
+   is open and resumes after the action.
+5. Enemies act automatically when their own gauge reaches `100%`.
+6. The caravan tutorial still advances through all three authored stages.
+7. After Damari joins, the Hobgoblin remains at a minimum of `1 HP` until
+   Damari actively uses Taunt; subsequent Hobgoblin attacks target Damari.
+
 ### Fastest Development Workflow
 
 Keep the Unity Editor open and use the Test Runner while actively developing. The current Edit Mode suite itself completes in well under one second; most command-line test time comes from launching and initializing a new Unity Editor process.

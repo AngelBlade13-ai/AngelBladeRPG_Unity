@@ -5,7 +5,8 @@ public enum CombatAbilityEffect
 {
     PhysicalDamage,
     MagicDamage,
-    Healing
+    Healing,
+    Taunt
 }
 
 public enum CombatAbilityCostType
@@ -107,6 +108,7 @@ public sealed class CombatAbilityDefinition
 public static class CombatAbilityCatalog
 {
     public const string PowerStrikeId = "job_mercenary_power_strike";
+    public const string TauntId = "job_reaver_taunt";
     public const string EmberId = "job_mage_ember";
     public const string BloodBoltId = "job_blood_mage_blood_bolt";
     public const string MendId = "job_white_mage_mend";
@@ -149,6 +151,15 @@ public static class CombatAbilityCatalog
     {
         CombatAbilityDefinition[] definitions =
         {
+            Ability(
+                TauntId,
+                "Taunt",
+                JobId.Reaver,
+                BattleTargetType.Self,
+                CombatAbilityEffect.Taunt,
+                CombatAbilityCostType.Mp,
+                0,
+                1),
             Ability(
                 PowerStrikeId,
                 "Power Strike",
@@ -278,6 +289,8 @@ public sealed class CombatAbilityAction : ICombatAction
                 return ResolveMagicDamage(context);
             case CombatAbilityEffect.Healing:
                 return ResolveHealing(context);
+            case CombatAbilityEffect.Taunt:
+                return ResolveTaunt(context);
             default:
                 throw new InvalidOperationException(
                     $"Unsupported ability effect: {ability.Effect}.");
@@ -359,5 +372,15 @@ public sealed class CombatAbilityAction : ICombatAction
             $"{context.Actor.DisplayName} uses {ability.DisplayName} on " +
                 $"{context.Target.DisplayName}, restoring {restoredHp} HP.",
             healing: restoredHp);
+    }
+
+    private CombatActionResult ResolveTaunt(CombatActionContext context)
+    {
+        return new CombatActionResult(
+            Type,
+            context.Actor.CombatantId,
+            context.Actor.CombatantId,
+            true,
+            $"{context.Actor.DisplayName} taunts the enemy and draws its attention.");
     }
 }

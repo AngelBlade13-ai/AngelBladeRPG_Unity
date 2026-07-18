@@ -99,5 +99,27 @@ namespace AngelBladeRPG.Tests
 
             Assert.That(status, Does.StartWith(">* Iona"));
         }
+
+        [Test]
+        public void GaugeStatusShowsVisibleActionProgress()
+        {
+            PlayableCharacterData actor = new PlayableCharacterData(
+                "hero",
+                "Angel",
+                JobId.Mercenary);
+            MonsterData enemy = new MonsterData(
+                "enemy", "Goblin", 30, 8, 1, 0, 0, 10, 0, 0, 0);
+            ActionGaugeBattle gauges = new ActionGaugeBattle(
+                new PartyBattleState(new[] { actor }, new[] { enemy }));
+            gauges.Tick(2.5f, commandMenuIsOpen: false);
+
+            string status = BattleSceneController.FormatCombatantGroupWithGauges(
+                new ICombatant[] { actor },
+                actor.Id,
+                null,
+                gauges);
+
+            Assert.That(status, Does.Contain("AT 50%"));
+        }
     }
 }

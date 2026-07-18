@@ -11,7 +11,8 @@ public enum CaravanTutorialStage
 
 public sealed class CaravanTutorialBattle :
     IEnemyBattleCommandSource,
-    IBattleDamageRules
+    IBattleDamageRules,
+    IBattleCommandObserver
 {
     public const string HobgoblinCombatantId =
         "encounter_tutorial_caravan_hobgoblin";
@@ -19,6 +20,7 @@ public sealed class CaravanTutorialBattle :
     private readonly GameSession session;
 
     public CaravanTutorialStage Stage { get; private set; }
+    public bool TauntWasDemonstrated { get; private set; }
 
     public CaravanTutorialBattle(GameSession gameSession)
     {
@@ -59,6 +61,40 @@ public sealed class CaravanTutorialBattle :
         }
     }
 
+    public IReadOnlyList<string> AdvanceAfterAction(
+        CombatActionResult action)
+    {
+        if (action == null)
+        {
+            throw new ArgumentNullException(nameof(action));
+        }
+
+        switch (Stage)
+        {
+            case CaravanTutorialStage.BasicGoblins:
+                return session.PartyBattle.AreEnemiesDefeated
+                    ? BeginHobgoblinPressure()
+                    : Array.Empty<string>();
+            case CaravanTutorialStage.HobgoblinPressure:
+                return action.ActorId == HobgoblinCombatantId
+                    ? BeginFullParty()
+                    : Array.Empty<string>();
+            case CaravanTutorialStage.FullParty:
+                if (session.PartyBattle.AreEnemiesDefeated)
+                {
+                    Stage = CaravanTutorialStage.Completed;
+                    return new[]
+                    {
+                        "The Hobgoblin falls. The caravan is safe."
+                    };
+                }
+
+                return Array.Empty<string>();
+            default:
+                return Array.Empty<string>();
+        }
+    }
+
     public PartyBattleCommand CreateCommand(
         ICombatant enemy,
         PartyBattleState battle)
@@ -75,9 +111,7 @@ public sealed class CaravanTutorialBattle :
 
         string preferredTargetId = Stage == CaravanTutorialStage.HobgoblinPressure
             ? "pc_01"
-            : Stage == CaravanTutorialStage.FullParty
-                ? "pc_02"
-                : PlayableCharacterData.ProtagonistId;
+            : PlayableCharacterData.ProtagonistId;
         ICombatant preferredTarget = battle.GetCombatant(preferredTargetId);
         if (preferredTarget != null && preferredTarget.Stats.CurrentHp > 0)
         {
@@ -109,7 +143,28 @@ public sealed class CaravanTutorialBattle :
             return 1;
         }
 
+        if (Stage == CaravanTutorialStage.FullParty &&
+            !TauntWasDemonstrated &&
+            target.CombatantId == HobgoblinCombatantId)
+        {
+            return 1;
+        }
+
         return 0;
+    }
+
+    public void OnCommandResolved(
+        PartyBattleCommand command,
+        CombatActionResult result)
+    {
+        if (Stage == CaravanTutorialStage.FullParty &&
+            command != null && result != null && result.Succeeded &&
+            command.ActorId == "pc_02" &&
+            command.Type == PartyBattleCommandType.Ability &&
+            command.AbilityId == CombatAbilityCatalog.TauntId)
+        {
+            TauntWasDemonstrated = true;
+        }
     }
 
     private IReadOnlyList<string> BeginHobgoblinPressure()
@@ -157,7 +212,7 @@ public sealed class CaravanTutorialBattle :
         {
             $"The Hobgoblin's assault leaves Iona at {iona.Stats.CurrentHp} HP.",
             "Damari and Enora join the fight.",
-            "Damari draws the Hobgoblin's attention while Enora prepares Blood Bolt."
+            "Use Damari's Taunt to draw the Hobgoblin's attention, then strike with Enora's Blood Bolt."
         };
     }
 

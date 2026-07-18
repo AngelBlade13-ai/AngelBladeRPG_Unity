@@ -7,9 +7,12 @@ namespace AngelBladeRPG.Tests
     public class CombatAbilityTests
     {
         [Test]
-        public void CatalogContainsTheFirstFiveCoreJobActions()
+        public void CatalogContainsTheFirstSixCoreJobActions()
         {
-            Assert.That(CombatAbilityCatalog.All.Count, Is.EqualTo(5));
+            Assert.That(CombatAbilityCatalog.All.Count, Is.EqualTo(6));
+            Assert.That(
+                CombatAbilityCatalog.GetCoreForJob(JobId.Reaver).StableId,
+                Is.EqualTo(CombatAbilityCatalog.TauntId));
             Assert.That(
                 CombatAbilityCatalog.GetCoreForJob(JobId.Mercenary).StableId,
                 Is.EqualTo(CombatAbilityCatalog.PowerStrikeId));
@@ -125,6 +128,21 @@ namespace AngelBladeRPG.Tests
 
             Assert.That(result.Damage, Is.EqualTo(7));
             Assert.That(result.WasGuarded, Is.True);
+        }
+
+        [Test]
+        public void TauntTargetsTheReaverAndCostsNoMp()
+        {
+            PlayableCharacterData reaver = Member("reaver", JobId.Reaver);
+            CombatAbilityDefinition taunt =
+                CombatAbilityCatalog.Get(CombatAbilityCatalog.TauntId);
+
+            CombatActionResult result = new CombatAbilityAction(taunt).Execute(
+                Context(reaver, reaver));
+
+            Assert.That(result.Succeeded, Is.True);
+            Assert.That(result.TargetId, Is.EqualTo(reaver.Id));
+            Assert.That(reaver.Stats.CurrentMp, Is.EqualTo(20));
         }
 
         [Test]

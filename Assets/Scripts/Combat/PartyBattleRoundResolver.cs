@@ -100,6 +100,13 @@ public interface IBattleDamageRules
     int GetMinimumHp(ICombatant target);
 }
 
+public interface IBattleCommandObserver
+{
+    void OnCommandResolved(
+        PartyBattleCommand command,
+        CombatActionResult result);
+}
+
 public sealed class FirstLivingTargetCommandSource : IEnemyBattleCommandSource
 {
     public PartyBattleCommand CreateCommand(

@@ -355,6 +355,17 @@ Current implementation checkpoint:
   authored enemy focus, cumulative wave rewards, disabled escape, and a
   one-time completion flag.
 - The expanded 283-test Edit Mode suite passes in Unity `6000.5.3f1`.
+- The speed-based action-gauge checkpoint is implemented in code. Party
+  commands now resolve one ready actor at a time instead of being queued for a
+  full round. Wait Mode pauses all gauges in command menus, while optional
+  Active Mode continues enemy timing. Temporary `AT` percentages expose the
+  gauges in the existing battle status UI.
+- The expanded 301-test Edit Mode suite passed in Unity `6000.5.3f1` before
+  the simultaneous-enemy presentation fix.
+- The action-gauge checkpoint now spaces consecutive ready actions for visible
+  feedback. Taunt is now an active Reaver ability and must be demonstrated by
+  Damari during the tutorial. The Play Mode pass is complete; the checkpoint
+  awaits its updated 304-test pass.
 
 - [x] Create runtime combatants for multiple active party members.
 - [x] Add party targeting for allies and enemies.

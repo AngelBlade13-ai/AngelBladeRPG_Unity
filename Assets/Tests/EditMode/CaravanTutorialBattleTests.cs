@@ -82,11 +82,25 @@ namespace AngelBladeRPG.Tests
             session.AdvanceTutorialAfterRound(Round(enemiesDefeated: false));
 
             Assert.That(session.CaravanTutorial.GetMinimumHp(iona), Is.Zero);
+            Assert.That(
+                session.CaravanTutorial.GetMinimumHp(hobgoblin),
+                Is.EqualTo(1));
+
+            PlayableCharacterData damari =
+                session.Party.GetCharacter("pc_02");
+            session.CreatePartyActionResolver(
+                new AlwaysHitCombatRandom()).ResolveCommand(
+                    session.PartyBattle,
+                    PartyBattleCommand.Ability(
+                        damari.Id,
+                        CombatAbilityCatalog.TauntId,
+                        damari.Id));
+
             Assert.That(session.CaravanTutorial.GetMinimumHp(hobgoblin), Is.Zero);
         }
 
         [Test]
-        public void EnemyFocusMovesFromIonaToDamariAfterTauntBeat()
+        public void EnemyFocusMovesToDamariOnlyAfterActiveTaunt()
         {
             GameSession session = StartTutorial();
             DefeatCurrentEnemies(session);
@@ -98,13 +112,31 @@ namespace AngelBladeRPG.Tests
                     session.PartyBattle);
 
             session.AdvanceTutorialAfterRound(Round(enemiesDefeated: false));
-            PartyBattleCommand tauntedCommand =
+            PlayableCharacterData damari =
+                session.Party.GetCharacter("pc_02");
+            PartyBattleActionResolver resolver =
+                session.CreatePartyActionResolver(
+                    new AlwaysHitCombatRandom());
+            PartyBattleCommand beforeTaunt =
                 session.CaravanTutorial.CreateCommand(
                     session.Monster,
                     session.PartyBattle);
+            resolver.ResolveCommand(
+                session.PartyBattle,
+                PartyBattleCommand.Ability(
+                    damari.Id,
+                    CombatAbilityCatalog.TauntId,
+                    damari.Id));
+            CombatActionResult tauntedAttack = resolver.ResolveEnemyAction(
+                session.PartyBattle,
+                session.Monster);
 
             Assert.That(pressureCommand.TargetId, Is.EqualTo("pc_01"));
-            Assert.That(tauntedCommand.TargetId, Is.EqualTo("pc_02"));
+            Assert.That(
+                beforeTaunt.TargetId,
+                Is.EqualTo(PlayableCharacterData.ProtagonistId));
+            Assert.That(tauntedAttack.TargetId, Is.EqualTo("pc_02"));
+            Assert.That(session.CaravanTutorial.TauntWasDemonstrated, Is.True);
         }
 
         [Test]
@@ -137,6 +169,28 @@ namespace AngelBladeRPG.Tests
                     action.TargetId == iona.Id),
                 Is.True);
             Assert.That(round.EnemiesWereDefeated, Is.False);
+        }
+
+        [Test]
+        public void GaugeTutorialWaitsForHobgoblinActionBeforeReinforcements()
+        {
+            GameSession session = StartTutorial();
+            DefeatCurrentEnemies(session);
+            session.AdvanceTutorialAfterAction(Action(
+                PlayableCharacterData.ProtagonistId));
+
+            session.AdvanceTutorialAfterAction(Action("pc_01"));
+            Assert.That(
+                session.CaravanTutorial.Stage,
+                Is.EqualTo(CaravanTutorialStage.HobgoblinPressure));
+
+            session.AdvanceTutorialAfterAction(Action(
+                CaravanTutorialBattle.HobgoblinCombatantId));
+
+            Assert.That(
+                session.CaravanTutorial.Stage,
+                Is.EqualTo(CaravanTutorialStage.FullParty));
+            Assert.That(session.PartyBattle.PartyMembers.Count, Is.EqualTo(4));
         }
 
         [Test]
@@ -209,6 +263,16 @@ namespace AngelBladeRPG.Tests
                 Array.Empty<CombatActionResult>(),
                 partyWasDefeated: false,
                 enemiesWereDefeated: enemiesDefeated);
+        }
+
+        private static CombatActionResult Action(string actorId)
+        {
+            return new CombatActionResult(
+                CombatActionType.Defend,
+                actorId,
+                actorId,
+                true,
+                "Test action.");
         }
 
         private sealed class AlwaysHitCombatRandom : ICombatRandom

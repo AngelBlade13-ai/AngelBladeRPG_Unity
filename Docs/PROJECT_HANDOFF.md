@@ -89,7 +89,10 @@ Current local state:
 - Active branch: `feature/milestone-15-party-jobs`
 - The feature branch tracks `origin/feature/milestone-15-party-jobs`.
 - Milestone 15 is in progress through the verified caravan tutorial
-  checkpoint. Keyboard and controller command navigation remain its final
+  checkpoint. The speed-based action-gauge conversion passed its initial
+  301-test Edit Mode suite. Simultaneous-enemy presentation and active-Taunt
+  fixes passed Play Mode verification and now await the updated 304-test pass.
+  Keyboard and controller command navigation remain the milestone's final
   verification gate.
 - Character creation, walkable district exploration, world interactions, the
   separate battle-scene loop, persistent job/roster data, reusable monster
@@ -481,6 +484,19 @@ from Iona to Damari, escape is visibly disabled, rewards include every wave,
 and completion is recorded once. A Guild Hall test marker can be generated
 from `Tools > AngelBlade RPG > Battle > Add Caravan Tutorial Test Encounter`.
 Its nine added tests pass as part of the verified 283-test Edit Mode suite.
+
+The twelfth checkpoint replaces full-party command queuing in the live battle
+scene with independent speed-based action gauges and immediate action
+resolution. Wait Mode is the default and pauses all gauges while command or
+target menus are open. Optional Active Mode keeps enemy timing live during
+those menus. Defend lasts until the defender's next turn, tutorial stages now
+advance from individual actions, and temporary `AT` percentages expose timing
+in the existing UI. A short presentation pause now separates combatants that
+become ready together. Taunt is now a zero-cost active Reaver command that
+redirects enemies until the Reaver's next action; the tutorial protects the
+Hobgoblin until Damari demonstrates it. Play Mode verification passed. The
+updated expected suite is 304 tests and remains pending. Full rules are in
+`Docs/BATTLE_TIMING_SYSTEM.md`.
 
 There was previously a stale generated `.csproj` reference to the missing file `Assets/Editor/HubForceResolve.cs`. Unity itself successfully compiled the gameplay scripts. Generated Unity project files should remain ignored and can be regenerated rather than manually maintained.
 

@@ -25,16 +25,18 @@ public class BattleSceneController : MonoBehaviour
     [SerializeField] private GameObject nextTargetButton;
     [SerializeField] private GameObject continueButton;
 
+    [Header("Action Pacing")]
+    [SerializeField, Min(0f)] private float actionPresentationSeconds = 0.65f;
+
     private GameSession session;
-    private BattleRoundResolver legacyRoundResolver;
-    private PartyBattleRoundResolver partyRoundResolver;
+    private ActionGaugeBattle actionGauges;
+    private PartyBattleActionResolver actionResolver;
     private PartyCommandSelection commandSelection;
+    private float actionPresentationRemaining;
 
     private void Start()
     {
         session = GameSessionStore.Current;
-        legacyRoundResolver = new BattleRoundResolver();
-        partyRoundResolver = session.CreatePartyRoundResolver();
 
         if (!session.HasActiveBattle || session.PartyBattle == null)
         {
@@ -42,9 +44,70 @@ public class BattleSceneController : MonoBehaviour
             return;
         }
 
+        actionGauges = session.CreateActionGaugeBattle();
+        actionResolver = session.CreatePartyActionResolver();
         ArrangeFormationPlaceholders();
         battleLogText.text = BuildEncounterOpening(session.PartyBattle.Enemies);
-        BeginCommandSelection();
+        SetCommandState(false);
+        RefreshStatus();
+    }
+
+    private void Update()
+    {
+        if (session == null || !session.HasActiveBattle ||
+            actionGauges == null || actionResolver == null)
+        {
+            return;
+        }
+
+        if (actionPresentationRemaining > 0f)
+        {
+            actionPresentationRemaining = Mathf.Max(
+                0f,
+                actionPresentationRemaining - Time.deltaTime);
+            RefreshStatus();
+            return;
+        }
+
+        bool menuIsOpen = commandSelection != null &&
+            !commandSelection.IsComplete;
+        actionGauges.Tick(Time.deltaTime, menuIsOpen);
+
+        if (menuIsOpen)
+        {
+            ICombatant currentActor = commandSelection.CurrentActor;
+            if (currentActor == null || currentActor.Stats.CurrentHp <= 0)
+            {
+                commandSelection = null;
+                SetCommandState(false);
+            }
+            else if (actionGauges.TimingMode == BattleTimingMode.Active)
+            {
+                ICombatant readyEnemy = actionGauges.GetNextReadyEnemy();
+                if (readyEnemy != null)
+                {
+                    ResolveEnemyAction(readyEnemy);
+                }
+            }
+
+            RefreshStatus();
+            return;
+        }
+
+        ICombatant readyActor = actionGauges.GetNextReadyCombatant();
+        if (readyActor == null)
+        {
+            RefreshStatus();
+            return;
+        }
+
+        if (IsInGroup(session.PartyBattle.PartyMembers, readyActor))
+        {
+            BeginCommandSelection(readyActor);
+            return;
+        }
+
+        ResolveEnemyAction(readyActor);
     }
 
     public void Attack()
@@ -60,7 +123,7 @@ public class BattleSceneController : MonoBehaviour
             return;
         }
 
-        AdvanceOrResolveRound();
+        ResolveSelectedCommand();
     }
 
     public void Defend()
@@ -76,7 +139,7 @@ public class BattleSceneController : MonoBehaviour
             return;
         }
 
-        AdvanceOrResolveRound();
+        ResolveSelectedCommand();
     }
 
     public void Ability()
@@ -98,7 +161,7 @@ public class BattleSceneController : MonoBehaviour
 
         if (commandSelection.TryQueuePendingAbility())
         {
-            AdvanceOrResolveRound();
+            ResolveSelectedCommand();
         }
     }
 
@@ -130,18 +193,21 @@ public class BattleSceneController : MonoBehaviour
             return;
         }
 
-        BattleRoundResult round = legacyRoundResolver.ResolveEscapeRound(
-            session.Player,
-            session.Monster);
-        battleLogText.text = string.Join("\n", round.Messages);
+        ICombatant actor = commandSelection.CurrentActor;
+        CombatActionResult result = actionResolver.ResolveEscape(
+            session.PartyBattle,
+            actor);
+        actionGauges.ConsumeTurn(actor.CombatantId);
+        commandSelection = null;
+        battleLogText.text = result.Message;
 
-        if (round.EscapeSucceeded && session.CompleteEscape())
+        if (result.Succeeded && session.CompleteEscape())
         {
             FinishBattle("Return");
         }
-        else if (round.PlayerWasDefeated)
+        else
         {
-            CompleteDefeat();
+            SetCommandState(false);
         }
 
         RefreshStatus();
@@ -193,6 +259,36 @@ public class BattleSceneController : MonoBehaviour
             string state = combatant.Stats.CurrentHp > 0
                 ? $"HP {combatant.Stats.CurrentHp}/{combatant.Stats.MaxHp} " +
                     $"MP {combatant.Stats.CurrentMp}/{combatant.Stats.MaxMp}"
+                : "INCAPACITATED";
+            lines.Add($"{marker} {combatant.DisplayName}  {state}");
+        }
+
+        return string.Join("\n", lines);
+    }
+
+    public static string FormatCombatantGroupWithGauges(
+        IReadOnlyList<ICombatant> combatants,
+        string actingId,
+        string targetId,
+        ActionGaugeBattle gauges)
+    {
+        if (gauges == null)
+        {
+            return FormatCombatantGroup(combatants, actingId, targetId);
+        }
+
+        List<string> lines = new List<string>();
+        foreach (ICombatant combatant in combatants)
+        {
+            bool isActor = combatant.CombatantId == actingId;
+            bool isTarget = combatant.CombatantId == targetId;
+            string marker = isActor && isTarget
+                ? ">*"
+                : isActor ? ">" : isTarget ? "*" : " ";
+            string state = combatant.Stats.CurrentHp > 0
+                ? $"HP {combatant.Stats.CurrentHp}/{combatant.Stats.MaxHp} " +
+                    $"MP {combatant.Stats.CurrentMp}/{combatant.Stats.MaxMp} " +
+                    $"AT {gauges.GetGaugePercent(combatant.CombatantId)}%"
                 : "INCAPACITATED";
             lines.Add($"{marker} {combatant.DisplayName}  {state}");
         }
@@ -364,14 +460,16 @@ public class BattleSceneController : MonoBehaviour
             target)
             ? target?.CombatantId
             : null;
-        playerStatusText.text = FormatCombatantGroup(
+        playerStatusText.text = FormatCombatantGroupWithGauges(
             session.PartyBattle.PartyMembers,
             actor?.CombatantId,
-            partyTargetId);
-        monsterStatusText.text = FormatCombatantGroup(
+            partyTargetId,
+            actionGauges);
+        monsterStatusText.text = FormatCombatantGroupWithGauges(
             session.PartyBattle.Enemies,
             null,
-            enemyTargetId);
+            enemyTargetId,
+            actionGauges);
 
         if (commandPromptText != null)
         {
@@ -390,56 +488,75 @@ public class BattleSceneController : MonoBehaviour
         RefreshAbilityButton();
     }
 
-    private void BeginCommandSelection()
+    private void BeginCommandSelection(ICombatant readyActor)
     {
-        commandSelection = new PartyCommandSelection(session.PartyBattle);
+        commandSelection = new PartyCommandSelection(
+            session.PartyBattle,
+            readyActor);
         SetCommandState(true);
         RefreshStatus();
     }
 
-    private void AdvanceOrResolveRound()
+    private void ResolveSelectedCommand()
     {
-        if (!commandSelection.IsComplete)
+        if (commandSelection == null || !commandSelection.IsComplete ||
+            commandSelection.Commands.Count != 1)
         {
-            RefreshStatus();
             return;
         }
 
-        PartyBattleRoundResult round = partyRoundResolver.ResolveRound(
+        PartyBattleCommand command = commandSelection.Commands[0];
+        CombatActionResult action = actionResolver.ResolveCommand(
             session.PartyBattle,
-            commandSelection.Commands);
-        string roundMessages = string.Join("\n", round.Messages);
+            command);
+        actionGauges.ConsumeTurn(command.ActorId);
+        commandSelection = null;
+        CompleteResolvedAction(action);
+    }
+
+    private void ResolveEnemyAction(ICombatant enemy)
+    {
+        CombatActionResult action = actionResolver.ResolveEnemyAction(
+            session.PartyBattle,
+            enemy);
+        actionGauges.ConsumeTurn(enemy.CombatantId);
+        CompleteResolvedAction(action);
+    }
+
+    private void CompleteResolvedAction(CombatActionResult action)
+    {
+        string actionMessages = action.Message;
         IReadOnlyList<string> tutorialMessages =
-            session.AdvanceTutorialAfterRound(round);
+            session.AdvanceTutorialAfterAction(action);
         if (tutorialMessages.Count > 0)
         {
-            roundMessages = string.IsNullOrEmpty(roundMessages)
-                ? string.Join("\n", tutorialMessages)
-                : roundMessages + "\n" + string.Join("\n", tutorialMessages);
+            actionMessages += "\n" + string.Join("\n", tutorialMessages);
+            actionGauges.ResetAll();
+            ArrangeFormationPlaceholders();
         }
 
-        battleLogText.text = roundMessages;
-
+        battleLogText.text = actionMessages;
         bool tutorialIsComplete = session.CaravanTutorial == null ||
             session.CaravanTutorial.Stage == CaravanTutorialStage.Completed;
         if (session.PartyBattle.AreEnemiesDefeated && tutorialIsComplete)
         {
-            CompleteVictory(roundMessages);
+            CompleteVictory(actionMessages);
             return;
         }
 
-        if (round.PartyWasDefeated)
+        if (session.PartyBattle.IsPartyDefeated)
         {
             CompleteDefeat();
             return;
         }
 
-        if (tutorialMessages.Count > 0)
-        {
-            ArrangeFormationPlaceholders();
-        }
+        actionPresentationRemaining = actionPresentationSeconds;
 
-        BeginCommandSelection();
+        bool keepCommandMenuOpen = commandSelection != null &&
+            !commandSelection.IsComplete &&
+            commandSelection.CurrentActor != null;
+        SetCommandState(keepCommandMenuOpen);
+        RefreshStatus();
     }
 
     private static string BuildEncounterOpening(

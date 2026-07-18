@@ -8,6 +8,7 @@ public sealed class PartyCommandSelection
         new List<PartyBattleCommand>();
     private int selectedTargetIndex;
     private CombatAbilityDefinition pendingAbility;
+    private readonly ICombatant fixedActor;
 
     public IReadOnlyList<PartyBattleCommand> Commands => commands.AsReadOnly();
     public bool HasQueuedCommands => commands.Count > 0;
@@ -22,6 +23,13 @@ public sealed class PartyCommandSelection
     {
         get
         {
+            if (fixedActor != null)
+            {
+                return commands.Count == 0 && fixedActor.Stats.CurrentHp > 0
+                    ? fixedActor
+                    : null;
+            }
+
             int livingIndex = 0;
             foreach (ICombatant partyMember in battle.PartyMembers)
             {
@@ -62,6 +70,23 @@ public sealed class PartyCommandSelection
     public PartyCommandSelection(PartyBattleState battle)
     {
         this.battle = battle ?? throw new ArgumentNullException(nameof(battle));
+    }
+
+    public PartyCommandSelection(
+        PartyBattleState battle,
+        ICombatant readyPartyMember)
+        : this(battle)
+    {
+        if (readyPartyMember == null ||
+            readyPartyMember.Stats.CurrentHp <= 0 ||
+            !Contains(battle.PartyMembers, readyPartyMember))
+        {
+            throw new ArgumentException(
+                "The ready actor must be a living party member.",
+                nameof(readyPartyMember));
+        }
+
+        fixedActor = readyPartyMember;
     }
 
     public CombatAbilityDefinition GetCurrentCoreAbility()
@@ -181,5 +206,20 @@ public sealed class PartyCommandSelection
     {
         int wrapped = index % count;
         return wrapped < 0 ? wrapped + count : wrapped;
+    }
+
+    private static bool Contains(
+        IReadOnlyList<ICombatant> combatants,
+        ICombatant candidate)
+    {
+        foreach (ICombatant combatant in combatants)
+        {
+            if (combatant == candidate)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

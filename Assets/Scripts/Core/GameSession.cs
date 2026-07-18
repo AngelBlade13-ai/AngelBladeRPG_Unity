@@ -14,6 +14,7 @@ public class GameSession
     public BattleEncounterDefinition Encounter { get; private set; }
     public BattleLayoutDefinition BattleLayout { get; private set; }
     public bool EscapeAllowed { get; private set; }
+    public BattleTimingMode BattleTimingMode { get; private set; }
     public CaravanTutorialBattle CaravanTutorial { get; private set; }
     public bool BattleIsOver { get; private set; }
     public BattleOutcome BattleOutcome { get; private set; }
@@ -31,6 +32,7 @@ public class GameSession
     public GameSession()
     {
         Party = new PartyRoster();
+        BattleTimingMode = BattleTimingMode.Wait;
         BattleIsOver = true;
         BattleOutcome = BattleOutcome.None;
     }
@@ -77,6 +79,11 @@ public class GameSession
             null,
             BattleLayoutCatalog.Get(BattleLayoutCatalog.StandardId),
             true);
+    }
+
+    public void SetBattleTimingMode(BattleTimingMode timingMode)
+    {
+        BattleTimingMode = timingMode;
     }
 
     public bool StartEncounter(BattleEncounterDefinition encounter)
@@ -247,6 +254,29 @@ public class GameSession
         return CaravanTutorial == null
             ? System.Array.Empty<string>()
             : CaravanTutorial.AdvanceAfterRound(round);
+    }
+
+    public ActionGaugeBattle CreateActionGaugeBattle()
+    {
+        return new ActionGaugeBattle(PartyBattle, BattleTimingMode);
+    }
+
+    public PartyBattleActionResolver CreatePartyActionResolver(
+        ICombatRandom combatRandom = null)
+    {
+        return new PartyBattleActionResolver(
+            combatRandom,
+            CaravanTutorial,
+            CaravanTutorial,
+            CaravanTutorial);
+    }
+
+    public IReadOnlyList<string> AdvanceTutorialAfterAction(
+        CombatActionResult action)
+    {
+        return CaravanTutorial == null
+            ? System.Array.Empty<string>()
+            : CaravanTutorial.AdvanceAfterAction(action);
     }
 
     internal PlayableCharacterData EnsureTutorialCompanion(
