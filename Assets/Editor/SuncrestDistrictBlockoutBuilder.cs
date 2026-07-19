@@ -768,9 +768,9 @@ public static class SuncrestDistrictBlockoutBuilder
 
     private static PathTiles LoadPathTiles()
     {
-        Tile[] verticalLeft = LoadVariants("WideDirtPathRight", 4);
+        Tile[] verticalLeft = LoadVariants("WideDirtPathRightEdge", 4);
         Tile[] middle = LoadVariants("WideDirtPathMiddle", 4);
-        Tile[] verticalRight = LoadVariants("WideDirtPathLeft", 4);
+        Tile[] verticalRight = LoadVariants("WideDirtPathLeftEdge", 4);
         var horizontalTop = new Tile[4];
         var horizontalBottom = new Tile[4];
 
@@ -946,13 +946,13 @@ public static class SuncrestDistrictBlockoutBuilder
                 $"{TileFolder}/Phase1_EnvTile_DirtV{variant}.asset",
                 missing);
             AddIfMissing<Tile>(
-                $"{TileFolder}/Phase1_EnvTile_WideDirtPathRightV{variant}.asset",
+                $"{TileFolder}/Phase1_EnvTile_WideDirtPathRightEdgeV{variant}.asset",
                 missing);
             AddIfMissing<Tile>(
                 $"{TileFolder}/Phase1_EnvTile_WideDirtPathMiddleV{variant}.asset",
                 missing);
             AddIfMissing<Tile>(
-                $"{TileFolder}/Phase1_EnvTile_WideDirtPathLeftV{variant}.asset",
+                $"{TileFolder}/Phase1_EnvTile_WideDirtPathLeftEdgeV{variant}.asset",
                 missing);
         }
 

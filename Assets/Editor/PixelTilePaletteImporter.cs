@@ -23,9 +23,9 @@ public static class PixelTilePaletteImporter
         "HardGrass",
         "Dirt",
         "DirtMiddle",
-        "WideDirtPathRight",
+        "WideDirtPathRightEdge",
         "WideDirtPathMiddle",
-        "WideDirtPathLeft",
+        "WideDirtPathLeftEdge",
         "ThinDirtPath",
         "DirtPathTopLeftCorner",
         "DirtPathTopRightCorner",
@@ -356,6 +356,44 @@ public static class PixelTilePaletteImporter
             EditorUtility.SetDirty(palette);
             PrefabUtility.SaveAsPrefabAsset(paletteRoot, PalettePath);
             return true;
+        }
+        finally
+        {
+            PrefabUtility.UnloadPrefabContents(paletteRoot);
+        }
+    }
+
+    internal static void ClearPhase1TilesFromPalette()
+    {
+        GameObject paletteRoot = PrefabUtility.LoadPrefabContents(PalettePath);
+        if (paletteRoot == null)
+        {
+            return;
+        }
+
+        try
+        {
+            Tilemap palette = paletteRoot.GetComponentInChildren<Tilemap>(true);
+            if (palette == null)
+            {
+                return;
+            }
+
+            foreach (Vector3Int position in palette.cellBounds.allPositionsWithin)
+            {
+                TileBase tile = palette.GetTile(position);
+                string path = AssetDatabase.GetAssetPath(tile);
+                if (path.StartsWith(
+                    Phase1TileFolder,
+                    StringComparison.OrdinalIgnoreCase))
+                {
+                    palette.SetTile(position, null);
+                }
+            }
+
+            palette.CompressBounds();
+            EditorUtility.SetDirty(palette);
+            PrefabUtility.SaveAsPrefabAsset(paletteRoot, PalettePath);
         }
         finally
         {

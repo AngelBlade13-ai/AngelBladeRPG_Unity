@@ -27,6 +27,7 @@ Add one row per asset or clearly defined asset pack.
 | Asset ID | Project path/use | Asset type | Creator/source | Ownership or license | Commercial use | Modification | Redistribution restrictions | Attribution | AI disclosure | Evidence archive path | Status | Reviewer/date |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `phase1_environment_tiles` | `Assets/Sprites/Environments/Phase1` | Environment tiles | Project art contributor | Contributor agreement pending | Pending clearance | Project modifications allowed pending signed terms | Do not redistribute source files outside project workflow | Public credit pending | None reported | Private contributor agreement archive | `Pending` | Project owner / 2026-07-18 |
+| `pc_01_iona_overworld_candidate_01` | `Assets/Sprites/Characters/Candidates/pc_01_Iona` | Overworld character candidate | Project art contributor | Contributor agreement pending | Pending clearance; internal evaluation only | Project modifications allowed pending signed terms | Do not redistribute source files outside project workflow | Public credit pending | None reported | Private contributor agreement archive | `Pending` | Project owner / 2026-07-19 |
 | `kenney_roguelike_rpg_placeholders` | `Assets/ThirdParty/Kenney/RoguelikeRPGPack` | Placeholder sprite sheet | Kenney Vleugels / Kenney.nl | CC0 1.0 | Yes | Yes | None under CC0 | Optional: Kenney or kenney.nl | None stated | Included `License.txt`; original download retained privately | `Cleared` | Codex license-file review / 2026-07-18 |
 | `knekko_rpg_house_low_res` | `Assets/ThirdParty/knekko/RPGHouseLowRes` | Placeholder building sprites | knekko / OpenGameArt | CC0 1.0 | Yes | Yes | None under CC0 | Optional: knekko; based on RPG house by Angel | None stated | Included `SOURCE.md`; original page/download retained privately | `Cleared` | Codex source-page review / 2026-07-18 |
 | `kenney_rpg_ui_expansion` | `Assets/ThirdParty/Kenney/RPGUIExpansion` | Placeholder RPG UI | Kenney Vleugels / Kenney.nl | CC0 1.0 | Yes | Yes | None under CC0 | Optional: Kenney or kenney.nl | None stated | Included `License.txt`; original download retained privately | `Cleared` | Codex license-file review / 2026-07-18 |
@@ -72,6 +73,10 @@ For every asset, confirm:
 5. Review the log before screenshots, trailers, external playtests, store review,
    demo release, and full release.
 6. Record replacements and retirement rather than deleting audit history.
+7. Treat complete deliveries in contributor-owned asset folders as
+   authoritative snapshots. Mirror-sync them so files omitted from the newest
+   delivery are retired instead of accumulating beside renamed replacements.
+   Never apply this deletion policy to shared or third-party asset folders.
 
 Friend-specific agreements remain `Pending` until role, scope, compensation,
 credit, and rights are signed. Informal permission is not release clearance.
