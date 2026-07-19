@@ -62,6 +62,11 @@ testing establishes a strong reason to allow camping from most safe locations.
 
 The item `item_camp_ration`, displayed as **Camp Ration**, pays for a full rest.
 
+Milestone 16 now implements these rest rules as scene-independent gameplay
+services. The free tutorial rest, completed-rest count, ration transaction, and
+full available-roster HP/MP recovery are covered by Edit Mode tests. Temporary
+condition clearing will join the same service when combat conditions are added.
+
 - The first tutorial full rest is free.
 - The party receives two Camp Rations in its Cherry Blossom departure supplies.
 - Each later full rest consumes one Camp Ration after confirmation.

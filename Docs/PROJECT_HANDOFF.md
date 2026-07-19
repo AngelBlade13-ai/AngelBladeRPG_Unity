@@ -96,6 +96,10 @@ Current local state:
   quantities, five equipment slots, weapon/job compatibility, equipment stat
   bonuses, and permanent-removal equipment destruction. Its 16 new Edit Mode
   tests bring the verified suite to 320 passing tests.
+- Milestone 16 batch two adds normal HP-item use, persistent free-tutorial-rest
+  state, ration-funded full recovery for available active and benched members,
+  atomic shop buying/selling, and paid town recovery. Its 20 new tests bring
+  the verified suite to 340 passing tests.
 - Character creation, walkable district exploration, world interactions, the
   separate battle-scene loop, persistent job/roster data, reusable monster
   definitions, and the completed combat core are available on the pushed

@@ -42,6 +42,14 @@ public enum WeaponCategory
     BondedTotemOrHorn
 }
 
+public enum ConsumableEffect
+{
+    None,
+    RestoreHp,
+    RemoveNegativeStatus,
+    FullRest
+}
+
 public sealed class EquipmentStatBonuses
 {
     public static EquipmentStatBonuses None { get; } =
@@ -109,6 +117,8 @@ public sealed class ItemDefinition
     public bool CanSell { get; }
     public bool CanDiscard { get; }
     public WeaponCategory WeaponCategory { get; }
+    public ConsumableEffect ConsumableEffect { get; }
+    public int ConsumablePotency { get; }
     public EquipmentStatBonuses StatBonuses { get; }
     public bool IsEquipment =>
         Kind == ItemKind.Weapon || Kind == ItemKind.Armor ||
@@ -127,7 +137,9 @@ public sealed class ItemDefinition
         bool canDiscard = true,
         WeaponCategory weaponCategory = WeaponCategory.None,
         IEnumerable<JobId> compatibleJobs = null,
-        EquipmentStatBonuses statBonuses = null)
+        EquipmentStatBonuses statBonuses = null,
+        ConsumableEffect consumableEffect = ConsumableEffect.None,
+        int consumablePotency = 0)
     {
         if (string.IsNullOrWhiteSpace(id))
         {
@@ -169,6 +181,24 @@ public sealed class ItemDefinition
                 "Only weapons can declare a weapon category.");
         }
 
+        if (kind != ItemKind.Consumable &&
+            consumableEffect != ConsumableEffect.None)
+        {
+            throw new ArgumentException(
+                "Only consumables can declare a consumable effect.");
+        }
+
+        if (consumableEffect == ConsumableEffect.RestoreHp &&
+            consumablePotency < 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(consumablePotency));
+        }
+
+        if (consumablePotency < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(consumablePotency));
+        }
+
         Id = id.Trim();
         DisplayName = displayName.Trim();
         Kind = kind;
@@ -180,6 +210,8 @@ public sealed class ItemDefinition
         CanDiscard = canDiscard && kind != ItemKind.KeyItem;
         WeaponCategory = weaponCategory;
         StatBonuses = statBonuses ?? EquipmentStatBonuses.None;
+        ConsumableEffect = consumableEffect;
+        ConsumablePotency = consumablePotency;
     }
 
     public bool CanEquipIn(EquipmentSlot slot)

@@ -60,8 +60,9 @@ district transitions, party/job assignment, structured battle outcomes,
 guarding, misses, critical hits, speed-based escape, rewards, speed-based
 turn order, and the speed-based action-gauge conversion.
 
-Milestone 16 batch one added 16 item, inventory, and equipment tests; the full
-320-test suite is verified green.
+Milestone 16 batch one added 16 item, inventory, and equipment tests; its
+320-test suite is verified green. Batch two adds 20 consumable, camp-rest,
+shop-transaction, and town-recovery tests, bringing the verified suite to 340.
 
 ## Release Strategy
 
@@ -405,7 +406,7 @@ combat rewards matter.
 
 - [x] Add stable item definitions for weapons, armor, accessories, and
   consumables.
-- [ ] Add `Camp Ration` and the confirmed full-rest consumption rules.
+- [x] Add `Camp Ration` and the confirmed full-rest consumption rules.
 - [x] Add inventory quantities and per-item stack limits; no global slot or
   weight capacity is retained in this checkpoint.
 - [x] Add equipment ownership, stat bonuses, and job/slot requirements.
@@ -414,7 +415,7 @@ combat rewards matter.
 - [ ] Add item use in and out of battle where appropriate.
 - [ ] Add one shop or service flow with buying and selling.
 - [ ] Add resting or healing in town.
-- [ ] Add tested party-rest rules shared by Suncrest Hollow and Ember Camp where
+- [x] Add tested party-rest rules shared by Suncrest Hollow and Ember Camp where
   appropriate.
 - [ ] Define demo loot tables, prices, and reward pacing.
 

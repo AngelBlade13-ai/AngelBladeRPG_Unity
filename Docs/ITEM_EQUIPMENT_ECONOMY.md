@@ -22,6 +22,21 @@ Batch one establishes the code-first economy foundation:
 Item use, rest rules, shops, comparisons, loot tables, and final balance remain
 later Milestone 16 batches.
 
+Batch two adds the headless service rules used by later UI:
+
+- Minor Potions restore one living target and are consumed only when healing
+  occurs. Camp Rations cannot be spent through ordinary item use.
+- The first confirmed tutorial rest is free exactly once. Later successful
+  rests consume one ration and fully restore every available active or benched
+  character; failed and cancelled attempts consume nothing.
+- Whisper Market and Ironforge have stable shop inventories. Buying and selling
+  update gold and inventory atomically, and protected equipment cannot be sold.
+- Paid town recovery restores the same available roster without charging a
+  cancelled, failed, or unnecessary attempt.
+
+Negative-condition removal remains dormant until the temporary-condition model
+exists; Field Remedy is defined but cannot be consumed prematurely.
+
 ## Currency And Pacing
 
 - Gold is the only currency used for shops and services.

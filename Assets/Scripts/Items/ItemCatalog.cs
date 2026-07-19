@@ -47,13 +47,17 @@ public static class ItemCatalog
 
         Add(catalog, new ItemDefinition(
             MinorPotionId, "Minor Potion", ItemKind.Consumable,
-            buyPrice: 30, sellPrice: 10));
+            buyPrice: 30, sellPrice: 10,
+            consumableEffect: ConsumableEffect.RestoreHp,
+            consumablePotency: 40));
         Add(catalog, new ItemDefinition(
             FieldRemedyId, "Field Remedy", ItemKind.Consumable,
-            buyPrice: 45, sellPrice: 15));
+            buyPrice: 45, sellPrice: 15,
+            consumableEffect: ConsumableEffect.RemoveNegativeStatus));
         Add(catalog, new ItemDefinition(
             CampRationId, "Camp Ration", ItemKind.Consumable,
-            buyPrice: 80, sellPrice: 25));
+            buyPrice: 80, sellPrice: 25,
+            consumableEffect: ConsumableEffect.FullRest));
 
         Add(catalog, Weapon(
             IronHeavyBladeId, "Iron Heavy Blade", WeaponCategory.HeavyBlade,
