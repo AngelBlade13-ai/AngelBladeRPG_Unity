@@ -25,6 +25,7 @@ public class PlayableCharacterData : ICombatant
     public string CombatantId => Id;
     public string DisplayName => Name;
     public CombatantStats Stats { get; }
+    public CharacterEquipment Equipment { get; }
     public JobId CurrentJob { get; private set; }
     public bool IsAvailable { get; private set; } = true;
     public bool IsIncapacitated => Stats.CurrentHp <= 0;
@@ -63,6 +64,7 @@ public class PlayableCharacterData : ICombatant
         Name = name.Trim();
         CurrentJob = startingJob;
         Stats = combatStats ?? CreateDefaultCombatStats();
+        Equipment = new CharacterEquipment();
         this.characterProgression =
             characterProgression ?? new CharacterProgression();
         this.applyJobModifiers = applyJobModifiers;
@@ -79,12 +81,57 @@ public class PlayableCharacterData : ICombatant
 
     public bool TryAssignJob(JobId jobId)
     {
-        if (!IsAvailable || !JobCatalog.Contains(jobId))
+        if (!IsAvailable || !JobCatalog.Contains(jobId) ||
+            !Equipment.WeaponIsCompatibleWith(jobId))
         {
             return false;
         }
 
         CurrentJob = jobId;
+        RecalculateEffectiveStats();
+        return true;
+    }
+
+    public bool TryAssignJob(JobId jobId, Inventory inventory)
+    {
+        if (!IsAvailable || !JobCatalog.Contains(jobId))
+        {
+            return false;
+        }
+
+        if (!Equipment.WeaponIsCompatibleWith(jobId) &&
+            !Equipment.TryUnequip(EquipmentSlot.Weapon, inventory))
+        {
+            return false;
+        }
+
+        CurrentJob = jobId;
+        RecalculateEffectiveStats();
+        return true;
+    }
+
+    public bool TryEquipItem(
+        EquipmentSlot slot,
+        string itemId,
+        Inventory inventory)
+    {
+        if (!IsAvailable ||
+            !Equipment.TryEquip(slot, itemId, CurrentJob, inventory))
+        {
+            return false;
+        }
+
+        RecalculateEffectiveStats();
+        return true;
+    }
+
+    public bool TryUnequipItem(EquipmentSlot slot, Inventory inventory)
+    {
+        if (!IsAvailable || !Equipment.TryUnequip(slot, inventory))
+        {
+            return false;
+        }
+
         RecalculateEffectiveStats();
         return true;
     }
@@ -179,6 +226,8 @@ public class PlayableCharacterData : ICombatant
 
     public void RemovePermanently()
     {
+        Equipment.DestroyAll();
+        RecalculateEffectiveStats();
         IsAvailable = false;
     }
 
@@ -190,31 +239,37 @@ public class PlayableCharacterData : ICombatant
         int missingMp = Stats.MaxMp - Stats.CurrentMp;
         bool wasIncapacitated = Stats.CurrentHp <= 0;
         PermanentStatBonuses permanent = GetPermanentStatBonuses();
+        EquipmentStatBonuses equipment = Equipment.GetTotalStatBonuses();
         JobStatModifiers job = applyJobModifiers
             ? JobCatalog.Get(CurrentJob).StatModifiers
             : JobStatModifiers.None;
         JobAffinity affinity = GetJobAffinity(CurrentJob);
 
-        Stats.MaxHp = baseStats.MaxHp + permanent.MaxHp +
+        Stats.MaxHp = baseStats.MaxHp + permanent.MaxHp + equipment.MaxHp +
             ScaleJobBonus(job.MaxHp, affinity);
-        Stats.MaxMp = baseStats.MaxMp + permanent.MaxMp +
+        Stats.MaxMp = baseStats.MaxMp + permanent.MaxMp + equipment.MaxMp +
             ScaleJobBonus(job.MaxMp, affinity);
-        Stats.Attack = baseStats.Attack + permanent.Attack +
+        Stats.Attack = baseStats.Attack + permanent.Attack + equipment.Attack +
             ScaleJobBonus(job.Attack, affinity);
         Stats.Defense = baseStats.Defense + permanent.Defense +
+            equipment.Defense +
             ScaleJobBonus(job.Defense, affinity);
-        Stats.Speed = baseStats.Speed + permanent.Speed +
+        Stats.Speed = baseStats.Speed + permanent.Speed + equipment.Speed +
             ScaleJobBonus(job.Speed, affinity);
         Stats.MagicPower = baseStats.MagicPower + permanent.MagicPower +
+            equipment.MagicPower +
             ScaleJobBonus(job.MagicPower, affinity);
         Stats.MagicDefense = baseStats.MagicDefense + permanent.MagicDefense +
+            equipment.MagicDefense +
             ScaleJobBonus(job.MagicDefense, affinity);
         Stats.Accuracy = baseStats.Accuracy + permanent.Accuracy +
+            equipment.Accuracy +
             ScaleJobBonus(job.Accuracy, affinity);
         Stats.Evasion = baseStats.Evasion + permanent.Evasion +
+            equipment.Evasion +
             ScaleJobBonus(job.Evasion, affinity);
         Stats.CriticalChance = baseStats.CriticalChance +
-            permanent.CriticalChance +
+            permanent.CriticalChance + equipment.CriticalChance +
             ScaleJobBonus(job.CriticalChance, affinity);
 
         Stats.CurrentHp = wasIncapacitated

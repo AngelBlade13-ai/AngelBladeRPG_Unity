@@ -48,17 +48,20 @@ must feel like the opening of the real game, not like a mechanics test room.
 | Separate battle-scene loop | Complete |
 | Job, character, and party data foundation | Complete |
 | Core combat expansion | Complete |
-| Vertical-slice demo | In progress (Milestone 16 next) |
+| Vertical-slice demo | In progress (Milestone 16) |
 | Full-game production | Future |
 | Steam release candidate | Future |
 
-Current branch: `feature/milestone-15-party-jobs`
+Current branch: `feature/milestone-16-items-equipment`
 
-Current verification baseline: 304 Edit Mode tests passed in Unity
+Current verification baseline: 320 Edit Mode tests passed in Unity
 `6000.5.3f1`, plus successful Play Mode checks for exploration, interactions,
 district transitions, party/job assignment, structured battle outcomes,
 guarding, misses, critical hits, speed-based escape, rewards, speed-based
 turn order, and the speed-based action-gauge conversion.
+
+Milestone 16 batch one added 16 item, inventory, and equipment tests; the full
+320-test suite is verified green.
 
 ## Release Strategy
 
@@ -400,12 +403,13 @@ Exit gate:
 Goal: complete the smallest progression economy that makes exploration and
 combat rewards matter.
 
-- [ ] Add stable item definitions for weapons, armor, accessories, and
+- [x] Add stable item definitions for weapons, armor, accessories, and
   consumables.
 - [ ] Add `Camp Ration` and the confirmed full-rest consumption rules.
-- [ ] Add inventory quantities and capacity rules, if capacity is retained.
-- [ ] Add equipment ownership, stat bonuses, requirements, and comparisons.
-- [ ] Implement equipped-item destruction for permanent roster removal exactly
+- [x] Add inventory quantities and per-item stack limits; no global slot or
+  weight capacity is retained in this checkpoint.
+- [x] Add equipment ownership, stat bonuses, and job/slot requirements.
+- [x] Implement equipped-item destruction for permanent roster removal exactly
   once without returning those items to shared inventory.
 - [ ] Add item use in and out of battle where appropriate.
 - [ ] Add one shop or service flow with buying and selling.

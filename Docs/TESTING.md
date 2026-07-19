@@ -12,9 +12,9 @@ The core gameplay tests are Unity Edit Mode tests. They exercise plain gameplay 
 
 The test assembly is `AngelBladeRPG.EditModeTests` under `Assets/Tests/EditMode`.
 
-Verified on July 17, 2026 with Unity `6000.5.3f1`: 274 passed, 0 failed.
+Verified on July 18, 2026 with Unity `6000.5.3f1`: 320 passed, 0 failed.
 
-The current suite includes 30 core gameplay tests, five pixel-world movement and camera tests, five temporary direction-indicator tests, four walkable-town foundation tests, seven interaction tests, eight door-transition tests, 19 battle-scene tests, 13 party-command selection tests, 11 core-ability tests, 63 job, affinity, progression, playable-character, party-roster, and party-management tests, 11 runtime-party targeting tests, 13 party-round resolver tests, 10 authored party-member tests, five speed-based turn-order tests, nine legacy speed-resolved battle-round tests, five bond and roster-history tests, nine shared combat-stat tests, 18 reusable monster-definition tests, 14 enemy encounter and layout tests, and 15 structured combat-action tests.
+The current suite includes 30 core gameplay tests, five pixel-world movement and camera tests, five temporary direction-indicator tests, four walkable-town foundation tests, seven interaction tests, eight door-transition tests, 19 battle-scene tests, 13 party-command selection tests, 11 core-ability tests, 63 job, affinity, progression, playable-character, party-roster, and party-management tests, 11 runtime-party targeting tests, 13 party-round resolver tests, 10 authored party-member tests, five speed-based turn-order tests, nine legacy speed-resolved battle-round tests, five bond and roster-history tests, nine shared combat-stat tests, 18 reusable monster-definition tests, 14 enemy encounter and layout tests, 15 structured combat-action tests, four item-catalog tests, four inventory tests, and eight character-equipment tests.
 
 ### Milestone 15 Job Progression Checkpoint
 
@@ -266,6 +266,17 @@ and then only a gamepad (d-pad/stick and the South face button):
    automatically selected on victory, defeat, and escape.
 4. Confirm the caravan tutorial can be completed end to end using only the
    keyboard, then only a gamepad.
+
+### Milestone 16 Item And Equipment Batch One
+
+This batch adds 16 Edit Mode cases, bringing the expected suite to 320 tests.
+The cases cover stable item IDs, all eight weapon categories, five equipment
+slots, inventory stack transactions, weapon/job compatibility, equipment stat
+recalculation, safe job-switch unequipping, and permanent-removal destruction.
+
+No Play Mode pass is required for this headless batch. Run the complete Edit
+Mode suite once; UI and scene checks begin when the inventory/equipment screens
+are introduced.
 
 ### Fastest Development Workflow
 

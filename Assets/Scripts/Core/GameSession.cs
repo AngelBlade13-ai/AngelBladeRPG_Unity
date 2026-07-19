@@ -9,6 +9,7 @@ public class GameSession
 
     public PlayerData Player { get; private set; }
     public PartyRoster Party { get; private set; }
+    public Inventory Inventory { get; private set; }
     public MonsterData Monster { get; private set; }
     public PartyBattleState PartyBattle { get; private set; }
     public BattleEncounterDefinition Encounter { get; private set; }
@@ -32,6 +33,7 @@ public class GameSession
     public GameSession()
     {
         Party = new PartyRoster();
+        Inventory = new Inventory();
         BattleTimingMode = BattleTimingMode.Wait;
         BattleIsOver = true;
         BattleOutcome = BattleOutcome.None;
@@ -46,6 +48,7 @@ public class GameSession
 
         Player = new PlayerData(playerName.Trim());
         Party = new PartyRoster();
+        Inventory = new Inventory();
         PlayableCharacterData protagonist = new PlayableCharacterData(
             PlayableCharacterData.ProtagonistId,
             Player.Name,

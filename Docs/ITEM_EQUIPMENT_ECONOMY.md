@@ -5,6 +5,23 @@ provide satisfying build variety without competing with story pacing or
 requiring grinding. Exact item statistics, prices, drop rates, quantities, and
 reward tuning remain Milestone 16 data.
 
+## Milestone 16 Implementation Checkpoint
+
+Batch one establishes the code-first economy foundation:
+
+- Fourteen stable demo definitions cover three consumables, all eight weapon
+  categories, armor, accessories, and necklaces.
+- `GameSession` owns the shared inventory and enforces per-item stack limits.
+- Every playable character owns five equipment slots and receives equipment
+  bonuses through the same derived-stat recalculation used by jobs.
+- Incompatible weapons return to shared inventory when a job switch is
+  confirmed through the inventory-aware assignment path.
+- Permanent roster removal clears equipped items without returning them to
+  shared inventory.
+
+Item use, rest rules, shops, comparisons, loot tables, and final balance remain
+later Milestone 16 batches.
+
 ## Currency And Pacing
 
 - Gold is the only currency used for shops and services.
