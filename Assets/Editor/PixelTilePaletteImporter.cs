@@ -22,14 +22,36 @@ public static class PixelTilePaletteImporter
         "SoftGrass",
         "HardGrass",
         "Dirt",
+        "DirtMiddle",
         "WideDirtPathRight",
         "WideDirtPathMiddle",
         "WideDirtPathLeft",
         "ThinDirtPath",
+        "DirtPathTopLeftCorner",
+        "DirtPathTopRightCorner",
+        "DirtPathBottomLeftCorner",
+        "DirtPathBottomRightCorner",
         "DirtPathCorner",
+        "Farmland",
+        "Cobblestone",
         "Wood",
+        "WoodPlank",
         "Stones",
         "BigStones",
+        "Pebble",
+        "SmallStone",
+        "SparseBlueFlower",
+        "SparsePinkFlower",
+        "SparsePurpleFlower",
+        "SparseRedFlower",
+        "SparseWhiteFlower",
+        "SparseYellowFlower",
+        "DenseBlueFlower",
+        "DensePinkFlower",
+        "DensePurpleFlower",
+        "DenseRedFlower",
+        "DenseWhiteFlower",
+        "DenseYellowFlower",
         "CornFlower",
         "Dandelion",
         "PinkFlower",
@@ -403,7 +425,7 @@ public static class PixelTilePaletteImporter
         }
     }
 
-    private static bool AddTileToPalette(Tile tile)
+    internal static bool AddTileToPalette(Tile tile)
     {
         GameObject paletteRoot = PrefabUtility.LoadPrefabContents(PalettePath);
         if (paletteRoot == null)
