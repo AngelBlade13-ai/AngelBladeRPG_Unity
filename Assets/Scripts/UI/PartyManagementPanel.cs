@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class PartyManagementPanel : MonoBehaviour
@@ -53,6 +52,14 @@ public class PartyManagementPanel : MonoBehaviour
         RestorePlayerControl();
     }
 
+    private void Update()
+    {
+        if (IsOpen)
+        {
+            EnsureValidSelection();
+        }
+    }
+
     public void Open(GameObject interactor)
     {
         GameSession session = GameSessionStore.Current;
@@ -75,11 +82,7 @@ public class PartyManagementPanel : MonoBehaviour
         panel.SetActive(true);
         Refresh();
 
-        if (EventSystem.current != null && nextJobButton != null)
-        {
-            EventSystem.current.SetSelectedGameObject(
-                nextJobButton.gameObject);
-        }
+        UIFocusHelper.Select(nextJobButton);
     }
 
     public void Close()
@@ -89,6 +92,7 @@ public class PartyManagementPanel : MonoBehaviour
             panel.SetActive(false);
         }
 
+        UIFocusHelper.Clear();
         RestorePlayerControl();
     }
 
@@ -311,6 +315,27 @@ public class PartyManagementPanel : MonoBehaviour
         previousJobButton.interactable = jobs.Length > 1;
         nextJobButton.interactable = jobs.Length > 1;
         applyJobButton.interactable = character.CurrentJob != previewJob.Id;
+
+        EnsureValidSelection();
+    }
+
+    private void EnsureValidSelection()
+    {
+        if (!UIFocusHelper.CurrentSelectionIsUsable())
+        {
+            UIFocusHelper.SelectFirstAvailable(
+                previousCharacterButton,
+                nextCharacterButton,
+                partyButton,
+                moveUpButton,
+                moveDownButton,
+                previousJobButton,
+                nextJobButton,
+                applyJobButton,
+                closeButton);
+        }
+
+        UIFocusHelper.RefreshSelectionMarker();
     }
 
     private int GetActiveIndex(string characterId)

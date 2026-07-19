@@ -201,6 +201,16 @@ public static class GuildHallPartyServiceBuilder
             6f,
             TextAlignmentOptions.Center);
 
+        LinkNavigation(closeButton.gameObject, null, previousCharacter.gameObject, null, null);
+        LinkNavigation(previousCharacter.gameObject, closeButton.gameObject, moveUp.gameObject, null, nextCharacter.gameObject);
+        LinkNavigation(nextCharacter.gameObject, closeButton.gameObject, moveDown.gameObject, previousCharacter.gameObject, previousJob.gameObject);
+        LinkNavigation(moveUp.gameObject, previousCharacter.gameObject, partyButton.gameObject, null, moveDown.gameObject);
+        LinkNavigation(moveDown.gameObject, nextCharacter.gameObject, partyButton.gameObject, moveUp.gameObject, applyJob.gameObject);
+        LinkNavigation(partyButton.gameObject, moveUp.gameObject, null, null, applyJob.gameObject);
+        LinkNavigation(previousJob.gameObject, nextCharacter.gameObject, applyJob.gameObject, null, nextJob.gameObject);
+        LinkNavigation(nextJob.gameObject, closeButton.gameObject, applyJob.gameObject, previousJob.gameObject, null);
+        LinkNavigation(applyJob.gameObject, nextJob.gameObject, null, partyButton.gameObject, null);
+
         controller.Configure(
             panel,
             characterText,
@@ -321,6 +331,27 @@ public static class GuildHallPartyServiceBuilder
             anchoredPosition,
             size);
         return textComponent;
+    }
+
+    private static void LinkNavigation(
+        GameObject target,
+        GameObject up,
+        GameObject down,
+        GameObject left,
+        GameObject right)
+    {
+        if (target == null || !target.TryGetComponent(out Selectable selectable))
+        {
+            return;
+        }
+
+        Navigation navigation = selectable.navigation;
+        navigation.mode = Navigation.Mode.Explicit;
+        navigation.selectOnUp = up == null ? null : up.GetComponent<Selectable>();
+        navigation.selectOnDown = down == null ? null : down.GetComponent<Selectable>();
+        navigation.selectOnLeft = left == null ? null : left.GetComponent<Selectable>();
+        navigation.selectOnRight = right == null ? null : right.GetComponent<Selectable>();
+        selectable.navigation = navigation;
     }
 
     private static Button CreateButton(

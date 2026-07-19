@@ -88,12 +88,9 @@ Current local state:
 
 - Active branch: `feature/milestone-15-party-jobs`
 - The feature branch tracks `origin/feature/milestone-15-party-jobs`.
-- Milestone 15 is in progress through the verified caravan tutorial
-  checkpoint. The speed-based action-gauge conversion passed its initial
-  301-test Edit Mode suite. Simultaneous-enemy presentation and active-Taunt
-  fixes passed Play Mode verification and now await the updated 304-test pass.
-  Keyboard and controller command navigation remain the milestone's final
-  verification gate.
+- Milestone 15 is complete through the verified keyboard/gamepad navigation
+  checkpoint, including simultaneous-enemy presentation, active-Taunt fixes,
+  and the 304-test Edit Mode suite.
 - Character creation, walkable district exploration, world interactions, the
   separate battle-scene loop, persistent job/roster data, reusable monster
   definitions, and the completed combat core are available on the pushed
@@ -494,9 +491,21 @@ advance from individual actions, and temporary `AT` percentages expose timing
 in the existing UI. A short presentation pause now separates combatants that
 become ready together. Taunt is now a zero-cost active Reaver command that
 redirects enemies until the Reaver's next action; the tutorial protects the
-Hobgoblin until Damari demonstrates it. Play Mode verification passed. The
-updated expected suite is 304 tests and remains pending. Full rules are in
+Hobgoblin until Damari demonstrates it. The updated 304-test Edit Mode suite
+and Play Mode verification both passed. Full rules are in
 `Docs/BATTLE_TIMING_SYSTEM.md`.
+
+The thirteenth checkpoint adds keyboard and gamepad UI navigation. A shared
+`UIFocusHelper` seeds and repairs the EventSystem's selected object whenever
+buttons are shown, hidden, or become non-interactable, since Unity does not do
+this automatically; `GameManager`, `BattleSceneController`, and
+`PartyManagementPanel` all use it. `BattlePrototypeBuilder` and
+`GuildHallPartyServiceBuilder` now wire explicit `Navigation` graphs onto
+their generated buttons instead of relying on Unity's automatic best-guess
+navigation, which was unreliable for the compact battle command bar and the
+two-column Guild Hall layout. The generated scene navigation, title selection,
+304-test Edit Mode suite, and manual keyboard/gamepad Play Mode pass are saved
+and verified.
 
 There was previously a stale generated `.csproj` reference to the missing file `Assets/Editor/HubForceResolve.cs`. Unity itself successfully compiled the gameplay scripts. Generated Unity project files should remain ignored and can be regenerated rather than manually maintained.
 
@@ -716,7 +725,7 @@ For learning and automation, introduce a new Unity concept manually the first ti
 5. Open the project using Unity `6000.5.3f1`.
 6. Open `Assets/Scenes/MainGameScene.unity`.
 7. Run the Edit Mode suite using `Docs/TESTING.md`.
-8. Confirm all 283 tests pass while the caravan tutorial checkpoint is active.
+8. Confirm all 304 tests pass while the action-gauge checkpoint is active.
 9. Run the character-creation Play Mode checklist if the Unity version or scene changes.
 10. Review the completed Unity Editor checklist in `Docs/PIXEL_WORLD_SETUP.md` when changing the exploration foundation.
-
+11. Re-run the keyboard/gamepad checklist in `Docs/TESTING.md` after changing generated menu layouts or their navigation graphs.

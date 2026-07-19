@@ -20,6 +20,10 @@ public class GameManager : MonoBehaviour
     public TMP_InputField playerNameInput;
     public TextMeshProUGUI characterCreationErrorText;
 
+    [Header("Focus (Keyboard/Controller Navigation)")]
+    [Tooltip("Selected automatically when the title panel opens.")]
+    public GameObject titleFirstSelected;
+
     private GameSession gameSession;
 
     private void Start()
@@ -58,6 +62,8 @@ public class GameManager : MonoBehaviour
     {
         titlePanel.SetActive(true);
         characterCreationPanel.SetActive(false);
+
+        UIFocusHelper.Select(titleFirstSelected);
     }
 
     private void ShowCharacterCreationPanel()

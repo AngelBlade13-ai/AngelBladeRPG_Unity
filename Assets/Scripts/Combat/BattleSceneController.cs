@@ -396,6 +396,7 @@ public class BattleSceneController : MonoBehaviour
         SetCommandState(false);
         continueButton.SetActive(true);
         continueButtonText.text = "Return to Title";
+        UIFocusHelper.Select(continueButton);
     }
 
     private void FinishBattle(string continueLabel)
@@ -403,6 +404,7 @@ public class BattleSceneController : MonoBehaviour
         SetCommandState(false);
         continueButton.SetActive(true);
         continueButtonText.text = continueLabel;
+        UIFocusHelper.Select(continueButton);
     }
 
     private void SetCommandState(bool commandsAreActive)
@@ -431,6 +433,14 @@ public class BattleSceneController : MonoBehaviour
         }
 
         continueButton.SetActive(false);
+
+        if (commandsAreActive)
+        {
+            UIFocusHelper.SelectFirstAvailable(
+                attackButton,
+                abilityButton,
+                defendButton);
+        }
     }
 
     private void CompleteDefeat()
@@ -486,6 +496,19 @@ public class BattleSceneController : MonoBehaviour
         SetTargetButtonInteractable(previousTargetButton, targetCount > 1);
         SetTargetButtonInteractable(nextTargetButton, targetCount > 1);
         RefreshAbilityButton();
+
+        if (attackButton.activeInHierarchy &&
+            !UIFocusHelper.CurrentSelectionIsUsable())
+        {
+            UIFocusHelper.SelectFirstAvailable(
+                attackButton,
+                abilityButton,
+                defendButton,
+                previousTargetButton,
+                nextTargetButton);
+        }
+
+        UIFocusHelper.RefreshSelectionMarker();
     }
 
     private void BeginCommandSelection(ICombatant readyActor)

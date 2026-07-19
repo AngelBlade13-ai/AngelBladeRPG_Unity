@@ -1002,6 +1002,7 @@ MonoBehaviour:
   characterCreationPanel: {fileID: 1603960151}
   playerNameInput: {fileID: 1889018678}
   characterCreationErrorText: {fileID: 995036046}
+  titleFirstSelected: {fileID: 2086323045}
 --- !u!4 &820646355
 Transform:
   m_ObjectHideFlags: 0

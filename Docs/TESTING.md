@@ -232,6 +232,41 @@ For the Play Mode smoke test, launch any battle and confirm:
 7. After Damari joins, the Hobgoblin remains at a minimum of `1 HP` until
    Damari actively uses Taunt; subsequent Hobgoblin attacks target Damari.
 
+### Milestone 15 Keyboard/Gamepad Navigation Checkpoint
+
+This checkpoint adds keyboard and gamepad UI navigation across the title
+screen, character creation, the Guild Hall party/job panel, and the battle
+command/ability/target menus. It is EventSystem-dependent UI glue rather than
+plain gameplay logic, so it adds no new Edit Mode tests and the suite stays at
+304 tests.
+
+Required before the Play Mode pass below:
+
+1. In `MainGameScene`, assign `GameManager.titleFirstSelected` to the title
+   screen's New Game button and save the scene.
+2. Run `Tools > AngelBlade RPG > World > Build Guild Hall Party Service` to
+   bake the new Guild Hall navigation graph into `SuncrestGuildHallScene`.
+3. Run `Tools > AngelBlade RPG > Build Placeholder Battle Scene` to bake the
+   new battle command-bar navigation graph into `BattleScene`.
+
+Manual Play Mode checklist, using only a keyboard (arrow keys and Enter)
+and then only a gamepad (d-pad/stick and the South face button):
+
+1. From the title screen, confirm New Game is already highlighted without
+   touching the mouse, and that Confirm/Back on the character creation panel
+   are reachable.
+2. In the Guild Hall panel, confirm every control (character cycle, formation
+   move, party toggle, job cycle, apply job, close) is reachable and that
+   toggling a control that becomes disabled (for example Move Up at the top
+   of formation) moves the highlight to a valid control instead of leaving
+   nothing selected.
+3. In battle, confirm Attack/Ability/Defend/Escape are reachable each time a
+   new party member's turn begins, that entering and leaving Ability
+   targeting keeps a valid selection, and that the Continue button is
+   automatically selected on victory, defeat, and escape.
+4. Confirm the caravan tutorial can be completed end to end using only the
+   keyboard, then only a gamepad.
+
 ### Fastest Development Workflow
 
 Keep the Unity Editor open and use the Test Runner while actively developing. The current Edit Mode suite itself completes in well under one second; most command-line test time comes from launching and initializing a new Unity Editor process.

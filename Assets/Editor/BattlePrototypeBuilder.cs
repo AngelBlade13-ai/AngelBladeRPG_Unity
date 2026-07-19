@@ -49,18 +49,34 @@ public static class BattlePrototypeBuilder
     [MenuItem("Tools/AngelBlade RPG/Build Placeholder Battle Scene")]
     public static void BuildPlaceholderBattleScene()
     {
+        if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
+        {
+            return;
+        }
+
+        // BattleScene already exists in every normal workflow now (TownScene
+        // is only kept as a regression-test reference, not the live starting
+        // scene). Repairing it needs no TownScene-specific setup and should
+        // not require TownScene to be open.
+        if (AssetDatabase.LoadAssetAtPath<SceneAsset>(BattleScenePath) != null)
+        {
+            Scene activeScene = EditorSceneManager.GetActiveScene();
+            RepairBattleInterface(activeScene);
+            AddSceneToBuildList(BattleScenePath);
+            EditorUtility.DisplayDialog(
+                "Placeholder Battle Scene",
+                "BattleScene already exists. Encounters, return spawn, combat commands, and keyboard/gamepad navigation were repaired without overwriting the scene.",
+                "OK");
+            return;
+        }
+
         Scene townScene = EditorSceneManager.GetActiveScene();
         if (townScene.path != TownScenePath)
         {
             EditorUtility.DisplayDialog(
                 "Placeholder Battle Scene",
-                "Open TownScene before building the battle prototype.",
+                "Open TownScene before building the battle prototype for the first time.",
                 "OK");
-            return;
-        }
-
-        if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
-        {
             return;
         }
 
@@ -68,17 +84,6 @@ public static class BattlePrototypeBuilder
         EditorSceneManager.MarkSceneDirty(townScene);
         EditorSceneManager.SaveScene(townScene);
         RemoveLegacyPanels(townScene);
-
-        if (AssetDatabase.LoadAssetAtPath<SceneAsset>(BattleScenePath) != null)
-        {
-            RepairBattleInterface(townScene);
-            AddSceneToBuildList(BattleScenePath);
-            EditorUtility.DisplayDialog(
-                "Placeholder Battle Scene",
-                "BattleScene already exists. Encounters, return spawn, and combat commands were repaired without overwriting the scene.",
-                "OK");
-            return;
-        }
 
         GameObject sourceEventSystem = GameObject.Find("EventSystem");
         Scene battleScene = EditorSceneManager.NewScene(
@@ -492,6 +497,13 @@ public static class BattlePrototypeBuilder
             new Vector2(-14f, 12f),
             new Vector2(24f, 18f));
 
+        LinkNavigation(attackButton, null, previousTargetButton, null, abilityButton);
+        LinkNavigation(abilityButton, null, nextTargetButton, attackButton, defendButton);
+        LinkNavigation(defendButton, null, nextTargetButton, abilityButton, escapeButton);
+        LinkNavigation(escapeButton, null, nextTargetButton, defendButton, null);
+        LinkNavigation(previousTargetButton, attackButton, null, null, nextTargetButton);
+        LinkNavigation(nextTargetButton, abilityButton, null, previousTargetButton, null);
+
         UnityEventTools.AddPersistentListener(
             attackButton.GetComponent<Button>().onClick,
             controller.Attack);
@@ -530,11 +542,15 @@ public static class BattlePrototypeBuilder
             continueButton);
     }
 
-    private static void RepairBattleInterface(Scene townScene)
+    private static void RepairBattleInterface(Scene previouslyActiveScene)
     {
-        Scene battleScene = EditorSceneManager.OpenScene(
-            BattleScenePath,
-            OpenSceneMode.Additive);
+        bool battleSceneAlreadyActive =
+            previouslyActiveScene.path == BattleScenePath;
+        Scene battleScene = battleSceneAlreadyActive
+            ? previouslyActiveScene
+            : EditorSceneManager.OpenScene(
+                BattleScenePath,
+                OpenSceneMode.Additive);
         EditorSceneManager.SetActiveScene(battleScene);
 
         BattleSceneController controller =
@@ -725,6 +741,13 @@ public static class BattlePrototypeBuilder
                 controller.NextTarget);
         }
 
+        LinkNavigation(attackButton, null, previousTargetButton, null, abilityButton);
+        LinkNavigation(abilityButton, null, nextTargetButton, attackButton, defendButton);
+        LinkNavigation(defendButton, null, nextTargetButton, abilityButton, escapeButton);
+        LinkNavigation(escapeButton, null, nextTargetButton, defendButton, null);
+        LinkNavigation(previousTargetButton, attackButton, null, null, nextTargetButton);
+        LinkNavigation(nextTargetButton, abilityButton, null, previousTargetButton, null);
+
         controller.Configure(
             playerStatus,
             monsterStatus,
@@ -741,8 +764,11 @@ public static class BattlePrototypeBuilder
 
         EditorSceneManager.MarkSceneDirty(battleScene);
         EditorSceneManager.SaveScene(battleScene);
-        EditorSceneManager.SetActiveScene(townScene);
-        EditorSceneManager.CloseScene(battleScene, true);
+        if (!battleSceneAlreadyActive)
+        {
+            EditorSceneManager.SetActiveScene(previouslyActiveScene);
+            EditorSceneManager.CloseScene(battleScene, true);
+        }
     }
 
     private static Transform FindSceneObject(Scene scene, string objectName)
@@ -855,6 +881,27 @@ public static class BattlePrototypeBuilder
         buttonText.color = new Color(0.08f, 0.09f, 0.1f, 1f);
         buttonText.richText = false;
         return buttonObject;
+    }
+
+    private static void LinkNavigation(
+        GameObject target,
+        GameObject up,
+        GameObject down,
+        GameObject left,
+        GameObject right)
+    {
+        if (target == null || !target.TryGetComponent(out Selectable selectable))
+        {
+            return;
+        }
+
+        Navigation navigation = selectable.navigation;
+        navigation.mode = Navigation.Mode.Explicit;
+        navigation.selectOnUp = up == null ? null : up.GetComponent<Selectable>();
+        navigation.selectOnDown = down == null ? null : down.GetComponent<Selectable>();
+        navigation.selectOnLeft = left == null ? null : left.GetComponent<Selectable>();
+        navigation.selectOnRight = right == null ? null : right.GetComponent<Selectable>();
+        selectable.navigation = navigation;
     }
 
     private static void SetRect(

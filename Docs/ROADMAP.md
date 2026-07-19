@@ -48,17 +48,17 @@ must feel like the opening of the real game, not like a mechanics test room.
 | Separate battle-scene loop | Complete |
 | Job, character, and party data foundation | Complete |
 | Core combat expansion | Complete |
-| Vertical-slice demo | In progress (Milestone 15) |
+| Vertical-slice demo | In progress (Milestone 16 next) |
 | Full-game production | Future |
 | Steam release candidate | Future |
 
 Current branch: `feature/milestone-15-party-jobs`
 
-Current verification baseline: 274 Edit Mode tests passed in Unity
+Current verification baseline: 304 Edit Mode tests passed in Unity
 `6000.5.3f1`, plus successful Play Mode checks for exploration, interactions,
 district transitions, party/job assignment, structured battle outcomes,
-guarding, misses, critical hits, speed-based escape, rewards, and speed-based
-turn order.
+guarding, misses, critical hits, speed-based escape, rewards, speed-based
+turn order, and the speed-based action-gauge conversion.
 
 ## Release Strategy
 
@@ -291,7 +291,7 @@ Full-game lore that does not affect the demo remains deferred.
 
 Goal: make the job and party systems visible and meaningful during play.
 
-Status: In progress
+Status: Complete
 
 Current implementation checkpoint:
 
@@ -364,8 +364,15 @@ Current implementation checkpoint:
   the simultaneous-enemy presentation fix.
 - The action-gauge checkpoint now spaces consecutive ready actions for visible
   feedback. Taunt is now an active Reaver ability and must be demonstrated by
-  Damari during the tutorial. The Play Mode pass is complete; the checkpoint
-  awaits its updated 304-test pass.
+  Damari during the tutorial. The updated 304-test Edit Mode suite and the
+  Play Mode pass are both complete.
+- The keyboard/gamepad navigation checkpoint is complete. A shared
+  `UIFocusHelper` keeps the EventSystem's selection valid across the title
+  screen, character creation, the Guild Hall party/job panel, and battle's
+  command/ability/target menus, and the Guild Hall and battle-scene builders
+  now wire explicit navigation graphs instead of relying on Unity's automatic
+  guess. The generated scenes, title selection, and manual Play Mode pass are
+  verified.
 
 - [x] Create runtime combatants for multiple active party members.
 - [x] Add party targeting for allies and enemies.
@@ -380,7 +387,7 @@ Current implementation checkpoint:
 - [x] Add enemy groups and battle layouts needed by the demo.
 - [x] Support the tutorial encounter's waves, safe damage checkpoints, disabled
   escape, reinforcements, enemy threat control, and one-time completion.
-- [ ] Verify keyboard and controller command navigation.
+- [x] Verify keyboard and controller command navigation.
 
 Exit gate:
 
