@@ -48,13 +48,13 @@ must feel like the opening of the real game, not like a mechanics test room.
 | Separate battle-scene loop | Complete |
 | Job, character, and party data foundation | Complete |
 | Core combat expansion | Complete |
-| Vertical-slice demo | In progress (Milestone 16) |
+| Vertical-slice demo | In progress (Milestone 17) |
 | Full-game production | Future |
 | Steam release candidate | Future |
 
-Current branch: `feature/milestone-16-items-equipment`
+Current branch: `feature/milestone-17-save-settings-build`
 
-Current verification baseline: 365 Edit Mode tests passed in Unity
+Current verification baseline: 380 Edit Mode tests passed in Unity
 `6000.5.3f1`, plus successful Play Mode checks for exploration, interactions,
 district transitions, party/job assignment, structured battle outcomes,
 guarding, misses, critical hits, speed-based escape, rewards, speed-based
@@ -73,6 +73,10 @@ pausing. Its 12 new tests bring the verified suite to 365, and its battle-item
 Play Mode checks pass. Batch six defines provisional demo prices, exact-once
 authored rewards, optional monster loot tables, and a no-grind economy proof.
 Its 15 new tests bring the verified suite to 380.
+
+Milestone 17 batch one adds a versioned, scene-independent save contract and
+guarded JSON serialization. Its 10 new tests bring the expected suite to 390
+and are verified green in Unity.
 
 ## Release Strategy
 
@@ -439,7 +443,7 @@ Exit gate:
 
 Goal: remove platform and persistence risks before producing most demo content.
 
-- [ ] Add versioned save models independent from scene objects.
+- [x] Add versioned save models independent from scene objects.
 - [ ] Save player, party, jobs, inventory, equipment, quests, world state, and
   explicit spawn location.
 - [ ] Save camp state, consumed camp-event IDs, and exact camp return context.

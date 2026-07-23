@@ -438,6 +438,26 @@ batch. Let Unity compile, then run all Edit Mode tests. The expected result is
 
 Verified on July 23, 2026: all 380 Edit Mode tests passed.
 
+### Milestone 17 Versioned Save Contract Batch One
+
+This batch adds 10 Edit Mode cases, bringing the expected suite to 390 tests.
+It covers initialized version-one save sections, a populated JSON round trip,
+required-section validation, unsupported schema rejection, empty and malformed
+input handling, and the rule that save records cannot reference Unity scene
+objects.
+
+The save contract includes player identity, appearance selection, gold, party
+members, active formation, character progression and stats, jobs, affinities,
+learned nodes, equipment, roster history, inventory, quest state, world flags,
+completed encounters, claimed rewards, camp state, consumed camp events, and
+explicit scene/spawn locations. This batch does not write files or load a
+runtime `GameSession` yet.
+
+No Editor command or Play Mode pass is required. Let Unity compile, then run
+all Edit Mode tests. The expected result is 390 passed and 0 failed.
+
+Verified on July 23, 2026: all 390 Edit Mode tests passed.
+
 ### Fastest Development Workflow
 
 Keep the Unity Editor open and use the Test Runner while actively developing. The current Edit Mode suite itself completes in well under one second; most command-line test time comes from launching and initializing a new Unity Editor process.

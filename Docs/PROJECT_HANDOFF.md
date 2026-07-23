@@ -86,9 +86,8 @@ provisional scale tests, animation backlog, and delivery rules are maintained in
 
 Current local state:
 
-- Active branch: `feature/milestone-16-items-equipment`
-- The current Milestone 16 branch is pushed through commit `a1a1cb4`; its town
-  service checkpoint is verified and pushed.
+- Active branch: `feature/milestone-17-save-settings-build`
+- Milestone 16 is complete and pushed through commit `2c4d4f7`.
 - Milestone 15 is complete through the verified keyboard/gamepad navigation
   checkpoint, including simultaneous-enemy presentation, active-Taunt fixes,
   and the 304-test Edit Mode suite.
@@ -116,6 +115,11 @@ Current local state:
   atomic reward grants, and a `629`-gold minimum-route proof against a
   `595`-gold readiness basket. Its 15 new tests bring the verified Unity suite
   to 380 passing tests.
+- Milestone 17 batch one adds schema-versioned plain save records for player,
+  party, jobs, inventory, equipment, quests, world flags, camp state, and
+  explicit scene/spawn location. Guarded JSON serialization rejects malformed
+  and unsupported data before runtime loading. Its 10 new tests bring the
+  verified Unity suite to 390 passing tests.
 - Character creation, walkable district exploration, world interactions, the
   separate battle-scene loop, persistent job/roster data, reusable monster
   definitions, and the completed combat core are available on the pushed
