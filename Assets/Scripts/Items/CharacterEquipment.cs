@@ -118,4 +118,37 @@ public sealed class CharacterEquipment
         equippedItemIds.Clear();
         return destroyedCount;
     }
+
+    internal bool TryRestore(
+        JobId currentJob,
+        IEnumerable<KeyValuePair<EquipmentSlot, string>> entries)
+    {
+        if (entries == null)
+        {
+            return false;
+        }
+
+        Dictionary<EquipmentSlot, string> restored =
+            new Dictionary<EquipmentSlot, string>();
+        foreach (KeyValuePair<EquipmentSlot, string> entry in entries)
+        {
+            ItemDefinition item = ItemCatalog.Get(entry.Value);
+            if (item == null || !item.CanEquipIn(entry.Key) ||
+                !item.IsCompatibleWith(currentJob) ||
+                restored.ContainsKey(entry.Key))
+            {
+                return false;
+            }
+
+            restored.Add(entry.Key, item.Id);
+        }
+
+        equippedItemIds.Clear();
+        foreach (KeyValuePair<EquipmentSlot, string> entry in restored)
+        {
+            equippedItemIds.Add(entry.Key, entry.Value);
+        }
+
+        return true;
+    }
 }

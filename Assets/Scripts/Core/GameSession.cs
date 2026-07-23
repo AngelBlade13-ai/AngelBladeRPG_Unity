@@ -32,6 +32,9 @@ public class GameSession
         get { return Player != null && Monster != null && !BattleIsOver; }
     }
 
+    internal IReadOnlyCollection<string> CompletedEncounterIds =>
+        new List<string>(completedEncounterIds).AsReadOnly();
+
     public GameSession()
     {
         Party = new PartyRoster();
@@ -346,6 +349,32 @@ public class GameSession
         battleEnemies.AddRange(enemies);
         Monster = enemies[0];
         return true;
+    }
+
+    internal void RestorePersistentState(
+        PlayerData player,
+        PartyRoster party,
+        Inventory inventory,
+        DemoRewardClaimState rewardClaims,
+        CampRestState campRestState,
+        IEnumerable<string> restoredEncounterIds)
+    {
+        Player = player;
+        Party = party;
+        Inventory = inventory;
+        RewardClaims = rewardClaims;
+        CampRestState = campRestState;
+        completedEncounterIds.Clear();
+        completedEncounterIds.UnionWith(restoredEncounterIds);
+        battleEnemies.Clear();
+        Monster = null;
+        PartyBattle = null;
+        Encounter = null;
+        BattleLayout = null;
+        EscapeAllowed = true;
+        CaravanTutorial = null;
+        BattleIsOver = true;
+        BattleOutcome = BattleOutcome.None;
     }
 }
 

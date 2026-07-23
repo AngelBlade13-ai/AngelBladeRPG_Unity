@@ -231,6 +231,69 @@ public class PlayableCharacterData : ICombatant
         IsAvailable = false;
     }
 
+    internal bool TryRestoreProgression(
+        int level,
+        int xp,
+        int xpToNextLevel,
+        int jobPoints,
+        IEnumerable<string> learnedNodeIds)
+    {
+        bool restored = characterProgression.TryRestore(
+                level,
+                xp,
+                xpToNextLevel) &&
+            jobProgression.TryRestore(jobPoints, learnedNodeIds);
+        if (restored)
+        {
+            RecalculateEffectiveStats();
+        }
+
+        return restored;
+    }
+
+    internal bool TryRestoreEquipment(
+        IEnumerable<KeyValuePair<EquipmentSlot, string>> entries)
+    {
+        bool restored = Equipment.TryRestore(CurrentJob, entries);
+        if (restored)
+        {
+            RecalculateEffectiveStats();
+        }
+
+        return restored;
+    }
+
+    internal bool TryRestoreRosterHistory(
+        int battlesActive,
+        int battlesBenched,
+        int consecutiveBenchedBattles,
+        IEnumerable<KeyValuePair<string, int>> bonds)
+    {
+        return RosterHistory.TryRestore(
+            battlesActive,
+            battlesBenched,
+            consecutiveBenchedBattles,
+            bonds);
+    }
+
+    internal void RestoreStats(CombatantStats restoredStats)
+    {
+        Stats.MaxHp = restoredStats.MaxHp;
+        Stats.MaxMp = restoredStats.MaxMp;
+        Stats.Attack = restoredStats.Attack;
+        Stats.Defense = restoredStats.Defense;
+        Stats.Speed = restoredStats.Speed;
+        Stats.MagicPower = restoredStats.MagicPower;
+        Stats.MagicDefense = restoredStats.MagicDefense;
+        Stats.Accuracy = restoredStats.Accuracy;
+        Stats.Evasion = restoredStats.Evasion;
+        Stats.CriticalChance = restoredStats.CriticalChance;
+        Stats.CurrentHp = restoredStats.CurrentHp;
+        Stats.CurrentMp = restoredStats.CurrentMp;
+        CaptureExternalBaseStatChanges();
+        lastEffectiveStats = StatValues.From(Stats);
+    }
+
     private void RecalculateEffectiveStats()
     {
         CaptureExternalBaseStatChanges();

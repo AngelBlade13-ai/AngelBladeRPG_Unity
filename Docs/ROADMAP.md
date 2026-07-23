@@ -78,6 +78,10 @@ Milestone 17 batch one adds a versioned, scene-independent save contract and
 guarded JSON serialization. Its 10 new tests bring the expected suite to 390
 and are verified green in Unity.
 
+Batch two maps the current live `GameSession` into that contract and restores
+it atomically with explicit scene/spawn context. Its 10 new tests bring the
+verified suite to 400.
+
 ## Release Strategy
 
 Development is divided into four release gates:
@@ -445,7 +449,8 @@ Goal: remove platform and persistence risks before producing most demo content.
 
 - [x] Add versioned save models independent from scene objects.
 - [ ] Save player, party, jobs, inventory, equipment, quests, world state, and
-  explicit spawn location.
+  explicit spawn location. Batch two covers every currently implemented
+  runtime system; authored quest and world-flag runtime state remains pending.
 - [ ] Save camp state, consumed camp-event IDs, and exact camp return context.
 - [ ] Add manual save, autosave, Continue, new-game confirmation, and corrupt
   save handling.

@@ -14,6 +14,8 @@ public sealed class DemoRewardClaimState
 {
     private readonly HashSet<string> claimedRewardIds =
         new HashSet<string>(StringComparer.Ordinal);
+    public IReadOnlyCollection<string> ClaimedRewardIds =>
+        new List<string>(claimedRewardIds).AsReadOnly();
 
     public bool IsClaimed(string rewardId)
     {
@@ -24,6 +26,30 @@ public sealed class DemoRewardClaimState
     internal void Record(string rewardId)
     {
         claimedRewardIds.Add(rewardId);
+    }
+
+    internal bool TryRestore(IEnumerable<string> rewardIds)
+    {
+        if (rewardIds == null)
+        {
+            return false;
+        }
+
+        HashSet<string> restored =
+            new HashSet<string>(StringComparer.Ordinal);
+        foreach (string rewardId in rewardIds)
+        {
+            DemoRewardDefinition reward =
+                DemoEconomyCatalog.GetReward(rewardId);
+            if (reward == null || !restored.Add(reward.Id))
+            {
+                return false;
+            }
+        }
+
+        claimedRewardIds.Clear();
+        claimedRewardIds.UnionWith(restored);
+        return true;
     }
 }
 

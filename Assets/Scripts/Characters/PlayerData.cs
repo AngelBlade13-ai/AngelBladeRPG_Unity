@@ -45,6 +45,20 @@ public class CharacterProgression
 
         XP = amount;
     }
+
+    internal bool TryRestore(int level, int xp, int xpToNextLevel)
+    {
+        if (level < 1 || xpToNextLevel < 1 || xp < 0 ||
+            xp >= xpToNextLevel)
+        {
+            return false;
+        }
+
+        Level = level;
+        XP = xp;
+        XPToNextLevel = xpToNextLevel;
+        return true;
+    }
 }
 
 public class PlayerData : ICombatant

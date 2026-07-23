@@ -173,4 +173,26 @@ public static class JobCatalog
             ? definition
             : null;
     }
+
+    public static JobDefinition Get(string stableId)
+    {
+        if (string.IsNullOrWhiteSpace(stableId))
+        {
+            return null;
+        }
+
+        string requestedId = stableId.Trim();
+        foreach (JobDefinition definition in jobs.Values)
+        {
+            if (string.Equals(
+                definition.StableId,
+                requestedId,
+                System.StringComparison.Ordinal))
+            {
+                return definition;
+            }
+        }
+
+        return null;
+    }
 }

@@ -21,6 +21,19 @@ public sealed class CampRestState
 
         CompletedRestCount += 1;
     }
+
+    internal bool TryRestore(bool tutorialRestUsed, int completedRestCount)
+    {
+        if (completedRestCount < 0 ||
+            (tutorialRestUsed && completedRestCount == 0))
+        {
+            return false;
+        }
+
+        TutorialRestUsed = tutorialRestUsed;
+        CompletedRestCount = completedRestCount;
+        return true;
+    }
 }
 
 public sealed class CampRestResult

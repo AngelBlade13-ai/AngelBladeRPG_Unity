@@ -458,6 +458,24 @@ all Edit Mode tests. The expected result is 390 passed and 0 failed.
 
 Verified on July 23, 2026: all 390 Edit Mode tests passed.
 
+### Milestone 17 Session Mapping Batch Two
+
+This batch adds 10 Edit Mode cases, bringing the expected suite to 400 tests.
+It covers capture preconditions, stable job/slot/affinity IDs, a populated JSON
+session round trip, shared protagonist/player progression, transient battle
+reset, equipped-item ownership, non-stacking stat recalculation, corrupt
+catalog-reference rejection, and explicit rejection of future quest content
+until its runtime system exists.
+
+The restore path builds a fresh `GameSession` and returns it only after every
+current runtime section validates. It does not replace `GameSessionStore.Current`
+or write a file yet, so no Play Mode check or Editor command is required.
+
+Let Unity compile, then run all Edit Mode tests. The expected result is
+400 passed and 0 failed.
+
+Verified on July 23, 2026: all 400 Edit Mode tests passed.
+
 ### Fastest Development Workflow
 
 Keep the Unity Editor open and use the Test Runner while actively developing. The current Edit Mode suite itself completes in well under one second; most command-line test time comes from launching and initializing a new Unity Editor process.

@@ -66,4 +66,48 @@ public class CharacterRosterHistory
         bondPoints[otherId] = GetBondPoints(otherId) + points;
         return true;
     }
+
+    internal bool TryRestore(
+        int battlesActive,
+        int battlesBenched,
+        int consecutiveBenchedBattles,
+        IEnumerable<KeyValuePair<string, int>> bonds)
+    {
+        if (battlesActive < 0 || battlesBenched < 0 ||
+            consecutiveBenchedBattles < 0 ||
+            consecutiveBenchedBattles > battlesBenched || bonds == null)
+        {
+            return false;
+        }
+
+        Dictionary<string, int> restored =
+            new Dictionary<string, int>(StringComparer.Ordinal);
+        foreach (KeyValuePair<string, int> bond in bonds)
+        {
+            if (string.IsNullOrWhiteSpace(bond.Key) || bond.Value <= 0)
+            {
+                return false;
+            }
+
+            string otherId = bond.Key.Trim();
+            if (string.Equals(otherId, CharacterId, StringComparison.Ordinal) ||
+                restored.ContainsKey(otherId))
+            {
+                return false;
+            }
+
+            restored.Add(otherId, bond.Value);
+        }
+
+        BattlesActive = battlesActive;
+        BattlesBenched = battlesBenched;
+        ConsecutiveBenchedBattles = consecutiveBenchedBattles;
+        bondPoints.Clear();
+        foreach (KeyValuePair<string, int> bond in restored)
+        {
+            bondPoints.Add(bond.Key, bond.Value);
+        }
+
+        return true;
+    }
 }

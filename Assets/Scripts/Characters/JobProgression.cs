@@ -84,4 +84,47 @@ public sealed class JobProgression
             node.Kind != JobNodeKind.PermanentStat &&
             learnedNodeIds.Contains(node.StableId);
     }
+
+    internal bool TryRestore(
+        int jobPoints,
+        IEnumerable<string> nodeIds)
+    {
+        if (jobPoints < 0 || nodeIds == null)
+        {
+            return false;
+        }
+
+        HashSet<string> restoredIds =
+            new HashSet<string>(StringComparer.Ordinal);
+        foreach (string nodeId in nodeIds)
+        {
+            JobNodeDefinition node = JobNodeCatalog.Get(nodeId);
+            JobDefinition job = node == null
+                ? null
+                : JobCatalog.Get(node.JobId);
+            if (node == null || job == null ||
+                node.Tier > job.DemoMaximumTier ||
+                !restoredIds.Add(node.StableId))
+            {
+                return false;
+            }
+        }
+
+        foreach (string nodeId in restoredIds)
+        {
+            foreach (string prerequisiteId in
+                JobNodeCatalog.Get(nodeId).PrerequisiteIds)
+            {
+                if (!restoredIds.Contains(prerequisiteId))
+                {
+                    return false;
+                }
+            }
+        }
+
+        JobPoints = jobPoints;
+        learnedNodeIds.Clear();
+        learnedNodeIds.UnionWith(restoredIds);
+        return true;
+    }
 }

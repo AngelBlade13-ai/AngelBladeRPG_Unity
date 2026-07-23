@@ -66,4 +66,35 @@ public sealed class Inventory
         ItemDefinition item = ItemCatalog.Get(itemId);
         return item != null && item.CanDiscard && TryRemove(item.Id, amount);
     }
+
+    internal bool TryRestore(IEnumerable<KeyValuePair<string, int>> entries)
+    {
+        if (entries == null)
+        {
+            return false;
+        }
+
+        Dictionary<string, int> restored =
+            new Dictionary<string, int>(StringComparer.Ordinal);
+        foreach (KeyValuePair<string, int> entry in entries)
+        {
+            ItemDefinition item = ItemCatalog.Get(entry.Key);
+            if (item == null || entry.Value <= 0 ||
+                entry.Value > item.MaximumStack ||
+                restored.ContainsKey(item.Id))
+            {
+                return false;
+            }
+
+            restored.Add(item.Id, entry.Value);
+        }
+
+        quantities.Clear();
+        foreach (KeyValuePair<string, int> entry in restored)
+        {
+            quantities.Add(entry.Key, entry.Value);
+        }
+
+        return true;
+    }
 }
