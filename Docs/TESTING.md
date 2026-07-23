@@ -288,6 +288,40 @@ protected equipment, and paid town recovery.
 
 No Play Mode pass is required for this service-only batch.
 
+### Milestone 16 Exploration Inventory Batch Three
+
+This batch adds five Edit Mode cases, bringing the verified suite to 345 tests.
+It covers owned-consumable filtering, deterministic display order,
+job-compatible equipment filtering, equipment bonus descriptions, and item-use
+feedback.
+
+Required Unity Editor setup:
+
+1. Let Unity finish importing and compiling the new scripts and input action.
+2. Run `Tools > AngelBlade RPG > UI > Install Inventory Menu In Exploration Scenes`.
+3. Save any scene Unity reopens if it reports unsaved changes.
+
+The installer finds scenes containing both `PlayerMovement2D` and
+`ExplorationStatusHUD`, then creates and wires the menu automatically. It is
+safe to run again; the generated `ExplorationMenuCanvas` is replaced instead
+of duplicated.
+
+Manual Play Mode checklist:
+
+1. Start a game and enter any exploration scene.
+2. Press `Tab` or `I`; on a controller, press Start. Confirm the menu opens and
+   player movement and interaction pause.
+3. Confirm Items and Equipment can be selected with the mouse, keyboard, and
+   controller, and that Escape/controller Cancel closes the menu.
+4. With an empty inventory, confirm both views clearly report that no usable
+   item is available and their action buttons are disabled.
+5. After buying or otherwise receiving a potion and equipment, confirm a
+   potion heals a damaged available character and is consumed exactly once.
+6. Confirm compatible equipment changes stats, appears in the selected slot,
+   and returns to inventory when unequipped. Confirm incompatible weapons do
+   not appear for the selected character's current job.
+7. Close the menu and confirm movement and interaction resume.
+
 ### Fastest Development Workflow
 
 Keep the Unity Editor open and use the Test Runner while actively developing. The current Edit Mode suite itself completes in well under one second; most command-line test time comes from launching and initializing a new Unity Editor process.

@@ -54,7 +54,7 @@ must feel like the opening of the real game, not like a mechanics test room.
 
 Current branch: `feature/milestone-16-items-equipment`
 
-Current verification baseline: 320 Edit Mode tests passed in Unity
+Current verification baseline: 345 Edit Mode tests passed in Unity
 `6000.5.3f1`, plus successful Play Mode checks for exploration, interactions,
 district transitions, party/job assignment, structured battle outcomes,
 guarding, misses, critical hits, speed-based escape, rewards, speed-based
@@ -63,6 +63,8 @@ turn order, and the speed-based action-gauge conversion.
 Milestone 16 batch one added 16 item, inventory, and equipment tests; its
 320-test suite is verified green. Batch two adds 20 consumable, camp-rest,
 shop-transaction, and town-recovery tests, bringing the verified suite to 340.
+Batch three adds the player-facing exploration inventory/equipment menu and
+five tests; its 345-test suite is verified green.
 
 ## Release Strategy
 
@@ -412,7 +414,8 @@ combat rewards matter.
 - [x] Add equipment ownership, stat bonuses, and job/slot requirements.
 - [x] Implement equipped-item destruction for permanent roster removal exactly
   once without returning those items to shared inventory.
-- [ ] Add item use in and out of battle where appropriate.
+  - [x] Add player-facing item use during exploration.
+  - [ ] Add the battle item command and battle-target flow.
 - [ ] Add one shop or service flow with buying and selling.
 - [ ] Add resting or healing in town.
 - [x] Add tested party-rest rules shared by Suncrest Hollow and Ember Camp where
