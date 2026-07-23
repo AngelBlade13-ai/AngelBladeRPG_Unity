@@ -557,7 +557,7 @@ volume calculation.
 
 Tests use an in-memory settings store and do not change the developer machine's
 real `PlayerPrefs`. No Editor command or Play Mode pass is required because the
-project does not yet contain scene audio sources. Four music candidates are
+project does not yet contain scene audio sources. Five music candidates are
 imported as streaming 2D clips but remain unwired.
 
 Verified on July 23, 2026: all 433 Edit Mode tests passed.

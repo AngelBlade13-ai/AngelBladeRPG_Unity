@@ -89,6 +89,31 @@ Required attribution:
 >
 > https://creativecommons.org/licenses/by/4.0/
 
+## Unburdening Feelings
+
+- File: `unburdening_feelings_arthur_vyncke.wav`
+- Intended use: main menu theme
+- Creator: Arthur Vyncke
+- Source: https://www.free-stock-music.com/arthur-vyncke-unburdening-feelings.html
+- License: Creative Commons Attribution-ShareAlike 3.0 Unported
+  (CC BY-SA 3.0)
+- License URL: https://creativecommons.org/licenses/by-sa/3.0/deed.en_US
+- SHA-256: `A7F630591B18AE1300E306EB0505056E2516F688412EB53929429ECEE5E895A0`
+
+Required attribution:
+
+> Unburdening Feelings by Arthur Vyncke | https://soundcloud.com/arthurvost
+>
+> Music promoted by https://www.free-stock-music.com
+>
+> Creative Commons / Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)
+>
+> https://creativecommons.org/licenses/by-sa/3.0/deed.en_US
+
+Keep the track unmodified unless a derivative-work and ShareAlike review is
+completed. Format conversion and Unity import settings should not be treated as
+permission for an artistic remix.
+
 ## Usage Notes
 
 - Do not upload or distribute these tracks under the project's artist name or

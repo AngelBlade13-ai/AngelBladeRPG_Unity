@@ -109,7 +109,7 @@ Batch seven begins the settings baseline with separately persisted Music and
 Sound values, range validation, immediate change notifications, default reset,
 and a category-aware `AudioSource` adapter. The project has no authored audio
 sources yet, so visual settings controls and audible verification remain a
-later wiring pass. Four licensed third-party music candidates are imported but
+later wiring pass. Five licensed third-party music candidates are imported but
 not yet assigned to scenes. Its 10 new tests bring the verified suite to 433.
 
 ## Release Strategy

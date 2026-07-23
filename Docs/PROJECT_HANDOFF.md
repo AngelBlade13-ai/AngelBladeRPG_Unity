@@ -150,7 +150,7 @@ Current local state:
 - Milestone 17 batch seven adds global Music and Sound settings backed by
   `PlayerPrefs`, a testable settings service, immediate change notifications,
   default reset, and `CategorizedAudioSource` for future Music/Sound sources.
-  Four licensed music candidates are imported but are not wired to scenes yet.
+  Five licensed music candidates are imported but are not wired to scenes yet.
   Its 10 new tests bring the verified Unity suite to 433 passing tests.
 - Character creation, walkable district exploration, world interactions, the
   separate battle-scene loop, persistent job/roster data, reusable monster
