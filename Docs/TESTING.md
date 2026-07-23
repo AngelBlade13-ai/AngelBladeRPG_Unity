@@ -572,7 +572,7 @@ select no music, and the Suncrest route list contains eight unique names.
 After Unity compiles:
 
 1. Run all Edit Mode tests. Expect 448 passed and 0 failed.
-2. Run `Tools > AngelBlade RPG > Audio > Install Main Menu And Suncrest Music`.
+2. Run `Tools > AngelBlade RPG > Audio > Install Scene Music Playback`.
 3. Open `MainGameScene` and enter Play Mode.
 4. Confirm `Unburdening Feelings` plays and loops on the title and character
    creation panels.
@@ -584,16 +584,44 @@ After Unity compiles:
    `Tools > AngelBlade RPG > Testing > Set Music Volume To 25 Percent`, then
    `Set Music Volume To 100 Percent`. Confirm the playing source changes volume
    immediately.
-8. Enter `BattleScene` through an encounter. Confirm town music stops; battle
-   music is intentionally deferred to the next routing pass.
+8. At this batch-eight checkpoint, entering `BattleScene` stopped town music
+   and remained silent. Batch nine below supersedes that behavior.
 
 The setup command only adds or refreshes the technical `MusicDirector` object
 in `MainGameScene`. It does not alter district layouts or visible UI.
 
-Verified on July 23, 2026: all 448 Edit Mode tests passed. Main-menu and
-Suncrest playback, uninterrupted district transitions, immediate volume
-changes, battle silence, and resumed town music after battle worked in Play
-Mode.
+Verified on July 23, 2026: all 448 Edit Mode tests passed. At the batch-eight
+checkpoint, main-menu and Suncrest playback, uninterrupted district
+transitions, immediate volume changes, battle silence, and resumed town music
+after battle worked in Play Mode.
+
+### Milestone 17 Battle Music Routing Batch Nine
+
+This batch adds 4 Edit Mode checks, bringing the expected suite to 452 tests.
+It verifies that the caravan tutorial and an ordinary encounter select the
+standard battle cue, the future Goblin Boss ID selects its reserved boss cue,
+and an encounter ID cannot override a non-battle scene's music.
+
+After Unity compiles:
+
+1. Run all Edit Mode tests. Expect 452 passed and 0 failed.
+2. Run `Tools > AngelBlade RPG > Audio > Install Scene Music Playback` again.
+   The command refreshes the existing technical object and does not duplicate
+   it.
+3. Start Play Mode from `MainGameScene` and enter the currently accessible
+   caravan tutorial.
+4. Confirm town music switches to `On Your Six` when `BattleScene` opens.
+5. Confirm the same battle track continues through all tutorial waves.
+6. Finish the tutorial and return to Suncrest. Confirm `Village Ambiance`
+   resumes.
+7. Confirm the Console remains free of errors.
+
+`Off To War` is assigned to `BattleEncounterCatalog.GoblinBossId` but cannot be
+heard through normal play until that future encounter is made accessible.
+
+Verified on July 23, 2026: all 452 Edit Mode tests passed. `On Your Six`
+played through the complete caravan tutorial, and `Village Ambiance` resumed
+after returning to Suncrest with no Console errors.
 
 ### Fastest Development Workflow
 

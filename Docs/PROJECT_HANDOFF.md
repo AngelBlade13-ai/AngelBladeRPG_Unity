@@ -159,6 +159,13 @@ Current local state:
   their own music pass. Its 15 new checks bring the verified Unity suite to 448
   passing tests. Menu, town, district-transition, battle-stop, and town-return
   playback were verified in Play Mode.
+- Milestone 17 batch nine extends the persistent director with encounter-aware
+  battle routing. The playable caravan tutorial and other ordinary catalog
+  encounters use `On Your Six`; the existing future Goblin Boss encounter ID
+  reserves `Off To War` without making that encounter playable early. Its 4 new
+  checks bring the verified Unity suite to 452 passing tests. Tutorial battle
+  playback through every wave and resumed Suncrest music were verified in Play
+  Mode.
 - Character creation, walkable district exploration, world interactions, the
   separate battle-scene loop, persistent job/roster data, reusable monster
   definitions, and the completed combat core are available on the pushed

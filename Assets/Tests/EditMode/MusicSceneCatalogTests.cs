@@ -40,6 +40,36 @@ namespace AngelBladeRPG.Tests
                 Is.EqualTo(MusicCue.None));
         }
 
+        [TestCase(BattleEncounterCatalog.CaravanTutorialId)]
+        [TestCase(BattleEncounterCatalog.Quest1SkirmishAId)]
+        public void ImplementedOrdinaryEncountersUseStandardBattleMusic(
+            string encounterId)
+        {
+            Assert.That(
+                MusicSceneCatalog.GetCue("BattleScene", encounterId),
+                Is.EqualTo(MusicCue.StandardBattle));
+        }
+
+        [Test]
+        public void GoblinBossEncounterUsesReservedBossMusic()
+        {
+            Assert.That(
+                MusicSceneCatalog.GetCue(
+                    "BattleScene",
+                    BattleEncounterCatalog.GoblinBossId),
+                Is.EqualTo(MusicCue.GoblinBoss));
+        }
+
+        [Test]
+        public void EncounterIdDoesNotOverrideNonBattleSceneMusic()
+        {
+            Assert.That(
+                MusicSceneCatalog.GetCue(
+                    "SuncrestGuildHallScene",
+                    BattleEncounterCatalog.GoblinBossId),
+                Is.EqualTo(MusicCue.Suncrest));
+        }
+
         [Test]
         public void SuncrestSceneCatalogContainsEightUniqueNames()
         {

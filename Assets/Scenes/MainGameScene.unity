@@ -815,6 +815,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: AngelBladeRPG.Runtime::MusicDirector
   mainMenuTheme: {fileID: 8300000, guid: 0f3f835032f74a92a187fc5b991ec11d, type: 3}
   suncrestTheme: {fileID: 8300000, guid: 8f1b6d08a97259a499dea62ee1180501, type: 3}
+  standardBattleTheme: {fileID: 8300000, guid: 36b09c0aef2ce7f43b06678494684540, type: 3}
+  goblinBossTheme: {fileID: 8300000, guid: 81ab3365148904c4fa61a8636e9f470e, type: 3}
   musicSource: {fileID: 566993460}
 --- !u!114 &566993459
 MonoBehaviour:

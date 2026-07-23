@@ -2,5 +2,7 @@ public enum MusicCue
 {
     None,
     MainMenu,
-    Suncrest
+    Suncrest,
+    StandardBattle,
+    GoblinBoss
 }

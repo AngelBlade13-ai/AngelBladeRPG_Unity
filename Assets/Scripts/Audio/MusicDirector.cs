@@ -7,6 +7,8 @@ public sealed class MusicDirector : MonoBehaviour
 {
     [SerializeField] private AudioClip mainMenuTheme;
     [SerializeField] private AudioClip suncrestTheme;
+    [SerializeField] private AudioClip standardBattleTheme;
+    [SerializeField] private AudioClip goblinBossTheme;
     [SerializeField] private AudioSource musicSource;
 
     public static MusicDirector Instance { get; private set; }
@@ -52,10 +54,14 @@ public sealed class MusicDirector : MonoBehaviour
 
     public void Configure(
         AudioClip configuredMainMenuTheme,
-        AudioClip configuredSuncrestTheme)
+        AudioClip configuredSuncrestTheme,
+        AudioClip configuredStandardBattleTheme,
+        AudioClip configuredGoblinBossTheme)
     {
         mainMenuTheme = configuredMainMenuTheme;
         suncrestTheme = configuredSuncrestTheme;
+        standardBattleTheme = configuredStandardBattleTheme;
+        goblinBossTheme = configuredGoblinBossTheme;
         ResolveSource();
         ConfigureSource();
     }
@@ -68,7 +74,9 @@ public sealed class MusicDirector : MonoBehaviour
             return;
         }
 
-        MusicCue requestedCue = MusicSceneCatalog.GetCue(sceneName);
+        MusicCue requestedCue = MusicSceneCatalog.GetCue(
+            sceneName,
+            GetActiveEncounterId());
         AudioClip requestedClip = GetClip(requestedCue);
 
         if (requestedClip == null)
@@ -97,6 +105,10 @@ public sealed class MusicDirector : MonoBehaviour
                 return mainMenuTheme;
             case MusicCue.Suncrest:
                 return suncrestTheme;
+            case MusicCue.StandardBattle:
+                return standardBattleTheme;
+            case MusicCue.GoblinBoss:
+                return goblinBossTheme;
             default:
                 return null;
         }
@@ -105,6 +117,14 @@ public sealed class MusicDirector : MonoBehaviour
     private void HandleSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         PlayForScene(scene.name);
+    }
+
+    private static string GetActiveEncounterId()
+    {
+        GameSession session = GameSessionStore.Current;
+        return session != null && session.HasActiveBattle
+            ? session.Encounter?.Id
+            : null;
     }
 
     private void ResolveSource()

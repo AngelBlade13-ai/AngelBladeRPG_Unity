@@ -120,6 +120,13 @@ regional routing are added. Its 15 new checks bring the verified suite to 448.
 Menu, town, district-transition, battle-stop, and town-return playback were
 also verified in Play Mode.
 
+Batch nine adds encounter-aware battle music. The currently playable caravan
+tutorial and all other ordinary catalog encounters select `On Your Six`.
+The existing, not-yet-playable Goblin Boss encounter ID reserves `Off To War`
+without advancing boss content. Its 4 new checks bring the verified suite to
+452. Tutorial battle playback and the return to Suncrest were also verified in
+Play Mode.
+
 ## Release Strategy
 
 Development is divided into four release gates:
@@ -495,7 +502,8 @@ Goal: remove platform and persistence risks before producing most demo content.
 - [x] Store saves under Unity's application data path.
 - [ ] Add separate music and sound volume settings. Persistent values and
   runtime audio-source hooks are implemented. Main-menu and Suncrest music are
-  routed; player-facing sliders and remaining scene audio wiring remain.
+  routed, and ordinary/future Goblin Boss battle cues are assigned;
+  player-facing sliders and remaining regional audio wiring remain.
 - [ ] Add display mode, resolution, text-speed, and other necessary settings.
 - [ ] Support keyboard and common controller navigation across all demo screens.
 - [ ] Add input rebinding or document the deliberately supported fixed layout.

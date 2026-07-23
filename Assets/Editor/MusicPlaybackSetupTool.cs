@@ -14,10 +14,16 @@ public static class MusicPlaybackSetupTool
     private const string SuncrestThemePath =
         "Assets/ThirdParty/Audio/FreeStockMusic/" +
         "village_ambiance_alexander_nakarada.mp3";
+    private const string StandardBattleThemePath =
+        "Assets/ThirdParty/Audio/FreeStockMusic/" +
+        "on_your_six_arthur_vyncke.wav";
+    private const string GoblinBossThemePath =
+        "Assets/ThirdParty/Audio/FreeStockMusic/" +
+        "off_to_war_alexander_nakarada.mp3";
     private const string DirectorObjectName = "MusicDirector";
 
     [MenuItem(
-        "Tools/AngelBlade RPG/Audio/Install Main Menu And Suncrest Music")]
+        "Tools/AngelBlade RPG/Audio/Install Scene Music Playback")]
     public static void InstallMusicPlayback()
     {
         if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
@@ -29,11 +35,17 @@ public static class MusicPlaybackSetupTool
             AssetDatabase.LoadAssetAtPath<AudioClip>(MainMenuThemePath);
         AudioClip suncrestTheme =
             AssetDatabase.LoadAssetAtPath<AudioClip>(SuncrestThemePath);
-        if (mainMenuTheme == null || suncrestTheme == null)
+        AudioClip standardBattleTheme =
+            AssetDatabase.LoadAssetAtPath<AudioClip>(
+                StandardBattleThemePath);
+        AudioClip goblinBossTheme =
+            AssetDatabase.LoadAssetAtPath<AudioClip>(GoblinBossThemePath);
+        if (mainMenuTheme == null || suncrestTheme == null ||
+            standardBattleTheme == null || goblinBossTheme == null)
         {
             EditorUtility.DisplayDialog(
                 "Music Playback Setup",
-                "The main-menu or Suncrest music clip could not be loaded. " +
+                "One or more licensed music clips could not be loaded. " +
                 "Confirm the licensed music assets finished importing.",
                 "OK");
             return;
@@ -79,7 +91,11 @@ public static class MusicPlaybackSetupTool
         audioSource.spatialBlend = 0f;
         categorizedSource.Configure(GameAudioCategory.Music);
         audioSource.volume = 1f;
-        director.Configure(mainMenuTheme, suncrestTheme);
+        director.Configure(
+            mainMenuTheme,
+            suncrestTheme,
+            standardBattleTheme,
+            goblinBossTheme);
 
         EditorUtility.SetDirty(audioSource);
         EditorUtility.SetDirty(categorizedSource);
@@ -98,7 +114,8 @@ public static class MusicPlaybackSetupTool
 
         EditorUtility.DisplayDialog(
             "Music Playback Setup",
-            "Main-menu and Suncrest music playback is installed. " +
+            "Menu, Suncrest, standard battle, and future Goblin Boss " +
+            "music playback is installed. " +
             "Start Play Mode from MainGameScene to test the transition.",
             "OK");
     }
