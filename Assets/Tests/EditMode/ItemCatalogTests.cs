@@ -16,7 +16,7 @@ namespace AngelBladeRPG.Tests
                 Assert.That(ItemCatalog.Get(item.Id), Is.SameAs(item));
             }
 
-            Assert.That(ids.Count, Is.EqualTo(14));
+            Assert.That(ids.Count, Is.EqualTo(22));
         }
 
         [Test]

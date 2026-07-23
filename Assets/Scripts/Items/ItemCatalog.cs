@@ -17,6 +17,16 @@ public static class ItemCatalog
     public const string PaddedArmorId = "armor_padded";
     public const string GuardCharmId = "accessory_guard_charm";
     public const string SunstoneNecklaceId = "necklace_sunstone";
+    public const string TrailKnifeFragmentId = "key_trail_knife_fragment";
+    public const string MarlowsTradeCharmId = "accessory_marlow_trade_charm";
+    public const string IronforgeFieldguardId =
+        "accessory_ironforge_fieldguard";
+    public const string SuncrestWatchInsigniaId =
+        "accessory_suncrest_watch_insignia";
+    public const string SuncrestSupperId = "consumable_suncrest_supper";
+    public const string TravelersTonicId = "consumable_travelers_tonic";
+    public const string SettlementTeaId = "consumable_settlement_tea";
+    public const string NomadsWovenCordId = "accessory_nomads_woven_cord";
 
     private static readonly Dictionary<string, ItemDefinition> items =
         CreateCatalog();
@@ -108,6 +118,69 @@ public static class ItemCatalog
             statBonuses: new EquipmentStatBonuses(
                 maxHp: 5,
                 magicDefense: 2)));
+        Add(catalog, new ItemDefinition(
+            TrailKnifeFragmentId,
+            "Bren-Marked Trail Knife Fragment",
+            ItemKind.KeyItem,
+            canSell: false,
+            canDiscard: false));
+        Add(catalog, new ItemDefinition(
+            MarlowsTradeCharmId,
+            "Marlow's Trade Charm",
+            ItemKind.Accessory,
+            rarity: ItemRarity.Uncommon,
+            sellPrice: 45,
+            statBonuses: new EquipmentStatBonuses(
+                accuracy: 2,
+                evasion: 2)));
+        Add(catalog, new ItemDefinition(
+            IronforgeFieldguardId,
+            "Ironforge Fieldguard",
+            ItemKind.Accessory,
+            rarity: ItemRarity.Uncommon,
+            sellPrice: 50,
+            statBonuses: new EquipmentStatBonuses(
+                maxHp: 10,
+                defense: 2)));
+        Add(catalog, new ItemDefinition(
+            SuncrestWatchInsigniaId,
+            "Suncrest Watch Insignia",
+            ItemKind.Accessory,
+            rarity: ItemRarity.Uncommon,
+            sellPrice: 50,
+            statBonuses: new EquipmentStatBonuses(
+                defense: 1,
+                speed: 1)));
+        Add(catalog, new ItemDefinition(
+            SuncrestSupperId,
+            "Suncrest Supper",
+            ItemKind.Consumable,
+            sellPrice: 12,
+            consumableEffect: ConsumableEffect.RestoreHp,
+            consumablePotency: 60));
+        Add(catalog, new ItemDefinition(
+            TravelersTonicId,
+            "Traveler's Tonic",
+            ItemKind.Consumable,
+            sellPrice: 12,
+            consumableEffect: ConsumableEffect.RestoreHp,
+            consumablePotency: 60));
+        Add(catalog, new ItemDefinition(
+            SettlementTeaId,
+            "Settlement Tea",
+            ItemKind.Consumable,
+            sellPrice: 10,
+            consumableEffect: ConsumableEffect.RestoreHp,
+            consumablePotency: 50));
+        Add(catalog, new ItemDefinition(
+            NomadsWovenCordId,
+            "Nomad's Woven Cord",
+            ItemKind.Accessory,
+            rarity: ItemRarity.Uncommon,
+            sellPrice: 45,
+            statBonuses: new EquipmentStatBonuses(
+                speed: 2,
+                evasion: 2)));
 
         return catalog;
     }

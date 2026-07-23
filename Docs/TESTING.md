@@ -418,6 +418,26 @@ Manual Play Mode checklist:
 Verified on July 23, 2026: all 365 Edit Mode tests passed and the repaired
 `BattleScene` completed its battle-item Play Mode smoke test successfully.
 
+### Milestone 16 Demo Economy Batch Six
+
+This batch adds 15 Edit Mode cases, bringing the verified suite to 380 tests.
+It covers stable authored reward bundles, valid reward item quantities,
+provisional quest-equipment statistics, protected quest evidence, optional
+monster loot tables, exact-once atomic reward grants, inventory-full rollback,
+and the no-grind critical-path affordability proof.
+
+The pacing test guarantees `629 gold` on the lowest-income critical route. Its
+representative readiness basket costs `595 gold` and includes three relevant
+weapon purchases, one armor purchase, three Minor Potions, and two paid full
+recoveries. Optional objectives, side quests, random drops, selling, and
+grinding are excluded from that income.
+
+No Editor command or Play Mode pass is required for this data-and-service
+batch. Let Unity compile, then run all Edit Mode tests. The expected result is
+380 passed and 0 failed.
+
+Verified on July 23, 2026: all 380 Edit Mode tests passed.
+
 ### Fastest Development Workflow
 
 Keep the Unity Editor open and use the Test Runner while actively developing. The current Edit Mode suite itself completes in well under one second; most command-line test time comes from launching and initializing a new Unity Editor process.

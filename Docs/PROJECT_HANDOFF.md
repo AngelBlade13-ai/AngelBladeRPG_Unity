@@ -111,6 +111,11 @@ Current local state:
   command, Minor Potion use, living injured-ally targeting, exact inventory
   consumption, and Wait Mode command-menu pausing. Its 12 new tests bring the
   verified suite to 365, and its Play Mode battle-item checks pass.
+- Milestone 16 batch six defines 12 stable authored reward bundles, six
+  optional monster loot tables, eight additional named demo items, exact-once
+  atomic reward grants, and a `629`-gold minimum-route proof against a
+  `595`-gold readiness basket. Its 15 new tests bring the verified Unity suite
+  to 380 passing tests.
 - Character creation, walkable district exploration, world interactions, the
   separate battle-scene loop, persistent job/roster data, reusable monster
   definitions, and the completed combat core are available on the pushed

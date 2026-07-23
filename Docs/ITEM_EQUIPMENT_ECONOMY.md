@@ -19,8 +19,10 @@ Batch one establishes the code-first economy foundation:
 - Permanent roster removal clears equipped items without returning them to
   shared inventory.
 
-Item use, rest rules, shops, comparisons, loot tables, and final balance remain
-later Milestone 16 batches.
+Item use, rest rules, shops, comparisons, reward bundles, and provisional loot
+tables are implemented. Exact values and the no-grind pacing proof are recorded
+in `DEMO_ECONOMY_BALANCE.md`; final tuning remains subject to end-to-end demo
+playtests.
 
 Batch two adds the headless service rules used by later UI:
 

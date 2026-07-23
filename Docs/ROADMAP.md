@@ -70,7 +70,9 @@ Its temporary service fixtures passed their Play Mode buying, selling, recovery,
 and open/close smoke tests. Batch five implements the battle `Item` command,
 living injured-ally targeting, Minor Potion consumption, and Wait Mode menu
 pausing. Its 12 new tests bring the verified suite to 365, and its battle-item
-Play Mode checks pass.
+Play Mode checks pass. Batch six defines provisional demo prices, exact-once
+authored rewards, optional monster loot tables, and a no-grind economy proof.
+Its 15 new tests bring the verified suite to 380.
 
 ## Release Strategy
 
@@ -426,7 +428,7 @@ combat rewards matter.
 - [x] Add resting or healing in town.
 - [x] Add tested party-rest rules shared by Suncrest Hollow and Ember Camp where
   appropriate.
-- [ ] Define demo loot tables, prices, and reward pacing.
+- [x] Define demo loot tables, prices, and reward pacing.
 
 Exit gate:
 

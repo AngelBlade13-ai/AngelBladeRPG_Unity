@@ -212,8 +212,9 @@ exactly once across save/load. The four side quests are not deferred content.
 - Small weapon and armor upgrades supporting physical, magical, tank, healer,
   and support builds without requiring one item for every job.
 
-Final names, statistics, prices, quantities, weapon restrictions, inventory
-capacity, and loot tables remain Milestone 16 decisions.
+Provisional statistics, prices, quantities, weapon restrictions, rewards, and
+loot tables are defined in `DEMO_ECONOMY_BALANCE.md`. They remain subject to
+end-to-end balance testing without changing the locked economy structure.
 
 MP and incapacitation recovery items are not required unless battle testing
 demonstrates a critical-path need.
@@ -333,8 +334,8 @@ must never be placed on the cut list without an explicit scope change.
 - Final names, appearances, portraits, and dialogue for unnamed NPC roles.
 - Whether Old Marlow or Captain Vashti gives the Cherry Blossom caravan request
   and final Goblin Boss authorization wording.
-- Final item statistics, prices, quantities, drop rates, rewards, and
-  JP/XP/gold tuning under the locked economy structure.
+- Final playtest tuning for item statistics, prices, quantities, drop rates,
+  rewards, and JP/XP/gold under the locked economy structure.
 - Whether Cherry Blossom needs two ambient enemy roles after route playtesting.
 - Shared versus unique Hobgoblin, Goblin Boss, and Great Stag music.
 - Final map coordinates, population density, animation lists, dialogue count,

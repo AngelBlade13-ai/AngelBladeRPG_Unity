@@ -10,6 +10,7 @@ public class GameSession
     public PlayerData Player { get; private set; }
     public PartyRoster Party { get; private set; }
     public Inventory Inventory { get; private set; }
+    public DemoRewardClaimState RewardClaims { get; private set; }
     public CampRestState CampRestState { get; private set; }
     public MonsterData Monster { get; private set; }
     public PartyBattleState PartyBattle { get; private set; }
@@ -35,6 +36,7 @@ public class GameSession
     {
         Party = new PartyRoster();
         Inventory = new Inventory();
+        RewardClaims = new DemoRewardClaimState();
         CampRestState = new CampRestState();
         BattleTimingMode = BattleTimingMode.Wait;
         BattleIsOver = true;
@@ -51,6 +53,7 @@ public class GameSession
         Player = new PlayerData(playerName.Trim());
         Party = new PartyRoster();
         Inventory = new Inventory();
+        RewardClaims = new DemoRewardClaimState();
         CampRestState = new CampRestState();
         PlayableCharacterData protagonist = new PlayableCharacterData(
             PlayableCharacterData.ProtagonistId,
@@ -222,6 +225,18 @@ public class GameSession
         BattleIsOver = true;
         BattleOutcome = BattleOutcome.Defeat;
         return true;
+    }
+
+    public DemoRewardStatus TryGrantDemoReward(
+        string rewardId,
+        out DemoRewardGrantResult result)
+    {
+        return DemoRewardService.TryGrant(
+            rewardId,
+            Player,
+            Inventory,
+            RewardClaims,
+            out result);
     }
 
     public bool CompleteEscape()

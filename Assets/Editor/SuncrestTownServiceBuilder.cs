@@ -33,13 +33,13 @@ public static class SuncrestTownServiceBuilder
         ServiceFixture.Recovery(
             "Assets/Scenes/Suncrest/SuncrestInnScene.unity",
             "SUNCREST INN",
-            25,
+            DemoEconomyCatalog.TownRecoveryPrice,
             new Vector3(0f, 2f, 0f),
             new Color(0.25f, 0.55f, 0.95f, 1f)),
         ServiceFixture.Recovery(
             "Assets/Scenes/Suncrest/SuncrestShrineScene.unity",
             "SUNWELL SHRINE",
-            25,
+            DemoEconomyCatalog.TownRecoveryPrice,
             new Vector3(0f, 2f, 0f),
             new Color(0.95f, 0.85f, 0.35f, 1f))
     };
@@ -165,7 +165,9 @@ public static class SuncrestTownServiceBuilder
         "Wire Selected as Suncrest Inn Recovery")]
     public static void WireSuncrestInnRecovery()
     {
-        WireSelectedRecovery("SUNCREST INN", 25);
+        WireSelectedRecovery(
+            "SUNCREST INN",
+            DemoEconomyCatalog.TownRecoveryPrice);
     }
 
     [MenuItem(
@@ -173,7 +175,9 @@ public static class SuncrestTownServiceBuilder
         "Wire Selected as Sunwell Shrine Recovery")]
     public static void WireSunwellShrineRecovery()
     {
-        WireSelectedRecovery("SUNWELL SHRINE", 25);
+        WireSelectedRecovery(
+            "SUNWELL SHRINE",
+            DemoEconomyCatalog.TownRecoveryPrice);
     }
 
     private static void WireSelectedShop(string shopId, string displayName)
@@ -432,7 +436,7 @@ public static class SuncrestTownServiceBuilder
             new Vector2(240f, 16f), 11f, TextAlignmentOptions.Center);
         TextMeshProUGUI details = CreateText(
             "DetailsText", panel.transform,
-            "Full party recovery: 25 gold",
+            $"Full party recovery: {DemoEconomyCatalog.TownRecoveryPrice} gold",
             new Vector2(0.5f, 0.5f), new Vector2(0f, 10f),
             new Vector2(270f, 64f), 8f, TextAlignmentOptions.Center);
         Button recover = CreateButton(
