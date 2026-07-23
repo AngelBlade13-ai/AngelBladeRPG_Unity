@@ -112,6 +112,14 @@ sources yet, so visual settings controls and audible verification remain a
 later wiring pass. Five licensed third-party music candidates are imported but
 not yet assigned to scenes. Its 10 new tests bring the verified suite to 433.
 
+Batch eight adds persistent scene music routing and a repeatable technical
+setup command. `Unburdening Feelings` is assigned to the main menu and
+`Village Ambiance` is shared by all eight Suncrest districts without restarting
+between district transitions. Unrouted scenes stop music until battle and
+regional routing are added. Its 15 new checks bring the verified suite to 448.
+Menu, town, district-transition, battle-stop, and town-return playback were
+also verified in Play Mode.
+
 ## Release Strategy
 
 Development is divided into four release gates:
@@ -486,8 +494,8 @@ Goal: remove platform and persistence risks before producing most demo content.
   save handling.
 - [x] Store saves under Unity's application data path.
 - [ ] Add separate music and sound volume settings. Persistent values and
-  runtime audio-source hooks are implemented; player-facing sliders and
-  scene audio wiring remain.
+  runtime audio-source hooks are implemented. Main-menu and Suncrest music are
+  routed; player-facing sliders and remaining scene audio wiring remain.
 - [ ] Add display mode, resolution, text-speed, and other necessary settings.
 - [ ] Support keyboard and common controller navigation across all demo screens.
 - [ ] Add input rebinding or document the deliberately supported fixed layout.

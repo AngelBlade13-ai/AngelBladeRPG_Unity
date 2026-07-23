@@ -562,6 +562,39 @@ imported as streaming 2D clips but remain unwired.
 
 Verified on July 23, 2026: all 433 Edit Mode tests passed.
 
+### Milestone 17 Main Menu And Suncrest Music Batch Eight
+
+This batch adds 15 Edit Mode checks, bringing the expected suite to 448 tests.
+It verifies that `MainGameScene` selects the main-menu cue, all eight Suncrest
+districts select one shared town cue, unrouted or incorrectly cased scene names
+select no music, and the Suncrest route list contains eight unique names.
+
+After Unity compiles:
+
+1. Run all Edit Mode tests. Expect 448 passed and 0 failed.
+2. Run `Tools > AngelBlade RPG > Audio > Install Main Menu And Suncrest Music`.
+3. Open `MainGameScene` and enter Play Mode.
+4. Confirm `Unburdening Feelings` plays and loops on the title and character
+   creation panels.
+5. Start or continue into Suncrest. Confirm the music changes to
+   `Village Ambiance`.
+6. Walk through at least two district transitions. Confirm the same track
+   continues rather than restarting at each transition.
+7. While still in Play Mode, run
+   `Tools > AngelBlade RPG > Testing > Set Music Volume To 25 Percent`, then
+   `Set Music Volume To 100 Percent`. Confirm the playing source changes volume
+   immediately.
+8. Enter `BattleScene` through an encounter. Confirm town music stops; battle
+   music is intentionally deferred to the next routing pass.
+
+The setup command only adds or refreshes the technical `MusicDirector` object
+in `MainGameScene`. It does not alter district layouts or visible UI.
+
+Verified on July 23, 2026: all 448 Edit Mode tests passed. Main-menu and
+Suncrest playback, uninterrupted district transitions, immediate volume
+changes, battle silence, and resumed town music after battle worked in Play
+Mode.
+
 ### Fastest Development Workflow
 
 Keep the Unity Editor open and use the Test Runner while actively developing. The current Edit Mode suite itself completes in well under one second; most command-line test time comes from launching and initializing a new Unity Editor process.

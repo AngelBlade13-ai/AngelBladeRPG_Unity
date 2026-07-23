@@ -152,6 +152,13 @@ Current local state:
   default reset, and `CategorizedAudioSource` for future Music/Sound sources.
   Five licensed music candidates are imported but are not wired to scenes yet.
   Its 10 new tests bring the verified Unity suite to 433 passing tests.
+- Milestone 17 batch eight adds a persistent `MusicDirector`, exact scene music
+  routing, and an idempotent Editor setup command. The main menu uses
+  `Unburdening Feelings`; all eight Suncrest districts share `Village Ambiance`
+  without restarting it between districts; unrouted scenes remain silent until
+  their own music pass. Its 15 new checks bring the verified Unity suite to 448
+  passing tests. Menu, town, district-transition, battle-stop, and town-return
+  playback were verified in Play Mode.
 - Character creation, walkable district exploration, world interactions, the
   separate battle-scene loop, persistent job/roster data, reusable monster
   definitions, and the completed combat core are available on the pushed
