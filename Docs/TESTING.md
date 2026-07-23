@@ -512,6 +512,23 @@ Unity compile, then run all Edit Mode tests.
 
 Verified on July 23, 2026: all 420 Edit Mode tests passed.
 
+### Milestone 17 Save UI And Live Persistence Batch Five
+
+This batch adds no new automated cases; the verified Edit Mode suite remains
+at 420. It wires the title Continue control and uses
+`SaveButtonPropagationTool` to copy a user-authored Save control across the
+eight Suncrest exploration menus without generating its visual design.
+
+Verified manually on July 23, 2026:
+
+1. Started a new game and reached Suncrest Guild Hall.
+2. Created a manual save and received the `Game saved.` confirmation.
+3. Exited and restarted Play Mode.
+4. Continued into the saved scene with recognizable session state restored.
+5. Confirmed the Save button remained functional after loading.
+6. Crossed a district boundary, restarted Play Mode, and continued at the
+   destination scene's safe entrance.
+
 ### Fastest Development Workflow
 
 Keep the Unity Editor open and use the Test Runner while actively developing. The current Edit Mode suite itself completes in well under one second; most command-line test time comes from launching and initializing a new Unity Editor process.

@@ -137,6 +137,11 @@ Current local state:
   autosaves, title Continue behavior, and a manual-save method for the
   exploration inventory menu. It does not create or style UI controls. Its 10
   new tests bring the verified Unity suite to 420 passing tests.
+- Milestone 17 batch five adds the user-authored title Continue button and a
+  propagation tool that copies one user-authored Save-button design across all
+  eight Suncrest exploration menus while rewiring each local controller. A
+  two-session Unity playtest verified manual save, restart, Continue state
+  restoration, and destination-spawn autosave restoration.
 - Character creation, walkable district exploration, world interactions, the
   separate battle-scene loop, persistent job/roster data, reusable monster
   definitions, and the completed combat core are available on the pushed

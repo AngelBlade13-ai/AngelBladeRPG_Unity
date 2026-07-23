@@ -44,6 +44,7 @@ public class GameManager : MonoBehaviour
         gameSession = GameSessionStore.BeginNewSession();
         playerNameInput.text = "";
         characterCreationErrorText.text = "";
+        SetTitleMessage("");
 
         ShowCharacterCreationPanel();
     }
@@ -90,7 +91,11 @@ public class GameManager : MonoBehaviour
         characterCreationPanel.SetActive(false);
 
         RefreshContinueButton();
-        UIFocusHelper.Select(titleFirstSelected);
+        UIFocusHelper.SelectFirstAvailable(
+            continueButton,
+            titleFirstSelected == null
+                ? null
+                : titleFirstSelected.GetComponent<Selectable>());
     }
 
     private void ShowCharacterCreationPanel()

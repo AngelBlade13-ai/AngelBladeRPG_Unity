@@ -93,6 +93,12 @@ and battle transitions. Runtime methods are ready for title and exploration
 menu buttons without generating or styling those controls. Its 10 new tests
 bring the verified suite to 420.
 
+Batch five wires a user-authored Continue button into the title screen and
+propagates one user-authored Save button across all eight Suncrest exploration
+menus without choosing their visual design. Manual save, Play Mode restart,
+Continue restoration, and doorway autosave restoration were verified
+end-to-end in the Unity Editor.
+
 ## Release Strategy
 
 Development is divided into four release gates:
@@ -464,9 +470,8 @@ Goal: remove platform and persistence risks before producing most demo content.
   runtime system; authored quest and world-flag runtime state remains pending.
 - [ ] Save camp state, consumed camp-event IDs, and exact camp return context.
 - [ ] Add manual save, autosave, Continue, new-game confirmation, and corrupt
-  save handling. Runtime save, autosave, Continue, and corrupt-save fallback
-  are implemented; player-facing button wiring and new-game confirmation
-  remain.
+  save handling. Manual save, autosave, Continue, corrupt-save fallback, and
+  player-facing button wiring are implemented; new-game confirmation remains.
 - [x] Store saves under Unity's application data path.
 - [ ] Add separate music and sound volume settings.
 - [ ] Add display mode, resolution, text-speed, and other necessary settings.
