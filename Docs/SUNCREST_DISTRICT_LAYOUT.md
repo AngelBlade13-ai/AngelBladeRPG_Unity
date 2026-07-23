@@ -19,7 +19,16 @@ connection graph. Exact dimensions may change after traversal playtests.
 - [x] Completed a manual traversal smoke test through every district and
   confirmed the interaction transitions return to the expected scenes.
 - [ ] Replace the generic grass, dirt routes, and cyan exit markers with
-  district-specific blockouts and authored landmarks.
+  district-specific authored layouts and landmarks.
+
+The generated Guild Hall and Whisper Market building-placeholder pass was
+rejected and reverted. Do not use `SuncrestDistrictBlockoutBuilder`'s
+`Apply Guild Hall And Market Blockouts` or `Rebuild Guild Hall And Market
+Blockouts` commands as a source of permanent layout, building, road, or
+decoration decisions. The user owns those visual and level-design choices.
+Automation remains appropriate for neutral technical scaffolding, scene wiring,
+colliders, spawn points, transitions, and test fixtures, or when the user
+explicitly requests a specific authored placement.
 
 ## Scale And Density
 
