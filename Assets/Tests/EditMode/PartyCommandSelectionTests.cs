@@ -231,6 +231,80 @@ namespace AngelBladeRPG.Tests
             Assert.That(selection.TryBeginCoreAbility(), Is.False);
         }
 
+        [Test]
+        public void BattleItemRequiresOwnedPotionAndAnInjuredAlly()
+        {
+            PlayableCharacterData hero = Member("hero");
+            var inventory = new Inventory();
+            PartyBattleState battle = new PartyBattleState(
+                new[] { hero },
+                new[] { Enemy("enemy") });
+            var selection = new PartyCommandSelection(
+                battle,
+                hero,
+                inventory);
+
+            Assert.That(selection.TryBeginBattleItem(), Is.False);
+
+            inventory.TryAdd(ItemCatalog.MinorPotionId);
+            Assert.That(selection.TryBeginBattleItem(), Is.False);
+
+            hero.Stats.ApplyDamage(10);
+            Assert.That(selection.TryBeginBattleItem(), Is.True);
+        }
+
+        [Test]
+        public void BattleItemTargetsOnlyLivingInjuredAllies()
+        {
+            PlayableCharacterData actor = Member("actor");
+            PlayableCharacterData injured = Member("injured");
+            PlayableCharacterData fallen = Member("fallen");
+            injured.Stats.ApplyDamage(10);
+            fallen.Stats.CurrentHp = 0;
+            var inventory = new Inventory();
+            inventory.TryAdd(ItemCatalog.MinorPotionId);
+            var selection = new PartyCommandSelection(
+                new PartyBattleState(
+                    new[] { actor, injured, fallen },
+                    new[] { Enemy("enemy") }),
+                actor,
+                inventory);
+
+            selection.TryBeginBattleItem();
+
+            Assert.That(selection.GetCurrentTargetCount(), Is.EqualTo(1));
+            Assert.That(selection.SelectedTarget, Is.SameAs(injured));
+        }
+
+        [Test]
+        public void ConfirmedBattleItemStoresStableItemAndTargetIds()
+        {
+            PlayableCharacterData actor = Member("actor");
+            PlayableCharacterData injured = Member("injured");
+            injured.Stats.ApplyDamage(10);
+            var inventory = new Inventory();
+            inventory.TryAdd(ItemCatalog.MinorPotionId, 2);
+            var selection = new PartyCommandSelection(
+                new PartyBattleState(
+                    new[] { actor, injured },
+                    new[] { Enemy("enemy") }),
+                actor,
+                inventory);
+            selection.TryBeginBattleItem();
+
+            bool queued = selection.TryQueuePendingItem();
+
+            Assert.That(queued, Is.True);
+            Assert.That(
+                selection.Commands[0].Type,
+                Is.EqualTo(PartyBattleCommandType.Item));
+            Assert.That(
+                selection.Commands[0].ItemId,
+                Is.EqualTo(ItemCatalog.MinorPotionId));
+            Assert.That(selection.Commands[0].TargetId, Is.EqualTo(injured.Id));
+            Assert.That(selection.IsChoosingItem, Is.False);
+        }
+
         private static PartyCommandSelection Selection(
             PlayableCharacterData[] party,
             MonsterData[] enemies)

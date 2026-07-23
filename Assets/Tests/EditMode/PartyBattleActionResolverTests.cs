@@ -185,9 +185,64 @@ namespace AngelBladeRPG.Tests
             Assert.That(resolver.IsTaunting(reaver.Id), Is.False);
         }
 
-        private static PartyBattleActionResolver Resolver()
+        [Test]
+        public void BattleItemResolvesImmediatelyAndConsumesInventory()
         {
-            return new PartyBattleActionResolver(new NormalHitRandom());
+            PlayableCharacterData actor = Member("actor");
+            PlayableCharacterData target = Member("target");
+            target.Stats.ApplyDamage(50);
+            var inventory = new Inventory();
+            inventory.TryAdd(ItemCatalog.MinorPotionId);
+            PartyBattleState battle = new PartyBattleState(
+                new[] { actor, target },
+                new[] { Enemy("enemy") });
+
+            CombatActionResult result = Resolver(inventory).ResolveCommand(
+                battle,
+                PartyBattleCommand.Item(
+                    actor.Id,
+                    ItemCatalog.MinorPotionId,
+                    target.Id));
+
+            Assert.That(result.Type, Is.EqualTo(CombatActionType.Item));
+            Assert.That(result.Healing, Is.EqualTo(40));
+            Assert.That(
+                inventory.GetQuantity(ItemCatalog.MinorPotionId),
+                Is.Zero);
+        }
+
+        [Test]
+        public void RejectedBattleItemDoesNotClearDefend()
+        {
+            PlayableCharacterData hero = Member("hero");
+            var inventory = new Inventory();
+            inventory.TryAdd(ItemCatalog.MinorPotionId);
+            PartyBattleState battle = Battle(hero, Enemy("enemy"));
+            PartyBattleActionResolver resolver = Resolver(inventory);
+            resolver.ResolveCommand(
+                battle,
+                PartyBattleCommand.Defend(hero.Id));
+
+            Assert.That(
+                () => resolver.ResolveCommand(
+                    battle,
+                    PartyBattleCommand.Item(
+                        hero.Id,
+                        ItemCatalog.MinorPotionId,
+                        hero.Id)),
+                Throws.TypeOf<System.ArgumentException>());
+            Assert.That(resolver.IsGuarding(hero.Id), Is.True);
+            Assert.That(
+                inventory.GetQuantity(ItemCatalog.MinorPotionId),
+                Is.EqualTo(1));
+        }
+
+        private static PartyBattleActionResolver Resolver(
+            Inventory inventory = null)
+        {
+            return new PartyBattleActionResolver(
+                new NormalHitRandom(),
+                inventory: inventory);
         }
 
         private static PartyBattleState Battle(

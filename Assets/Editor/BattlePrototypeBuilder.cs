@@ -9,9 +9,7 @@ using UnityEngine.UI;
 
 public static class BattlePrototypeBuilder
 {
-    private const string TownScenePath = "Assets/Scenes/TownScene.unity";
     private const string BattleScenePath = "Assets/Scenes/BattleScene.unity";
-    private const string MainScenePath = "Assets/Scenes/MainGameScene.unity";
     private const string GuildHallScenePath =
         "Assets/Scenes/Suncrest/SuncrestGuildHallScene.unity";
     private const string PlaceholderSpritePath =
@@ -46,7 +44,7 @@ public static class BattlePrototypeBuilder
             "OK");
     }
 
-    [MenuItem("Tools/AngelBlade RPG/Build Placeholder Battle Scene")]
+    [MenuItem("Tools/AngelBlade RPG/Battle/Repair Battle Scene Interface")]
     public static void BuildPlaceholderBattleScene()
     {
         if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
@@ -54,36 +52,17 @@ public static class BattlePrototypeBuilder
             return;
         }
 
-        // BattleScene already exists in every normal workflow now (TownScene
-        // is only kept as a regression-test reference, not the live starting
-        // scene). Repairing it needs no TownScene-specific setup and should
-        // not require TownScene to be open.
+        Scene previouslyActiveScene = EditorSceneManager.GetActiveScene();
         if (AssetDatabase.LoadAssetAtPath<SceneAsset>(BattleScenePath) != null)
         {
-            Scene activeScene = EditorSceneManager.GetActiveScene();
-            RepairBattleInterface(activeScene);
+            RepairBattleInterface(previouslyActiveScene);
             AddSceneToBuildList(BattleScenePath);
             EditorUtility.DisplayDialog(
-                "Placeholder Battle Scene",
-                "BattleScene already exists. Encounters, return spawn, combat commands, and keyboard/gamepad navigation were repaired without overwriting the scene.",
+                "Battle Scene Interface",
+                "BattleScene combat commands and keyboard/gamepad navigation were repaired without changing any exploration scene.",
                 "OK");
             return;
         }
-
-        Scene townScene = EditorSceneManager.GetActiveScene();
-        if (townScene.path != TownScenePath)
-        {
-            EditorUtility.DisplayDialog(
-                "Placeholder Battle Scene",
-                "Open TownScene before building the battle prototype for the first time.",
-                "OK");
-            return;
-        }
-
-        EnsureTownEncounter();
-        EditorSceneManager.MarkSceneDirty(townScene);
-        EditorSceneManager.SaveScene(townScene);
-        RemoveLegacyPanels(townScene);
 
         GameObject sourceEventSystem = GameObject.Find("EventSystem");
         Scene battleScene = EditorSceneManager.NewScene(
@@ -97,39 +76,13 @@ public static class BattlePrototypeBuilder
 
         EditorSceneManager.SaveScene(battleScene, BattleScenePath);
         AddSceneToBuildList(BattleScenePath);
-        EditorSceneManager.SetActiveScene(townScene);
+        EditorSceneManager.SetActiveScene(previouslyActiveScene);
         EditorSceneManager.CloseScene(battleScene, true);
 
         EditorUtility.DisplayDialog(
-            "Placeholder Battle Scene",
-            "BattleScene and the town Goblin encounter are ready. Start from MainGameScene to test the full battle loop.",
+            "Battle Scene Interface",
+            "BattleScene was created and registered without changing any exploration scene.",
             "OK");
-    }
-
-    private static void RemoveLegacyPanels(Scene townScene)
-    {
-        Scene mainScene = EditorSceneManager.OpenScene(
-            MainScenePath,
-            OpenSceneMode.Additive);
-        DestroySceneObject(mainScene, "TownPanel");
-        DestroySceneObject(mainScene, "BattlePanel");
-        EditorSceneManager.MarkSceneDirty(mainScene);
-        EditorSceneManager.SaveScene(mainScene);
-        EditorSceneManager.SetActiveScene(townScene);
-        EditorSceneManager.CloseScene(mainScene, true);
-    }
-
-    private static void DestroySceneObject(Scene scene, string objectName)
-    {
-        foreach (GameObject root in scene.GetRootGameObjects())
-        {
-            Transform target = FindChildByName(root.transform, objectName);
-            if (target != null)
-            {
-                Object.DestroyImmediate(target.gameObject);
-                return;
-            }
-        }
     }
 
     private static Transform FindChildByName(Transform parent, string objectName)
@@ -149,68 +102,6 @@ public static class BattlePrototypeBuilder
         }
 
         return null;
-    }
-
-    private static void EnsureTownEncounter()
-    {
-        PlayerSpawnPoint2D returnSpawn = EnsureReturnSpawn();
-        AddSpawnToController(returnSpawn);
-
-        EnsureEncounter(
-            "BattleTestEncounter",
-            new Vector3(0f, 3f, 0f),
-            new Color(0.75f, 0.2f, 0.22f, 1f),
-            "monster_goblin");
-        EnsureEncounter(
-            "BattleDefeatTestEncounter",
-            new Vector3(3f, 3f, 0f),
-            new Color(0.45f, 0.16f, 0.55f, 1f),
-            "monster_ogre");
-        EnsureEncounter(
-            "BattleSpeedTestEncounter",
-            new Vector3(-3f, 3f, 0f),
-            new Color(0.16f, 0.7f, 0.78f, 1f),
-            "monster_wisp");
-        EnsureEncounterGroup(
-            "CaravanTutorialTestEncounter",
-            new Vector3(-3f, -3f, 0f),
-            new Color(0.9f, 0.55f, 0.12f, 1f),
-            BattleEncounterCatalog.CaravanTutorialId);
-    }
-
-    private static void EnsureEncounter(
-        string objectName,
-        Vector3 position,
-        Color color,
-        string monsterId)
-    {
-        GameObject encounterObject = GameObject.Find(objectName);
-        if (encounterObject == null)
-        {
-            encounterObject = new GameObject(objectName);
-            encounterObject.transform.position = position;
-            encounterObject.transform.localScale =
-                new Vector3(0.8f, 0.8f, 1f);
-
-            SpriteRenderer renderer =
-                encounterObject.AddComponent<SpriteRenderer>();
-            renderer.sprite = GetPlaceholderSprite();
-            renderer.color = color;
-            encounterObject.AddComponent<BoxCollider2D>();
-        }
-
-        BattleEncounterInteractable2D encounter =
-            encounterObject.GetComponent<BattleEncounterInteractable2D>();
-        if (encounter == null)
-        {
-            encounter =
-                encounterObject.AddComponent<BattleEncounterInteractable2D>();
-        }
-
-        encounter.Configure(
-            "BattleScene",
-            "TownAfterBattle",
-            monsterId);
     }
 
     private static void EnsureEncounterGroup(
@@ -263,46 +154,6 @@ public static class BattlePrototypeBuilder
         renderer.sprite = GetPlaceholderSprite();
         renderer.color = color;
         return encounterObject;
-    }
-
-    private static PlayerSpawnPoint2D EnsureReturnSpawn()
-    {
-        GameObject spawnObject = GameObject.Find("TownAfterBattleSpawn");
-        if (spawnObject == null)
-        {
-            spawnObject = new GameObject("TownAfterBattleSpawn");
-            spawnObject.AddComponent<PlayerSpawnPoint2D>();
-        }
-
-        spawnObject.transform.position = new Vector3(0f, 1.5f, 0f);
-        PlayerSpawnPoint2D spawn =
-            spawnObject.GetComponent<PlayerSpawnPoint2D>();
-        spawn.Configure("TownAfterBattle");
-        return spawn;
-    }
-
-    private static void AddSpawnToController(PlayerSpawnPoint2D spawnPoint)
-    {
-        WorldSceneSpawnController2D controller =
-            Object.FindAnyObjectByType<WorldSceneSpawnController2D>();
-        SerializedObject serializedController = new SerializedObject(controller);
-        SerializedProperty spawns =
-            serializedController.FindProperty("additionalSpawnPoints");
-
-        for (int index = 0; index < spawns.arraySize; index++)
-        {
-            if (spawns.GetArrayElementAtIndex(index).objectReferenceValue ==
-                spawnPoint)
-            {
-                return;
-            }
-        }
-
-        int newIndex = spawns.arraySize;
-        spawns.InsertArrayElementAtIndex(newIndex);
-        spawns.GetArrayElementAtIndex(newIndex).objectReferenceValue =
-            spawnPoint;
-        serializedController.ApplyModifiedPropertiesWithoutUndo();
     }
 
     private static void CreateCamera()
@@ -432,36 +283,43 @@ public static class BattlePrototypeBuilder
             TextAlignmentOptions.TopLeft);
         RectTransform logRect = battleLog.rectTransform;
         logRect.offsetMin = new Vector2(8f, 7f);
-        logRect.offsetMax = new Vector2(-168f, -7f);
+        logRect.offsetMax = new Vector2(-180f, -7f);
 
         GameObject attackButton = CreateButton(
             "AttackButton",
             commandBand.transform,
             "Attack",
             new Vector2(1f, 0.5f),
-            new Vector2(-148f, 12f),
-            new Vector2(40f, 22f));
+            new Vector2(-158f, 12f),
+            new Vector2(34f, 22f));
         GameObject abilityButton = CreateButton(
             "AbilityButton",
             commandBand.transform,
             "Ability",
             new Vector2(1f, 0.5f),
-            new Vector2(-106f, 12f),
-            new Vector2(40f, 22f));
+            new Vector2(-122f, 12f),
+            new Vector2(34f, 22f));
+        GameObject itemButton = CreateButton(
+            "ItemButton",
+            commandBand.transform,
+            "Item",
+            new Vector2(1f, 0.5f),
+            new Vector2(-86f, 12f),
+            new Vector2(34f, 22f));
         GameObject defendButton = CreateButton(
             "DefendButton",
             commandBand.transform,
             "Defend",
             new Vector2(1f, 0.5f),
-            new Vector2(-64f, 12f),
-            new Vector2(40f, 22f));
+            new Vector2(-50f, 12f),
+            new Vector2(34f, 22f));
         GameObject escapeButton = CreateButton(
             "EscapeButton",
             commandBand.transform,
             "Escape",
             new Vector2(1f, 0.5f),
-            new Vector2(-22f, 12f),
-            new Vector2(40f, 22f));
+            new Vector2(-14f, 12f),
+            new Vector2(34f, 22f));
         GameObject continueButton = CreateButton(
             "ContinueButton",
             commandBand.transform,
@@ -498,11 +356,12 @@ public static class BattlePrototypeBuilder
             new Vector2(24f, 18f));
 
         LinkNavigation(attackButton, null, previousTargetButton, null, abilityButton);
-        LinkNavigation(abilityButton, null, nextTargetButton, attackButton, defendButton);
-        LinkNavigation(defendButton, null, nextTargetButton, abilityButton, escapeButton);
+        LinkNavigation(abilityButton, null, nextTargetButton, attackButton, itemButton);
+        LinkNavigation(itemButton, null, nextTargetButton, abilityButton, defendButton);
+        LinkNavigation(defendButton, null, nextTargetButton, itemButton, escapeButton);
         LinkNavigation(escapeButton, null, nextTargetButton, defendButton, null);
         LinkNavigation(previousTargetButton, attackButton, null, null, nextTargetButton);
-        LinkNavigation(nextTargetButton, abilityButton, null, previousTargetButton, null);
+        LinkNavigation(nextTargetButton, itemButton, null, previousTargetButton, null);
 
         UnityEventTools.AddPersistentListener(
             attackButton.GetComponent<Button>().onClick,
@@ -510,6 +369,9 @@ public static class BattlePrototypeBuilder
         UnityEventTools.AddPersistentListener(
             abilityButton.GetComponent<Button>().onClick,
             controller.Ability);
+        UnityEventTools.AddPersistentListener(
+            itemButton.GetComponent<Button>().onClick,
+            controller.Item);
         UnityEventTools.AddPersistentListener(
             defendButton.GetComponent<Button>().onClick,
             controller.Defend);
@@ -535,6 +397,7 @@ public static class BattlePrototypeBuilder
             continueLabel,
             attackButton,
             abilityButton,
+            itemButton,
             defendButton,
             escapeButton,
             previousTargetButton,
@@ -577,6 +440,18 @@ public static class BattlePrototypeBuilder
                 new Vector2(-106f, 12f),
                 new Vector2(40f, 22f))
             : abilityTransform.gameObject;
+        Transform itemTransform =
+            FindSceneObject(battleScene, "ItemButton");
+        bool createdItemButton = itemTransform == null;
+        GameObject itemButton = createdItemButton
+            ? CreateButton(
+                "ItemButton",
+                commandBand,
+                "Item",
+                new Vector2(1f, 0.5f),
+                new Vector2(-86f, 12f),
+                new Vector2(34f, 22f))
+            : itemTransform.gameObject;
         Transform defendTransform =
             FindSceneObject(battleScene, "DefendButton");
         bool createdDefendButton = defendTransform == null;
@@ -586,8 +461,8 @@ public static class BattlePrototypeBuilder
                 commandBand,
                 "Defend",
                 new Vector2(1f, 0.5f),
-                new Vector2(-64f, 12f),
-                new Vector2(40f, 22f))
+                new Vector2(-50f, 12f),
+                new Vector2(34f, 22f))
             : defendTransform.gameObject;
         GameObject escapeButton =
             FindSceneObject(battleScene, "EscapeButton").gameObject;
@@ -648,31 +523,38 @@ public static class BattlePrototypeBuilder
             attackButton.GetComponent<RectTransform>(),
             new Vector2(1f, 0.5f),
             new Vector2(1f, 0.5f),
-            new Vector2(-148f, 12f),
-            new Vector2(40f, 22f),
+            new Vector2(-158f, 12f),
+            new Vector2(34f, 22f),
             new Vector2(0.5f, 0.5f));
         SetRect(
             abilityButton.GetComponent<RectTransform>(),
             new Vector2(1f, 0.5f),
             new Vector2(1f, 0.5f),
-            new Vector2(-106f, 12f),
-            new Vector2(40f, 22f),
+            new Vector2(-122f, 12f),
+            new Vector2(34f, 22f),
+            new Vector2(0.5f, 0.5f));
+        SetRect(
+            itemButton.GetComponent<RectTransform>(),
+            new Vector2(1f, 0.5f),
+            new Vector2(1f, 0.5f),
+            new Vector2(-86f, 12f),
+            new Vector2(34f, 22f),
             new Vector2(0.5f, 0.5f));
         SetRect(
             defendButton.GetComponent<RectTransform>(),
             new Vector2(1f, 0.5f),
             new Vector2(1f, 0.5f),
-            new Vector2(-64f, 12f),
-            new Vector2(40f, 22f),
+            new Vector2(-50f, 12f),
+            new Vector2(34f, 22f),
             new Vector2(0.5f, 0.5f));
         SetRect(
             escapeButton.GetComponent<RectTransform>(),
             new Vector2(1f, 0.5f),
             new Vector2(1f, 0.5f),
-            new Vector2(-22f, 12f),
-            new Vector2(40f, 22f),
+            new Vector2(-14f, 12f),
+            new Vector2(34f, 22f),
             new Vector2(0.5f, 0.5f));
-        battleLog.rectTransform.offsetMax = new Vector2(-168f, -7f);
+        battleLog.rectTransform.offsetMax = new Vector2(-180f, -7f);
         battleLog.fontSize = 7f;
         SetRect(
             playerStatus.rectTransform,
@@ -727,6 +609,13 @@ public static class BattlePrototypeBuilder
                 controller.Ability);
         }
 
+        if (createdItemButton)
+        {
+            UnityEventTools.AddPersistentListener(
+                itemButton.GetComponent<Button>().onClick,
+                controller.Item);
+        }
+
         if (createdPreviousTarget)
         {
             UnityEventTools.AddPersistentListener(
@@ -742,11 +631,12 @@ public static class BattlePrototypeBuilder
         }
 
         LinkNavigation(attackButton, null, previousTargetButton, null, abilityButton);
-        LinkNavigation(abilityButton, null, nextTargetButton, attackButton, defendButton);
-        LinkNavigation(defendButton, null, nextTargetButton, abilityButton, escapeButton);
+        LinkNavigation(abilityButton, null, nextTargetButton, attackButton, itemButton);
+        LinkNavigation(itemButton, null, nextTargetButton, abilityButton, defendButton);
+        LinkNavigation(defendButton, null, nextTargetButton, itemButton, escapeButton);
         LinkNavigation(escapeButton, null, nextTargetButton, defendButton, null);
         LinkNavigation(previousTargetButton, attackButton, null, null, nextTargetButton);
-        LinkNavigation(nextTargetButton, abilityButton, null, previousTargetButton, null);
+        LinkNavigation(nextTargetButton, itemButton, null, previousTargetButton, null);
 
         controller.Configure(
             playerStatus,
@@ -756,6 +646,7 @@ public static class BattlePrototypeBuilder
             continueLabel,
             attackButton,
             abilityButton,
+            itemButton,
             defendButton,
             escapeButton,
             previousTargetButton,

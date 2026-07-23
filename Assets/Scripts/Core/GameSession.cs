@@ -274,7 +274,8 @@ public class GameSession
             combatRandom,
             CaravanTutorial,
             CaravanTutorial,
-            CaravanTutorial);
+            CaravanTutorial,
+            Inventory);
     }
 
     public IReadOnlyList<string> AdvanceTutorialAfterAction(

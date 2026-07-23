@@ -12,7 +12,7 @@ The core gameplay tests are Unity Edit Mode tests. They exercise plain gameplay 
 
 The test assembly is `AngelBladeRPG.EditModeTests` under `Assets/Tests/EditMode`.
 
-Verified on July 23, 2026 with Unity `6000.5.3f1`: 353 passed, 0 failed.
+Verified on July 23, 2026 with Unity `6000.5.3f1`: 365 passed, 0 failed.
 
 The current suite includes 30 core gameplay tests, five pixel-world movement and camera tests, five temporary direction-indicator tests, four walkable-town foundation tests, seven interaction tests, eight door-transition tests, 19 battle-scene tests, 13 party-command selection tests, 11 core-ability tests, 63 job, affinity, progression, playable-character, party-roster, and party-management tests, 11 runtime-party targeting tests, 13 party-round resolver tests, 10 authored party-member tests, five speed-based turn-order tests, nine legacy speed-resolved battle-round tests, five bond and roster-history tests, nine shared combat-stat tests, 18 reusable monster-definition tests, 14 enemy encounter and layout tests, 15 structured combat-action tests, four item-catalog tests, four inventory tests, eight character-equipment tests, five item-use tests, six camp-rest tests, and nine shop/town-recovery tests.
 
@@ -246,8 +246,8 @@ Required before the Play Mode pass below:
    screen's New Game button and save the scene.
 2. Run `Tools > AngelBlade RPG > World > Build Guild Hall Party Service` to
    bake the new Guild Hall navigation graph into `SuncrestGuildHallScene`.
-3. Run `Tools > AngelBlade RPG > Build Placeholder Battle Scene` to bake the
-   new battle command-bar navigation graph into `BattleScene`.
+3. Run `Tools > AngelBlade RPG > Battle > Repair Battle Scene Interface` to
+   bake the new battle command-bar navigation graph into `BattleScene`.
 
 Manual Play Mode checklist, using only a keyboard (arrow keys and Enter)
 and then only a gamepad (d-pad/stick and the South face button):
@@ -380,6 +380,43 @@ Verified on July 23, 2026: all four temporary fixtures opened and closed;
 Whisper Market buying and selling worked; the Editor-only test-gold command
 allowed transaction coverage without grinding; and town recovery behaved as
 expected.
+
+### Milestone 16 Battle Items Batch Five
+
+This batch adds 12 Edit Mode cases, bringing the expected suite to 365 tests.
+It covers battle-item eligibility, living injured-ally targeting, HP clamping,
+one-time inventory consumption, invalid-target rejection, command-selection
+state, and explicit rejection by the legacy queued-round resolver.
+
+Required Unity Editor setup:
+
+1. Focus Unity and let script compilation finish.
+2. Run `Tools > AngelBlade RPG > Battle > Repair Battle Scene Interface`.
+3. The command repairs the existing `BattleScene` in place and adds the
+   functional `Item` command without rebuilding exploration scenes.
+4. Open `Window > General > Test Runner`, select Edit Mode, and run all tests.
+   The expected result is 365 passed and 0 failed.
+
+Manual Play Mode checklist:
+
+1. Enter Play Mode, use
+   `Tools > AngelBlade RPG > Testing > Grant 1000 Test Gold`, and buy at least
+   two Minor Potions from Whisper Market.
+2. Start a battle and allow an available party member to take damage.
+3. When a party member's gauge is ready, confirm `Item` is enabled. Select it
+   and confirm the prompt reports the Minor Potion quantity.
+4. Confirm only living, available, injured allies can be targeted. Cycle among
+   multiple valid targets when available.
+5. Use the potion. Confirm the target recovers up to 40 HP without exceeding
+   maximum HP, the inventory quantity decreases exactly once, and the acting
+   character's gauge is consumed.
+6. Confirm `Item` is disabled when no Minor Potion is owned or no valid injured
+   ally exists. Incapacitated allies must not be valid targets.
+7. In Wait Mode, leave the item target prompt open briefly and confirm action
+   gauges remain paused until the command is completed or cancelled.
+
+Verified on July 23, 2026: all 365 Edit Mode tests passed and the repaired
+`BattleScene` completed its battle-item Play Mode smoke test successfully.
 
 ### Fastest Development Workflow
 

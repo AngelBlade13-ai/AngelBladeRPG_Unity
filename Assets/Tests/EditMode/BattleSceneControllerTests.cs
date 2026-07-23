@@ -85,6 +85,29 @@ namespace AngelBladeRPG.Tests
         }
 
         [Test]
+        public void FormatItemPromptNamesItemQuantityActorAndTarget()
+        {
+            PlayableCharacterData actor = new PlayableCharacterData(
+                "hero",
+                "Angel",
+                JobId.Mercenary);
+            PlayableCharacterData target = new PlayableCharacterData(
+                "healer",
+                "Iona",
+                JobId.WhiteMage);
+
+            string prompt = BattleSceneController.FormatItemPrompt(
+                actor,
+                target,
+                ItemCatalog.Get(ItemCatalog.MinorPotionId),
+                3);
+
+            Assert.That(
+                prompt,
+                Is.EqualTo("Minor Potion x3: Angel -> Iona"));
+        }
+
+        [Test]
         public void FormatCombatantGroupShowsCombinedSelfTargetMarker()
         {
             PlayableCharacterData actor = new PlayableCharacterData(

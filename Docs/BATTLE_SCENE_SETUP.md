@@ -12,12 +12,12 @@ This guide builds and verifies the first dedicated turn-based battle scene in Un
 5. Victory grants rewards once, escape grants none, and defeat returns to the title scene.
 6. Victory or escape consumes the recorded destination and returns the Player to `TownAfterBattleSpawn`.
 
-## Build The Prototype
+## Build Or Repair The Battle Scene
 
-1. Open `TownScene` outside Play Mode.
-2. Save any current scene changes.
-3. Choose **Tools > AngelBlade RPG > Build Placeholder Battle Scene**.
-4. Wait for Unity to create the scene and return to `TownScene`.
+1. Leave Play Mode and save any current scene changes.
+2. Choose **Tools > AngelBlade RPG > Battle > Repair Battle Scene Interface**.
+3. Wait for Unity to create or repair `BattleScene`, then return to the scene
+   that was open before the command ran.
 
 The command creates:
 
@@ -25,22 +25,20 @@ The command creates:
   actor/target markers, combatant placeholders, expanded battle log, target
   controls, and command buttons.
 - `BattleController` with all UI references and button callbacks assigned.
-- `BattleTestEncounter`, a red Goblin encounter for victory and escape tests.
-- `BattleDefeatTestEncounter`, a purple Ogre encounter that defeats the starting hero.
-- `TownAfterBattleSpawn`, used after victory or escape.
 - A Scene List entry for `BattleScene`.
 
-The encounter choice is a deterministic prototype. It does not permanently decide whether the finished game uses visible, random, or scripted encounters.
+The command does not create encounters, return points, layouts, or decoration
+in any exploration scene.
 
 ## Party Command UI Repair
 
 After pulling the party-command checkpoint:
 
-1. Open `TownScene` outside Play Mode.
-2. Choose **Tools > AngelBlade RPG > Build Placeholder Battle Scene**.
+1. Leave Play Mode and save the currently open scene.
+2. Choose **Tools > AngelBlade RPG > Battle > Repair Battle Scene Interface**.
 3. Because `BattleScene` already exists, confirm the tool reports that it
    repaired the interface without overwriting the scene.
-4. Save `TownScene` if Unity still marks it dirty.
+4. Confirm the previously open scene was not modified.
 
 The repair adds and wires `CommandPromptText`, `PreviousTargetButton`,
 `NextTargetButton`, and `AbilityButton`, expands the battle log, and resizes the

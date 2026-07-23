@@ -249,6 +249,28 @@ namespace AngelBladeRPG.Tests
         }
 
         [Test]
+        public void LegacyRoundResolverRejectsItemCommandsExplicitly()
+        {
+            PlayableCharacterData hero = Member("hero", 10);
+            hero.Stats.ApplyDamage(10);
+            PartyBattleState battle = Battle(
+                new[] { hero },
+                new[] { Enemy("enemy", 5) });
+
+            Assert.That(
+                () => Resolver().ResolveRound(
+                    battle,
+                    new[]
+                    {
+                        PartyBattleCommand.Item(
+                            hero.Id,
+                            ItemCatalog.MinorPotionId,
+                            hero.Id)
+                    }),
+                Throws.TypeOf<NotSupportedException>());
+        }
+
+        [Test]
         public void AlreadyCompletedBattleProducesNoActions()
         {
             PlayableCharacterData hero = Member("hero", 10);

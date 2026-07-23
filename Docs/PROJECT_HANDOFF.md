@@ -1,6 +1,6 @@
 # Petals in the Dusk Unity Project Handoff
 
-Last updated: July 16, 2026
+Last updated: July 23, 2026
 
 This document summarizes the planning, implementation, Git history, Unity Editor work, and next steps discussed while converting the original command-line RPG into a Unity 2D project.
 
@@ -87,8 +87,8 @@ provisional scale tests, animation backlog, and delivery rules are maintained in
 Current local state:
 
 - Active branch: `feature/milestone-16-items-equipment`
-- The current Milestone 16 branch is pushed through commit `81d9c39`; its town
-  service checkpoint is verified locally and awaiting commit.
+- The current Milestone 16 branch is pushed through commit `a1a1cb4`; its town
+  service checkpoint is verified and pushed.
 - Milestone 15 is complete through the verified keyboard/gamepad navigation
   checkpoint, including simultaneous-enemy presentation, active-Taunt fixes,
   and the 304-test Edit Mode suite.
@@ -107,6 +107,10 @@ Current local state:
   temporary service fixtures, and an Editor-only test-gold command. Its eight
   new tests bring the verified suite to 353 passing tests, and its Play Mode
   service checks pass.
+- Milestone 16 batch five implements the live action-gauge battle `Item`
+  command, Minor Potion use, living injured-ally targeting, exact inventory
+  consumption, and Wait Mode command-menu pausing. Its 12 new tests bring the
+  verified suite to 365, and its Play Mode battle-item checks pass.
 - Character creation, walkable district exploration, world interactions, the
   separate battle-scene loop, persistent job/roster data, reusable monster
   definitions, and the completed combat core are available on the pushed

@@ -5,6 +5,7 @@ public enum PartyBattleCommandType
 {
     PhysicalAttack,
     Ability,
+    Item,
     Defend
 }
 
@@ -14,12 +15,14 @@ public sealed class PartyBattleCommand
     public PartyBattleCommandType Type { get; }
     public string TargetId { get; }
     public string AbilityId { get; }
+    public string ItemId { get; }
 
     private PartyBattleCommand(
         string actorId,
         PartyBattleCommandType type,
         string targetId,
-        string abilityId = "")
+        string abilityId = "",
+        string itemId = "")
     {
         if (string.IsNullOrWhiteSpace(actorId))
         {
@@ -36,6 +39,9 @@ public sealed class PartyBattleCommand
         AbilityId = string.IsNullOrWhiteSpace(abilityId)
             ? string.Empty
             : abilityId.Trim();
+        ItemId = string.IsNullOrWhiteSpace(itemId)
+            ? string.Empty
+            : itemId.Trim();
     }
 
     public static PartyBattleCommand Attack(string actorId, string targetId)
@@ -85,6 +91,32 @@ public sealed class PartyBattleCommand
             PartyBattleCommandType.Ability,
             targetId,
             abilityId);
+    }
+
+    public static PartyBattleCommand Item(
+        string actorId,
+        string itemId,
+        string targetId)
+    {
+        if (string.IsNullOrWhiteSpace(itemId))
+        {
+            throw new ArgumentException(
+                "An item ID is required.",
+                nameof(itemId));
+        }
+
+        if (string.IsNullOrWhiteSpace(targetId))
+        {
+            throw new ArgumentException(
+                "An item target ID is required.",
+                nameof(targetId));
+        }
+
+        return new PartyBattleCommand(
+            actorId,
+            PartyBattleCommandType.Item,
+            targetId,
+            itemId: itemId);
     }
 }
 
@@ -363,6 +395,12 @@ public sealed class PartyBattleRoundResolver
         {
             ValidateAbilityCommand(battle, command);
             return;
+        }
+
+        if (command.Type == PartyBattleCommandType.Item)
+        {
+            throw new NotSupportedException(
+                "Item commands require the action-gauge battle resolver.");
         }
 
         if (!battle.TrySelectTarget(

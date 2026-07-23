@@ -19,6 +19,7 @@ public class BattleSceneController : MonoBehaviour
     [Header("Commands")]
     [SerializeField] private GameObject attackButton;
     [SerializeField] private GameObject abilityButton;
+    [SerializeField] private GameObject itemButton;
     [SerializeField] private GameObject defendButton;
     [SerializeField] private GameObject escapeButton;
     [SerializeField] private GameObject previousTargetButton;
@@ -165,6 +166,29 @@ public class BattleSceneController : MonoBehaviour
         }
     }
 
+    public void Item()
+    {
+        if (!session.HasActiveBattle || commandSelection == null)
+        {
+            return;
+        }
+
+        if (!commandSelection.IsChoosingItem)
+        {
+            if (commandSelection.TryBeginBattleItem())
+            {
+                RefreshStatus();
+            }
+
+            return;
+        }
+
+        if (commandSelection.TryQueuePendingItem())
+        {
+            ResolveSelectedCommand();
+        }
+    }
+
     public void PreviousTarget()
     {
         if (commandSelection != null && commandSelection.CycleTarget(-1))
@@ -186,6 +210,7 @@ public class BattleSceneController : MonoBehaviour
         if (!session.HasActiveBattle || commandSelection == null ||
             commandSelection.HasQueuedCommands ||
             commandSelection.IsChoosingAbility ||
+            commandSelection.IsChoosingItem ||
             session.PartyBattle.PartyMembers.Count != 1 ||
             session.PartyBattle.Enemies.Count != 1 ||
             !session.EscapeAllowed)
@@ -331,6 +356,23 @@ public class BattleSceneController : MonoBehaviour
                 $"{target.DisplayName}";
     }
 
+    public static string FormatItemPrompt(
+        ICombatant actor,
+        ICombatant target,
+        ItemDefinition item,
+        int quantity)
+    {
+        if (actor == null || item == null)
+        {
+            return string.Empty;
+        }
+
+        string action = $"{item.DisplayName} x{quantity}";
+        return target == null
+            ? $"{action}: choose an ally"
+            : $"{action}: {actor.DisplayName} -> {target.DisplayName}";
+    }
+
     public void Configure(
         TextMeshProUGUI playerStatus,
         TextMeshProUGUI monsterStatus,
@@ -339,6 +381,7 @@ public class BattleSceneController : MonoBehaviour
         TextMeshProUGUI continueLabel,
         GameObject attackCommand,
         GameObject abilityCommand,
+        GameObject itemCommand,
         GameObject defendCommand,
         GameObject escapeCommand,
         GameObject previousTargetCommand,
@@ -352,6 +395,7 @@ public class BattleSceneController : MonoBehaviour
         continueButtonText = continueLabel;
         attackButton = attackCommand;
         abilityButton = abilityCommand;
+        itemButton = itemCommand;
         defendButton = defendCommand;
         escapeButton = escapeCommand;
         previousTargetButton = previousTargetCommand;
@@ -415,6 +459,11 @@ public class BattleSceneController : MonoBehaviour
             abilityButton.SetActive(commandsAreActive);
         }
 
+        if (itemButton != null)
+        {
+            itemButton.SetActive(commandsAreActive);
+        }
+
         defendButton.SetActive(commandsAreActive);
         RefreshEscapeButton(commandsAreActive);
         if (previousTargetButton != null)
@@ -439,6 +488,7 @@ public class BattleSceneController : MonoBehaviour
             UIFocusHelper.SelectFirstAvailable(
                 attackButton,
                 abilityButton,
+                itemButton,
                 defendButton);
         }
     }
@@ -489,6 +539,13 @@ public class BattleSceneController : MonoBehaviour
                     actor,
                     target,
                     commandSelection.PendingAbility)
+                : commandSelection != null &&
+                    commandSelection.IsChoosingItem
+                    ? FormatItemPrompt(
+                        actor,
+                        target,
+                        commandSelection.PendingItem,
+                        commandSelection.GetPendingItemQuantity())
                 : FormatCommandPrompt(actor, target);
         }
 
@@ -496,6 +553,7 @@ public class BattleSceneController : MonoBehaviour
         SetTargetButtonInteractable(previousTargetButton, targetCount > 1);
         SetTargetButtonInteractable(nextTargetButton, targetCount > 1);
         RefreshAbilityButton();
+        RefreshItemButton();
 
         if (attackButton.activeInHierarchy &&
             !UIFocusHelper.CurrentSelectionIsUsable())
@@ -503,6 +561,7 @@ public class BattleSceneController : MonoBehaviour
             UIFocusHelper.SelectFirstAvailable(
                 attackButton,
                 abilityButton,
+                itemButton,
                 defendButton,
                 previousTargetButton,
                 nextTargetButton);
@@ -515,7 +574,8 @@ public class BattleSceneController : MonoBehaviour
     {
         commandSelection = new PartyCommandSelection(
             session.PartyBattle,
-            readyActor);
+            readyActor,
+            session.Inventory);
         SetCommandState(true);
         RefreshStatus();
     }
@@ -682,6 +742,29 @@ public class BattleSceneController : MonoBehaviour
             label.text = commandSelection.IsChoosingAbility
                 ? "Confirm"
                 : "Ability";
+        }
+    }
+
+    private void RefreshItemButton()
+    {
+        if (itemButton == null || commandSelection == null)
+        {
+            return;
+        }
+
+        if (itemButton.TryGetComponent(out Button button))
+        {
+            button.interactable = commandSelection.IsChoosingItem ||
+                commandSelection.CanChooseBattleItem();
+        }
+
+        TextMeshProUGUI label =
+            itemButton.GetComponentInChildren<TextMeshProUGUI>();
+        if (label != null)
+        {
+            label.text = commandSelection.IsChoosingItem
+                ? "Confirm"
+                : "Item";
         }
     }
 

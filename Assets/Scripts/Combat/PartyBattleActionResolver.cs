@@ -7,6 +7,7 @@ public sealed class PartyBattleActionResolver
     private readonly IEnemyBattleCommandSource enemyCommandSource;
     private readonly IBattleDamageRules damageRules;
     private readonly IBattleCommandObserver commandObserver;
+    private readonly BattleItemService battleItems;
     private readonly HashSet<string> guardingIds =
         new HashSet<string>(StringComparer.Ordinal);
     private readonly PhysicalAttackAction physicalAttack =
@@ -19,13 +20,15 @@ public sealed class PartyBattleActionResolver
         ICombatRandom combatRandom = null,
         IEnemyBattleCommandSource enemyCommandSource = null,
         IBattleDamageRules damageRules = null,
-        IBattleCommandObserver commandObserver = null)
+        IBattleCommandObserver commandObserver = null,
+        Inventory inventory = null)
     {
         this.combatRandom = combatRandom ?? new SystemCombatRandom();
         this.enemyCommandSource =
             enemyCommandSource ?? new FirstLivingTargetCommandSource();
         this.damageRules = damageRules;
         this.commandObserver = commandObserver;
+        battleItems = new BattleItemService(inventory);
     }
 
     public bool IsGuarding(string combatantId)
@@ -78,6 +81,10 @@ public sealed class PartyBattleActionResolver
 
         ICombatant actor = battle.GetCombatant(command.ActorId);
         ValidateLivingActor(battle, actor);
+        if (command.Type == PartyBattleCommandType.Item)
+        {
+            ValidateItemCommand(battle, actor, command);
+        }
 
         guardingIds.Remove(actor.CombatantId);
         if (tauntingActorId == actor.CombatantId)
@@ -95,6 +102,11 @@ public sealed class PartyBattleActionResolver
         else if (command.Type == PartyBattleCommandType.Ability)
         {
             result = ResolveAbility(battle, actor, command);
+        }
+        else if (command.Type == PartyBattleCommandType.Item)
+        {
+            ICombatant target = battle.GetCombatant(command.TargetId);
+            result = battleItems.Use(actor, target, command.ItemId);
         }
         else
         {
@@ -115,6 +127,28 @@ public sealed class PartyBattleActionResolver
 
         commandObserver?.OnCommandResolved(command, result);
         return result;
+    }
+
+    private void ValidateItemCommand(
+        PartyBattleState battle,
+        ICombatant actor,
+        PartyBattleCommand command)
+    {
+        if (!Contains(battle.PartyMembers, actor.CombatantId))
+        {
+            throw new ArgumentException(
+                "Only party members can use inventory items.",
+                nameof(command));
+        }
+
+        ICombatant target = battle.GetCombatant(command.TargetId);
+        if (!battleItems.CanUse(command.ItemId, target) ||
+            !Contains(battle.PartyMembers, command.TargetId))
+        {
+            throw new ArgumentException(
+                $"{command.ItemId} cannot be used on {command.TargetId}.",
+                nameof(command));
+        }
     }
 
     public CombatActionResult ResolveEscape(
