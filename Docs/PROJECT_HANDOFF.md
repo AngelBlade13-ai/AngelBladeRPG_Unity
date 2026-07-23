@@ -147,6 +147,11 @@ Current local state:
   valid names require a second Confirm when saved progress exists. Its 3 new
   tests bring the verified Unity suite to 423 passing tests. The warning and
   second-confirm flow were also verified in Play Mode.
+- Milestone 17 batch seven adds global Music and Sound settings backed by
+  `PlayerPrefs`, a testable settings service, immediate change notifications,
+  default reset, and `CategorizedAudioSource` for future Music/Sound sources.
+  Four licensed music candidates are imported but are not wired to scenes yet.
+  Its 10 new tests bring the verified Unity suite to 433 passing tests.
 - Character creation, walkable district exploration, world interactions, the
   separate battle-scene loop, persistent job/roster data, reusable monster
   definitions, and the completed combat core are available on the pushed

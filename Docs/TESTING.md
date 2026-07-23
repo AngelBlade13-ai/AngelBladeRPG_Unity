@@ -547,6 +547,21 @@ press must enter Suncrest.
 Verified on July 23, 2026: all 423 Edit Mode tests passed, and the two-click
 Play Mode confirmation behaved as intended.
 
+### Milestone 17 Audio Settings Foundation Batch Seven
+
+This batch adds 10 Edit Mode cases, bringing the verified suite to 433 tests.
+It verifies full-volume defaults, range clamping, invalid numeric handling,
+loading persisted values, missing-setting fallback, Music and Sound updates,
+change notifications, no-op updates, default reset, and categorized source
+volume calculation.
+
+Tests use an in-memory settings store and do not change the developer machine's
+real `PlayerPrefs`. No Editor command or Play Mode pass is required because the
+project does not yet contain scene audio sources. Four music candidates are
+imported as streaming 2D clips but remain unwired.
+
+Verified on July 23, 2026: all 433 Edit Mode tests passed.
+
 ### Fastest Development Workflow
 
 Keep the Unity Editor open and use the Test Runner while actively developing. The current Edit Mode suite itself completes in well under one second; most command-line test time comes from launching and initializing a new Unity Editor process.

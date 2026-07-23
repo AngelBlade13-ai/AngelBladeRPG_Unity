@@ -105,6 +105,13 @@ validation first, and requires a second Confirm before replacing the current
 autosave. Its 3 new tests bring the verified suite to 423. The two-click flow
 was also verified in Play Mode.
 
+Batch seven begins the settings baseline with separately persisted Music and
+Sound values, range validation, immediate change notifications, default reset,
+and a category-aware `AudioSource` adapter. The project has no authored audio
+sources yet, so visual settings controls and audible verification remain a
+later wiring pass. Four licensed third-party music candidates are imported but
+not yet assigned to scenes. Its 10 new tests bring the verified suite to 433.
+
 ## Release Strategy
 
 Development is divided into four release gates:
@@ -478,7 +485,9 @@ Goal: remove platform and persistence risks before producing most demo content.
 - [x] Add manual save, autosave, Continue, new-game confirmation, and corrupt
   save handling.
 - [x] Store saves under Unity's application data path.
-- [ ] Add separate music and sound volume settings.
+- [ ] Add separate music and sound volume settings. Persistent values and
+  runtime audio-source hooks are implemented; player-facing sliders and
+  scene audio wiring remain.
 - [ ] Add display mode, resolution, text-speed, and other necessary settings.
 - [ ] Support keyboard and common controller navigation across all demo screens.
 - [ ] Add input rebinding or document the deliberately supported fixed layout.
