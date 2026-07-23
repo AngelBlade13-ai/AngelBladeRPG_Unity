@@ -49,6 +49,7 @@ public class PartyManagementPanel : MonoBehaviour
 
     private void OnDisable()
     {
+        ExplorationModalState.Release(this);
         RestorePlayerControl();
     }
 
@@ -75,6 +76,11 @@ public class PartyManagementPanel : MonoBehaviour
             return;
         }
 
+        if (!ExplorationModalState.TryAcquire(this))
+        {
+            return;
+        }
+
         CaptureAndPausePlayer(interactor);
         characterIndex = 0;
         jobIndex = GetJobIndex(characters[0].CurrentJob);
@@ -93,6 +99,7 @@ public class PartyManagementPanel : MonoBehaviour
         }
 
         UIFocusHelper.Clear();
+        ExplorationModalState.Release(this);
         RestorePlayerControl();
     }
 

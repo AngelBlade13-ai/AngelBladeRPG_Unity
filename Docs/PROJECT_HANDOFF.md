@@ -87,8 +87,8 @@ provisional scale tests, animation backlog, and delivery rules are maintained in
 Current local state:
 
 - Active branch: `feature/milestone-16-items-equipment`
-- Milestone 15 is pushed through commit `feca22f`; the current Milestone 16
-  branch has not been pushed yet.
+- The current Milestone 16 branch is pushed through commit `81d9c39`; its town
+  service checkpoint is verified locally and awaiting commit.
 - Milestone 15 is complete through the verified keyboard/gamepad navigation
   checkpoint, including simultaneous-enemy presentation, active-Taunt fixes,
   and the 304-test Edit Mode suite.
@@ -100,6 +100,13 @@ Current local state:
   state, ration-funded full recovery for available active and benched members,
   atomic shop buying/selling, and paid town recovery. Its 20 new tests bring
   the verified suite to 340 passing tests.
+- Milestone 16 batch three adds the exploration inventory and equipment menu;
+  its five new tests bring the verified suite to 345 passing tests.
+- Milestone 16 batch four adds player-facing Whisper Market and Ironforge
+  buying/selling, Inn and Shrine recovery, shared exploration-modal locking,
+  temporary service fixtures, and an Editor-only test-gold command. Its eight
+  new tests bring the verified suite to 353 passing tests, and its Play Mode
+  service checks pass.
 - Character creation, walkable district exploration, world interactions, the
   separate battle-scene loop, persistent job/roster data, reusable monster
   definitions, and the completed combat core are available on the pushed
@@ -723,7 +730,25 @@ When continuing work, explicitly distinguish these categories:
 
 This distinction was specifically requested so Editor responsibilities are not hidden inside a generic request to test the gameplay loop.
 
-For learning and automation, introduce a new Unity concept manually the first time and explain how its components fit together. Automate repeated scene construction, object creation, and Inspector wiring unless the user asks to practice it manually again. Keep generated Editor tools readable and documented so the project does not depend on unexplained automation.
+For learning and automation, introduce a new Unity concept manually the first
+time and explain how its components fit together. Automate repeated technical
+setup and Inspector wiring unless the user asks to practice it manually again.
+Keep generated Editor tools readable and documented so the project does not
+depend on unexplained automation.
+
+The user owns authored visual design and level composition. Do not
+autonomously create or redesign district layouts, buildings, roads, landmarks,
+environment decoration, or the permanent visual arrangement of a map. Provide
+concrete visual feedback, references, tradeoffs, and layout suggestions when
+requested, then let the user make those artistic placement decisions in Unity.
+
+Functional scaffolding remains appropriate to automate. Tools may create
+clearly labeled test fixtures, interaction markers, colliders, spawn points,
+transition objects, technical canvases, temporary UI, and other objects needed
+to implement or verify gameplay. Keep these objects visually neutral,
+replaceable, and separate from authored environment art. Automation may also
+wire components and references on user-selected objects. It must not present
+generated test arrangements as finished level or visual design.
 
 ## Resume checklist on another machine
 

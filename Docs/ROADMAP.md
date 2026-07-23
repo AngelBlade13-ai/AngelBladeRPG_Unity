@@ -64,7 +64,10 @@ Milestone 16 batch one added 16 item, inventory, and equipment tests; its
 320-test suite is verified green. Batch two adds 20 consumable, camp-rest,
 shop-transaction, and town-recovery tests, bringing the verified suite to 340.
 Batch three adds the player-facing exploration inventory/equipment menu and
-five tests; its 345-test suite is verified green.
+five tests; its 345-test suite is verified green. Batch four adds player-facing
+shops and town recovery plus eight tests; its 353-test suite is verified green.
+Its temporary service fixtures passed their Play Mode buying, selling, recovery,
+and open/close smoke tests.
 
 ## Release Strategy
 
@@ -416,8 +419,8 @@ combat rewards matter.
   once without returning those items to shared inventory.
   - [x] Add player-facing item use during exploration.
   - [ ] Add the battle item command and battle-target flow.
-- [ ] Add one shop or service flow with buying and selling.
-- [ ] Add resting or healing in town.
+- [x] Add one shop or service flow with buying and selling.
+- [x] Add resting or healing in town.
 - [x] Add tested party-rest rules shared by Suncrest Hollow and Ember Camp where
   appropriate.
 - [ ] Define demo loot tables, prices, and reward pacing.

@@ -12,7 +12,7 @@ The core gameplay tests are Unity Edit Mode tests. They exercise plain gameplay 
 
 The test assembly is `AngelBladeRPG.EditModeTests` under `Assets/Tests/EditMode`.
 
-Verified on July 18, 2026 with Unity `6000.5.3f1`: 340 passed, 0 failed.
+Verified on July 23, 2026 with Unity `6000.5.3f1`: 353 passed, 0 failed.
 
 The current suite includes 30 core gameplay tests, five pixel-world movement and camera tests, five temporary direction-indicator tests, four walkable-town foundation tests, seven interaction tests, eight door-transition tests, 19 battle-scene tests, 13 party-command selection tests, 11 core-ability tests, 63 job, affinity, progression, playable-character, party-roster, and party-management tests, 11 runtime-party targeting tests, 13 party-round resolver tests, 10 authored party-member tests, five speed-based turn-order tests, nine legacy speed-resolved battle-round tests, five bond and roster-history tests, nine shared combat-stat tests, 18 reusable monster-definition tests, 14 enemy encounter and layout tests, 15 structured combat-action tests, four item-catalog tests, four inventory tests, eight character-equipment tests, five item-use tests, six camp-rest tests, and nine shop/town-recovery tests.
 
@@ -322,14 +322,75 @@ Manual Play Mode checklist:
    not appear for the selected character's current job.
 7. Close the menu and confirm movement and interaction resume.
 
+### Milestone 16 Town Services Batch Four
+
+This batch adds eight Edit Mode cases, bringing the verified suite to 353 tests.
+It covers deterministic shop stock, sellable-inventory filtering, buy and sell
+totals, equipment descriptions, rejected-transaction feedback, and recovery
+feedback. It also verifies that shop, recovery, inventory, and party-management
+menus cannot open on top of one another.
+
+Required Unity Editor setup:
+
+1. Let Unity finish importing and compiling the new scripts.
+2. Run `Tools > AngelBlade RPG > World > Town Services > Install Temporary
+   Test Fixtures`.
+3. The command adds a clearly labeled colored-square fixture and functional
+   menu to each service scene, saves those scenes, and reopens the scene that
+   was active before it ran.
+
+The temporary fixtures are only for gameplay verification. When permanent
+service art and placement are ready, select the intended counter, NPC, or sign
+and use the matching command under
+`Tools > AngelBlade RPG > World > Town Services`:
+
+   - `Wire Selected as Whisper Market Shop`
+   - `Wire Selected as Ironforge Shop`
+   - `Wire Selected as Suncrest Inn Recovery`
+   - `Wire Selected as Sunwell Shrine Recovery`
+
+The selection-based commands do not move, resize, recolor, or replace the
+selected object.
+
+Manual Play Mode checklist:
+
+1. Start from `MainGameScene`, complete a rewarding battle so the player has
+   gold, and return to Suncrest Hollow.
+   To avoid grinding during verification, close any open service panel and run
+   `Tools > AngelBlade RPG > Testing > Grant 1000 Test Gold`. This changes only
+   the current Play Mode session and is unavailable in a player build.
+2. Enter Whisper Market, interact with the object you wired, and confirm Buy/Sell,
+   item cycling, quantity controls, totals, current gold, and Cancel work with
+   mouse, keyboard, and controller.
+3. Buy a Minor Potion. Open the exploration inventory and confirm it appears
+   once with the correct quantity.
+4. Enter Ironforge, interact with the object you wired, buy compatible equipment,
+   and confirm it can be equipped through the exploration menu. Sell an
+   unequipped sellable item and confirm both inventory and gold update once.
+5. Confirm unaffordable purchases, full stacks, empty sell lists, and protected
+   equipment produce clear feedback without changing inventory or gold.
+6. After taking HP or MP damage, use the Inn or Shrine recovery object. Confirm
+   the panel requires confirmation, charges exactly 25 gold, and fully restores
+   every available active and benched character.
+7. Interact again while fully recovered and confirm no additional gold is
+   charged.
+8. Close each panel and confirm movement and interaction resume.
+
+Verified on July 23, 2026: all four temporary fixtures opened and closed;
+Whisper Market buying and selling worked; the Editor-only test-gold command
+allowed transaction coverage without grinding; and town recovery behaved as
+expected.
+
 ### Fastest Development Workflow
 
 Keep the Unity Editor open and use the Test Runner while actively developing. The current Edit Mode suite itself completes in well under one second; most command-line test time comes from launching and initializing a new Unity Editor process.
 
-Use project Editor builders for repeated scene creation and Inspector wiring.
-After a builder runs, the manual pass should be limited to visual composition,
-interaction feel, and a short end-to-end smoke test. Learn a Unity concept by
-building it manually once; automate repeats unless deliberate practice is the
+Use project Editor tools for repeated technical setup and Inspector wiring.
+They may create clearly labeled, replaceable test objects and neutral functional
+scaffolding when that speeds up implementation or verification. They must not
+invent permanent district layouts, buildings, roads, decoration, landmarks, or
+other authored visual composition. Learn a Unity concept by building it
+manually once; automate technical repetition unless deliberate practice is the
 goal.
 
 Use command-line batch testing for milestone verification, CI, or situations where the Editor is already closed. Avoid adding `-quit` to the test command because the Unity 6.5 test runner controls its own shutdown after writing the result file.

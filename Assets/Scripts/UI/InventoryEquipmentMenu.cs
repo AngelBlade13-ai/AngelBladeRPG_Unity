@@ -95,6 +95,7 @@ public sealed class InventoryEquipmentMenu : MonoBehaviour
     {
         Unsubscribe(menuAction, HandleMenu);
         Unsubscribe(cancelAction, HandleCancel);
+        ExplorationModalState.Release(this);
         RestorePlayerControl();
     }
 
@@ -121,6 +122,11 @@ public sealed class InventoryEquipmentMenu : MonoBehaviour
             return;
         }
 
+        if (!ExplorationModalState.TryAcquire(this))
+        {
+            return;
+        }
+
         CaptureAndPausePlayer();
         characterIndex = Mathf.Clamp(characterIndex, 0, characters.Count - 1);
         showingEquipment = false;
@@ -134,6 +140,7 @@ public sealed class InventoryEquipmentMenu : MonoBehaviour
     {
         panel?.SetActive(false);
         UIFocusHelper.Clear();
+        ExplorationModalState.Release(this);
         RestorePlayerControl();
     }
 
