@@ -132,6 +132,11 @@ Current local state:
   coordinator that replaces `GameSessionStore.Current` only after complete
   validation. Its 10 new tests bring the verified Unity suite to 410 passing
   tests.
+- Milestone 17 batch four adds fixed manual/autosave slots, newest-valid-save
+  Continue selection, carried playtime, safe-spawn tracking, transition
+  autosaves, title Continue behavior, and a manual-save method for the
+  exploration inventory menu. It does not create or style UI controls. Its 10
+  new tests bring the verified Unity suite to 420 passing tests.
 - Character creation, walkable district exploration, world interactions, the
   separate battle-scene loop, persistent job/roster data, reusable monster
   definitions, and the completed combat core are available on the pushed

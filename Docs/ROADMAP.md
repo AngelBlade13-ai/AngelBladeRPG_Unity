@@ -87,6 +87,12 @@ temporary-file replacement, previous-save backups, corrupt-primary recovery,
 and atomic `GameSessionStore` loading. Its 10 new tests bring the verified
 suite to 410.
 
+Batch four adds fixed manual/autosave slots, newest-valid-save Continue
+selection, carried playtime, safe-spawn tracking, and autosaves around district
+and battle transitions. Runtime methods are ready for title and exploration
+menu buttons without generating or styling those controls. Its 10 new tests
+bring the verified suite to 420.
+
 ## Release Strategy
 
 Development is divided into four release gates:
@@ -458,7 +464,9 @@ Goal: remove platform and persistence risks before producing most demo content.
   runtime system; authored quest and world-flag runtime state remains pending.
 - [ ] Save camp state, consumed camp-event IDs, and exact camp return context.
 - [ ] Add manual save, autosave, Continue, new-game confirmation, and corrupt
-  save handling.
+  save handling. Runtime save, autosave, Continue, and corrupt-save fallback
+  are implemented; player-facing button wiring and new-game confirmation
+  remain.
 - [x] Store saves under Unity's application data path.
 - [ ] Add separate music and sound volume settings.
 - [ ] Add display mode, resolution, text-speed, and other necessary settings.

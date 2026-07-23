@@ -85,6 +85,11 @@ public sealed class SaveFileStorage
 
             if (File.Exists(savePath))
             {
+                if (File.Exists(backupPath))
+                {
+                    File.Delete(backupPath);
+                }
+
                 File.Replace(
                     temporaryPath,
                     savePath,

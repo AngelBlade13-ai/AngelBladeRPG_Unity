@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -20,6 +21,10 @@ public class GameManager : MonoBehaviour
     public TMP_InputField playerNameInput;
     public TextMeshProUGUI characterCreationErrorText;
 
+    [Header("Save UI (Optional)")]
+    [SerializeField] private Button continueButton;
+    [SerializeField] private TextMeshProUGUI titleMessageText;
+
     [Header("Focus (Keyboard/Controller Navigation)")]
     [Tooltip("Selected automatically when the title panel opens.")]
     public GameObject titleFirstSelected;
@@ -31,6 +36,7 @@ public class GameManager : MonoBehaviour
         gameSession = GameSessionStore.Current;
 
         ShowTitlePanel();
+        RefreshContinueButton();
     }
 
     public void StartNewGame()
@@ -50,7 +56,27 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+        GameSaveRuntime.BeginNewGame();
         SceneManager.LoadScene(startingSceneName);
+    }
+
+    public void ContinueGame()
+    {
+        PlayerContinueStatus status =
+            GameSaveRuntime.Continue(out LocationSaveData location);
+        if ((status != PlayerContinueStatus.Success &&
+                status != PlayerContinueStatus.RecoveredBackup) ||
+            location == null)
+        {
+            SetTitleMessage(status == PlayerContinueStatus.NoSave
+                ? "No valid save was found."
+                : "The save could not be loaded.");
+            RefreshContinueButton();
+            return;
+        }
+
+        WorldTransitionStore.RequestSpawn(location.spawnId);
+        SceneManager.LoadScene(location.sceneName);
     }
 
     public void ReturnToTitle()
@@ -63,6 +89,7 @@ public class GameManager : MonoBehaviour
         titlePanel.SetActive(true);
         characterCreationPanel.SetActive(false);
 
+        RefreshContinueButton();
         UIFocusHelper.Select(titleFirstSelected);
     }
 
@@ -73,5 +100,21 @@ public class GameManager : MonoBehaviour
 
         playerNameInput.Select();
         playerNameInput.ActivateInputField();
+    }
+
+    private void RefreshContinueButton()
+    {
+        if (continueButton != null)
+        {
+            continueButton.interactable = GameSaveRuntime.HasContinue;
+        }
+    }
+
+    private void SetTitleMessage(string message)
+    {
+        if (titleMessageText != null)
+        {
+            titleMessageText.text = message;
+        }
     }
 }

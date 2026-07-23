@@ -40,6 +40,9 @@ public class BattleEncounterInteractable2D : MonoBehaviour, IWorldInteractable
         GameSession session = GameSessionStore.Current;
         BattleEncounterDefinition encounter =
             BattleEncounterCatalog.Get(encounterId);
+        GameSaveRuntime.SaveAutosave(
+            gameObject.scene.name,
+            returnSpawnId);
         bool started = encounter != null
             ? session.StartEncounter(encounter)
             : session.StartBattle(MonsterCatalog.Get(monsterId).CreateMonster());

@@ -256,6 +256,9 @@ public class BattleSceneController : MonoBehaviour
                 out string returnSpawnId))
         {
             WorldTransitionStore.RequestSpawn(returnSpawnId);
+            GameSaveRuntime.SaveAutosave(
+                returnSceneName,
+                returnSpawnId);
             SceneManager.LoadScene(returnSceneName);
         }
     }

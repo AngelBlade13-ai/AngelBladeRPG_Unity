@@ -19,6 +19,9 @@ public class SceneDoorInteractable2D : MonoBehaviour, IWorldInteractable
         }
 
         WorldTransitionStore.RequestSpawn(destinationSpawnId);
+        GameSaveRuntime.SaveAutosave(
+            destinationSceneName,
+            destinationSpawnId);
         SceneManager.LoadScene(destinationSceneName);
     }
 

@@ -79,13 +79,14 @@ namespace AngelBladeRPG.Tests
         {
             storage.TryWrite("manual_01", ValidData("First"));
             storage.TryWrite("manual_01", ValidData("Second"));
+            storage.TryWrite("manual_01", ValidData("Third"));
             storage.TryGetSavePath("manual_01", out string savePath);
 
             Assert.That(File.Exists(savePath + ".bak"), Is.True);
             Assert.That(
                 storage.TryRead("manual_01", out GameSaveData current),
                 Is.EqualTo(SaveFileReadStatus.Success));
-            Assert.That(current.player.name, Is.EqualTo("Second"));
+            Assert.That(current.player.name, Is.EqualTo("Third"));
 
             string backupJson = File.ReadAllText(savePath + ".bak");
             Assert.That(
@@ -93,7 +94,7 @@ namespace AngelBladeRPG.Tests
                     backupJson,
                     out GameSaveData backup),
                 Is.EqualTo(SaveDataReadStatus.Success));
-            Assert.That(backup.player.name, Is.EqualTo("First"));
+            Assert.That(backup.player.name, Is.EqualTo("Second"));
         }
 
         [Test]

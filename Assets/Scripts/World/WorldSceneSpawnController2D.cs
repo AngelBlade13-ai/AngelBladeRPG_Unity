@@ -12,10 +12,14 @@ public class WorldSceneSpawnController2D : MonoBehaviour
         if (WorldTransitionStore.TryConsumeSpawn(out string spawnId) &&
             PlacePlayerAtSpawn(spawnId))
         {
+            RegisterSafeLocation(spawnId);
             return;
         }
 
-        PlacePlayerAtDefaultSpawn();
+        if (PlacePlayerAtDefaultSpawn())
+        {
+            RegisterSafeLocation(defaultSpawnPoint.SpawnId);
+        }
     }
 
     public void Configure(
@@ -96,5 +100,12 @@ public class WorldSceneSpawnController2D : MonoBehaviour
             spawnPoint.SpawnId,
             spawnId,
             StringComparison.Ordinal);
+    }
+
+    private void RegisterSafeLocation(string spawnId)
+    {
+        string sceneName = gameObject.scene.name;
+        GameSaveRuntime.RememberLocation(sceneName, spawnId);
+        GameSaveRuntime.SaveAutosave(sceneName, spawnId);
     }
 }

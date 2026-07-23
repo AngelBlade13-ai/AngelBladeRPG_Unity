@@ -144,12 +144,38 @@ public sealed class InventoryEquipmentMenu : MonoBehaviour
         RestorePlayerControl();
     }
 
+    public void SaveGame()
+    {
+        PlayerSaveStatus status = GameSaveRuntime.SaveManual();
+        if (feedbackText != null)
+        {
+            feedbackText.text = FormatSaveStatus(status);
+        }
+    }
+
     public void ShowItems()
     {
         showingEquipment = false;
         feedbackText.text = "";
         Refresh();
         UIFocusHelper.SelectFirstAvailable(previousItemButton, nextItemButton, useItemButton);
+    }
+
+    public static string FormatSaveStatus(PlayerSaveStatus status)
+    {
+        switch (status)
+        {
+            case PlayerSaveStatus.Success:
+                return "Game saved.";
+            case PlayerSaveStatus.BattleActive:
+                return "Cannot save during battle.";
+            case PlayerSaveStatus.NoSafeLocation:
+                return "Move to a safe exploration area before saving.";
+            case PlayerSaveStatus.NoStartedGame:
+                return "No active game to save.";
+            default:
+                return "The game could not be saved.";
+        }
     }
 
     public void ShowEquipment()
