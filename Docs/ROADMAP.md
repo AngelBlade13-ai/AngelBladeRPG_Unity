@@ -82,6 +82,11 @@ Batch two maps the current live `GameSession` into that contract and restores
 it atomically with explicit scene/spawn context. Its 10 new tests bring the
 verified suite to 400.
 
+Batch three adds durable application-data JSON storage, constrained slot IDs,
+temporary-file replacement, previous-save backups, corrupt-primary recovery,
+and atomic `GameSessionStore` loading. Its 10 new tests bring the verified
+suite to 410.
+
 ## Release Strategy
 
 Development is divided into four release gates:
@@ -454,7 +459,7 @@ Goal: remove platform and persistence risks before producing most demo content.
 - [ ] Save camp state, consumed camp-event IDs, and exact camp return context.
 - [ ] Add manual save, autosave, Continue, new-game confirmation, and corrupt
   save handling.
-- [ ] Store saves under Unity's application data path.
+- [x] Store saves under Unity's application data path.
 - [ ] Add separate music and sound volume settings.
 - [ ] Add display mode, resolution, text-speed, and other necessary settings.
 - [ ] Support keyboard and common controller navigation across all demo screens.

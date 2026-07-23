@@ -476,6 +476,23 @@ Let Unity compile, then run all Edit Mode tests. The expected result is
 
 Verified on July 23, 2026: all 400 Edit Mode tests passed.
 
+### Milestone 17 Save File Storage Batch Three
+
+This batch adds 10 Edit Mode cases, bringing the verified suite to 410 tests.
+It covers the default application-data save folder, slot path containment,
+durable JSON creation, temporary-file cleanup, overwrite backups, missing
+saves, corrupt-primary backup recovery, unrecoverable corruption, unsupported
+future schemas, and atomic loading into `GameSessionStore`.
+
+Tests use a unique temporary directory and remove it after each case. The
+player's real application-data save directory is not touched. Player-facing
+manual save, autosave, and Continue controls are not part of this batch.
+
+No Editor command or Play Mode pass is required. Let Unity compile, then run
+all Edit Mode tests.
+
+Verified on July 23, 2026: all 410 Edit Mode tests passed.
+
 ### Fastest Development Workflow
 
 Keep the Unity Editor open and use the Test Runner while actively developing. The current Edit Mode suite itself completes in well under one second; most command-line test time comes from launching and initializing a new Unity Editor process.

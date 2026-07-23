@@ -124,8 +124,14 @@ Current local state:
   player, party, character stats/progression, jobs, affinities, learned nodes,
   equipment, roster history, inventory, completed encounters, claimed rewards,
   camp-rest history, and explicit scene/spawn context. Invalid catalog IDs fail
-  without returning a partial session. Its 10 new tests bring the expected
+  without returning a partial session. Its 10 new tests bring the verified
   Unity suite to 400 passing tests.
+- Milestone 17 batch three adds durable JSON save files under
+  `Application.persistentDataPath/Saves`, constrained slot IDs, flushed
+  temporary writes, previous-save backups, corrupt-primary recovery, and a
+  coordinator that replaces `GameSessionStore.Current` only after complete
+  validation. Its 10 new tests bring the verified Unity suite to 410 passing
+  tests.
 - Character creation, walkable district exploration, world interactions, the
   separate battle-scene loop, persistent job/roster data, reusable monster
   definitions, and the completed combat core are available on the pushed

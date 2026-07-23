@@ -9,4 +9,15 @@ public static class GameSessionStore
         current = new GameSession();
         return current;
     }
+
+    internal static void UseRestoredSession(GameSession restoredSession)
+    {
+        if (restoredSession == null)
+        {
+            throw new System.ArgumentNullException(
+                nameof(restoredSession));
+        }
+
+        current = restoredSession;
+    }
 }
