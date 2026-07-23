@@ -30,6 +30,8 @@ public class GameManager : MonoBehaviour
     public GameObject titleFirstSelected;
 
     private GameSession gameSession;
+    private readonly NewGameConfirmationState newGameConfirmation =
+        new NewGameConfirmationState();
 
     private void Start()
     {
@@ -41,6 +43,7 @@ public class GameManager : MonoBehaviour
 
     public void StartNewGame()
     {
+        newGameConfirmation.Begin(GameSaveRuntime.HasContinue);
         gameSession = GameSessionStore.BeginNewSession();
         playerNameInput.text = "";
         characterCreationErrorText.text = "";
@@ -51,6 +54,20 @@ public class GameManager : MonoBehaviour
 
     public void ConfirmCharacterCreation()
     {
+        if (string.IsNullOrWhiteSpace(playerNameInput.text))
+        {
+            characterCreationErrorText.text = "Please enter a hero name.";
+            return;
+        }
+
+        if (!newGameConfirmation.TryConfirm())
+        {
+            characterCreationErrorText.text =
+                "Starting a new game will replace the current autosave. " +
+                "Confirm again to continue.";
+            return;
+        }
+
         if (!gameSession.TryStartNewGame(playerNameInput.text))
         {
             characterCreationErrorText.text = "Please enter a hero name.";
@@ -82,6 +99,7 @@ public class GameManager : MonoBehaviour
 
     public void ReturnToTitle()
     {
+        newGameConfirmation.Reset();
         ShowTitlePanel();
     }
 

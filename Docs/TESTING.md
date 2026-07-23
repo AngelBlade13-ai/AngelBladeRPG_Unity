@@ -529,6 +529,24 @@ Verified manually on July 23, 2026:
 6. Crossed a district boundary, restarted Play Mode, and continued at the
    destination scene's safe entrance.
 
+### Milestone 17 New-Game Confirmation Batch Six
+
+This batch adds 3 Edit Mode cases, bringing the verified suite to 423 tests.
+It verifies that a new game starts immediately without existing progress, an
+existing save requires two confirmation attempts, and reopening or resetting
+the flow clears an earlier acknowledgement.
+
+No scene changes or Editor command are required. Let Unity compile, then run
+all Edit Mode tests.
+
+After the automated run, use the existing local save for one short Play Mode
+check: choose New Game, enter a valid name, and press Confirm. The first press
+must remain on character creation and show the autosave warning; the second
+press must enter Suncrest.
+
+Verified on July 23, 2026: all 423 Edit Mode tests passed, and the two-click
+Play Mode confirmation behaved as intended.
+
 ### Fastest Development Workflow
 
 Keep the Unity Editor open and use the Test Runner while actively developing. The current Edit Mode suite itself completes in well under one second; most command-line test time comes from launching and initializing a new Unity Editor process.

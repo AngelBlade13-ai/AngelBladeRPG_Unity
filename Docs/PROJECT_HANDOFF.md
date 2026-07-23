@@ -142,6 +142,11 @@ Current local state:
   eight Suncrest exploration menus while rewiring each local controller. A
   two-session Unity playtest verified manual save, restart, Continue state
   restoration, and destination-spawn autosave restoration.
+- Milestone 17 batch six adds a two-step new-game confirmation through the
+  existing character-creation message area. Blank names are rejected first;
+  valid names require a second Confirm when saved progress exists. Its 3 new
+  tests bring the verified Unity suite to 423 passing tests. The warning and
+  second-confirm flow were also verified in Play Mode.
 - Character creation, walkable district exploration, world interactions, the
   separate battle-scene loop, persistent job/roster data, reusable monster
   definitions, and the completed combat core are available on the pushed

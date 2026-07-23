@@ -99,6 +99,12 @@ menus without choosing their visual design. Manual save, Play Mode restart,
 Continue restoration, and doorway autosave restoration were verified
 end-to-end in the Unity Editor.
 
+Batch six adds a two-step new-game confirmation when valid saved progress
+exists. It reuses the character-creation message area, leaves blank-name
+validation first, and requires a second Confirm before replacing the current
+autosave. Its 3 new tests bring the verified suite to 423. The two-click flow
+was also verified in Play Mode.
+
 ## Release Strategy
 
 Development is divided into four release gates:
@@ -469,9 +475,8 @@ Goal: remove platform and persistence risks before producing most demo content.
   explicit spawn location. Batch two covers every currently implemented
   runtime system; authored quest and world-flag runtime state remains pending.
 - [ ] Save camp state, consumed camp-event IDs, and exact camp return context.
-- [ ] Add manual save, autosave, Continue, new-game confirmation, and corrupt
-  save handling. Manual save, autosave, Continue, corrupt-save fallback, and
-  player-facing button wiring are implemented; new-game confirmation remains.
+- [x] Add manual save, autosave, Continue, new-game confirmation, and corrupt
+  save handling.
 - [x] Store saves under Unity's application data path.
 - [ ] Add separate music and sound volume settings.
 - [ ] Add display mode, resolution, text-speed, and other necessary settings.
